@@ -1,7 +1,5 @@
 package server;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Service;
 
 public class CounterService {
     private int counter;
