@@ -36,7 +36,6 @@ public class Person {
     public String firstName;
     public String lastName;
 
-    @SuppressWarnings("unused")
     private Person() {
         // for object mapper
     }
@@ -45,7 +44,6 @@ public class Person {
         this.firstName = firstName;
         this.lastName = lastName;
     }
-
     @Override
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
