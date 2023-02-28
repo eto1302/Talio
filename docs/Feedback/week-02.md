@@ -1,6 +1,10 @@
 ## Formative Assessment
 
+
 #### Meeting Organization
+
+Chair: Cristiana
+Minute taker: Miia
 
 Mark: Pass
 
