@@ -1,6 +1,4 @@
-package server.card;
-
-import server.task.Task;
+package commons;
 
 import javax.persistence.*;
 import java.util.*;
@@ -52,5 +50,14 @@ public class Card {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getName());
+    }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", tasks=" + tasks +
+                '}';
     }
 }

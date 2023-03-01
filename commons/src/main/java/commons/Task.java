@@ -1,4 +1,4 @@
-package server.task;
+package commons;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -49,5 +49,14 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getDescription(), getTitle());
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", title='" + title + '\'' +
+                '}';
     }
 }
