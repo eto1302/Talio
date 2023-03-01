@@ -1,6 +1,4 @@
-package server.board;
-
-import server.card.Card;
+package commons;
 
 import javax.persistence.*;
 import java.util.*;
@@ -68,5 +66,15 @@ public class Board {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getName(), getPassword());
+    }
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", cards=" + cards +
+                '}';
     }
 }
