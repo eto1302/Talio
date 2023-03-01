@@ -1,4 +1,4 @@
-package server;
+package server.api;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,3 +15,4 @@ public class SomeController {
         return "Hello world!";
     }
 }
+

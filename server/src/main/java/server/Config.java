@@ -19,6 +19,7 @@ import java.util.Random;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
 @Configuration
 public class Config {
@@ -27,4 +28,8 @@ public class Config {
     public Random getRandom() {
         return new Random();
     }
+
+    @Bean
+    @Scope("singleton")
+    public CounterService getCounterService() { return new CounterService();}
 }
