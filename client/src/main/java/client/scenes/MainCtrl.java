@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -23,23 +24,26 @@ import javafx.util.Pair;
 public class MainCtrl {
 
     private Stage primaryStage;
+    private Stage secondaryStage;
 
     private QuoteOverviewCtrl overviewCtrl;
     private Scene overview;
 
     private AddQuoteCtrl addCtrl;
     private Scene add;
+    private HomeController homeCtrl;
+    private Scene home;
+    private AddCardController addCardCtrl;
+    private Scene addCard;
 
-    public void initialize(Stage primaryStage, Pair<QuoteOverviewCtrl, Parent> overview,
-            Pair<AddQuoteCtrl, Parent> add) {
+    public void initialize(Stage primaryStage, Pair<HomeController, Parent> home, Pair<AddCardController, Parent> addCard) {
         this.primaryStage = primaryStage;
-        this.overviewCtrl = overview.getKey();
-        this.overview = new Scene(overview.getValue());
+        this.homeCtrl=home.getKey();
+        this.home=new Scene(home.getValue());
+        this.addCard=new Scene(addCard.getValue());
+        this.addCardCtrl=addCard.getKey();
 
-        this.addCtrl = add.getKey();
-        this.add = new Scene(add.getValue());
-
-        showOverview();
+        showHome();
         primaryStage.show();
     }
 
@@ -53,5 +57,22 @@ public class MainCtrl {
         primaryStage.setTitle("Quotes: Adding Quote");
         primaryStage.setScene(add);
         add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
+    }
+
+    public void showAddCard() {
+        secondaryStage = new Stage();
+        secondaryStage.setScene(addCard);
+        secondaryStage.setTitle("Add a card");
+        secondaryStage.show();
+
+    }
+
+    public void showHome(){
+        primaryStage.setTitle("Home");
+        primaryStage.setScene(this.home);
+    }
+
+    public void cancel(){
+        secondaryStage.close();
     }
 }
