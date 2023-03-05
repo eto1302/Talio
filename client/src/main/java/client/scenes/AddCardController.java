@@ -18,15 +18,15 @@ public class AddCardController {
     @FXML
     private Button addButton;
 
-    private final MainCtrl mainCtrl;
+    private final ShowCtrl showCtrl;
 
     @Inject
-    public AddCardController(MainCtrl mainCtrl) {
-        this.mainCtrl = mainCtrl;
+    public AddCardController(ShowCtrl showCtrl) {
+        this.showCtrl = showCtrl;
     }
 
     public void cancel(){
-       mainCtrl.cancel();
+       showCtrl.cancel();
     }
 
 

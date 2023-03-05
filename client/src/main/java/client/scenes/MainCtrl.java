@@ -43,7 +43,7 @@ public class MainCtrl {
         this.addCard=new Scene(addCard.getValue());
         this.addCardCtrl=addCard.getKey();
 
-        showHome();
+        showOverview();
         primaryStage.show();
     }
 
@@ -57,22 +57,5 @@ public class MainCtrl {
         primaryStage.setTitle("Quotes: Adding Quote");
         primaryStage.setScene(add);
         add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
-    }
-
-    public void showAddCard() {
-        secondaryStage = new Stage();
-        secondaryStage.setScene(addCard);
-        secondaryStage.setTitle("Add a card");
-        secondaryStage.show();
-
-    }
-
-    public void showHome(){
-        primaryStage.setTitle("Home");
-        primaryStage.setScene(this.home);
-    }
-
-    public void cancel(){
-        secondaryStage.close();
     }
 }

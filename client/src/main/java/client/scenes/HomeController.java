@@ -26,14 +26,18 @@ public class HomeController {
     @FXML
     private Label boardLabel;
 
-    private final MainCtrl mainCtrl;
+    private final ShowCtrl showCtrl;
 
     @Inject
-    public HomeController(MainCtrl mainCtrl) {
-        this.mainCtrl = mainCtrl;
+    public HomeController(ShowCtrl showCtrl) {
+        this.showCtrl = showCtrl;
     }
 
     public void showAddCard(){
-        mainCtrl.showAddCard();
+        showCtrl.showAddCard();
+    }
+
+    public void showYourBoards(){
+        showCtrl.showYourBoards();
     }
 }

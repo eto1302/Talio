@@ -23,6 +23,8 @@ import client.scenes.*;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.util.*;
+import java.util.*;
 
 public class Main extends Application {
 
@@ -35,14 +37,21 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        var showCtrl = INJECTOR.getInstance(ShowCtrl.class);
+        List<Pair> loader = new ArrayList<>();
+        setup(loader);
+        showCtrl.initialize(primaryStage, loader);
+    }
 
-//        var overview = FXML.load(QuoteOverviewCtrl.class, "client", "scenes", "QuoteOverview.fxml");
-//        var add = FXML.load(AddQuoteCtrl.class, "client", "scenes", "AddQuote.fxml");
-//        mainCtrl.initialize(primaryStage, overview, add);
-//
+    public void setup(List<Pair> loader){
         var home = FXML.load(HomeController.class, "client", "scenes", "Home.fxml");
         var addCard =FXML.load(AddCardController.class, "client", "scenes", "AddCard.fxml");
-        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage, home, addCard);
+        var yourBoards=FXML.load(YourBoardsController.class, "client", "scenes", "YourBoards.fxml");
+        var addTask = FXML.load(AddTaskController.class, "client", "scenes","AddTask.fxml");
+
+        loader.add(home);
+        loader.add(addCard);
+        loader.add(yourBoards);
+        loader.add(addTask);
     }
 }
