@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SearchCtrl">
+   <children>
+      <Button fx:id="searchButton" layoutX="174.0" layoutY="207.0" mnemonicParsing="false" text="Search" />
+      <TextField layoutX="125.0" layoutY="159.0" />
+      <Label layoutX="125.0" layoutY="141.0" text="Password:" />
+      <TextField layoutX="125.0" layoutY="101.0" />
+      <Label layoutX="125.0" layoutY="83.0" text="Name:" />
+      <Label layoutX="132.0" layoutY="29.0" text="Search for a board!">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
