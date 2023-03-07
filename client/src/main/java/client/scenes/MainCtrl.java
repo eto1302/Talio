@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -23,21 +24,24 @@ import javafx.util.Pair;
 public class MainCtrl {
 
     private Stage primaryStage;
+    private Stage secondaryStage;
 
     private QuoteOverviewCtrl overviewCtrl;
     private Scene overview;
 
     private AddQuoteCtrl addCtrl;
     private Scene add;
+    private HomeController homeCtrl;
+    private Scene home;
+    private AddCardController addCardCtrl;
+    private Scene addCard;
 
-    public void initialize(Stage primaryStage, Pair<QuoteOverviewCtrl, Parent> overview,
-            Pair<AddQuoteCtrl, Parent> add) {
+    public void initialize(Stage primaryStage, Pair<HomeController, Parent> home, Pair<AddCardController, Parent> addCard) {
         this.primaryStage = primaryStage;
-        this.overviewCtrl = overview.getKey();
-        this.overview = new Scene(overview.getValue());
-
-        this.addCtrl = add.getKey();
-        this.add = new Scene(add.getValue());
+        this.homeCtrl=home.getKey();
+        this.home=new Scene(home.getValue());
+        this.addCard=new Scene(addCard.getValue());
+        this.addCardCtrl=addCard.getKey();
 
         showOverview();
         primaryStage.show();
