@@ -1,6 +1,9 @@
 plugins {
     id 'application'
     id("org.openjfx.javafxplugin") version "0.0.11"
+	id 'org.springframework.boot' version '2.6.3'
+	id 'io.spring.dependency-management' version '1.1.0'
+	id 'java'
 }
 
 application {
@@ -12,6 +15,9 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
+repositories {
+	mavenCentral()
+}
 
 dependencies {
 	implementation project(":commons")
@@ -23,7 +29,14 @@ dependencies {
 	implementation group: 'jakarta.activation', name: 'jakarta.activation-api', version: '2.0.1'
 	
 	implementation 'com.google.inject:guice:5.0.1'
-	
+
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.webjars:webjars-locator-core'
+	implementation 'org.webjars:sockjs-client:1.0.2'
+	implementation 'org.webjars:stomp-websocket:2.3.3'
+	implementation 'org.webjars:bootstrap:3.3.7'
+	implementation 'org.webjars:jquery:3.1.1-1'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	
 	
 	implementation 'org.openjfx:javafx-controls:17.0.2'
