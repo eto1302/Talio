@@ -17,12 +17,15 @@ package server;
 
 import java.util.Random;
 
+import commons.messaging.WSConf;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Scope;
 import server.Services.CounterService;
 
 @Configuration
+@Import({WSConf.class})
 public class Config {
 
     @Bean
