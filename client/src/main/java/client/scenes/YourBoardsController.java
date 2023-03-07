@@ -24,4 +24,8 @@ public class YourBoardsController {
     public YourBoardsController(ShowCtrl showCtrl){
         this.showCtrl = showCtrl;
     }
+
+    public void showSearch(){
+        showCtrl.showSearch();
+    }
 }

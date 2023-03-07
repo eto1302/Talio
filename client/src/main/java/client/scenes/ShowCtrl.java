@@ -11,10 +11,11 @@ public class ShowCtrl {
 
     private Stage primaryStage, secondaryStage;
     private HomeController homeCtrl;
-    private Scene home, addTask, addCard, yourBoards;
+    private Scene home, addTask, addCard, yourBoards, search;
     private AddCardController addCardCtrl;
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
+    private SearchCtrl searchCtrl;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
         this.primaryStage = primaryStage;
@@ -26,6 +27,8 @@ public class ShowCtrl {
         yourBoards = new Scene((Parent) loader.get(2).getValue());
         addTaskCtrl = (AddTaskController) loader.get(3).getKey();
         addTask = new Scene((Parent) loader.get(3).getValue());
+        searchCtrl = (SearchCtrl) loader.get(4).getKey();
+        search = new Scene((Parent) loader.get(4).getValue());
 
         showHome();
         primaryStage.show();
@@ -61,4 +64,10 @@ public class ShowCtrl {
     }
 
 
+    public void showSearch() {
+        secondaryStage = new Stage();
+        secondaryStage.setScene(search);
+        secondaryStage.setTitle("Search for a board");
+        secondaryStage.show();
+    }
 }
