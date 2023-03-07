@@ -4,42 +4,42 @@
 
 Mark: Pass
 
-Feedback: Chair and minute taker were chosen beforehand
+Feedback: The chair and minute taker were selected beforehand
 
 
 #### Agenda 
 
 Mark: Very Good
 
-Feedback: The agenda followed the template and the points on the agenda were clear. Try to improve time estimates again for next week.
+Feedback: The agenda followed the template and the agenda points were clear. For next week make the time estimates more realistic
 
 
 #### Performance of the *Previous* Minute Taker
 
-Mark: Good
+Mark: Very Good
 
-Feedback: The amount of notes is on the lower side. The notes are clear and concise. Also it would be preferable to merge the notes into the agenda file instead of having two different ones.
+Feedback: A good amount of notes were created. Some notes could be more clear, by writing them out better. For example *Testing -> Mockito* could be changed to *For tests that need to use mocks we can use Mockito to make the creation of mocks easier* 
 
 
 #### Chair performance
 
-Mark: Sufficient
+Mark: Good
 
-Feedback: Not all topics in the agenda were covered. Just like last week the topics from the template were skipped. Take note of this. Aside from that the whole team led the meeting instead of the chairman this week. This went fine, but I would lik the chairman to take more of a leading role.
+Feedback: The chair led the meeting in the sense that they asked the questions. I believe these meetings could be used to have discussions, but instead it was just a few questions. This is fine, but maybe try to think of something to have a good meeting about 
 
 
 #### Attitude & Relation
 
 Mark: Very Good
 
-Feedback: The overal atmosphere in the group is really good. The team took full ownership of the meeting and most people were involved in the discussion. I would like the rest to invite the people who talk less into the conversation.
+Feedback: The atmosphere in the group was really good. Everyone was listened to and it was very respectful. For next time I would like to see more people be included in the conversation from time to time.
 
 
 #### Potentially Shippable Product
 
-Mark: Sufficient
+Mark: Good
 
-Feedback: What was done this week was mentioned, but for next week show me what has been done instead. Really get started coding this week!!!
+Feedback: Everyone did a small stand up at the beginning. I would like to see all the progress for the week merged into main and shown to me on one computer.
 
 
 
