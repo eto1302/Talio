@@ -16,13 +16,20 @@ public class Board {
             generator = "board_sequence",
             strategy = GenerationType.SEQUENCE
     )
+    @Column(name = "id", columnDefinition = "integer")
     private int id;
-    @Column
+
+    @Column(name = "name", columnDefinition = "varchar(255)")
     private String name;
-    @Column
+
+    @Column(name = "password", columnDefinition = "varchar(255)")
     private String password;
     @OneToMany
     Set<Card> cards;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tagId", referencedColumnName = "id")
+    private Tag tag;
 
     public Board(String name, String password, Set<Card> cards) {
         this.name = name;

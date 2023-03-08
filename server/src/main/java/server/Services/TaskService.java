@@ -13,7 +13,7 @@ public class TaskService {
     }
 
     public Task getTaskById(int id){
-        return this.taskRepository.getTaskById(id);
+        return this.taskRepository.getById(id);
     }
 
 }

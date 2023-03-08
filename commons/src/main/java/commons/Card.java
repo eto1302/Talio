@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-//@Table
+@Table(name = "cards")
 public class Card {
     @Id
     @SequenceGenerator(
@@ -15,10 +15,21 @@ public class Card {
             generator = "card_sequence",
             strategy = GenerationType.SEQUENCE
     )
+    @Column(name = "id", columnDefinition = "integer")
     private int id;
+
+    @Column(name = "name", columnDefinition = "varchar(255)")
     private String name;
     @OneToMany
     List<Task> tasks;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tagId", referencedColumnName = "id")
+    private Tag tag;
+
+    @ManyToOne
+    @JoinColumn(name="boardId", nullable=false)
+    private Board board;
 
     public Card(String name, List<Task> tasks) {
         this.name = name;
