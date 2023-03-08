@@ -70,4 +70,8 @@ public class ShowCtrl {
         secondaryStage.setTitle("Search for a board");
         secondaryStage.show();
     }
+
+    public void showTaskOverview(){
+
+    }
 }
