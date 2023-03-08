@@ -1,4 +1,4 @@
-package commons.messaging;
+package server.api;
 
 import commons.messaging.Messages.Message;
 import commons.messaging.Messages.SuccessMessage;

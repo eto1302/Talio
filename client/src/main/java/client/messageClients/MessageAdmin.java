@@ -1,11 +1,10 @@
-package commons.messaging;
+package client.messageClients;
 
 import commons.messaging.Messages.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;

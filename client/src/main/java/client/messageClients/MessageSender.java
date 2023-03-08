@@ -1,4 +1,4 @@
-package commons.messaging;
+package client.messageClients;
 
 import commons.messaging.Messages.Message;
 import org.springframework.beans.factory.annotation.Autowired;

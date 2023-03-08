@@ -1,10 +1,9 @@
-package commons.messaging;
+package client.messageClients;
 
 import commons.messaging.Messages.Message;
 import commons.messaging.Messages.TestMessage;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.messaging.simp.stomp.StompSessionHandler;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 
 public class MessageSessionHandler extends StompSessionHandlerAdapter {
