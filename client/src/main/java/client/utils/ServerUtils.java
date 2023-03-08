@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
+import commons.Card;
 import org.glassfish.jersey.client.ClientConfig;
 
 import commons.Quote;
@@ -58,5 +59,50 @@ public class ServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
+    }
+
+    /**
+     * Add new card to the board.
+     *
+     * @param card card to be added
+     * @param boardId id of the board
+     * @return id of the card, or -1 if it fails
+     */
+    public int addCard(Card card, int boardId) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("card/add/"+boardId) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(card, APPLICATION_JSON), Integer.class);
+    }
+
+    /**
+     * Delete a card from the board and card repository.
+     *
+     * @param boardId id of the board
+     * @param cardId id of the card
+     * @return true if it succeeds, false otherwise
+     */
+    public boolean delete(int boardId, int cardId) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("card/delete/"+boardId+"/"+cardId) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<Boolean>() {});
+    }
+
+    /**
+     * Rename a card.
+     *
+     * @param name new name of the card
+     * @param cardId id of the card
+     * @return true if it succeeds, false otherwise
+     */
+    public boolean renameCard(String name, int cardId) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("card/rename/"+cardId+"/"+name) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<Boolean>() {});
     }
 }
