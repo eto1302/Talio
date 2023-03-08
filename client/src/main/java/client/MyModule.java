@@ -17,14 +17,13 @@ package client;
 
 import client.messageClients.MessageAdmin;
 import client.messageClients.MessageSender;
-import com.google.inject.AbstractModule;
-import com.google.inject.Binder;
-import com.google.inject.Module;
-import com.google.inject.Scopes;
-
 import client.scenes.AddQuoteCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.QuoteOverviewCtrl;
+import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.web.client.RestTemplate;
 
 public class MyModule extends AbstractModule {
 
@@ -35,5 +34,8 @@ public class MyModule extends AbstractModule {
         bind(QuoteOverviewCtrl.class).in(Scopes.SINGLETON);
         bind(MessageAdmin.class).in(Scopes.SINGLETON);
         bind(MessageSender.class).in(Scopes.SINGLETON);
+        RestTemplateBuilder rtb = new RestTemplateBuilder();
+        RestTemplate rt = rtb.build();
+        bind(RestTemplate.class).toInstance(rt);
     }
 }
