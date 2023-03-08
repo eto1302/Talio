@@ -11,27 +11,37 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class MessageController {
 
-    @MessageMapping("/board/{dest}")
-    @SendTo("/board/{dest}")
-    public Message sendBoard(@DestinationVariable("dest") String dest, Message msg){
+    @MessageMapping("/{dest}")
+    @SendTo("topic/{dest}")
+    public Message send(@DestinationVariable("dest") String dest, Message msg){
+        System.out.println("/board/{dest} forwarded");
+        System.out.println("{Dest}:" + dest);
         return msg;
     }
 
-    @MessageMapping("/topic/{dest}")
-    @SendTo("/topic/{dest}")
-    public Message sendTopic(@DestinationVariable("dest") String dest, Message msg){
-        return msg;
-    }
+//    @MessageMapping("app/topic/{dest}")
+//    @SendTo("/topic/{dest}")
+//    public Message sendTopic(@DestinationVariable("dest") String dest, Message msg){
+//        System.out.println("/topic/{dest} forwarded");
+//        System.out.println("{Dest}:" + dest);
+//        return msg;
+//    }
 
-    @MessageMapping("/topic")
-    @SendTo("/topic")
-    public Message sendAll(Message msg){
-        return msg;
-    }
+//    @MessageMapping("/topic")
+//    @SendTo("/topic")
+//    public Message sendAll(Message msg){
+//        System.out.println("/topic forwarded");
+//        return msg;
+//    }
+//    @MessageMapping("/")
+//    public void test(Message msg){
+//        System.out.println("hahaha");
+//    }
 
-    @MessageMapping("/topic/server")
+    @MessageMapping("/server")
     @SendToUser("/queue")
     public Message sendToServer(Message msg){
+        System.out.println("/topic/server forwarded");
         msg.consume();
         return new SuccessMessage(true);
     }

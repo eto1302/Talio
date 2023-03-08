@@ -20,11 +20,14 @@ import static com.google.inject.Guice.createInjector;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import client.messageClients.MessageAdmin;
+import client.messageClients.MessageSender;
 import com.google.inject.Injector;
 
 import client.scenes.AddQuoteCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.QuoteOverviewCtrl;
+import commons.messaging.Messages.TestMessage;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -39,6 +42,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        System.out.println("test");
+        MessageAdmin admin = INJECTOR.getInstance(MessageAdmin.class);
+        MessageSender sender = INJECTOR.getInstance(MessageSender.class);
+
+        admin.subscribe("topic/test");
+        sender.send("/app/test", new TestMessage("test"));
 
         var overview = FXML.load(QuoteOverviewCtrl.class, "client", "scenes", "QuoteOverview.fxml");
         var add = FXML.load(AddQuoteCtrl.class, "client", "scenes", "AddQuote.fxml");

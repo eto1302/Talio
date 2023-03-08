@@ -22,7 +22,7 @@ public class MessageAdmin {
 
 
     public void subscribe(String queue){
-        String id  = session.subscribe(queue, new StompFrameHandler() {
+        session.subscribe(queue, new StompFrameHandler() {
             @Override
             public Type getPayloadType(StompHeaders headers) {
                 return null;
@@ -30,11 +30,10 @@ public class MessageAdmin {
 
             @Override
             public void handleFrame(StompHeaders headers, Object payload) {
+                System.out.println("Message received");
                 Message msg = (Message) payload;
                 msg.consume();
             }
-        }).getSubscriptionId();
-
-        queues.put(queue, id);
+        });
     }
 }

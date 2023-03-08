@@ -12,12 +12,13 @@ public class MessageSessionHandler extends StompSessionHandlerAdapter {
     public void afterConnected(StompSession session, StompHeaders headers){
         session.subscribe("/topic/all", this);
         session.subscribe("/queue", this);
-        session.send("ws/topic/server" , new TestMessage("connecting"));
+//        session.send("ws/topic/server" , new TestMessage("connecting"));
 
     }
 
     @Override
     public void handleFrame(StompHeaders headers, Object payload){
+        System.out.println("main frame");
         Message msg = (Message) payload;
         msg.consume();
     }
