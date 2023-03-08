@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
+import commons.Board;
 import org.glassfish.jersey.client.ClientConfig;
 
 import commons.Quote;
@@ -59,4 +60,41 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
     }
+
+    /**
+     * Send a new Board to the server.
+     *
+     * @param boardModel content of the board
+     * @return the id of the board, or -1L if the creation fails
+     */
+    public int addBoard(Board boardModel) {
+        try {
+            return ClientBuilder.newClient(new ClientConfig()) //
+                    .target(SERVER).path("board/create") //
+                    .request(APPLICATION_JSON) //
+                    .accept(APPLICATION_JSON) //
+                    .post(Entity.entity(boardModel, APPLICATION_JSON), Integer.class);
+        } catch (Exception e) {
+            return -1;
+        }
+
+    }
+
+    /**
+     * Get the board by id.
+     * @param id the id of the board
+     * @return the board or null if there is exception.
+     */
+    public Board getBoard(int id) {
+        try {
+            return ClientBuilder.newClient(new ClientConfig()) //
+                    .target(SERVER).path("board/find/"+id) //
+                    .request(APPLICATION_JSON) //
+                    .accept(APPLICATION_JSON) //
+                    .post(Entity.entity(id, APPLICATION_JSON), Board.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

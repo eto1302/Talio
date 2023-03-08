@@ -24,6 +24,7 @@ public class Board {
 
     @Column(name = "password", columnDefinition = "varchar(255)")
     private String password;
+
     @OneToMany
     Set<Card> cards;
 
