@@ -15,6 +15,9 @@
  */
 package client;
 
+import client.messageClients.MessageAdmin;
+import client.messageClients.MessageSender;
+import com.google.inject.AbstractModule;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
@@ -23,12 +26,14 @@ import client.scenes.AddQuoteCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.QuoteOverviewCtrl;
 
-public class MyModule implements Module {
+public class MyModule extends AbstractModule {
 
-    @Override
-    public void configure(Binder binder) {
-        binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
-        binder.bind(AddQuoteCtrl.class).in(Scopes.SINGLETON);
-        binder.bind(QuoteOverviewCtrl.class).in(Scopes.SINGLETON);
+    protected void configure() {
+        install(new WSClientModule());
+        bind(MainCtrl.class).in(Scopes.SINGLETON);
+        bind(AddQuoteCtrl.class).in(Scopes.SINGLETON);
+        bind(QuoteOverviewCtrl.class).in(Scopes.SINGLETON);
+        bind(MessageAdmin.class).in(Scopes.SINGLETON);
+        bind(MessageSender.class).in(Scopes.SINGLETON);
     }
 }

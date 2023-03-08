@@ -1,5 +1,6 @@
 package client.messageClients;
 
+import com.google.inject.Inject;
 import commons.messaging.Messages.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
@@ -11,10 +12,10 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
+
 public class MessageAdmin {
 
-    @Autowired
+    @Inject
     StompSession session;
 
     Map<String, String> queues = new HashMap<>();
