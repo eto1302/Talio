@@ -10,18 +10,7 @@ class TagTest {
     Tag testTag;
     @BeforeEach
     void setUp() {
-        testTag = new Tag(1, "testTag", "#000000");
-    }
-
-    @Test
-    void getId() {
-        assertEquals(1, testTag.getId());
-    }
-
-    @Test
-    void setId() {
-        testTag.setId(2);
-        assertEquals(2, testTag.getId());
+        testTag = new Tag("testTag", "#000000");
     }
 
     @Test
@@ -48,32 +37,31 @@ class TagTest {
 
     @Test
     void testEquals() {
-        Tag newTag = new Tag(1, "testTag", "#000000");
+        Tag newTag = new Tag("testTag", "#000000");
         assertEquals(newTag, testTag);
     }
 
     @Test
     void testNotEquals() {
-        Tag newTag = new Tag(2, "testTag", "#000000");
+        Tag newTag = new Tag("testTag1", "#000000");
         assertNotEquals(newTag, testTag);
     }
 
     @Test
     void testHashCode() {
-        Tag newTag = new Tag(1, "testTag", "#000000");
-        assertEquals(newTag.hashCode(), testTag.hashCode());
+        assertEquals(testTag.hashCode(), testTag.hashCode());
     }
 
     @Test
     void testWrongHashCode() {
-        Tag newTag = new Tag(2, "testTag", "#000000");
+        Tag newTag = new Tag("testTag1", "#000000");
         assertNotEquals(newTag.hashCode(), testTag.hashCode());
     }
 
     @Test
     void testToString() {
         String stringRepresentation = "Tag{" +
-                "id=" + 1 +
+                "id=" + testTag.getId() +
                 ", name='" + "testTag" + '\'' +
                 ", color='" + "#000000" + '\'' +
                 '}';
