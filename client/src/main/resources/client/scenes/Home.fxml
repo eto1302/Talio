@@ -7,30 +7,21 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.HomeController">
+<GridPane fx:id="gridHome" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.HomeController">
   <columnConstraints>
     <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="35.0" valignment="TOP" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="45.0" valignment="CENTER" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="35.0" prefHeight="35.0" valignment="TOP" vgrow="NEVER" />
       <RowConstraints minHeight="10.0" prefHeight="45.0" valignment="CENTER" vgrow="SOMETIMES" />
     <RowConstraints />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="70.0" valignment="TOP" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="70.0" valignment="BASELINE" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="70.0" valignment="TOP" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Button fx:id="addListButton" mnemonicParsing="false" onAction="#showAddList" prefHeight="37.0" prefWidth="56.0" text="+" GridPane.rowIndex="6" GridPane.valignment="TOP" />
-      <Label fx:id="addListLabel" contentDisplay="CENTER" opacity="0.39" text="Add a list" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
       <GridPane maxHeight="45.0" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: D5D3D3;">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -55,5 +46,15 @@
             </MenuButton>
          </children>
       </GridPane>
+      <VBox fx:id="vbox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+         <children>
+            <Label fx:id="addListLabel" contentDisplay="CENTER" opacity="0.39" text="Add a list">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Button fx:id="addListButton" mnemonicParsing="false" onAction="#showAddList" prefHeight="37.0" prefWidth="56.0" text="+" />
+         </children>
+      </VBox>
    </children>
 </GridPane>

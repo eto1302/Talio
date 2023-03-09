@@ -41,7 +41,9 @@
          </font>
       </Label>
       <Button fx:id="cancelButton" layoutX="465.0" layoutY="239.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+
       <Button fx:id="addButton" layoutX="530.0" layoutY="238.0" mnemonicParsing="false" onAction="#showBoard" prefHeight="26.0" prefWidth="51.0" text="Add" />
+      <Button fx:id="addButton" layoutX="530.0" layoutY="238.0" mnemonicParsing="false" onAction="#addList" prefHeight="26.0" prefWidth="51.0" text="Add" />
       <Line endX="-100.80712127685547" endY="142.79287719726562" layoutX="130.0" layoutY="68.0" opacity="0.54" startX="-100.80712127685547" startY="-17.099979400634766" />
       <Line endX="435.49298095703125" endY="10.292877197265625" layoutX="131.0" layoutY="201.0" opacity="0.54" startX="-100.5071029663086" startY="10.292877197265625" />
       <Line endX="92.99298095703125" endY="45.792877197265625" layoutX="474.0" layoutY="165.0" opacity="0.54" startX="92.99285888671875" startY="-114.0999755859375" />
