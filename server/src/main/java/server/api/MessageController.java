@@ -2,41 +2,26 @@ package server.api;
 
 import commons.messaging.Messages.Message;
 import commons.messaging.Messages.SuccessMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class MessageController {
 
+    @Autowired
+    SimpMessagingTemplate template;
+
     @MessageMapping("/{dest}")
-    @SendTo("topic/{dest}")
-    public Message send(@DestinationVariable("dest") String dest, Message msg){
-        System.out.println("/board/{dest} forwarded");
-        System.out.println("{Dest}:" + dest);
-        return msg;
+    public void send(@DestinationVariable("dest") String dest, Message msg){
+        System.out.println("Message to app/"+dest+" forwarded to /topic/" + dest);
+        String url = "/topic/"+dest;
+        template.convertAndSend(url, msg);
     }
 
-//    @MessageMapping("app/topic/{dest}")
-//    @SendTo("/topic/{dest}")
-//    public Message sendTopic(@DestinationVariable("dest") String dest, Message msg){
-//        System.out.println("/topic/{dest} forwarded");
-//        System.out.println("{Dest}:" + dest);
-//        return msg;
-//    }
-
-//    @MessageMapping("/topic")
-//    @SendTo("/topic")
-//    public Message sendAll(Message msg){
-//        System.out.println("/topic forwarded");
-//        return msg;
-//    }
-//    @MessageMapping("/")
-//    public void test(Message msg){
-//        System.out.println("hahaha");
-//    }
 
     @MessageMapping("/server")
     @SendToUser("/queue")

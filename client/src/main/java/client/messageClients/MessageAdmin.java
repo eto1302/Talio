@@ -16,24 +16,14 @@ import java.util.Map;
 public class MessageAdmin {
 
     @Inject
+    MessageSessionHandler handler;
+    @Inject
     StompSession session;
 
     Map<String, String> queues = new HashMap<>();
 
 
     public void subscribe(String queue){
-        session.subscribe(queue, new StompFrameHandler() {
-            @Override
-            public Type getPayloadType(StompHeaders headers) {
-                return null;
-            }
-
-            @Override
-            public void handleFrame(StompHeaders headers, Object payload) {
-                System.out.println("Message received");
-                Message msg = (Message) payload;
-                msg.consume();
-            }
-        });
+        session.subscribe(queue, handler);
     }
 }
