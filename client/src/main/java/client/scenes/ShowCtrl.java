@@ -1,14 +1,14 @@
 package client.scenes;
 
-
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import java.util.*;
 
 public class ShowCtrl {
-
     private Stage primaryStage, secondaryStage;
     private HomeController homeCtrl;
     private Scene home, addTask, addCard, yourBoards, search, taskOverview;
@@ -31,8 +31,7 @@ public class ShowCtrl {
         searchCtrl = (SearchCtrl) loader.get(4).getKey();
         search = new Scene((Parent) loader.get(4).getValue());
         taskOverviewCtrl = (TaskOverview) loader.get(5).getKey();
-        taskOverview = new Scene(((Parent) loader.get(5).getValue()).getParent());
-
+        taskOverview = new Scene((Parent) loader.get(5).getValue());
 
         showHome();
         primaryStage.show();
@@ -81,4 +80,50 @@ public class ShowCtrl {
         secondaryStage.setTitle("See your task details");
         secondaryStage.show();
     }
+
+    /**
+     * Creates a scene with a new parent grid that will have every list and card of the user. Basically a refresh
+     * after we add a list.
+     * @param gridPane the grid pane that will be populated
+     */
+
+    public void addCard(GridPane gridPane){
+        double height=primaryStage.getHeight();
+        double width = primaryStage.getWidth();
+        setupGrid(gridPane);
+
+        this.home=new Scene(gridPane);
+        primaryStage.setScene(home);
+        primaryStage.setWidth(width);
+        primaryStage.setHeight(height);
+
+        primaryStage.show();
+    }
+
+    /**
+     * Sets up the grid (parent of the scene) to be identical to the one we started from
+     * @param gridPane the grid that will contain all lists with tasks
+     */
+    public void setupGrid(GridPane gridPane){
+        GridPane parent=(GridPane)home.getRoot();
+        Iterator<Node> it = parent.getChildren().iterator();
+        while (it.hasNext()){
+            Node node = it.next();
+            it.remove();
+            if (node instanceof GridPane)
+                gridPane.add(node, 0, 0);
+            if (node instanceof VBox)
+                gridPane.add(node, 0, gridPane.getRowCount());
+        }
+
+        ColumnConstraints col = new ColumnConstraints();
+        col.setHgrow(Priority.SOMETIMES);
+        RowConstraints row = new RowConstraints();
+        row.setVgrow(Priority.NEVER);
+        row.setMinHeight(35); row.setPrefHeight(35);
+        gridPane.getColumnConstraints().add(0,col);
+        gridPane.getRowConstraints().add(0,row);
+    }
+
+
 }

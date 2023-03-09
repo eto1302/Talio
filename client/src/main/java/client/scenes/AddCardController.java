@@ -3,11 +3,15 @@ package client.scenes;
 import client.MyFXML;
 import client.MyModule;
 import com.google.inject.Injector;
+import commons.Card;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.GridPane;
 
 import javax.inject.Inject;
-import java.io.IOException;
+import java.util.ArrayList;
 
 import static com.google.inject.Guice.createInjector;
 
@@ -35,10 +39,29 @@ public class AddCardController {
        showCtrl.cancel();
     }
 
-    public void addCard() throws IOException {
-//        Card card = new Card(nameField.getText(), new ArrayList<>());
-//        var home = FXML.load(HomeController.class, "client", "scenes", "Home.fxml");
-//        home.getKey().insertCard(card);
-//        showCtrl.cancel();
+    /**
+     * This button adds a card into the grid that will contain everything else and be set as the root of the scene
+     */
+    public void addCard() {
+        Card card = new Card(nameField.getText(), new ArrayList<>());
+        GridPane grid=insertCard(card);
+        showCtrl.addCard(grid);
+        showCtrl.cancel();
+    }
+
+    /**
+     * Inserts a card into a grid in another grid that will be set with the proper properties.
+     * @param card The card that will be inserted
+     * @return A manual made grid
+     */
+    public GridPane insertCard(Card card){
+        GridPane grid = new GridPane();
+        for (int i=0; i<=5; i++){
+            Label label = new Label(card.getName()+i);
+            label.setBackground(new Background(new BackgroundFill(color.getValue(), null, null)));
+            grid.addRow(i, label);
+        }
+        grid.setStyle("-fx-vgap: 4px");
+        return grid;
     }
 }

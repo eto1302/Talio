@@ -50,12 +50,4 @@ public class HomeController {
         showCtrl.showYourBoards();
     }
 
-//    public void insertCard(Card card) throws IOException {
-//        var cardShape = FXML.load(CardShape.class, "client", "scenes", "Card.fxml");
-//        GridPane grid =cardShape.getKey().getGridCard();
-//        cardShape.getKey().setText(card.getName());
-//        boardLabel.setText(card.getName());
-//        gridHome.add(grid, 0, 1);
-//    }
-
 }
