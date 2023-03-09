@@ -49,6 +49,8 @@ public class Main extends Application {
         var yourBoards=FXML.load(YourBoardsController.class, "client", "scenes", "YourBoards.fxml");
         var addTask = FXML.load(AddTaskController.class, "client", "scenes","AddTask.fxml");
         var search = FXML.load(SearchCtrl.class, "client", "scenes","Search.fxml");
+        var addTag = FXML.load(AddTagController.class, "client", "scenes", "AddTag.fxml");
+        var board = FXML.load(BoardController.class, "client", "scenes", "Board.fxml");
         var taskOverview=FXML.load(TaskOverview.class, "client", "scenes","TaskOverview.fxml" );
 
         loader.add(home);
@@ -56,6 +58,9 @@ public class Main extends Application {
         loader.add(yourBoards);
         loader.add(addTask);
         loader.add(search);
+        loader.add(addTag);
+        loader.add(board);
         loader.add(taskOverview);
+
     }
 }

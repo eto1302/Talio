@@ -50,4 +50,6 @@ public class HomeController {
         showCtrl.showYourBoards();
     }
 
+
+    public void showSearch() {showCtrl.showSearch();}
 }

@@ -38,7 +38,7 @@
             </Label>
             <MenuButton fx:id="menu" mnemonicParsing="false" popupSide="RIGHT" prefHeight="37.0" prefWidth="46.0" text="---" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
               <items>
-                <MenuItem fx:id="joinBoard" mnemonicParsing="false" text="Join board" />
+                <MenuItem fx:id="joinBoard" mnemonicParsing="false" onAction="#showSearch" text="Join board" />
                 <MenuItem fx:id="createBoard" mnemonicParsing="false" text="Create board" />
                   <MenuItem fx:id="yourBoards" mnemonicParsing="false" onAction="#showYourBoards" text="Your boards" />
                   <MenuItem fx:id="personalize" mnemonicParsing="false" text="Personalize" />
