@@ -15,6 +15,7 @@
  */
 package client;
 
+import client.user.UserData;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
@@ -32,5 +33,6 @@ public class MyModule implements Module {
         binder.bind(AddQuoteCtrl.class).in(Scopes.SINGLETON);
         binder.bind(QuoteOverviewCtrl.class).in(Scopes.SINGLETON);
         binder.bind(ShowCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(UserData.class).in(Scopes.SINGLETON);
     }
 }
