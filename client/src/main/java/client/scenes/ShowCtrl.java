@@ -11,12 +11,13 @@ public class ShowCtrl {
 
     private Stage primaryStage, secondaryStage;
     private HomeController homeCtrl;
-    private Scene home, addTask, addList, yourBoards, search, addTag;
+    private Scene home, addTask, addList, yourBoards, search, addTag, board;
     private AddListController addListCtrl;
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
     private AddTagController addTagController;
+    private BoardController boardController;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
         this.primaryStage = primaryStage;
@@ -32,6 +33,8 @@ public class ShowCtrl {
         search = new Scene((Parent) loader.get(4).getValue());
         addTagController = (AddTagController) loader.get(5).getKey();
         addTag = new Scene((Parent) loader.get(5).getValue());
+        boardController = (BoardController) loader.get(6).getKey();
+        board = new Scene((Parent) loader.get(6).getValue());
 
         showHome();
         primaryStage.show();
@@ -79,5 +82,12 @@ public class ShowCtrl {
         secondaryStage.setScene(addTag);
         secondaryStage.setTitle("Add a tag");
         secondaryStage.show();
+    }
+
+    public void showBoard(){
+        primaryStage = new Stage();
+        primaryStage.setScene(board);
+        primaryStage.setTitle("Board");
+        primaryStage.show();
     }
 }
