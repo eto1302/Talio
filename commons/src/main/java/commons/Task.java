@@ -6,21 +6,27 @@ import java.util.Objects;
 @Entity
 public class Task {
     @Id
-    @SequenceGenerator(
-            name = "task_sequence",
-            sequenceName = "task_sequence"
-    )
-    @GeneratedValue(
-            generator = "task_sequence",
-            strategy = GenerationType.SEQUENCE
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", columnDefinition = "integer")
     private int id;
+    @Column(name = "description", columnDefinition = "varchar(255)")
     private String description;
+    @Column(name = "title", columnDefinition = "varchar(255)")
     private String title;
 
-    public Task(String description, String title) {
-        this.description = description;
-        this.title = title;
+    @ManyToOne
+    @JoinColumn(name="listId", nullable=false)
+    private List list;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tagId", referencedColumnName = "id")
+    private Tag tag;
+
+    public static Task create(String description, String title) {
+        Task task = new Task();
+        task.description = description;
+        task.title = title;
+        return task;
     }
 
     public Task() {}

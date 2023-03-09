@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 
 import javax.inject.Inject;
 
-public class AddCardController {
+public class AddListController {
 
     @FXML
     private TextField nameField;
@@ -21,7 +21,7 @@ public class AddCardController {
     private final ShowCtrl showCtrl;
 
     @Inject
-    public AddCardController(ShowCtrl showCtrl) {
+    public AddListController(ShowCtrl showCtrl) {
         this.showCtrl = showCtrl;
     }
 

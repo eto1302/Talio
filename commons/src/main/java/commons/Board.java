@@ -4,35 +4,35 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-//@Table(name="Board")
+@Table(name="Boards")
 public class Board {
 
     @Id
-    @SequenceGenerator(
-            name = "board_sequence",
-            sequenceName = "board_sequence"
-    )
-    @GeneratedValue(
-            generator = "board_sequence",
-            strategy = GenerationType.SEQUENCE
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", columnDefinition = "integer")
     private int id;
-    @Column
+
+    @Column(name = "name", columnDefinition = "varchar(255)")
     private String name;
-    @Column
+
+    @Column(name = "password", columnDefinition = "varchar(255)")
     private String password;
     @OneToMany
-    Set<Card> cards;
+    Set<List> lists;
 
-    public Board(String name, String password, Set<Card> cards) {
-        this.name = name;
-        this.password = password;
-        this.cards=cards;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tagId", referencedColumnName = "id")
+    private Tag tag;
+
+    public static Board create(String name, String password, Set<List> lists) {
+        Board board = new Board();
+        board.name = name;
+        board.password = password;
+        board.lists=lists;
+        return board;
     }
 
-    public Board() {
-
-    }
+    public Board() {}
 
     public int getId() {
         return id;
@@ -74,7 +74,8 @@ public class Board {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", cards=" + cards +
+                ", lists=" + lists +
+                ", tag=" + tag +
                 '}';
     }
 }

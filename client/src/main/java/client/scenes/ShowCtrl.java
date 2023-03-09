@@ -11,8 +11,8 @@ public class ShowCtrl {
 
     private Stage primaryStage, secondaryStage;
     private HomeController homeCtrl;
-    private Scene home, addTask, addCard, yourBoards, search, addTag;
-    private AddCardController addCardCtrl;
+    private Scene home, addTask, addList, yourBoards, search, addTag;
+    private AddListController addListCtrl;
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
@@ -22,23 +22,25 @@ public class ShowCtrl {
         this.primaryStage = primaryStage;
         homeCtrl = (HomeController) loader.get(0).getKey();
         home = new Scene((Parent) loader.get(0).getValue());
-        addCardCtrl = (AddCardController) loader.get(1).getKey();
-        addCard = new Scene((Parent) loader.get(1).getValue());
+        addListCtrl = (AddListController) loader.get(1).getKey();
+        addList = new Scene((Parent) loader.get(1).getValue());
         yourBoardsCtrl = (YourBoardsController) loader.get(2).getKey();
         yourBoards = new Scene((Parent) loader.get(2).getValue());
         addTaskCtrl = (AddTaskController) loader.get(3).getKey();
         addTask = new Scene((Parent) loader.get(3).getValue());
         searchCtrl = (SearchCtrl) loader.get(4).getKey();
         search = new Scene((Parent) loader.get(4).getValue());
+        addTagController = (AddTagController) loader.get(5).getKey();
+        addTag = new Scene((Parent) loader.get(5).getValue());
 
         showHome();
         primaryStage.show();
     }
 
-    public void showAddCard() {
+    public void showAddList() {
         secondaryStage = new Stage();
-        secondaryStage.setScene(addCard);
-        secondaryStage.setTitle("Add a card");
+        secondaryStage.setScene(addList);
+        secondaryStage.setTitle("Add a list");
         secondaryStage.show();
 
     }

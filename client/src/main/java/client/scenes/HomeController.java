@@ -10,9 +10,9 @@ import javax.inject.Inject;
 
 public class HomeController {
     @FXML
-    private Label addCardLabel;
+    private Label addListLabel;
     @FXML
-    private Button addCardButton;
+    private Button addListButton;
     @FXML
     private MenuButton menu;
     @FXML
@@ -33,11 +33,13 @@ public class HomeController {
         this.showCtrl = showCtrl;
     }
 
-    public void showAddCard(){
-        showCtrl.showAddCard();
+    public void showAddList(){
+        showCtrl.showAddList();
     }
 
     public void showYourBoards(){
         showCtrl.showYourBoards();
     }
+
+    public void showSearch() {showCtrl.showSearch();}
 }

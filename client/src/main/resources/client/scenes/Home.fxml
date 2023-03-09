@@ -25,8 +25,8 @@
       <RowConstraints minHeight="10.0" prefHeight="70.0" valignment="BASELINE" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Button fx:id="addCardButton" mnemonicParsing="false" onAction="#showAddCard" prefHeight="37.0" prefWidth="56.0" text="+" GridPane.rowIndex="6" GridPane.valignment="TOP" />
-      <Label fx:id="addCardLabel" contentDisplay="CENTER" opacity="0.39" text="Add a card" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+      <Button fx:id="addListButton" mnemonicParsing="false" onAction="#showAddList" prefHeight="37.0" prefWidth="56.0" text="+" GridPane.rowIndex="6" GridPane.valignment="TOP" />
+      <Label fx:id="addListLabel" contentDisplay="CENTER" opacity="0.39" text="Add a list" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
          <font>
             <Font size="16.0" />
          </font>
@@ -47,7 +47,7 @@
             </Label>
             <MenuButton fx:id="menu" mnemonicParsing="false" popupSide="RIGHT" prefHeight="37.0" prefWidth="46.0" text="---" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
               <items>
-                <MenuItem fx:id="joinBoard" mnemonicParsing="false" text="Join board" />
+                <MenuItem fx:id="joinBoard" mnemonicParsing="false" onAction="#showSearch" text="Join board" />
                 <MenuItem fx:id="createBoard" mnemonicParsing="false" text="Create board" />
                   <MenuItem fx:id="yourBoards" mnemonicParsing="false" onAction="#showYourBoards" text="Your boards" />
                   <MenuItem fx:id="personalize" mnemonicParsing="false" text="Personalize" />
