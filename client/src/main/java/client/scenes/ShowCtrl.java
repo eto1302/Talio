@@ -3,6 +3,7 @@ package client.scenes;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -103,49 +104,9 @@ public class ShowCtrl {
         secondaryStage.show();
     }
 
-    /**
-     * Creates a scene with a new parent grid that will have every list and card of the user. Basically a refresh
-     * after we add a list.
-     * @param gridPane the grid pane that will be populated
-     */
-
-    public void addList(GridPane gridPane){
-        double height=primaryStage.getHeight();
-        double width = primaryStage.getWidth();
-        setupGrid(gridPane);
-
-        this.home=new Scene(gridPane);
-        primaryStage.setScene(home);
-        primaryStage.setWidth(width);
-        primaryStage.setHeight(height);
-
-        primaryStage.show();
+    public void showBoardUpdated(Label title){
+        Scene updated = homeCtrl.addList(title);
+        primaryStage.setScene(updated);
     }
-
-    /**
-     * Sets up the grid (parent of the scene) to be identical to the one we started from
-     * @param gridPane the grid that will contain all lists with tasks
-     */
-    public void setupGrid(GridPane gridPane){
-        GridPane parent=(GridPane)home.getRoot();
-        Iterator<Node> it = parent.getChildren().iterator();
-        while (it.hasNext()){
-            Node node = it.next();
-            it.remove();
-            if (node instanceof GridPane)
-                gridPane.add(node, 0, 0);
-            if (node instanceof VBox)
-                gridPane.add(node, 0, gridPane.getRowCount());
-        }
-
-        ColumnConstraints col = new ColumnConstraints();
-        col.setHgrow(Priority.SOMETIMES);
-        RowConstraints row = new RowConstraints();
-        row.setVgrow(Priority.NEVER);
-        row.setMinHeight(35); row.setPrefHeight(35);
-        gridPane.getColumnConstraints().add(0,col);
-        gridPane.getRowConstraints().add(0,row);
-    }
-
 
 }

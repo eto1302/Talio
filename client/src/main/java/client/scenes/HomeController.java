@@ -4,6 +4,7 @@ import client.MyFXML;
 import client.MyModule;
 import com.google.inject.Injector;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -52,4 +53,9 @@ public class HomeController {
 
 
     public void showSearch() {showCtrl.showSearch();}
+
+    public Scene addList(Label list){
+        gridHome.add(list, 0, 1);
+        return gridHome.getScene();
+    }
 }

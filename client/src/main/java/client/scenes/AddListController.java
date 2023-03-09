@@ -41,28 +41,12 @@ public class AddListController {
     }
 
     /**
-     * This button adds a list into the grid that will contain everything else and be set as the root of the scene
+     * This button adds a list back into the grid
      */
     public void addList() {
         List list = List.create(nameField.getText(), null);
-        GridPane grid=insertList(list);
-        showCtrl.addList(grid);
+        showCtrl.showBoardUpdated(new Label(list.getName()));
         showCtrl.cancel();
     }
 
-    /**
-     * Inserts a card into a grid in another grid that will be set with the proper properties.
-     * @param list The list that will be inserted
-     * @return A manual made grid
-     */
-    public GridPane insertList(List list){
-        GridPane grid = new GridPane();
-        for (int i=0; i<=5; i++){
-            Label label = new Label(list.getName()+i);
-            label.setBackground(new Background(new BackgroundFill(color.getValue(), null, null)));
-            grid.addRow(i, label);
-        }
-        grid.setStyle("-fx-vgap: 4px");
-        return grid;
-    }
 }
