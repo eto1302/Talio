@@ -86,7 +86,7 @@ public class TagControllerTest {
     }
 
     private static Tag getTestTag(String q) {
-        return new Tag(q, "#000000");
+        return Tag.create(q, "#000000");
     }
 
     @SuppressWarnings("serial")

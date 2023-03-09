@@ -4,23 +4,23 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tags")
+@Table(name = "Tags")
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "integer")
     private int id;
-
-
     @Column(name = "name", columnDefinition = "varchar(255)")
     private String name;
 
     @Column(name = "color", columnDefinition = "varchar(7) default '#000000'")
     private String color;
 
-    public Tag(String name, String color) {
-        this.name = name;
-        this.color = color;
+    public static Tag create(String name, String color) {
+        Tag tag = new Tag();
+        tag.name = name;
+        tag.color = color;
+        return tag;
     }
 
     public Tag(){}

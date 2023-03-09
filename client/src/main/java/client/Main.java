@@ -45,13 +45,13 @@ public class Main extends Application {
 
     public void setup(List<Pair> loader){
         var home = FXML.load(HomeController.class, "client", "scenes", "Home.fxml");
-        var addCard =FXML.load(AddCardController.class, "client", "scenes", "AddCard.fxml");
+        var addList =FXML.load(AddListController.class, "client", "scenes", "AddList.fxml");
         var yourBoards=FXML.load(YourBoardsController.class, "client", "scenes", "YourBoards.fxml");
         var addTask = FXML.load(AddTaskController.class, "client", "scenes","AddTask.fxml");
         var search = FXML.load(SearchCtrl.class, "client", "scenes","Search.fxml");
 
         loader.add(home);
-        loader.add(addCard);
+        loader.add(addList);
         loader.add(yourBoards);
         loader.add(addTask);
         loader.add(search);

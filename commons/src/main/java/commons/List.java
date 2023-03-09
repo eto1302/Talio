@@ -4,24 +4,17 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name = "cards")
-public class Card {
+@Table(name = "Lists")
+public class List {
     @Id
-    @SequenceGenerator(
-            name="card_sequence",
-            sequenceName = "card_sequence"
-    )
-    @GeneratedValue(
-            generator = "card_sequence",
-            strategy = GenerationType.SEQUENCE
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "integer")
     private int id;
 
     @Column(name = "name", columnDefinition = "varchar(255)")
     private String name;
     @OneToMany
-    List<Task> tasks;
+    java.util.List<Task> tasks;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tagId", referencedColumnName = "id")
@@ -31,12 +24,14 @@ public class Card {
     @JoinColumn(name="boardId", nullable=false)
     private Board board;
 
-    public Card(String name, List<Task> tasks) {
-        this.name = name;
-        this.tasks=tasks;
+    public static List create(String name, java.util.List<Task> tasks) {
+        List list = new List();
+        list.name = name;
+        list.tasks=tasks;
+        return list;
     }
 
-    public Card() {}
+    public List() {}
 
     public String getName() {
         return name;
@@ -54,8 +49,8 @@ public class Card {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Card card = (Card) o;
-        return getId() == card.getId() && Objects.equals(getName(), card.getName());
+        List list = (List) o;
+        return getId() == list.getId() && Objects.equals(getName(), list.getName());
     }
 
     @Override
@@ -65,7 +60,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return "Card{" +
+        return "List{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", tasks=" + tasks +

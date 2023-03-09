@@ -1,21 +1,21 @@
 package server.api;
 
 import org.springframework.web.bind.annotation.*;
-import server.Services.CardService;
+import server.Services.ListService;
 
 @RestController
-@RequestMapping("/card")
-public class CardController {
+@RequestMapping("/list")
+public class ListController {
 
-    private final CardService cardService;
+    private final ListService listService;
 
-    public CardController(CardService cardService) {
-        this.cardService = cardService;
+    public ListController(ListService listService) {
+        this.listService = listService;
     }
 
     @GetMapping("/{id}")
     @ResponseBody
-    public String getCard(@PathVariable int id){
-        return this.cardService.getCardById(id).toString();
+    public String getList(@PathVariable int id){
+        return this.listService.getListById(id).toString();
     }
 }

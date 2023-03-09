@@ -1,26 +1,27 @@
 package server.Services;
 
-import commons.Card;
+import commons.List;
 import org.springframework.stereotype.Service;
 import commons.Task;
-import server.database.CardRepository;
+import server.database.ListRepositoy;
 
-import java.util.*;
+import java.util.ArrayList;
+
 
 @Service
-public class CardService {
+public class ListService {
 
-    CardRepository cardRepository;
-    public CardService(CardRepository cardRepository){
-        this.cardRepository = cardRepository;
+    ListRepositoy listRepositoy;
+    public ListService(ListRepositoy listRepositoy){
+        this.listRepositoy = listRepositoy;
     }
-    public Card getCard(){
-        List<Task> tasks = new ArrayList<>();
-        return new Card("Urgent!", tasks);
+    public List getList(){
+        java.util.List<Task> tasks = new ArrayList<>();
+        return  List.create("Urgent!", tasks);
     }
 
-    public Card getCardById(int id){
-        return this.cardRepository.getById(id);
+    public List getListById(int id){
+        return this.listRepositoy.getById(id);
     }
 
 }
