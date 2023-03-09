@@ -22,7 +22,7 @@
     <RowConstraints minHeight="10.0" prefHeight="70.0" valignment="TOP" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <GridPane maxHeight="45.0" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: D5D3D3;" GridPane.columnSpan="2147483647">
+      <GridPane maxHeight="45.0" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: D5D3D3;">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -46,14 +46,14 @@
             </MenuButton>
          </children>
       </GridPane>
-      <VBox fx:id="vbox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
+      <VBox fx:id="vbox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
          <children>
-            <Label fx:id="addCardLabel" contentDisplay="CENTER" opacity="0.39" text="Add a card">
+            <Label fx:id="addListLabel" contentDisplay="CENTER" opacity="0.39" text="Add a list">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Button fx:id="addCardButton" mnemonicParsing="false" onAction="#showAddCard" prefHeight="37.0" prefWidth="56.0" text="+" />
+            <Button fx:id="addListButton" mnemonicParsing="false" onAction="#showAddList" prefHeight="37.0" prefWidth="56.0" text="+" />
          </children>
       </VBox>
    </children>

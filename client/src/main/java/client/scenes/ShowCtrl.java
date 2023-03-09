@@ -11,8 +11,9 @@ import java.util.*;
 public class ShowCtrl {
     private Stage primaryStage, secondaryStage;
     private HomeController homeCtrl;
-    private Scene home, addTask, addCard, yourBoards, search, taskOverview;
-    private AddCardController addCardCtrl;
+    private Scene home, addTask, addList, yourBoards, search, taskOverview;
+    private AddListController addListCtrl;
+
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
@@ -22,8 +23,8 @@ public class ShowCtrl {
         this.primaryStage = primaryStage;
         homeCtrl = (HomeController) loader.get(0).getKey();
         home = new Scene((Parent) loader.get(0).getValue());
-        addCardCtrl = (AddCardController) loader.get(1).getKey();
-        addCard = new Scene((Parent) loader.get(1).getValue());
+        addListCtrl = (AddListController) loader.get(1).getKey();
+        addList = new Scene((Parent) loader.get(1).getValue());
         yourBoardsCtrl = (YourBoardsController) loader.get(2).getKey();
         yourBoards = new Scene((Parent) loader.get(2).getValue());
         addTaskCtrl = (AddTaskController) loader.get(3).getKey();
@@ -37,10 +38,10 @@ public class ShowCtrl {
         primaryStage.show();
     }
 
-    public void showAddCard() {
+    public void showAddList() {
         secondaryStage = new Stage();
-        secondaryStage.setScene(addCard);
-        secondaryStage.setTitle("Add a card");
+        secondaryStage.setScene(addList);
+        secondaryStage.setTitle("Add a list");
         secondaryStage.show();
 
     }
@@ -87,7 +88,7 @@ public class ShowCtrl {
      * @param gridPane the grid pane that will be populated
      */
 
-    public void addCard(GridPane gridPane){
+    public void addList(GridPane gridPane){
         double height=primaryStage.getHeight();
         double width = primaryStage.getWidth();
         setupGrid(gridPane);

@@ -33,15 +33,15 @@ public class MainCtrl {
     private Scene add;
     private HomeController homeCtrl;
     private Scene home;
-    private AddCardController addCardCtrl;
-    private Scene addCard;
+    private AddListController addListCtrl;
+    private Scene addList;
 
-    public void initialize(Stage primaryStage, Pair<HomeController, Parent> home, Pair<AddCardController, Parent> addCard) {
+    public void initialize(Stage primaryStage, Pair<HomeController, Parent> home, Pair<AddListController, Parent> addList) {
         this.primaryStage = primaryStage;
         this.homeCtrl=home.getKey();
         this.home=new Scene(home.getValue());
-        this.addCard=new Scene(addCard.getValue());
-        this.addCardCtrl=addCard.getKey();
+        this.addList=new Scene(addList.getValue());
+        this.addListCtrl=addList.getKey();
 
         showOverview();
         primaryStage.show();

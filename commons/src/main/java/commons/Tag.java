@@ -4,31 +4,23 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tags")
+@Table(name = "Tags")
 public class Tag {
     @Id
-    @SequenceGenerator(
-            name="tag_sequence",
-            sequenceName = "tag_sequence"
-    )
-    @GeneratedValue(
-            generator = "tag_sequence",
-            strategy = GenerationType.SEQUENCE
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "integer")
     private int id;
-
-
     @Column(name = "name", columnDefinition = "varchar(255)")
     private String name;
 
     @Column(name = "color", columnDefinition = "varchar(7) default '#000000'")
     private String color;
 
-    public Tag(int id, String name, String color) {
-        this.id = id;
-        this.name = name;
-        this.color = color;
+    public static Tag create(String name, String color) {
+        Tag tag = new Tag();
+        tag.name = name;
+        tag.color = color;
+        return tag;
     }
 
     public Tag(){}
