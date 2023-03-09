@@ -11,11 +11,12 @@ public class ShowCtrl {
 
     private Stage primaryStage, secondaryStage;
     private HomeController homeCtrl;
-    private Scene home, addTask, addCard, yourBoards, search;
+    private Scene home, addTask, addCard, yourBoards, search, addTag;
     private AddCardController addCardCtrl;
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
+    private AddTagController addTagController;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
         this.primaryStage = primaryStage;
@@ -68,6 +69,13 @@ public class ShowCtrl {
         secondaryStage = new Stage();
         secondaryStage.setScene(search);
         secondaryStage.setTitle("Search for a board");
+        secondaryStage.show();
+    }
+
+    public void showAddTag(){
+        secondaryStage = new Stage();
+        secondaryStage.setScene(addTag);
+        secondaryStage.setTitle("Add a tag");
         secondaryStage.show();
     }
 }
