@@ -15,20 +15,12 @@
  */
 package client;
 
-import client.messageClients.MessageAdmin;
-import client.messageClients.MessageSender;
-import client.messageClients.MessageSessionHandler;
 import client.scenes.AddQuoteCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.QuoteOverviewCtrl;
 import com.google.inject.Injector;
-import commons.messaging.Messages.TestMessage;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.concurrent.TimeUnit;
 
 import static com.google.inject.Guice.createInjector;
 
@@ -37,32 +29,16 @@ public class Main extends Application {
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
-    public static void main(String[] args) throws URISyntaxException, IOException {
+    public static void main(String[] args) {
         launch();
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException, InterruptedException {
-        System.out.println("test");
-        MessageAdmin admin = INJECTOR.getInstance(MessageAdmin.class);
-        MessageSender sender = INJECTOR.getInstance(MessageSender.class);
-
-        admin.subscribe("/topic/bruh");
-
-
-        TimeUnit.SECONDS.sleep(60);
-
-        sender.send("/app/bruh", new TestMessage("test bruh"));
-        sender.send("/topic", new TestMessage("haha"));
-
-
+    public void start(Stage primaryStage) {
         var overview = FXML.load(QuoteOverviewCtrl.class, "client", "scenes", "QuoteOverview.fxml");
         var add = FXML.load(AddQuoteCtrl.class, "client", "scenes", "AddQuote.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.initialize(primaryStage, overview, add);
-
-        sender.send("/app/bruh", new TestMessage("test2 bruh"));
-        sender.send("/topic", new TestMessage("haha2"));
     }
 }
