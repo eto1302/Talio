@@ -20,6 +20,7 @@ import client.messageClients.MessageSender;
 import client.scenes.AddQuoteCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.QuoteOverviewCtrl;
+import client.scenes.ShowCtrl;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -37,5 +38,6 @@ public class MyModule extends AbstractModule {
         RestTemplateBuilder rtb = new RestTemplateBuilder();
         RestTemplate rt = rtb.build();
         bind(RestTemplate.class).toInstance(rt);
+        bind(ShowCtrl.class).in(Scopes.SINGLETON);
     }
 }
