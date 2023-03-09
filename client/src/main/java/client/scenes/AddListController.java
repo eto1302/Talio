@@ -25,6 +25,8 @@ public class AddListController {
         this.showCtrl = showCtrl;
     }
 
+    public void showBoard() {showCtrl.showBoard();}
+
     public void cancel(){
        showCtrl.cancel();
     }

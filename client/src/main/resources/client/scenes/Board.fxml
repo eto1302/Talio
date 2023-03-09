@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: ##000000;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardController">
+<GridPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardController">
     <columnConstraints>
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
@@ -40,9 +40,9 @@
                 </Label>
                 <MenuButton fx:id="menu" mnemonicParsing="false" popupSide="RIGHT" prefHeight="37.0" prefWidth="46.0" text="---" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                     <items>
-                        <MenuItem fx:id="joinBoard" mnemonicParsing="false" text="Join board" />
+                        <MenuItem fx:id="joinBoard" mnemonicParsing="false" onAction="#showSearch" text="Join board" />
                         <MenuItem fx:id="createBoard" mnemonicParsing="false" text="Create board" />
-                        <MenuItem fx:id="yourBoards" mnemonicParsing="false" text="Your boards" />
+                        <MenuItem fx:id="yourBoards" mnemonicParsing="false" onAction="#showYourBoards" text="Your boards" />
                         <MenuItem fx:id="personalize" mnemonicParsing="false" text="Personalize" />
                     </items>
                 </MenuButton>
@@ -50,7 +50,7 @@
         </GridPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
          <children>
-            <AnchorPane layoutX="15.0" prefHeight="300.0" prefWidth="180.0" style="-fx-background-color: ##FFFF00;">
+            <AnchorPane layoutX="15.0" prefHeight="300.0" prefWidth="180.0">
                     <children>
                         <ListView fx:id="todoList" prefHeight="300.0" prefWidth="180.0" />
                   <Separator layoutY="40.0" prefWidth="180.0" />
@@ -61,22 +61,22 @@
                   </Label>
                   <AnchorPane layoutY="40.0" prefHeight="40.0" prefWidth="180.0">
                      <children>
-                        <Button fx:id="edit1" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" text="Edit">
+                        <Button fx:id="edit1" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditCard" text="Edit">
                            <font>
                               <Font size="10.0" />
                            </font>
                         </Button>
-                        <Button fx:id="delete1" layoutX="128.4" layoutY="9.2" mnemonicParsing="false" text="Delete">
+                        <Button fx:id="delete1" layoutX="128.4" layoutY="9.2" mnemonicParsing="false" onAction="#showConfirmDelete" text="Delete">
                            <font>
                               <Font size="10.0" />
                            </font>
                         </Button>
-                        <Hyperlink fx:id="title1" layoutX="10.0" layoutY="8.0" text="Card title 1" />
+                        <Hyperlink fx:id="title1" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="Card title 1" />
                      </children>
                   </AnchorPane>
                     </children>
             </AnchorPane>
-            <AnchorPane layoutX="210.0" prefHeight="300.0" prefWidth="180.0" style="-fx-background-color: ##FFFF00;">
+            <AnchorPane layoutX="210.0" prefHeight="300.0" prefWidth="180.0">
                <children>
                   <ListView prefHeight="300.0" prefWidth="180.0" />
                   <Separator layoutY="40.0" prefWidth="180.0" />
@@ -86,7 +86,7 @@
                      </font>
                   </Label>
                </children></AnchorPane>
-            <AnchorPane layoutX="405.0" prefHeight="300.0" prefWidth="180.0" style="-fx-background-color: ##FFFF00;">
+            <AnchorPane layoutX="405.0" prefHeight="300.0" prefWidth="180.0">
                <children>
                   <ListView prefHeight="300.0" prefWidth="180.0" />
                   <Separator layoutY="40.0" prefWidth="180.0" />

@@ -85,9 +85,8 @@ public class ShowCtrl {
     }
 
     public void showBoard(){
-        primaryStage = new Stage();
-        primaryStage.setScene(board);
+        secondaryStage.close();
         primaryStage.setTitle("Board");
-        primaryStage.show();
+        primaryStage.setScene(this.board);
     }
 }
