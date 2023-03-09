@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="391.0" prefWidth="594.0" style="-fx-padding: 5px; -fx-vgap: 2px; -fx-border-color: C0C0C0;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="391.0" prefWidth="594.0" style="-fx-padding: 5px; -fx-vgap: 2px; -fx-border-color: C0C0C0;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskOverview">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -43,7 +43,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="No description yet" textAlignment="JUSTIFY" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+            <Text fx:id="descriptionText" strokeType="OUTSIDE" strokeWidth="0.0" text="No description yet" textAlignment="JUSTIFY" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                <font>
                   <Font size="15.0" />
                </font>
@@ -53,12 +53,12 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Title" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
             </Text>
-            <Button mnemonicParsing="false" text="Add description" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
+            <Button fx:id="descriptionButton" mnemonicParsing="false" opacity="0.61" text="Add description" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
          </children>
       </GridPane>
       <GridPane style="-fx-padding: 19px; -fx-hgap: 5px;" GridPane.rowIndex="2">
@@ -71,7 +71,7 @@
             <RowConstraints maxHeight="86.60001220703126" minHeight="10.0" prefHeight="22.399987792968744" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" text="Add sub-tasks" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Button fx:id="addSubTaskButton" mnemonicParsing="false" opacity="0.49" text="Add sub-tasks" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
             <VBox prefHeight="122.0" prefWidth="388.0" style="-fx-spacing: 2px;">
                <children>
                   <CheckBox mnemonicParsing="false" text="CheckBox" textAlignment="JUSTIFY" />
@@ -79,7 +79,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-spacing: 2px;" GridPane.columnIndex="1">
                <children>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="10.0" prefWidth="75.0" text="Edit/Delete">
+                  <Button fx:id="editDeleteButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="10.0" prefWidth="75.0" text="Edit/Delete">
                      <font>
                         <Font size="10.0" />
                      </font>

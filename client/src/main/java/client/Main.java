@@ -49,11 +49,13 @@ public class Main extends Application {
         var yourBoards=FXML.load(YourBoardsController.class, "client", "scenes", "YourBoards.fxml");
         var addTask = FXML.load(AddTaskController.class, "client", "scenes","AddTask.fxml");
         var search = FXML.load(SearchCtrl.class, "client", "scenes","Search.fxml");
+        var taskOverview=FXML.load(TaskOverview.class, "client", "scenes","TaskOverview.fxml" );
 
         loader.add(home);
         loader.add(addCard);
         loader.add(yourBoards);
         loader.add(addTask);
         loader.add(search);
+        loader.add(taskOverview);
     }
 }

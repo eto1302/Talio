@@ -11,11 +11,12 @@ public class ShowCtrl {
 
     private Stage primaryStage, secondaryStage;
     private HomeController homeCtrl;
-    private Scene home, addTask, addCard, yourBoards, search;
+    private Scene home, addTask, addCard, yourBoards, search, taskOverview;
     private AddCardController addCardCtrl;
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
+    private TaskOverview taskOverviewCtrl;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
         this.primaryStage = primaryStage;
@@ -29,6 +30,9 @@ public class ShowCtrl {
         addTask = new Scene((Parent) loader.get(3).getValue());
         searchCtrl = (SearchCtrl) loader.get(4).getKey();
         search = new Scene((Parent) loader.get(4).getValue());
+        taskOverviewCtrl = (TaskOverview) loader.get(5).getKey();
+        taskOverview = new Scene(((Parent) loader.get(5).getValue()).getParent());
+
 
         showHome();
         primaryStage.show();
@@ -71,7 +75,10 @@ public class ShowCtrl {
         secondaryStage.show();
     }
 
-    public void showTaskOverview(){
-
+    public void showTaskOverview() {
+        secondaryStage=new Stage();
+        secondaryStage.setScene(taskOverview);
+        secondaryStage.setTitle("See your task details");
+        secondaryStage.show();
     }
 }

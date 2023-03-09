@@ -6,9 +6,9 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 
 import javax.inject.Inject;
-import java.awt.*;
+import javafx.scene.control.*;
 
-public class Task {
+public class TaskShape {
     @FXML
     private GridPane grid;
     @FXML
@@ -20,7 +20,7 @@ public class Task {
 
     private ShowCtrl showCtrl;
     @Inject
-    public Task(ShowCtrl showCtrl){
+    public TaskShape(ShowCtrl showCtrl){
         this.showCtrl=showCtrl;
     }
 

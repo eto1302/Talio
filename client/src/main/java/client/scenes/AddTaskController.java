@@ -3,7 +3,7 @@ package client.scenes;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 import javax.inject.Inject;
 
@@ -16,7 +16,7 @@ public class AddTaskController {
     @FXML
     private Button addButton;
     @FXML
-    private TextArea textArea;
+    private TextField textField;
     @FXML
     private ColorPicker colorPicker;
 
