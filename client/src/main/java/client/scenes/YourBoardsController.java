@@ -16,7 +16,7 @@ public class YourBoardsController {
     @FXML
     private MenuItem joinBoard;
     @FXML
-    private MenuItem createBoard;
+    private MenuItem addBoard;
     @FXML
     private MenuItem personalize;
 
@@ -27,5 +27,9 @@ public class YourBoardsController {
 
     public void showSearch(){
         showCtrl.showSearch();
+    }
+
+    public void addBoard(){
+        showCtrl.showAddBoard();
     }
 }

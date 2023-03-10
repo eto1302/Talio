@@ -1,23 +1,29 @@
 package client.scenes;
 
-
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import java.util.*;
 
 public class ShowCtrl {
-
     private Stage primaryStage, secondaryStage;
     private HomeController homeCtrl;
-    private Scene home, addTask, addList, yourBoards, search, addTag, board;
+    private Scene home, addTask, addList, yourBoards, search, addTag, board, taskOverview, connection, addBoard, editTag, editTask;
     private AddListController addListCtrl;
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
     private AddTagController addTagController;
     private BoardController boardController;
+    private TaskOverview taskOverviewCtrl;
+    private ConnectionCtrl connectionCtrl;
+
+    private AddBoardController addBoardController;
+    private EditTagController editTagController;
+    private EditTaskController editTaskController;
+
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
         this.primaryStage = primaryStage;
@@ -35,9 +41,32 @@ public class ShowCtrl {
         addTag = new Scene((Parent) loader.get(5).getValue());
         boardController = (BoardController) loader.get(6).getKey();
         board = new Scene((Parent) loader.get(6).getValue());
+        taskOverviewCtrl = (TaskOverview) loader.get(7).getKey();
+        taskOverview = new Scene((Parent) loader.get(7).getValue());
+        connectionCtrl=(ConnectionCtrl) loader.get(8).getKey();
+        connection = new Scene((Parent)loader.get(8).getValue());
+        addBoardController = (AddBoardController) loader.get(9).getKey();
+        addBoard = new Scene((Parent) loader.get(9).getValue());
+        editTagController = (EditTagController) loader.get(10).getKey();
+        editTag = new Scene((Parent) loader.get(10).getValue());
+        editTaskController = (EditTaskController) loader.get(11).getKey();
+        editTask = new Scene((Parent) loader.get(11).getValue());
 
-        showHome();
+        showConnection();
+        //showHome();
         primaryStage.show();
+    }
+
+    public void showAddBoard(){
+        secondaryStage = new Stage();
+        secondaryStage.setScene(addBoard);
+        secondaryStage.setTitle("Add a board");
+        secondaryStage.show();
+    }
+
+    public void showConnection(){
+        this.primaryStage.setScene(connection);
+        this.primaryStage.setTitle("Connect to a server!");
     }
 
     public void showAddList() {
@@ -77,6 +106,7 @@ public class ShowCtrl {
         secondaryStage.show();
     }
 
+
     public void showAddTag(){
         secondaryStage = new Stage();
         secondaryStage.setScene(addTag);
@@ -89,4 +119,17 @@ public class ShowCtrl {
         primaryStage.setTitle("Board");
         primaryStage.setScene(this.board);
     }
+
+    public void showTaskOverview() {
+        secondaryStage=new Stage();
+        secondaryStage.setScene(taskOverview);
+        secondaryStage.setTitle("See your task details");
+        secondaryStage.show();
+    }
+
+    public void showBoardUpdated(Label title){
+        Scene updated = homeCtrl.addList(title);
+        primaryStage.setScene(updated);
+    }
+
 }
