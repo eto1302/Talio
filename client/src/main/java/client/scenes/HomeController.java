@@ -26,7 +26,7 @@ public class HomeController {
     @FXML
     private MenuItem joinBoard;
     @FXML
-    private MenuItem createBoard;
+    private MenuItem addBoard;
     @FXML
     private MenuItem yourBoards;
     @FXML
@@ -45,6 +45,9 @@ public class HomeController {
 
     public void showAddList(){
         showCtrl.showAddList();
+    }
+    public void showAddBoard(){
+        showCtrl.showAddBoard();
     }
 
     public void showYourBoards(){
