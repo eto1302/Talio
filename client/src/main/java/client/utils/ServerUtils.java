@@ -15,24 +15,25 @@
  */
 package client.utils;
 
-import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
-import org.glassfish.jersey.client.ClientConfig;
+import com.google.inject.Inject;
 
 import commons.Quote;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.GenericType;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 public class ServerUtils {
 
-    private static final String SERVER = "http://localhost:8080/";
+    @Inject
+    RestTemplate client;
 
     public void getQuotesTheHardWay() throws IOException {
         var url = new URL("http://localhost:8080/api/quotes");
@@ -45,18 +46,15 @@ public class ServerUtils {
     }
 
     public List<Quote> getQuotes() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Quote>>() {});
+        ResponseEntity<Quote[]> quotes =
+                client.getForEntity("http://localhost:8080/api/quotes", Quote[].class);
+        List<Quote> res = Arrays.asList(quotes.getBody());
+        return res;
     }
 
     public Quote addQuote(Quote quote) {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
+        HttpEntity<Quote> req = new HttpEntity<>(quote);
+        Quote resp = client.postForObject("http://localhost:8080/api/quotes", req, Quote.class);
+        return resp;
     }
 }
