@@ -15,6 +15,7 @@
  */
 package client;
 
+import client.user.UserData;
 import client.messageClients.MessageAdmin;
 import client.messageClients.MessageSender;
 import client.scenes.AddQuoteCtrl;
@@ -39,5 +40,6 @@ public class MyModule extends AbstractModule {
         RestTemplate rt = rtb.build();
         bind(RestTemplate.class).toInstance(rt);
         bind(ShowCtrl.class).in(Scopes.SINGLETON);
+        bind(UserData.class).in(Scopes.SINGLETON);
     }
 }
