@@ -2,26 +2,26 @@ package commons.messaging.Messages;
 
 public class SuccessMessage implements Message{
 
-    private boolean succ;
+    private boolean isSuccess;
 
     public SuccessMessage() {
     }
 
-    public SuccessMessage(boolean succ) {
-        this.succ = succ;
+    public SuccessMessage(boolean success) {
+        this.isSuccess = success;
     }
 
-    public boolean getSucc() {
-        return succ;
+    public boolean getSuccess() {
+        return isSuccess;
     }
 
-    public void setSucc(boolean succ) {
-        this.succ = succ;
+    public void setSuccess(boolean succ) {
+        this.isSuccess = succ;
     }
 
     @Override
     public void consume() {
-        if(succ) System.out.println("Message Success");
+        if(isSuccess) System.out.println("Message Success");
         else System.out.println("Message Failure");
     }
 }
