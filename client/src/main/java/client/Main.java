@@ -52,6 +52,7 @@ public class Main extends Application {
         var addTag = FXML.load(AddTagController.class, "client", "scenes", "AddTag.fxml");
         var board = FXML.load(BoardController.class, "client", "scenes", "Board.fxml");
         var taskOverview=FXML.load(TaskOverview.class, "client", "scenes","TaskOverview.fxml" );
+        var connection=FXML.load(ConnectionCtrl.class, "client", "scenes", "Connection.fxml");
 
         loader.add(home);
         loader.add(addList);
@@ -61,6 +62,7 @@ public class Main extends Application {
         loader.add(addTag);
         loader.add(board);
         loader.add(taskOverview);
+        loader.add(connection);
 
     }
 }

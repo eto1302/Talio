@@ -1,10 +1,8 @@
 package client.scenes;
 
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import java.util.*;
@@ -12,7 +10,7 @@ import java.util.*;
 public class ShowCtrl {
     private Stage primaryStage, secondaryStage;
     private HomeController homeCtrl;
-    private Scene home, addTask, addList, yourBoards, search, addTag, board, taskOverview;
+    private Scene home, addTask, addList, yourBoards, search, addTag, board, taskOverview, connection;
     private AddListController addListCtrl;
 
     private AddTaskController addTaskCtrl;
@@ -21,6 +19,7 @@ public class ShowCtrl {
     private AddTagController addTagController;
     private BoardController boardController;
     private TaskOverview taskOverviewCtrl;
+    private ConnectionCtrl connectionCtrl;
 
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
@@ -41,9 +40,17 @@ public class ShowCtrl {
         board = new Scene((Parent) loader.get(6).getValue());
         taskOverviewCtrl = (TaskOverview) loader.get(7).getKey();
         taskOverview = new Scene((Parent) loader.get(7).getValue());
+        connectionCtrl=(ConnectionCtrl) loader.get(8).getKey();
+        connection = new Scene((Parent)loader.get(8).getValue());
 
-        showHome();
+        showConnection();
+        //showHome();
         primaryStage.show();
+    }
+
+    public void showConnection(){
+        this.primaryStage.setScene(connection);
+        this.primaryStage.setTitle("Connect to a server!");
     }
 
     public void showAddList() {
