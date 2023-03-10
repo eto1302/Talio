@@ -15,22 +15,31 @@
  */
 package client;
 
-import com.google.inject.Binder;
-import com.google.inject.Module;
-import com.google.inject.Scopes;
-
+import client.user.UserData;
+import client.messageClients.MessageAdmin;
+import client.messageClients.MessageSender;
 import client.scenes.AddQuoteCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.QuoteOverviewCtrl;
 import client.scenes.ShowCtrl;
+import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.web.client.RestTemplate;
 
-public class MyModule implements Module {
+public class MyModule extends AbstractModule {
 
-    @Override
-    public void configure(Binder binder) {
-        binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
-        binder.bind(AddQuoteCtrl.class).in(Scopes.SINGLETON);
-        binder.bind(QuoteOverviewCtrl.class).in(Scopes.SINGLETON);
-        binder.bind(ShowCtrl.class).in(Scopes.SINGLETON);
+    protected void configure() {
+        install(new WSClientModule());
+        bind(MainCtrl.class).in(Scopes.SINGLETON);
+        bind(AddQuoteCtrl.class).in(Scopes.SINGLETON);
+        bind(QuoteOverviewCtrl.class).in(Scopes.SINGLETON);
+        bind(MessageAdmin.class).in(Scopes.SINGLETON);
+        bind(MessageSender.class).in(Scopes.SINGLETON);
+        RestTemplateBuilder rtb = new RestTemplateBuilder();
+        RestTemplate rt = rtb.build();
+        bind(RestTemplate.class).toInstance(rt);
+        bind(ShowCtrl.class).in(Scopes.SINGLETON);
+        bind(UserData.class).in(Scopes.SINGLETON);
     }
 }

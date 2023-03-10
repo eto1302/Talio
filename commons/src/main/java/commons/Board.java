@@ -17,6 +17,7 @@ public class Board {
 
     @Column(name = "password", columnDefinition = "varchar(255)")
     private String password;
+
     @OneToMany
     Set<List> lists;
 
@@ -44,6 +45,10 @@ public class Board {
 
     public String getPassword() {
         return password;
+    }
+
+    public Set<List> getLists() {
+        return lists;
     }
 
     public void setName(String name) {

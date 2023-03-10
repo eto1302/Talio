@@ -15,25 +15,25 @@
  */
 package client.utils;
 
-import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
-import org.glassfish.jersey.client.ClientConfig;
+import com.google.inject.Inject;
 
-import commons.Quote;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.GenericType;
+import commons.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 
 public class ServerUtils {
-
-    private static String SERVER = "http://localhost:8080/";
-
+    @Inject
+    RestTemplate client;
     public void getQuotesTheHardWay() throws IOException {
         var url = new URL("http://localhost:8080/api/quotes");
         var is = url.openConnection().getInputStream();
@@ -45,26 +45,89 @@ public class ServerUtils {
     }
 
     public List<Quote> getQuotes() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Quote>>() {});
+        ResponseEntity<Quote[]> quotes =
+                client.getForEntity("http://localhost:8080/api/quotes", Quote[].class);
+        List<Quote> res = Arrays.asList(quotes.getBody());
+        return res;
     }
 
     public Quote addQuote(Quote quote) {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
+        HttpEntity<Quote> req = new HttpEntity<>(quote);
+        Quote resp = client.postForObject("http://localhost:8080/api/quotes", req, Quote.class);
+        return resp;
     }
 
     /**
-     * Sets the url of the server.
-     * @param URL the string representing the new server url
+     * Send a new Board to the server.
+     *
+     * @param board content of the board
+     * @return the id of the board, or -1 if the creation fails
      */
-    public void setServer(String URL){
-        this.SERVER = URL;
+    public int addBoard(Board board) {
+        try {
+            HttpEntity<Board> req = new HttpEntity<>(board);
+            int id = client.postForObject("http://localhost:8080/board/create", req, Integer.class);
+            return id;
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    /**
+     * Get the board by id.
+     * @param id the id of the board
+     * @return the board or null if there is exception.
+     */
+    public Board getBoard(int id) {
+        try {
+            ResponseEntity<Board> response =
+                    client.getForEntity("http://localhost:8080/board/find"+id, Board.class);
+            return response.getBody();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Add new list to the board.
+     *
+     * @param list list to be added
+     * @param boardId id of the board
+     * @return id of the list, or -1 if it fails
+     */
+    public int addlist(commons.List list, int boardId) {
+        HttpEntity<commons.List> req = new HttpEntity<commons.List>(list);
+        int id = client.postForObject("http://localhost:8080/list/add"+boardId, req, Integer.class);
+        return id;
+    }
+
+    /**
+     * Delete a list from the board and list repository.
+     *
+     * @param boardId id of the board
+     * @param listId id of the list
+     * @return true if it succeeds, false otherwise
+     */
+    public boolean deleteList(int boardId, int listId) {
+        ResponseEntity<Boolean> response = client.getForEntity(
+                "http://localhost:8080/list/delete/"+boardId+"/"+listId,
+                Boolean.class
+        );
+        return response.getBody();
+    }
+
+    /**
+     * Rename a list.
+     *
+     * @param name new name of the list
+     * @param listId id of the list
+     * @return true if it succeeds, false otherwise
+     */
+    public boolean renameList(String name, int listId) {
+        ResponseEntity<Boolean> response = client.getForEntity(
+                "http://localhost:8080/list/rename/"+listId+"/"+name,
+                Boolean.class
+        );
+        return response.getBody();
     }
 }

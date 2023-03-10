@@ -63,7 +63,7 @@
                         </Label>
                         <AnchorPane fx:id="card1" layoutY="40.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" prefHeight="40.0" prefWidth="180.0">
                             <children>
-                                <Button fx:id="edit1" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditCard" text="Edit">
+                                <Button fx:id="edit1" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
                                     <font>
                                         <Font size="10.0" />
                                     </font>
@@ -78,7 +78,7 @@
                         </AnchorPane>
                         <AnchorPane fx:id="card2" layoutY="80.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" prefHeight="40.0" prefWidth="180.0">
                             <children>
-                                <Button fx:id="edit2" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditCard" text="Edit">
+                                <Button fx:id="edit2" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
                                     <font>
                                         <Font size="10.0" />
                                     </font>
@@ -93,7 +93,7 @@
                         </AnchorPane>
                         <AnchorPane fx:id="card3" layoutY="120.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" prefHeight="40.0" prefWidth="180.0">
                             <children>
-                                <Button fx:id="edit3" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditCard" text="Edit">
+                                <Button fx:id="edit3" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
                                     <font>
                                         <Font size="10.0" />
                                     </font>
@@ -108,7 +108,7 @@
                         </AnchorPane>
                         <AnchorPane fx:id="card4" layoutY="160.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" prefHeight="40.0" prefWidth="180.0">
                             <children>
-                                <Button fx:id="edit4" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditCard" text="Edit">
+                                <Button fx:id="edit4" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
                                     <font>
                                         <Font size="10.0" />
                                     </font>
@@ -123,7 +123,7 @@
                         </AnchorPane>
                         <AnchorPane fx:id="card5" layoutY="200.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" prefHeight="40.0" prefWidth="180.0">
                             <children>
-                                <Button fx:id="edit5" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditCard" text="Edit">
+                                <Button fx:id="edit5" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
                                     <font>
                                         <Font size="10.0" />
                                     </font>
