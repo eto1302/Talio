@@ -1,4 +1,4 @@
 package client.scenes;
 
-public class EditCard {
+public class EditList {
 }

@@ -10,7 +10,7 @@ import java.util.*;
 public class ShowCtrl {
     private Stage primaryStage, secondaryStage;
     private HomeController homeCtrl;
-    private Scene home, addTask, addList, yourBoards, search, addTag, board, taskOverview, connection, addBoard;
+    private Scene home, addTask, addList, yourBoards, search, addTag, board, taskOverview, connection, addBoard, editTag, editTask;
     private AddListController addListCtrl;
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
@@ -21,6 +21,8 @@ public class ShowCtrl {
     private ConnectionCtrl connectionCtrl;
 
     private AddBoardController addBoardController;
+    private EditTagController editTagController;
+    private EditTaskController editTaskController;
 
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
@@ -45,6 +47,10 @@ public class ShowCtrl {
         connection = new Scene((Parent)loader.get(8).getValue());
         addBoardController = (AddBoardController) loader.get(9).getKey();
         addBoard = new Scene((Parent) loader.get(9).getValue());
+        editTagController = (EditTagController) loader.get(10).getKey();
+        editTag = new Scene((Parent) loader.get(10).getValue());
+        editTaskController = (EditTaskController) loader.get(11).getKey();
+        editTask = new Scene((Parent) loader.get(11).getValue());
 
         showConnection();
         //showHome();

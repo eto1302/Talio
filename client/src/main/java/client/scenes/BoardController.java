@@ -13,7 +13,7 @@ public class BoardController {
     @FXML
     private MenuItem joinBoard;
     @FXML
-    private MenuItem createBoard;
+    private MenuItem addBoard;
     @FXML
     private MenuItem yourBoards;
     @FXML
@@ -39,4 +39,8 @@ public class BoardController {
     public void showEditCard() {};
 
     public void showConfirmDelete() {};
+
+    public void addBoard(){
+        showCtrl.showAddBoard();
+    }
 }
