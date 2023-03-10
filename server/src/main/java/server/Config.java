@@ -20,8 +20,6 @@ import java.util.Random;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Scope;
-import server.Services.CounterService;
 
 @Configuration
 @Import({WSServerConf.class})
@@ -31,8 +29,4 @@ public class Config {
     public Random getRandom() {
         return new Random();
     }
-
-    @Bean
-    @Scope("singleton")
-    public CounterService getCounterService() { return new CounterService();}
 }

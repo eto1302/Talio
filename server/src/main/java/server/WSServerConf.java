@@ -21,13 +21,18 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WSServerConf implements WebSocketMessageBrokerConfigurer {
 
     /**
-     * Adds simple brokers to "/topic" and "/queue", messages sent here will be forwarded straight to their subscribers
+     * Adds simple brokers to "/topic" and "/queue",
+     * messages sent here will be forwarded straight to their subscribers
      *  Example:
-     *  We send a message to "/topic/wow", this sends the message to all users subscribed to "/topic/wow"
-     * Adds "/app" as a application destination prefix, messages sent here will go to our MessageController
+     *  We send a message to "/topic/wow",
+     *  this sends the message to all users subscribed to "/topic/wow"
+     * Adds "/app" as a application destination prefix,
+     * messages sent here will go to our MessageController
      *  Example:
-     *  We send a message to "/app/crazy", the message goes to MessageController, is handled by the method with the
-     *  @MessageMapping that matches the path, and then forwarded to some queue (in this case "/topic/crazy")
+     *  We send a message to "/app/crazy",
+     *  the message goes to MessageController, is handled by the method with the
+     *  @MessageMapping that matches the path, and
+     *  then forwarded to some queue (in this case "/topic/crazy")
      * @param config gotten from spring
      */
     @Override

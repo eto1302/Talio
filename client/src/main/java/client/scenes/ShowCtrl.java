@@ -10,7 +10,8 @@ import java.util.*;
 public class ShowCtrl {
     private Stage primaryStage, secondaryStage;
     private HomeController homeCtrl;
-    private Scene home, addTask, addList, yourBoards, search, addTag, board, taskOverview, connection, addBoard, editTag, editTask;
+    private Scene home, addTask, addList, yourBoards, search, addTag, board,
+            taskOverview, connection, addBoard, editTag, editTask;
     private AddListController addListCtrl;
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;

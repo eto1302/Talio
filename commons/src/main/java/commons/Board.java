@@ -18,8 +18,12 @@ public class Board {
     @Column(name = "password", columnDefinition = "varchar(255)")
     private String password;
 
+    public void setLists(Set<List> lists) {
+        this.lists = lists;
+    }
+
     @OneToMany
-    Set<List> lists;
+    private Set<List> lists;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tagId", referencedColumnName = "id")

@@ -14,7 +14,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 public class TagControllerTest {
 
-    public int nextInt;
+    private int nextInt;
     private TagController controller;
     private MyRandom random;
     private TestTagRepository repo;
@@ -46,7 +46,7 @@ public class TagControllerTest {
     }
 
     @Test
-    public void FindALl(){
+    public void findAll(){
         Tag testTag = getTestTag("test");
         controller.add(testTag);
         var actual = controller.getAll();
@@ -65,7 +65,7 @@ public class TagControllerTest {
     public void getById(){
         var testTag = getTestTag("test");
         controller.add(testTag);
-        var actual = controller.getTagById(repo.tags.get(0).getId()).getBody();
+        var actual = controller.getTagById(repo.getTags().get(0).getId()).getBody();
         assertEquals(testTag, actual);
     }
 
@@ -82,7 +82,7 @@ public class TagControllerTest {
     @Test
     public void databaseIsUsed() {
         controller.add(getTestTag("test"));
-        repo.calledMethods.contains("save");
+        repo.getCalledMethods().contains("save");
     }
 
     private static Tag getTestTag(String q) {
@@ -91,7 +91,7 @@ public class TagControllerTest {
 
     @SuppressWarnings("serial")
     public class MyRandom extends Random {
-        public boolean wasCalled = false;
+        private boolean wasCalled = false;
 
         @Override
         public int nextInt(int bound) {

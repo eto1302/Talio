@@ -15,8 +15,13 @@ public class List {
 
     @Column(name = "name", columnDefinition = "varchar(255)")
     private String name;
+
+    public void setTasks(java.util.List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     @OneToMany
-    java.util.List<Task> tasks;
+    private java.util.List<Task> tasks;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tagId", referencedColumnName = "id")

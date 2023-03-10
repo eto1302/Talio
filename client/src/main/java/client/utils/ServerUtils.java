@@ -16,13 +16,6 @@
 package client.utils;
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-
 import com.google.inject.Inject;
 
 import commons.*;
@@ -33,29 +26,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class ServerUtils {
     @Inject
-    RestTemplate client;
-    public void getQuotesTheHardWay() throws IOException {
-        var url = new URL("http://localhost:8080/api/quotes");
-        var is = url.openConnection().getInputStream();
-        var br = new BufferedReader(new InputStreamReader(is));
-        String line;
-        while ((line = br.readLine()) != null) {
-            System.out.println(line);
-        }
-    }
-
-    public List<Quote> getQuotes() {
-        ResponseEntity<Quote[]> quotes =
-                client.getForEntity("http://localhost:8080/api/quotes", Quote[].class);
-        List<Quote> res = Arrays.asList(quotes.getBody());
-        return res;
-    }
-
-    public Quote addQuote(Quote quote) {
-        HttpEntity<Quote> req = new HttpEntity<>(quote);
-        Quote resp = client.postForObject("http://localhost:8080/api/quotes", req, Quote.class);
-        return resp;
-    }
+    private RestTemplate client;
 
     /**
      * Send a new Board to the server.

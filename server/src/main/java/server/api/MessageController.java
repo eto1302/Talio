@@ -17,7 +17,7 @@ import org.springframework.stereotype.Controller;
 public class MessageController {
 
     @Autowired
-    SimpMessagingTemplate template;
+    private SimpMessagingTemplate template;
 
     /**
      * Forwards messages sent to "app/{dest}" to "topic/{dest}"

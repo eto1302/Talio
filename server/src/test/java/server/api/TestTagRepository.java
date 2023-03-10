@@ -16,8 +16,16 @@ import java.util.function.Function;
 public class TestTagRepository implements TagRepository {
 
 
-    public final List<Tag> tags = new ArrayList<>();
-    public final List<String> calledMethods = new ArrayList<>();
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public List<String> getCalledMethods() {
+        return calledMethods;
+    }
+
+    private final List<Tag> tags = new ArrayList<>();
+    private final List<String> calledMethods = new ArrayList<>();
 
     private void call(String name) {
         calledMethods.add(name);
@@ -169,7 +177,8 @@ public class TestTagRepository implements TagRepository {
     }
 
     @Override
-    public <S extends Tag, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+    public <S extends Tag, R> R findBy(
+            Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         return null;
     }
 }

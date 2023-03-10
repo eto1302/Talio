@@ -13,8 +13,8 @@ import java.util.ArrayList;
 @Service
 public class ListService {
 
-    ListRepositoy listRepositoy;
-    BoardRepository boardRepository;
+    private ListRepositoy listRepositoy;
+    private BoardRepository boardRepository;
 
     public ListService(ListRepositoy listRepositoy, BoardRepository boardRepository){
         this.listRepositoy = listRepositoy;

@@ -34,7 +34,7 @@ public class AddListController {
     public void showBoard() {showCtrl.showBoard();}
 
     public void cancel(){
-       showCtrl.cancel();
+        showCtrl.cancel();
     }
 
     /**

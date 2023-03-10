@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TagTest {
 
-    Tag testTag;
+    private Tag testTag;
     @BeforeEach
     void setUp() {
         testTag = Tag.create("testTag", "#000000");
