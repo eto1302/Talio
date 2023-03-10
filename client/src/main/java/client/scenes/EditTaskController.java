@@ -7,25 +7,30 @@ import javafx.scene.control.TextField;
 
 import javax.inject.Inject;
 
-public class AddTaskController {
+public class EditTaskController {
 
     private final ShowCtrl showCtrl;
 
     @FXML
     private Button cancelButton;
     @FXML
-    private Button addButton;
+    private Button editButton;
     @FXML
     private TextField textField;
     @FXML
     private ColorPicker colorPicker;
 
     @Inject
-    public AddTaskController (ShowCtrl showCtrl){
+    public EditTaskController (ShowCtrl showCtrl){
         this.showCtrl=showCtrl;
     }
 
     public void cancel(){
+        showCtrl.cancel();
+    }
+
+    public void editTask(){
+        //TODO
         showCtrl.cancel();
     }
 }

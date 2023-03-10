@@ -1,8 +1,8 @@
 package server.Services;
 
 import commons.Board;
+import commons.List;
 import org.springframework.stereotype.Service;
-import commons.Card;
 import server.database.BoardRepository;
 
 import java.util.ArrayList;
@@ -16,11 +16,11 @@ public class BoardService {
         this.boardRepository = boardRepository;
     }
     public Board getBoard(){
-        Card firstCard = new Card("To Do", new ArrayList<>());
-        Set<Card> cards = new HashSet<>();
-        cards.add(firstCard);
+        List firstList = List.create("To Do", new ArrayList<>());
+        Set<List> lists = new HashSet<>();
+        lists.add(firstList);
 
-        return new Board("TEAM", "12345", cards);
+        return Board.create("TEAM", "12345", lists);
     }
 
     public Board getBoardById(int id){

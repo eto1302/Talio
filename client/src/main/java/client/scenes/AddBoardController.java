@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 
 import javax.inject.Inject;
 
-public class AddTaskController {
+public class AddBoardController {
 
     private final ShowCtrl showCtrl;
 
@@ -16,16 +16,25 @@ public class AddTaskController {
     @FXML
     private Button addButton;
     @FXML
-    private TextField textField;
+    private TextField nameField;
     @FXML
-    private ColorPicker colorPicker;
+    private ColorPicker backgroundColor;
+    @FXML
+    private ColorPicker fontColor;
 
     @Inject
-    public AddTaskController (ShowCtrl showCtrl){
+    public AddBoardController (ShowCtrl showCtrl){
         this.showCtrl=showCtrl;
     }
 
     public void cancel(){
+        showCtrl.cancel();
+    }
+
+    public void addBoard(){
+        System.out.println(nameField.getText());
+        System.out.println(backgroundColor.getValue());
+        System.out.println(fontColor.getValue());
         showCtrl.cancel();
     }
 }
