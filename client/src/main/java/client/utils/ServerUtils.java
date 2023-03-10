@@ -15,25 +15,26 @@
  */
 package client.utils;
 
-import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
-import commons.Board;
-import org.glassfish.jersey.client.ClientConfig;
+import com.google.inject.Inject;
 
-import commons.Quote;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.GenericType;
+import commons.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 
 public class ServerUtils {
 
-    private static final String SERVER = "http://localhost:8080/";
+    @Inject
+    RestTemplate client;
 
     public void getQuotesTheHardWay() throws IOException {
         var url = new URL("http://localhost:8080/api/quotes");
@@ -46,38 +47,32 @@ public class ServerUtils {
     }
 
     public List<Quote> getQuotes() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Quote>>() {});
+        ResponseEntity<Quote[]> quotes =
+                client.getForEntity("http://localhost:8080/api/quotes", Quote[].class);
+        List<Quote> res = Arrays.asList(quotes.getBody());
+        return res;
     }
 
     public Quote addQuote(Quote quote) {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
+        HttpEntity<Quote> req = new HttpEntity<>(quote);
+        Quote resp = client.postForObject("http://localhost:8080/api/quotes", req, Quote.class);
+        return resp;
     }
 
     /**
      * Send a new Board to the server.
      *
-     * @param boardModel content of the board
-     * @return the id of the board, or -1L if the creation fails
+     * @param board content of the board
+     * @return the id of the board, or -1 if the creation fails
      */
-    public int addBoard(Board boardModel) {
+    public int addBoard(Board board) {
         try {
-            return ClientBuilder.newClient(new ClientConfig()) //
-                    .target(SERVER).path("board/create") //
-                    .request(APPLICATION_JSON) //
-                    .accept(APPLICATION_JSON) //
-                    .post(Entity.entity(boardModel, APPLICATION_JSON), Integer.class);
+            HttpEntity<Board> req = new HttpEntity<>(board);
+            int id = client.postForObject("http://localhost:8080/board/create", req, Integer.class);
+            return id;
         } catch (Exception e) {
             return -1;
         }
-
     }
 
     /**
@@ -87,14 +82,11 @@ public class ServerUtils {
      */
     public Board getBoard(int id) {
         try {
-            return ClientBuilder.newClient(new ClientConfig()) //
-                    .target(SERVER).path("board/find/"+id) //
-                    .request(APPLICATION_JSON) //
-                    .accept(APPLICATION_JSON) //
-                    .post(Entity.entity(id, APPLICATION_JSON), Board.class);
+            ResponseEntity<Board> response =
+                    client.getForEntity("http://localhost:8080/board/find"+id, Board.class);
+            return response.getBody();
         } catch (Exception e) {
             return null;
         }
     }
-
 }
