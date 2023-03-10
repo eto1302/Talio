@@ -17,9 +17,11 @@ package client;
 
 import static com.google.inject.Guice.createInjector;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import client.scenes.*;
+import client.user.UserData;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -31,12 +33,16 @@ public class Main extends Application {
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
+
     public static void main(String[] args) throws URISyntaxException, IOException {
         launch();
     }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        var userData = INJECTOR.getInstance(UserData.class);
+        userData.initialize(new File("%userprofile%\\applicationData.txt"));
+
         var showCtrl = INJECTOR.getInstance(ShowCtrl.class);
         List<Pair> loader = new ArrayList<>();
         setup(loader);

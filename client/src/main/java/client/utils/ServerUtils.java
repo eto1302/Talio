@@ -89,4 +89,47 @@ public class ServerUtils {
             return null;
         }
     }
+
+    /**
+     * Add new card to the board.
+     *
+     * @param card card to be added
+     * @param boardId id of the board
+     * @return id of the card, or -1 if it fails
+     */
+    public int addCard(Card card, int boardId) {
+        HttpEntity<Card> req = new HttpEntity<Card>(card);
+        int id = client.postForObject("http://localhost:8080/card/add"+boardId, req, Integer.class);
+        return id;
+    }
+
+    /**
+     * Delete a card from the board and card repository.
+     *
+     * @param boardId id of the board
+     * @param cardId id of the card
+     * @return true if it succeeds, false otherwise
+     */
+    public boolean delete(int boardId, int cardId) {
+        ResponseEntity<Boolean> response = client.getForEntity(
+                "http://localhost:8080/card/delete/"+boardId+"/"+cardId,
+                Boolean.class
+        );
+        return response.getBody();
+    }
+
+    /**
+     * Rename a card.
+     *
+     * @param name new name of the card
+     * @param cardId id of the card
+     * @return true if it succeeds, false otherwise
+     */
+    public boolean renameCard(String name, int cardId) {
+        ResponseEntity<Boolean> response = client.getForEntity(
+                "http://localhost:8080/card/rename/"+cardId+"/"+name,
+                Boolean.class
+        );
+        return response.getBody();
+    }
 }

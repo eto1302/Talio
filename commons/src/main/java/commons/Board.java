@@ -25,7 +25,7 @@ public class Board {
     @Column(name = "password", columnDefinition = "varchar(255)")
     private String password;
 
-    @OneToMany
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     Set<Card> cards;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -52,6 +52,10 @@ public class Board {
 
     public String getPassword() {
         return password;
+    }
+
+    public Set<Card> getCards() {
+        return cards;
     }
 
     public void setName(String name) {

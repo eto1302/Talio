@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.Services.BoardService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/board")
 public class BoardController {
@@ -46,5 +48,10 @@ public class BoardController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(-1);
         }
+    }
+
+    @GetMapping("/findAll")
+    public List<Board> getAllBoards() {
+        return boardService.getAllBoards();
     }
 }

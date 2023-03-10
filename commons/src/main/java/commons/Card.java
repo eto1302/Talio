@@ -1,5 +1,7 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -27,8 +29,9 @@ public class Card {
     @JoinColumn(name = "tagId", referencedColumnName = "id")
     private Tag tag;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="boardId", nullable=false)
+    @JsonIgnore
     private Board board;
 
     public Card(String name, List<Task> tasks) {
@@ -46,8 +49,16 @@ public class Card {
         return id;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
     @Override
