@@ -4,6 +4,8 @@ import commons.Board;
 import org.springframework.web.bind.annotation.*;
 import server.Services.BoardService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/board")
 public class BoardController {
@@ -19,5 +21,10 @@ public class BoardController {
     public String getBoardByID(@PathVariable int id) {
         Board board = boardService.getBoardById(id);
         return board.toString();
+    }
+
+    @GetMapping("/findAll")
+    public List<Board> getAllBoards() {
+        return boardService.getAllBoards();
     }
 }
