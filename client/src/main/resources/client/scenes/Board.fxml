@@ -61,7 +61,7 @@
                   </Label>
                   <AnchorPane layoutY="40.0" prefHeight="40.0" prefWidth="180.0">
                      <children>
-                        <Button fx:id="edit1" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditCard" text="Edit">
+                        <Button fx:id="edit1" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
                            <font>
                               <Font size="10.0" />
                            </font>
@@ -71,7 +71,7 @@
                               <Font size="10.0" />
                            </font>
                         </Button>
-                        <Hyperlink fx:id="title1" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="Card title 1" />
+                        <Hyperlink fx:id="title1" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="List title 1" />
                      </children>
                   </AnchorPane>
                     </children>

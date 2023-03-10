@@ -36,7 +36,7 @@ public class BoardController {
 
     public void showDetails() {};
 
-    public void showEditCard() {};
+    public void showEditList() {};
 
     public void showConfirmDelete() {};
 
