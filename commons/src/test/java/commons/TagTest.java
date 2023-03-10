@@ -10,7 +10,7 @@ class TagTest {
     Tag testTag;
     @BeforeEach
     void setUp() {
-        testTag = new Tag("testTag", "#000000");
+        testTag = Tag.create("testTag", "#000000");
     }
 
     @Test
@@ -37,13 +37,13 @@ class TagTest {
 
     @Test
     void testEquals() {
-        Tag newTag = new Tag("testTag", "#000000");
+        Tag newTag = Tag.create("testTag", "#000000");
         assertEquals(newTag, testTag);
     }
 
     @Test
     void testNotEquals() {
-        Tag newTag = new Tag("testTag1", "#000000");
+        Tag newTag = Tag.create("testTag1", "#000000");
         assertNotEquals(newTag, testTag);
     }
 
@@ -54,7 +54,7 @@ class TagTest {
 
     @Test
     void testWrongHashCode() {
-        Tag newTag = new Tag("testTag1", "#000000");
+        Tag newTag = Tag.create("testTag1", "#000000");
         assertNotEquals(newTag.hashCode(), testTag.hashCode());
     }
 

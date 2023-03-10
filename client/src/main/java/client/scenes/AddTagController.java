@@ -7,27 +7,26 @@ import javafx.scene.control.TextField;
 
 import javax.inject.Inject;
 
-public class AddCardController {
+public class AddTagController {
 
-    @FXML
-    private TextField nameField;
-    @FXML
-    private ColorPicker color;
+    private final ShowCtrl showCtrl;
+
     @FXML
     private Button cancelButton;
     @FXML
     private Button addButton;
 
-    private final ShowCtrl showCtrl;
+    @FXML
+    private TextField textField;
+    @FXML
+    private ColorPicker colorPicker;
 
     @Inject
-    public AddCardController(ShowCtrl showCtrl) {
-        this.showCtrl = showCtrl;
+    public AddTagController (ShowCtrl showCtrl){
+        this.showCtrl=showCtrl;
     }
 
     public void cancel(){
-       showCtrl.cancel();
+        showCtrl.cancel();
     }
-
-
 }

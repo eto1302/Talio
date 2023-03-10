@@ -32,10 +32,8 @@ import org.springframework.web.client.RestTemplate;
 
 
 public class ServerUtils {
-
     @Inject
     RestTemplate client;
-
     public void getQuotesTheHardWay() throws IOException {
         var url = new URL("http://localhost:8080/api/quotes");
         var is = url.openConnection().getInputStream();
@@ -91,43 +89,43 @@ public class ServerUtils {
     }
 
     /**
-     * Add new card to the board.
+     * Add new list to the board.
      *
-     * @param card card to be added
+     * @param list list to be added
      * @param boardId id of the board
-     * @return id of the card, or -1 if it fails
+     * @return id of the list, or -1 if it fails
      */
-    public int addCard(Card card, int boardId) {
-        HttpEntity<Card> req = new HttpEntity<Card>(card);
-        int id = client.postForObject("http://localhost:8080/card/add"+boardId, req, Integer.class);
+    public int addlist(commons.List list, int boardId) {
+        HttpEntity<commons.List> req = new HttpEntity<commons.List>(list);
+        int id = client.postForObject("http://localhost:8080/list/add"+boardId, req, Integer.class);
         return id;
     }
 
     /**
-     * Delete a card from the board and card repository.
+     * Delete a list from the board and list repository.
      *
      * @param boardId id of the board
-     * @param cardId id of the card
+     * @param listId id of the list
      * @return true if it succeeds, false otherwise
      */
-    public boolean delete(int boardId, int cardId) {
+    public boolean deleteList(int boardId, int listId) {
         ResponseEntity<Boolean> response = client.getForEntity(
-                "http://localhost:8080/card/delete/"+boardId+"/"+cardId,
+                "http://localhost:8080/list/delete/"+boardId+"/"+listId,
                 Boolean.class
         );
         return response.getBody();
     }
 
     /**
-     * Rename a card.
+     * Rename a list.
      *
-     * @param name new name of the card
-     * @param cardId id of the card
+     * @param name new name of the list
+     * @param listId id of the list
      * @return true if it succeeds, false otherwise
      */
-    public boolean renameCard(String name, int cardId) {
+    public boolean renameList(String name, int listId) {
         ResponseEntity<Boolean> response = client.getForEntity(
-                "http://localhost:8080/card/rename/"+cardId+"/"+name,
+                "http://localhost:8080/list/rename/"+listId+"/"+name,
                 Boolean.class
         );
         return response.getBody();

@@ -1,13 +1,12 @@
 package server.Services;
 
 import commons.Board;
+import commons.List;
 import org.springframework.stereotype.Service;
-import commons.Card;
 import server.database.BoardRepository;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -17,11 +16,11 @@ public class BoardService {
         this.boardRepository = boardRepository;
     }
     public Board getBoard(){
-        Card firstCard = new Card("To Do", new ArrayList<>());
-        Set<Card> cards = new HashSet<>();
-        cards.add(firstCard);
+        commons.List firstList = List.create("To Do", new ArrayList<>());
+        Set<commons.List> lists = new HashSet<>();
+        lists.add(firstList);
 
-        return new Board("TEAM", "12345", cards);
+        return Board.create("TEAM", "12345", lists);
     }
 
     /**
@@ -45,7 +44,7 @@ public class BoardService {
         return boardRepository.getBoardByID(id);
     }
 
-    public List<Board> getAllBoards() {
+    public java.util.List<Board> getAllBoards() {
         return boardRepository.findAll();
     }
 }
