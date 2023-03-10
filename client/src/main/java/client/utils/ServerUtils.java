@@ -60,6 +60,37 @@ public class ServerUtils {
     }
 
     /**
+     * Send a new Board to the server.
+     *
+     * @param board content of the board
+     * @return the id of the board, or -1 if the creation fails
+     */
+    public int addBoard(Board board) {
+        try {
+            HttpEntity<Board> req = new HttpEntity<>(board);
+            int id = client.postForObject("http://localhost:8080/board/create", req, Integer.class);
+            return id;
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    /**
+     * Get the board by id.
+     * @param id the id of the board
+     * @return the board or null if there is exception.
+     */
+    public Board getBoard(int id) {
+        try {
+            ResponseEntity<Board> response =
+                    client.getForEntity("http://localhost:8080/board/find"+id, Board.class);
+            return response.getBody();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
      * Add new card to the board.
      *
      * @param card card to be added
