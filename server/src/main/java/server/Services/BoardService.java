@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Service
 public class BoardService {
-    BoardRepository boardRepository;
+    private BoardRepository boardRepository;
     public BoardService(BoardRepository boardRepository){
         this.boardRepository = boardRepository;
     }

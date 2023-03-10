@@ -18,9 +18,6 @@ package client;
 import client.user.UserData;
 import client.messageClients.MessageAdmin;
 import client.messageClients.MessageSender;
-import client.scenes.AddQuoteCtrl;
-import client.scenes.MainCtrl;
-import client.scenes.QuoteOverviewCtrl;
 import client.scenes.ShowCtrl;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
@@ -31,9 +28,6 @@ public class MyModule extends AbstractModule {
 
     protected void configure() {
         install(new WSClientModule());
-        bind(MainCtrl.class).in(Scopes.SINGLETON);
-        bind(AddQuoteCtrl.class).in(Scopes.SINGLETON);
-        bind(QuoteOverviewCtrl.class).in(Scopes.SINGLETON);
         bind(MessageAdmin.class).in(Scopes.SINGLETON);
         bind(MessageSender.class).in(Scopes.SINGLETON);
         RestTemplateBuilder rtb = new RestTemplateBuilder();

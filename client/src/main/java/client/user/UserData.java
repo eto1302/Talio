@@ -147,7 +147,9 @@ public class UserData {
                 boards.put(identifier, items[2]);
             }
             // Future directives can be inserted here
-            else throw new InvalidFormatException(String.format("No such directive '%s' on line: %s", items[0], line));
+            else throw new
+                    InvalidFormatException(
+                            String.format("No such directive '%s' on line: %s", items[0], line));
         }
 
         br.close();

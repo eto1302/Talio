@@ -21,7 +21,7 @@ public class WSClientModule implements Module {
      * Url currently being used to connect to websockets
      * "host/ws"
      */
-    public String wsUrl = "ws://localhost:8080/ws";
+    private String wsUrl = "ws://localhost:8080/ws";
 
     @Override
     public void configure(Binder binder) {
@@ -31,8 +31,10 @@ public class WSClientModule implements Module {
          * message converter -> MappingJackson2MessageConverter: converts json to our classes
          * task scheduler -> ThreadPoolTaskScehduler: needed for receipts
          */
-        WebSocketStompClient wsStompClient = new WebSocketStompClient(new StandardWebSocketClient());
-        wsStompClient.setMessageConverter(new MappingJackson2MessageConverter());
+        WebSocketStompClient wsStompClient = new
+                WebSocketStompClient(new StandardWebSocketClient());
+        wsStompClient.setMessageConverter(new
+                MappingJackson2MessageConverter());
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
         scheduler.afterPropertiesSet();
         wsStompClient.setTaskScheduler(scheduler);
@@ -40,7 +42,8 @@ public class WSClientModule implements Module {
 
         /**
          * Binding our custom handler
-         * Also bound to StompSessionHandlerAdapter which is the default interface for session handlers
+         * Also bound to StompSessionHandlerAdapter
+         * which is the default interface for session handlers
          */
         MessageSessionHandler handler = new MessageSessionHandler();
         binder.bind(StompSessionHandlerAdapter.class).toInstance(handler);

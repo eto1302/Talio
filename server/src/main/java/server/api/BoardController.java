@@ -37,8 +37,8 @@ public class BoardController {
     /**
      * Create a new board and save it in the database.
      *
-     * @param creationRequestModel creationRequestModel
-     * @return  the id of the created Board if the creation is successful,otherwise return bad request.
+     * @return  the id of the created Board
+     * if the creation is successful,otherwise return bad request.
      */
     @PostMapping("/create")
     public ResponseEntity<Integer> create(@RequestBody Board board) {

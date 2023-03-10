@@ -18,7 +18,7 @@ public class MessageSender {
      * If you are debugging anything client side for messaging, pay attention to the StompSession
      */
     @Inject
-    StompSession session;
+    private StompSession session;
 
     /**
      * Send your Message to a queue

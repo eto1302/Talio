@@ -26,7 +26,6 @@ public class ConnectionCtrl {
      * sets the server with the URL input
      */
     public void join(){
-        String URL = serverURL.getText();
         showCtrl.showHome();
     }
 

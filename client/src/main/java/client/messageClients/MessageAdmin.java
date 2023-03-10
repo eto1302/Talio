@@ -16,7 +16,7 @@ public class MessageAdmin {
      * Handler that receives and consumes messages, Injected by guice
      */
     @Inject
-    MessageSessionHandler handler;
+    private MessageSessionHandler handler;
 
     /**
      * StompSession, used for all interactions with stomp
@@ -24,7 +24,7 @@ public class MessageAdmin {
      * If you are debugging anything client side for messaging, pay attention to the StompSession
      */
     @Inject
-    StompSession session;
+    private StompSession session;
 
     /**
      * Subscribes to a queue using our Handler to process messages from said queue
