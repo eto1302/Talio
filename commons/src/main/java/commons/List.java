@@ -32,6 +32,12 @@ public class List {
     @JsonIgnore
     private Board board;
 
+    /**
+     * Creates a new list with the specified name and tasks
+     * @param name the name of the list
+     * @param tasks the tasks in the list
+     * @return the created list
+     */
     public static List create(String name, java.util.List<Task> tasks) {
         List list = new List();
         list.name = name;
@@ -39,28 +45,62 @@ public class List {
         return list;
     }
 
+    /**
+     * Creates an empty list
+     */
     public List() {}
 
+    /**
+     * Gets the name of the list
+     * @return the name of the list
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets the id of the list
+     * @return the id of the list
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Gets the board of the list
+     * @return the board of the list
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Sets the name of the list
+     * @param name the name to set
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Sets the board of the list
+     * @param board the board to set
+     */
     public void setBoard(Board board) {
         this.board = board;
     }
 
+    /**
+     * Gets the tasks
+     * @return the tasks in the list
+     */
+    public java.util.List<Task> getTasks(){return this.tasks;}
+
+    /**
+     * Determines if the list is equal to the specified object
+     * @param o the object to compare to
+     * @return is the object equal to this list
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,11 +109,19 @@ public class List {
         return getId() == list.getId() && Objects.equals(getName(), list.getName());
     }
 
+    /**
+     * Computes the hash code for this list.
+     * @return the hash code for this list
+     */
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getName());
     }
 
+    /**
+     * Gets a string representation of this list.
+     * @return a string representation of this list
+     */
     @Override
     public String toString() {
         return "List{" +
