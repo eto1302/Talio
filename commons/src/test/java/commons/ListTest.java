@@ -74,7 +74,9 @@ class ListTest {
 
     @Test
     void testToString() {
-        String expected = "List{id=0, name='Test List', tasks=[Task{id=0, description='null', title='null'}, Task{id=0, description='null', title='null'}]}";
+        String expected = "List{id=0, name='Test List', " +
+                "tasks=[Task{id=0, description='null', title='null'}, " +
+                "Task{id=0, description='null', title='null'}]}";
         assertEquals(expected, list.toString());
     }
 }

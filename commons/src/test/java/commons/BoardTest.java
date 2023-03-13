@@ -135,7 +135,8 @@ class BoardTest {
 
     @Test
     void testToString() {
-        String expectedString = "Board{id=0, name='Board1', password='password123', lists=[List{id=0, name='null', tasks=null}], tag=null}";
+        String expectedString = "Board{id=0, name='Board1', password='password123', " +
+                "lists=[List{id=0, name='null', tasks=null}], tag=null}";
 
         assertEquals(expectedString, board.toString());
     }
