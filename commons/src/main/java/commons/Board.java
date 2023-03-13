@@ -17,6 +17,12 @@ public class Board {
     @Column(name = "password", columnDefinition = "varchar(255)")
     private String password;
 
+    @Column(name = "fontColor", columnDefinition = "varchar(7)")
+    private String fontColor;
+
+    @Column(name = "backgroundColor", columnDefinition = "varchar(7)")
+    private String backgroundColor;
+
     @OneToMany
     private Set<List> lists;
 
@@ -32,11 +38,14 @@ public class Board {
      * @param lists    The set of lists associated with the board.
      * @return A new Board object with the given name, password, and set of lists.
      */
-    public static Board create(String name, String password, Set<List> lists) {
+    public static Board create(String name, String password, Set<List> lists,
+                               String fontColor, String backgroundColor) {
         Board board = new Board();
         board.name = name;
         board.password = password;
         board.lists = lists;
+        board.fontColor = fontColor;
+        board.backgroundColor = backgroundColor;
         return board;
     }
 
@@ -110,6 +119,38 @@ public class Board {
     }
 
     /**
+     * Gets the font color of the board
+     * @return the font color of the board
+     */
+    public String getFontColor() {
+        return fontColor;
+    }
+
+    /**
+     * Sets the font color of the board
+     * @param fontColor to be set
+     */
+    public void setFontColor(String fontColor) {
+        this.fontColor = fontColor;
+    }
+
+    /**
+     * Gets the background color of the board
+     * @return the background color of the board
+     */
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    /**
+     * Sets the background color
+     * @param backgroundColor to be set
+     */
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    /**
      * Returns true if the given object is equal to this board.
      * <p>
      * Two boards are considered equal if they have the same id, name, and password.
@@ -123,7 +164,9 @@ public class Board {
         if (o == null || getClass() != o.getClass()) return false;
         Board board = (Board) o;
         return getId() == board.getId() && Objects.equals(getName(), board.getName()) &&
-                Objects.equals(getPassword(), board.getPassword());
+                Objects.equals(getPassword(), board.getPassword()) &&
+                Objects.equals(getFontColor(), board.getFontColor()) &&
+                Objects.equals(getBackgroundColor(), board.getBackgroundColor());
     }
 
     /**
@@ -133,7 +176,8 @@ public class Board {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getPassword());
+        return Objects.hash(getId(), getName(), getPassword(),
+                getFontColor(), getBackgroundColor());
     }
 
     /**
@@ -150,6 +194,8 @@ public class Board {
                 ", password='" + password + '\'' +
                 ", lists=" + lists +
                 ", tag=" + tag +
+                ", fontColor=" + fontColor +
+                ", backgroundColor=" + backgroundColor +
                 '}';
     }
 }

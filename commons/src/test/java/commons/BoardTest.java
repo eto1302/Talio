@@ -17,7 +17,7 @@ class BoardTest {
         List list1 = new List();
         lists.add(list1);
 
-        board = Board.create("Board1", "password123", lists);
+        board = Board.create("Board1", "password123", lists, "#000000", "#FFFFFF");
     }
 
     @Test
@@ -43,8 +43,10 @@ class BoardTest {
         expectedBoard.setName("Board1");
         expectedBoard.setPassword("password123");
         expectedBoard.setLists(expectedLists);
+        expectedBoard.setFontColor("#000000");
+        expectedBoard.setBackgroundColor("#FFFFFF");
 
-        Board actualBoard = Board.create("Board1", "password123", expectedLists);
+        Board actualBoard = Board.create("Board1", "password123", expectedLists, "#000000", "#FFFFFF");
 
         assertEquals(expectedBoard, actualBoard);
     }
@@ -88,6 +90,17 @@ class BoardTest {
     }
 
     @Test
+    void setFontColor(){
+        board.setFontColor("#FFFFFF");
+        assertEquals("#FFFFFF", board.getFontColor());
+    }
+
+    @Test
+    void setBackgroundColor(){
+        board.setBackgroundColor("#000000");
+        assertEquals("#000000", board.getBackgroundColor());
+    }
+    @Test
     void testEquals() {
         Board board1 = new Board();
         board1.setName("Board1");
@@ -100,17 +113,19 @@ class BoardTest {
         lists.add(list2);
 
         board1.setLists(lists);
+        board1.setFontColor("#000000");
+        board1.setBackgroundColor("#FFFFFF");
 
-        assertTrue(board.equals(board1));
+        assertEquals(board, board1);
 
         board1.setName("DifferentBoardName");
-        assertFalse(board.equals(board1));
+        assertNotEquals(board, board1);
     }
 
     @Test
     void testNotEquals() {
-        Board board2 = Board.create("board2", "password2", new HashSet<>());
-        assertFalse(board.equals(board2));
+        Board board2 = Board.create("board2", "password2", new HashSet<>(), "#000000", "#FFFFFF");
+        assertNotEquals(board, board2);
     }
 
     @Test
@@ -126,17 +141,19 @@ class BoardTest {
         lists.add(list2);
 
         board1.setLists(lists);
+        board1.setFontColor("#000000");
+        board1.setBackgroundColor("#FFFFFF");
 
-        assertTrue(board.hashCode() == board1.hashCode());
+        assertEquals(board.hashCode(), board1.hashCode());
 
         board1.setName("DifferentBoardName");
-        assertFalse(board.hashCode() == board1.hashCode());
+        assertNotEquals(board.hashCode(), board1.hashCode());
     }
 
     @Test
     void testToString() {
         String expectedString = "Board{id=0, name='Board1', password='password123', " +
-                "lists=[List{id=0, name='null', tasks=null}], tag=null}";
+                "lists=[List{id=0, name='null', tasks=null}], tag=null, fontColor=#000000, backgroundColor=#FFFFFF}";
 
         assertEquals(expectedString, board.toString());
     }
