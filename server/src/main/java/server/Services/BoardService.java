@@ -1,26 +1,14 @@
 package server.Services;
 
 import commons.Board;
-import commons.List;
 import org.springframework.stereotype.Service;
 import server.database.BoardRepository;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 public class BoardService {
     private BoardRepository boardRepository;
     public BoardService(BoardRepository boardRepository){
         this.boardRepository = boardRepository;
-    }
-    public Board getBoard(){
-        commons.List firstList = List.create("To Do", new ArrayList<>());
-        Set<commons.List> lists = new HashSet<>();
-        lists.add(firstList);
-
-        return Board.create("TEAM", "12345", lists);
     }
 
     /**

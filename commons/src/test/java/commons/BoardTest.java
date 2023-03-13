@@ -46,7 +46,8 @@ class BoardTest {
         expectedBoard.setFontColor("#000000");
         expectedBoard.setBackgroundColor("#FFFFFF");
 
-        Board actualBoard = Board.create("Board1", "password123", expectedLists, "#000000", "#FFFFFF");
+        Board actualBoard = Board.create("Board1", "password123", expectedLists,
+                "#000000", "#FFFFFF");
 
         assertEquals(expectedBoard, actualBoard);
     }
@@ -153,7 +154,8 @@ class BoardTest {
     @Test
     void testToString() {
         String expectedString = "Board{id=0, name='Board1', password='password123', " +
-                "lists=[List{id=0, name='null', tasks=null}], tag=null, fontColor=#000000, backgroundColor=#FFFFFF}";
+                "lists=[List{id=0, name='null', tasks=null}]," +
+                " tag=null, fontColor=#000000, backgroundColor=#FFFFFF}";
 
         assertEquals(expectedString, board.toString());
     }
