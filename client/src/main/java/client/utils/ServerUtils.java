@@ -19,6 +19,7 @@ package client.utils;
 import com.google.inject.Inject;
 
 import commons.*;
+import commons.models.BoardIdResponseModel;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -32,15 +33,16 @@ public class ServerUtils {
      * Send a new Board to the server.
      *
      * @param board content of the board
-     * @return the id of the board, or -1 if the creation fails
+     * @return the id of the board, or -1 and the error message if the creation fails
      */
-    public int addBoard(Board board) {
+    public BoardIdResponseModel addBoard(Board board) {
         try {
             HttpEntity<Board> req = new HttpEntity<>(board);
-            int id = client.postForObject("http://localhost:8080/board/create", req, Integer.class);
-            return id;
+            BoardIdResponseModel response = client.postForObject(
+                    "http://localhost:8080/board/create", req, BoardIdResponseModel.class);
+            return response;
         } catch (Exception e) {
-            return -1;
+            return new BoardIdResponseModel(-1, "Oops, failed to connect to server...");
         }
     }
 
