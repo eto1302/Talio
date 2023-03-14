@@ -62,6 +62,7 @@ public class Main extends Application {
         var addBoard=FXML.load(AddBoardController.class, "client", "scenes", "AddBoard.fxml");
         var editTag=FXML.load(AddBoardController.class, "client", "scenes", "EditTag.fxml");
         var editTask=FXML.load(AddBoardController.class, "client", "scenes", "EditTask.fxml");
+        var error=FXML.load(ErrorController.class, "client", "scenes", "Error.fxml");
 
         loader.add(home);
         loader.add(addList);
@@ -75,6 +76,7 @@ public class Main extends Application {
         loader.add(addBoard);
         loader.add(editTag);
         loader.add(editTask);
+        loader.add(error);
 
     }
 }

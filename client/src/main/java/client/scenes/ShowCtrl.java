@@ -8,10 +8,10 @@ import javafx.util.Pair;
 import java.util.*;
 
 public class ShowCtrl {
-    private Stage primaryStage, secondaryStage;
+    private Stage primaryStage, secondaryStage, popUpStage;
     private HomeController homeCtrl;
     private Scene home, addTask, addList, yourBoards, search, addTag, board,
-            taskOverview, connection, addBoard, editTag, editTask;
+            taskOverview, connection, addBoard, editTag, editTask, error;
     private AddListController addListCtrl;
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
@@ -20,10 +20,10 @@ public class ShowCtrl {
     private BoardController boardController;
     private TaskOverview taskOverviewCtrl;
     private ConnectionCtrl connectionCtrl;
-
     private AddBoardController addBoardController;
     private EditTagController editTagController;
     private EditTaskController editTaskController;
+    private ErrorController errorController;
 
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
@@ -52,6 +52,8 @@ public class ShowCtrl {
         editTag = new Scene((Parent) loader.get(10).getValue());
         editTaskController = (EditTaskController) loader.get(11).getKey();
         editTask = new Scene((Parent) loader.get(11).getValue());
+        errorController = (ErrorController) loader.get(12).getKey();
+        error = new Scene((Parent) loader.get(12).getValue());
 
         showConnection();
         //showHome();
@@ -131,6 +133,18 @@ public class ShowCtrl {
     public void showBoardUpdated(Label title){
         Scene updated = homeCtrl.addList(title);
         primaryStage.setScene(updated);
+    }
+
+    public void showError(String errorMessage) {
+        popUpStage = new Stage();
+        popUpStage.setScene(error);
+        popUpStage.setTitle("error");
+        errorController.setErrorMessage(errorMessage);
+        popUpStage.show();
+    }
+
+    public void closePopUp() {
+        popUpStage.close();
     }
 
 }

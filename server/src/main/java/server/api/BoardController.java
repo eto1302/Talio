@@ -1,6 +1,7 @@
 package server.api;
 
 import commons.Board;
+import commons.models.BoardIdResponseModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.Services.BoardService;
@@ -41,17 +42,14 @@ public class BoardController {
      * if the creation is successful,otherwise return bad request.
      */
     @PostMapping("/create")
-    public ResponseEntity<Integer> create(@RequestBody Board board) {
-        try {
-            int id = boardService.saveBoard(board);
-            return ResponseEntity.ok(id);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(-1);
-        }
+    public BoardIdResponseModel create(@RequestBody Board board) {
+        return boardService.saveBoard(board);
     }
 
     @GetMapping("/findAll")
     public List<Board> getAllBoards() {
         return boardService.getAllBoards();
     }
+
+    
 }

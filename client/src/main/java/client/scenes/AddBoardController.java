@@ -1,17 +1,16 @@
 package client.scenes;
 
+import commons.*;
 import client.utils.ServerUtils;
-import commons.Board;
+import commons.models.BoardIdResponseModel;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 
 import javax.inject.Inject;
-import javax.ws.rs.WebApplicationException;
+
 import java.util.HashSet;
 
 public class AddBoardController {
@@ -40,6 +39,7 @@ public class AddBoardController {
      * Closes the AddBoard pop-up
      */
     public void cancel(){
+        clearFields();
         showCtrl.cancel();
     }
 
@@ -47,19 +47,17 @@ public class AddBoardController {
      * Converts the user data into a board and sends it to the server
      */
     public void addBoard(){
-        try {
-            server.addBoard(getBoard());
-        } catch (WebApplicationException e) {
+        Board board = Board.create(nameField.getText(), "pwd", new HashSet<>(),
+                colorToHex(fontColor.getValue()), colorToHex(backgroundColor.getValue()));
 
-            var alert = new Alert(Alert.AlertType.ERROR);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
-            return;
+        BoardIdResponseModel response = server.addBoard(board);
+
+        // if creation fails or client cannot connect to the server, it will return -1
+        if (response.getBoardId() == -1) {
+            // show the error popup
+            showCtrl.showError(response.getErrorMessage());
         }
-
-        clearFields();
-        showCtrl.cancel();
+        cancel();
     }
 
     /**
