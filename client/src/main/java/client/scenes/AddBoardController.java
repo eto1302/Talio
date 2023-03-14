@@ -17,7 +17,6 @@ public class AddBoardController {
 
     private final ShowCtrl showCtrl;
     private final ServerUtils server;
-
     @FXML
     private Button cancelButton;
     @FXML
@@ -47,7 +46,7 @@ public class AddBoardController {
      * Converts the user data into a board and sends it to the server
      */
     public void addBoard(){
-        Board board = Board.create(nameField.getText(), "pwd", new HashSet<>(),
+        Board board = Board.create(nameField.getText(), null, new HashSet<>(),
                 colorToHex(fontColor.getValue()), colorToHex(backgroundColor.getValue()));
 
         BoardIdResponseModel response = server.addBoard(board);
