@@ -75,10 +75,10 @@
                            </content></ScrollPane>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 80px;" GridPane.rowIndex="2">
                            <children>
-                              <MenuButton fx:id="editToDo" mnemonicParsing="false" text="Edit">
+                              <MenuButton mnemonicParsing="false" text="Edit">
                                 <items>
-                                  <MenuItem mnemonicParsing="false" text="Edit list" />
-                                  <MenuItem mnemonicParsing="false" text="Delete" />
+                                  <MenuItem fx:id="editToDo" mnemonicParsing="false" text="Edit list" />
+                                  <MenuItem fx:id="deleteToDo" mnemonicParsing="false" onAction="#deleteToDo" text="Delete" />
                                 </items>
                               </MenuButton>
                               <MenuButton fx:id="plusToDo" mnemonicParsing="false" text="+">
@@ -120,10 +120,10 @@
                            </content></ScrollPane>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 80px;" GridPane.rowIndex="2">
                            <children>
-                              <MenuButton fx:id="editDoing" mnemonicParsing="false" text="Edit">
+                              <MenuButton mnemonicParsing="false" text="Edit">
                                 <items>
-                                  <MenuItem mnemonicParsing="false" text="Edit list" />
-                                  <MenuItem mnemonicParsing="false" text="Delete" />
+                                  <MenuItem fx:id="editDoing" mnemonicParsing="false" text="Edit list" />
+                                  <MenuItem fx:id="deleteDoing" mnemonicParsing="false" onAction="#deleteDoing" text="Delete" />
                                 </items>
                               </MenuButton>
                               <MenuButton fx:id="plusDoing" mnemonicParsing="false" text="+">
@@ -165,10 +165,10 @@
                            </content></ScrollPane>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 80px;" GridPane.rowIndex="2">
                            <children>
-                              <MenuButton fx:id="editDone" mnemonicParsing="false" text="Edit">
+                              <MenuButton mnemonicParsing="false" text="Edit">
                                 <items>
-                                  <MenuItem mnemonicParsing="false" text="Edit list" />
-                                  <MenuItem mnemonicParsing="false" text="Delete" />
+                                  <MenuItem fx:id="editDone" mnemonicParsing="false" text="Edit list" />
+                                  <MenuItem fx:id="deleteDone" mnemonicParsing="false" onAction="#deleteDone" text="Delete" />
                                 </items>
                               </MenuButton>
                               <MenuButton fx:id="plusDone" mnemonicParsing="false" text="+">

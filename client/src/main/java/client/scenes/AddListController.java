@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.utils.ServerUtils;
 import commons.List;
 import commons.Task;
 import javafx.fxml.FXML;
@@ -21,10 +22,12 @@ public class AddListController {
     private Button addButton;
 
     private final ShowCtrl showCtrl;
+    private final ServerUtils serverUtils;
 
     @Inject
-    public AddListController(ShowCtrl showCtrl) {
+    public AddListController(ShowCtrl showCtrl, ServerUtils serverUtils) {
         this.showCtrl = showCtrl;
+        this.serverUtils=serverUtils;
     }
 
     public void cancel(){
@@ -36,10 +39,16 @@ public class AddListController {
      */
     public void addList() {
         String backgroundColor = this.backgroundColor.getValue().getRed()+"+"+
-                this.backgroundColor.getValue().getGreen()+"+"+this.backgroundColor.getValue().getBlue();
+                this.backgroundColor.getValue().getGreen()+"+"+
+                this.backgroundColor.getValue().getBlue();
         String fontColor = this.fontColor.getValue().getRed()+"+"+
-                this.fontColor.getValue().getGreen()+"+"+this.fontColor.getValue().getBlue();
-        List list = List.create(nameField.getText(), backgroundColor, fontColor, new ArrayList<Task>());
+                this.fontColor.getValue().getGreen()+"+"+
+                this.fontColor.getValue().getBlue();
+
+        List list = List.create(nameField.getText(),
+                backgroundColor, fontColor, new ArrayList<Task>());
+        //serverUtils.addList(...);
+
         showCtrl.addList(list);
         showCtrl.cancel();
     }

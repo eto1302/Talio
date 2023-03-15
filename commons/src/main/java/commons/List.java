@@ -36,7 +36,8 @@ public class List {
     @Column(name="font", columnDefinition = "varchar(255)")
     private String fontColor;
 
-    public static List create(String name, String backgroundColor, String fontColor, java.util.List<Task> tasks) {
+    public static List create(String name, String backgroundColor,
+                              String fontColor, java.util.List<Task> tasks) {
         List list = new List();
         list.name = name;
         list.backgroundColor=backgroundColor;

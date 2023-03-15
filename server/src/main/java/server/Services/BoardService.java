@@ -1,13 +1,9 @@
 package server.Services;
 
 import commons.Board;
-import commons.List;
 import org.springframework.stereotype.Service;
 import server.database.BoardRepository;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 public class BoardService {

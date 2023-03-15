@@ -3,9 +3,7 @@ package client.scenes;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -50,5 +48,12 @@ public class ListShape {
         listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
         listTitle.setTextFill(fontColor);
         return listGrid.getScene();
+    }
+
+    public void deleteList(){
+        //should have confirmation + deletion from database
+        HBox parent = (HBox) listGrid.getParent();
+        parent.getChildren().remove(listGrid);
+
     }
 }

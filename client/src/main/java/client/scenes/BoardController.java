@@ -1,11 +1,6 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
-import com.google.inject.Injector;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -14,11 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import static com.google.inject.Guice.createInjector;
 
 public class BoardController {
     @FXML
@@ -33,7 +23,7 @@ public class BoardController {
     private GridPane toDo, doing, done;
     @FXML
     private MenuItem addTaskToDo, addTaskDoing, addTaskDone, addTagToDo,
-        addTagDoing, addTagDone;
+        addTagDoing, addTagDone, deleteToDo, deleteDoing, deleteDone, editToDo, editDoing, editDone;
 
     private final ShowCtrl showCtrl;
 
@@ -71,6 +61,18 @@ public class BoardController {
 
         listBox.getChildren().add(scene.getRoot());
         return boardLabel.getScene();
+    }
+
+    public void deleteToDo(){
+        //should have confirmation + actual delete it from the database with showCtrl
+        listBox.getChildren().remove(toDo);
+    }
+    public void deleteDoing(){
+        listBox.getChildren().remove(doing);
+    }
+
+    public void deleteDone(){
+        listBox.getChildren().remove(done);
     }
 
 }

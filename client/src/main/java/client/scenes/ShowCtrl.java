@@ -5,7 +5,6 @@ import client.MyModule;
 import com.google.inject.Injector;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import java.util.*;

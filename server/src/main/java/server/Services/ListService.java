@@ -3,11 +3,9 @@ package server.Services;
 import commons.Board;
 import commons.List;
 import org.springframework.stereotype.Service;
-import commons.Task;
 import server.database.BoardRepository;
 import server.database.ListRepositoy;
 
-import java.util.ArrayList;
 
 
 @Service
