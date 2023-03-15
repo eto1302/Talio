@@ -1,9 +1,8 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
-import java.util.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Lists")
@@ -32,9 +31,16 @@ public class List {
     @JsonIgnore
     private Board board;
 
-    public static List create(String name, java.util.List<Task> tasks) {
+    @Column(name="background", columnDefinition = "varchar(255)")
+    private String backgroundColor;
+    @Column(name="font", columnDefinition = "varchar(255)")
+    private String fontColor;
+
+    public static List create(String name, String backgroundColor, String fontColor, java.util.List<Task> tasks) {
         List list = new List();
         list.name = name;
+        list.backgroundColor=backgroundColor;
+        list.fontColor=fontColor;
         list.tasks=tasks;
         return list;
     }
@@ -59,6 +65,22 @@ public class List {
 
     public void setBoard(Board board) {
         this.board = board;
+    }
+
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public String getFontColor() {
+        return fontColor;
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public void setFontColor(String fontColor) {
+        this.fontColor = fontColor;
     }
 
     @Override

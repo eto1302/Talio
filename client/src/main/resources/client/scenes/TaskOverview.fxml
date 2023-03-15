@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="391.0" prefWidth="594.0" style="-fx-padding: 5px; -fx-vgap: 2px; -fx-border-color: C0C0C0;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskOverview">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="391.0" prefWidth="594.0" style="-fx-padding: 5px; -fx-vgap: 2px;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskOverview">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -20,7 +21,7 @@
     <RowConstraints maxHeight="182.20000915527345" minHeight="10.0" prefHeight="171.7999938964844" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="292.0" style="-fx-border-color: C0C0C0;" text="Task Details" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="292.0" style="-fx-border-color: C0C0C0;" text="Task Details" GridPane.halignment="CENTER" GridPane.valignment="TOP">
          <font>
             <Font size="30.0" />
          </font>
@@ -55,37 +56,45 @@
             </Label>
             <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
-                  <Font size="20.0" />
+                  <Font size="16.0" />
                </font>
             </Text>
             <Button fx:id="descriptionButton" mnemonicParsing="false" opacity="0.61" text="Add description" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
          </children>
       </GridPane>
-      <GridPane style="-fx-padding: 19px; -fx-hgap: 5px;" GridPane.rowIndex="2">
+      <GridPane style="-fx-padding: 15px; -fx-hgap: 5px;" GridPane.rowIndex="2">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="426.20001220703125" minWidth="10.0" prefWidth="388.200048828125" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="288.5999755859375" minWidth="10.0" prefWidth="164.19995117187494" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="158.60002937316895" minHeight="10.0" prefHeight="120.80001220703123" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="86.60001220703126" minHeight="10.0" prefHeight="22.399987792968744" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="158.60002937316895" minHeight="10.0" prefHeight="103.40005645751951" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="86.60001220703126" minHeight="4.199987792968756" prefHeight="34.599943542480474" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="addSubTaskButton" mnemonicParsing="false" opacity="0.49" text="Add sub-tasks" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <VBox prefHeight="122.0" prefWidth="388.0" style="-fx-spacing: 2px;">
-               <children>
-                  <CheckBox mnemonicParsing="false" text="CheckBox" textAlignment="JUSTIFY" />
-               </children>
-            </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-spacing: 2px;" GridPane.columnIndex="1">
-               <children>
-                  <Button fx:id="editDeleteButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="10.0" prefWidth="75.0" text="Edit/Delete">
-                     <font>
-                        <Font size="10.0" />
-                     </font>
-                  </Button>
-               </children>
-            </VBox>
+            <Button fx:id="addSubTaskButton" mnemonicParsing="false" opacity="0.49" text="Add sub-tasks" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+            <ScrollPane prefHeight="200.0" prefWidth="200.0">
+               <content>
+                  <VBox fx:id="subtaskBox" prefHeight="101.0" prefWidth="383.0" style="-fx-spacing: 3px; -fx-padding: 5px;">
+                     <children>
+                        <CheckBox mnemonicParsing="false" text="CheckBox" textAlignment="JUSTIFY" />
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+            <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <content>
+                  <VBox fx:id="buttonsBox" prefHeight="101.0" prefWidth="159.0" style="-fx-padding: 5px; -fx-spacing: 3px;">
+                     <children>
+                        <Button fx:id="editDeleteButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="10.0" prefWidth="75.0" text="Edit/Delete">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
          </children>
       </GridPane>
    </children>

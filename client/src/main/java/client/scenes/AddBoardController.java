@@ -35,6 +35,6 @@ public class AddBoardController {
         System.out.println(nameField.getText());
         System.out.println(backgroundColor.getValue());
         System.out.println(fontColor.getValue());
-        showCtrl.cancel();
+        showCtrl.showAddBoard();
     }
 }

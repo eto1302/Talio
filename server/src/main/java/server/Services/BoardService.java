@@ -15,13 +15,6 @@ public class BoardService {
     public BoardService(BoardRepository boardRepository){
         this.boardRepository = boardRepository;
     }
-    public Board getBoard(){
-        commons.List firstList = List.create("To Do", new ArrayList<>());
-        Set<commons.List> lists = new HashSet<>();
-        lists.add(firstList);
-
-        return Board.create("TEAM", "12345", lists);
-    }
 
     /**
      * Create a board and save it in the database.

@@ -1,48 +1,46 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
-import com.google.inject.Injector;
 import commons.List;
+import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 
-import static com.google.inject.Guice.createInjector;
 
 public class AddListController {
 
     @FXML
     private TextField nameField;
     @FXML
-    private ColorPicker color;
+    private ColorPicker backgroundColor, fontColor;
     @FXML
     private Button cancelButton;
     @FXML
     private Button addButton;
 
     private final ShowCtrl showCtrl;
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     @Inject
     public AddListController(ShowCtrl showCtrl) {
         this.showCtrl = showCtrl;
     }
 
-    public void showBoard() {showCtrl.showBoard();}
-
     public void cancel(){
         showCtrl.cancel();
     }
 
     /**
-     * This button adds a list back into the grid
+     * Creates a list based on user input
      */
     public void addList() {
-        List list = List.create(nameField.getText(), null);
-        showCtrl.showBoardUpdated(new Label(list.getName()));
+        String backgroundColor = this.backgroundColor.getValue().getRed()+"+"+
+                this.backgroundColor.getValue().getGreen()+"+"+this.backgroundColor.getValue().getBlue();
+        String fontColor = this.fontColor.getValue().getRed()+"+"+
+                this.fontColor.getValue().getGreen()+"+"+this.fontColor.getValue().getBlue();
+        List list = List.create(nameField.getText(), backgroundColor, fontColor, new ArrayList<Task>());
+        showCtrl.addList(list);
         showCtrl.cancel();
     }
 

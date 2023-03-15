@@ -21,10 +21,6 @@ public class ListService {
         this.boardRepository = boardRepository;
     }
 
-    public List getList(){
-        java.util.List<Task> tasks = new ArrayList<>();
-        return  List.create("Urgent!", tasks);
-    }
 
     public List getListById(int id){
         return this.listRepositoy.getById(id);
