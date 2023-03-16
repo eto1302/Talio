@@ -38,12 +38,10 @@ public class ListShape {
      */
     public Scene getSceneUpdated(commons.List list){
         listTitle.setText(list.getName());
-        String[] rgbBackground = list.getBackgroundColor().split("\\+");
-        String[] rgbFont = list.getFontColor().split("\\+");
-        Color backgroundColor= Color.color(Double.parseDouble(rgbBackground[0]),
-                Double.parseDouble(rgbBackground[1]), Double.parseDouble(rgbBackground[2]));
-        Color fontColor= Color.color(Double.parseDouble(rgbFont[0]),
-                Double.parseDouble(rgbFont[1]), Double.parseDouble(rgbFont[2]));
+        String rgbBackground = list.getBackgroundColor();
+        String rgbFont = list.getFontColor();
+        Color backgroundColor = Color.web(rgbBackground);
+        Color fontColor = Color.web(rgbFont);
 
         listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
         listTitle.setTextFill(fontColor);

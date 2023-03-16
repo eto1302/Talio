@@ -3,6 +3,7 @@ package client.scenes;
 import client.MyFXML;
 import client.MyModule;
 import com.google.inject.Injector;
+import commons.Board;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -147,6 +148,19 @@ public class ShowCtrl {
         Scene listScene =listShape.getKey().getSceneUpdated(list);
         Scene scene = boardController.putList(listScene);
         primaryStage.setScene(scene);
+    }
+
+    /**
+     * Adds the board and updates the scene
+     * @param board the board object whose attributes specify the visual of the board
+     */
+    public void addBoard(Board board){
+//        var boardShape = FXML.load(BoardShape.class, "client", "scenes", "BoardShape.fxml");
+//        Scene initializeBoard = new Scene(boardShape.getValue());
+//
+//        Scene boardScene = boardShape.getKey().getSceneUpdated(boardShape);
+//        Scene scene = yourBoardsCtrl.putBoard(boardScene);
+//        primaryStage.setScene(scene);
     }
 
     public void showError(String errorMessage) {

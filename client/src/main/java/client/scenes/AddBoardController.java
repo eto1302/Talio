@@ -56,7 +56,8 @@ public class AddBoardController {
             // show the error popup
             showCtrl.showError(response.getErrorMessage());
         }
-        cancel();
+
+        showCtrl.addBoard(board);
     }
 
     /**

@@ -58,7 +58,6 @@ public class BoardController {
      * @return the updated scene of the board
      */
     public Scene putList(Scene scene){
-
         listBox.getChildren().add(scene.getRoot());
         return boardLabel.getScene();
     }
