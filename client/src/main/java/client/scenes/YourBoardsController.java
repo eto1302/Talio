@@ -1,11 +1,13 @@
 package client.scenes;
 
+import client.utils.ServerUtils;
+import commons.Board;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
 
@@ -19,23 +21,24 @@ public class YourBoardsController {
     @FXML
     private MenuItem personalize;
     @FXML
-    private Label mainBoardLabel;
+    private GridPane boardBox;
     @FXML
-    private Label mainBoardDescription;
-    @FXML
-    private Button enterButton;
-    @FXML
-    private Button leaveButton;
-    @FXML
-    private Button copyButton;
+    private VBox boardList;
     @FXML
     private Button searchButton;
-    @FXML
-    private HBox boardBox;
+    private ServerUtils serverUtils;
 
     @Inject
-    public YourBoardsController(ShowCtrl showCtrl){
+    public YourBoardsController(ShowCtrl showCtrl, ServerUtils serverUtils){
         this.showCtrl = showCtrl;
+        this.serverUtils = serverUtils;
+    }
+    public void fillBoardBox() {
+        Board[] boards = serverUtils.getAllBoards();
+        for(int i = 0; i < boards.length; ++i){
+            Board currentBoard = boards[i];
+            showCtrl.addBoard(currentBoard);
+        }
     }
 
     public void showSearch(){
@@ -46,13 +49,8 @@ public class YourBoardsController {
         showCtrl.showAddBoard();
     }
 
-    /**
-     * Puts the root of the scene (the grid representing the board) inside the scene
-     * @param scene ,whose root we are looking to add to our scene
-     * @return the updated scene
-     */
     public Scene putBoard(Scene scene){
-        boardBox.getChildren().add(scene.getRoot());
-        return mainBoardLabel.getScene();
+        boardList.getChildren().add(scene.getRoot());
+        return boardList.getScene();
     }
 }

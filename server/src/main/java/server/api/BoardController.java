@@ -20,7 +20,6 @@ public class BoardController {
 
     /**
      * Get a board by its id.
-     *
      * @param id the id to the board
      * @return the board or a bad request if there is no such board.
      */
