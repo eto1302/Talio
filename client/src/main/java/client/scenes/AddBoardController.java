@@ -39,7 +39,7 @@ public class AddBoardController {
      */
     public void cancel(){
         clearFields();
-        showCtrl.cancel();
+        showCtrl.showAddBoard();
     }
 
     /**
