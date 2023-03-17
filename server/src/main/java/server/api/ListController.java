@@ -1,6 +1,5 @@
 package server.api;
 
-import commons.Board;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.Services.ListService;
@@ -19,7 +18,8 @@ public class ListController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<commons.List> getList(@PathVariable int id) {
+
+    public ResponseEntity<commons.List> getList(@PathVariable int id){
         try {
             commons.List list = listService.getListById(id);
             return ResponseEntity.ok(list);

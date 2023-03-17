@@ -80,7 +80,8 @@ class ListTest {
     void testToString() {
         String expected = "List{id=0, name='Test List', " +
                 "tasks=[Task{id=0, description='null', title='null'}, " +
-                "Task{id=0, description='null', title='null'}]}";
+                "Task{id=0, description='null', title='null'}], " +
+                "board=null, backgroundColor='#000000', fontColor='#FFFFFF'}";
         assertEquals(expected, list.toString());
     }
 }
