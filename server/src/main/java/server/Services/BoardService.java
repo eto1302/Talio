@@ -4,7 +4,6 @@ import commons.Board;
 import commons.models.BoardIdResponseModel;
 import org.springframework.stereotype.Service;
 import server.database.BoardRepository;
-
 @Service
 public class BoardService {
     private BoardRepository boardRepository;

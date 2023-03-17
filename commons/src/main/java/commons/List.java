@@ -1,9 +1,9 @@
 package commons;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Lists")
@@ -16,31 +16,26 @@ public class List {
     @Column(name = "name", columnDefinition = "varchar(255)")
     private String name;
 
-    public void setTasks(java.util.List<Task> tasks) {
-        this.tasks = tasks;
-    }
+    @Column(name="background", columnDefinition = "varchar(7)")
+    private String backgroundColor;
+    @Column(name="font", columnDefinition = "varchar(7)")
+    private String fontColor;
 
     @OneToMany
     private java.util.List<Task> tasks;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tagId", referencedColumnName = "id")
-    private Tag tag;
-
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="boardId", nullable=false)
-    @JsonIgnore
     private Board board;
 
-    /**
-     * Creates a new list with the specified name and tasks
-     * @param name the name of the list
-     * @param tasks the tasks in the list
-     * @return the created list
-     */
-    public static List create(String name, java.util.List<Task> tasks) {
+
+    public static List create(String name, String backgroundColor,
+                              String fontColor, java.util.List<Task> tasks) {
         List list = new List();
         list.name = name;
+        list.backgroundColor=backgroundColor;
+        list.fontColor=fontColor;
         list.tasks=tasks;
         return list;
     }
@@ -97,6 +92,30 @@ public class List {
     public java.util.List<Task> getTasks(){return this.tasks;}
 
     /**
+     * Sets the tasks
+     * @param tasks to be set
+     */
+    public void setTasks(java.util.List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public String getFontColor() {
+        return fontColor;
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public void setFontColor(String fontColor) {
+        this.fontColor = fontColor;
+    }
+
+    /**
      * Determines if the list is equal to the specified object
      * @param o the object to compare to
      * @return is the object equal to this list
@@ -106,7 +125,11 @@ public class List {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         List list = (List) o;
-        return getId() == list.getId() && Objects.equals(getName(), list.getName());
+        return getId() == list.getId() && Objects.equals(getName(), list.getName())
+                && Objects.equals(getTasks(), list.getTasks()) &&
+                Objects.equals(getBoard(), list.getBoard()) &&
+                Objects.equals(getBackgroundColor(), list.getBackgroundColor()) &&
+                Objects.equals(getFontColor(), list.getFontColor());
     }
 
     /**
@@ -115,7 +138,8 @@ public class List {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName());
+        return Objects.hash(getId(), getName(), getTasks(), getBoard(),
+                getBackgroundColor(), getFontColor());
     }
 
     /**
@@ -128,6 +152,9 @@ public class List {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", tasks=" + tasks +
+                ", board=" + board +
+                ", backgroundColor='" + backgroundColor + '\'' +
+                ", fontColor='" + fontColor + '\'' +
                 '}';
     }
 }

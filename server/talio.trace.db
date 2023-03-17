@@ -1,9 +1,0 @@
-2023-03-13 10:27:22 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Value too long for column "BACKGROUND_COLOR VARCHAR(7)": "'0xffffffff' (10)"; SQL statement:
-insert into boards (id, background_color, font_color, name, password, tag_id) values (null, ?, ?, ?, ?, ?) [22001-200]
-2023-03-13 10:28:45 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Value too long for column "BACKGROUND_COLOR VARCHAR(7)": "'0xffffffff' (10)"; SQL statement:
-insert into boards (id, background_color, font_color, name, password, tag_id) values (null, ?, ?, ?, ?, ?) [22001-200]
-2023-03-13 10:37:13 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Value too long for column "BACKGROUND_COLOR VARCHAR(7)": "'0xffffffff' (10)"; SQL statement:
-insert into boards (id, background_color, font_color, name, password, tag_id) values (null, ?, ?, ?, ?, ?) [22001-200]

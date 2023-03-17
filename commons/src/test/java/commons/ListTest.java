@@ -12,7 +12,8 @@ class ListTest {
 
     @BeforeEach
     void setUp() {
-        list = List.create("Test List", Arrays.asList(new Task(), new Task()));
+        list = List.create("Test List", "#000000",
+                "#FFFFFF", Arrays.asList(new Task(), new Task()));
     }
 
     @Test
@@ -24,9 +25,10 @@ class ListTest {
 
     @Test
     void create() {
-        List newList = List.create("New List", Arrays.asList(new Task()));
+        List newList = List.create("Test List", "#000000",
+                "#FFFFFF", Arrays.asList(new Task()));
         assertNotNull(newList);
-        assertEquals("New List", newList.getName());
+        assertEquals("Test List", newList.getName());
         assertEquals(0, newList.getId());
         assertEquals(Arrays.asList(new Task()), newList.getTasks());
     }
@@ -61,14 +63,16 @@ class ListTest {
 
     @Test
     void testEquals() {
-        List newList = List.create("Test List", Arrays.asList(new Task(), new Task()));
+        List newList = List.create("Test List", "#000000",
+                "#FFFFFF", Arrays.asList(new Task(), new Task()));
         assertEquals(list, newList);
         assertEquals(list.hashCode(), newList.hashCode());
     }
 
     @Test
     void testHashCode() {
-        List newList = List.create("Test List", Arrays.asList(new Task(), new Task()));
+        List newList = List.create("Test List", "#000000",
+                "#FFFFFF", Arrays.asList(new Task(), new Task()));
         assertEquals(list.hashCode(), newList.hashCode());
     }
 
@@ -76,7 +80,8 @@ class ListTest {
     void testToString() {
         String expected = "List{id=0, name='Test List', " +
                 "tasks=[Task{id=0, description='null', title='null'}, " +
-                "Task{id=0, description='null', title='null'}]}";
+                "Task{id=0, description='null', title='null'}], " +
+                "board=null, backgroundColor='#000000', fontColor='#FFFFFF'}";
         assertEquals(expected, list.toString());
     }
 }

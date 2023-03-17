@@ -1,49 +1,67 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
-import com.google.inject.Injector;
+import client.utils.ServerUtils;
 import commons.List;
+import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 
-import static com.google.inject.Guice.createInjector;
 
 public class AddListController {
 
     @FXML
     private TextField nameField;
     @FXML
-    private ColorPicker color;
+    private ColorPicker backgroundColor, fontColor;
     @FXML
     private Button cancelButton;
     @FXML
     private Button addButton;
 
     private final ShowCtrl showCtrl;
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
+    private final ServerUtils server;
 
     @Inject
-    public AddListController(ShowCtrl showCtrl) {
+    public AddListController(ShowCtrl showCtrl, ServerUtils serverUtils) {
         this.showCtrl = showCtrl;
+        this.server=serverUtils;
     }
-
-    public void showBoard() {showCtrl.showBoard();}
 
     public void cancel(){
         showCtrl.cancel();
     }
 
     /**
-     * This button adds a list back into the grid
+     * Creates a list based on user input
      */
     public void addList() {
-        List list = List.create(nameField.getText(), null);
-        showCtrl.showBoardUpdated(new Label(list.getName()));
+        String backgroundColor = colorToHex(this.backgroundColor.getValue());
+        String fontColor = colorToHex(this.fontColor.getValue());
+
+        List list = List.create(nameField.getText(),
+                backgroundColor, fontColor, new ArrayList<Task>());
+
+        //int id = server.addlist(list, 1);
+        List listTest = server.getList(4);
+        showCtrl.addList(listTest);
         showCtrl.cancel();
+    }
+
+    /**
+     * Returns a hexadecimal string representation of javafx.scene.paint.Color.
+     * @param color the color to be transformed
+     * @return string representation of the color.
+     */
+    private String colorToHex(Color color){
+        String hexString = String.format("#%02X%02X%02X",
+                (int)(color.getRed() * 255),
+                (int)(color.getGreen() * 255),
+                (int)(color.getBlue() * 255));
+        return hexString;
     }
 
 }
