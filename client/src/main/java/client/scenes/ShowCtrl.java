@@ -1,17 +1,25 @@
 package client.scenes;
 
+import client.MyFXML;
+import client.MyModule;
+import com.google.inject.Injector;
+import commons.Board;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import java.util.*;
+
+import java.util.List;
+
+import static com.google.inject.Guice.createInjector;
 
 public class ShowCtrl {
-    private Stage primaryStage, secondaryStage;
+    private static final Injector INJECTOR = createInjector(new MyModule());
+    private static final MyFXML FXML = new MyFXML(INJECTOR);
+    private Stage primaryStage, secondaryStage, popUpStage;
     private HomeController homeCtrl;
     private Scene home, addTask, addList, yourBoards, search, addTag, board,
-            taskOverview, connection, addBoard, editTag, editTask;
+            taskOverview, connection, addBoard, editTag, editTask, error, editList;
     private AddListController addListCtrl;
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
@@ -20,10 +28,11 @@ public class ShowCtrl {
     private BoardController boardController;
     private TaskOverview taskOverviewCtrl;
     private ConnectionCtrl connectionCtrl;
-
     private AddBoardController addBoardController;
     private EditTagController editTagController;
     private EditTaskController editTaskController;
+    private ErrorController errorController;
+    private EditListController editListCtrl;
 
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
@@ -52,9 +61,12 @@ public class ShowCtrl {
         editTag = new Scene((Parent) loader.get(10).getValue());
         editTaskController = (EditTaskController) loader.get(11).getKey();
         editTask = new Scene((Parent) loader.get(11).getValue());
+        errorController = (ErrorController) loader.get(12).getKey();
+        error = new Scene((Parent) loader.get(12).getValue());
 
-        showConnection();
-        //showHome();
+        //showConnection();
+
+        showBoard();
         primaryStage.show();
     }
 
@@ -85,6 +97,7 @@ public class ShowCtrl {
 
     public void showYourBoards(){
         primaryStage.setTitle("Your boards");
+        this.yourBoardsCtrl.fillBoardBox();
         primaryStage.setScene(this.yourBoards);
     }
 
@@ -116,7 +129,6 @@ public class ShowCtrl {
     }
 
     public void showBoard(){
-        secondaryStage.close();
         primaryStage.setTitle("Board");
         primaryStage.setScene(this.board);
     }
@@ -128,9 +140,58 @@ public class ShowCtrl {
         secondaryStage.show();
     }
 
-    public void showBoardUpdated(Label title){
-        Scene updated = homeCtrl.addList(title);
+    public void showEditList(commons.List list, ListShape controller){
+        var editList = FXML.load(EditListController.class,
+                "client", "scenes", "EditList.fxml");
+        editList.getKey().setup(list, controller);
+        secondaryStage=new Stage();
+        secondaryStage.setScene(new Scene(editList.getValue()));
+        secondaryStage.setTitle("Edit your list");
+        secondaryStage.show();
+    }
+
+    public void editList(commons.List list, ListShape controller) {
+        Scene updated = controller.getSceneUpdated(list);
         primaryStage.setScene(updated);
     }
 
+
+    /**
+     * Adds the list to the board and updates the scene
+     * @param list the list object whose attributes specify the visual of the list
+     */
+    public void addList(commons.List list){
+        var listShape = FXML.load(ListShape.class, "client", "scenes", "List.fxml");
+        Scene initializeList = new Scene(listShape.getValue());
+        listShape.getKey().setId(list.getId());
+
+        Scene listScene =listShape.getKey().getSceneUpdated(list);
+        Scene scene = boardController.putList(listScene);
+
+        primaryStage.setScene(scene);
+    }
+
+    /**
+     * Adds the board and updates the scene
+     * @param board the board object whose attributes specify the visual of the board
+     */
+    public void addBoard(Board board){
+        var boardShape = FXML.load(BoardShape.class, "client", "scenes", "BoardShape.fxml");
+        Scene initializeBoard = new Scene(boardShape.getValue());
+
+        Scene boardScene = boardShape.getKey().getSceneUpdated(board);
+        Scene scene = yourBoardsCtrl.putBoard(boardScene);
+        primaryStage.setScene(scene);
+    }
+    public void showError(String errorMessage) {
+        popUpStage = new Stage();
+        popUpStage.setScene(error);
+        popUpStage.setTitle("error");
+        errorController.setErrorMessage(errorMessage);
+        popUpStage.show();
+    }
+
+    public void closePopUp() {
+        popUpStage.close();
+    }
 }

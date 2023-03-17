@@ -3,11 +3,9 @@ package server.Services;
 import commons.Board;
 import commons.List;
 import org.springframework.stereotype.Service;
-import commons.Task;
 import server.database.BoardRepository;
 import server.database.ListRepositoy;
 
-import java.util.ArrayList;
 
 
 @Service
@@ -21,13 +19,9 @@ public class ListService {
         this.boardRepository = boardRepository;
     }
 
-    public List getList(){
-        java.util.List<Task> tasks = new ArrayList<>();
-        return  List.create("Urgent!", tasks);
-    }
 
-    public List getListById(int id){
-        return this.listRepositoy.getById(id);
+    public commons.List getListById(int id){
+        return this.listRepositoy.getListByID(id);
     }
 
     public java.util.List<commons.List> getAllLists() {
@@ -80,10 +74,12 @@ public class ListService {
      * @param name new name of the list
      * @return true of renaming succeed, else false
      */
-    public boolean renameList(int listId, String name) {
+    public boolean editList(int listId, String name, String background, String font) {
         try {
             List list = listRepositoy.getById(listId);
             list.setName(name);
+            list.setBackgroundColor(background);
+            list.setFontColor(font);
             listRepositoy.save(list);
             return true;
         } catch (Exception e) {
