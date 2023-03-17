@@ -5,7 +5,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import java.util.*;
+
+import java.util.List;
 
 public class ShowCtrl {
     private Stage primaryStage, secondaryStage, popUpStage;
@@ -134,7 +135,6 @@ public class ShowCtrl {
         Scene updated = homeCtrl.addList(title);
         primaryStage.setScene(updated);
     }
-
     public void showError(String errorMessage) {
         popUpStage = new Stage();
         popUpStage.setScene(error);
@@ -146,5 +146,4 @@ public class ShowCtrl {
     public void closePopUp() {
         popUpStage.close();
     }
-
 }
