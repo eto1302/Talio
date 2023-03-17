@@ -15,9 +15,6 @@ public class TaskShape {
     private Label title;
     @FXML
     private Label plusSign;
-    @FXML
-    private VBox box;
-
     private ShowCtrl showCtrl;
     @Inject
     public TaskShape(ShowCtrl showCtrl){

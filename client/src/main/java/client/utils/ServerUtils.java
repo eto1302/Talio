@@ -62,6 +62,20 @@ public class ServerUtils {
     }
 
     /**
+     * Get all the boards,
+     * @return the boards or null if there is exception.
+     */
+    public Board[] getAllBoards() {
+        try {
+            ResponseEntity<Board[]> response =
+                    client.getForEntity("http://localhost:8080/board/findAll", Board[].class);
+            return response.getBody();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
      * Add new list to the board.
      *
      * @param list list to be added
@@ -70,7 +84,7 @@ public class ServerUtils {
      */
     public int addlist(commons.List list, int boardId) {
         HttpEntity<commons.List> req = new HttpEntity<commons.List>(list);
-        int id = client.postForObject("http://localhost:8080/list/add"+boardId, req, Integer.class);
+        int id = client.postForObject("http://localhost:8080/list/add/"+boardId, req, Integer.class);
         return id;
     }
 

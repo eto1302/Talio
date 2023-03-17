@@ -1,13 +1,22 @@
 package client.scenes;
 
 import javafx.fxml.FXML;
+<<<<<<< HEAD
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
+=======
+import javafx.scene.Scene;
+>>>>>>> dfeb391a6d92898cc8344ae1baf177a6bb9d1c0b
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+<<<<<<< HEAD
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+=======
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+>>>>>>> dfeb391a6d92898cc8344ae1baf177a6bb9d1c0b
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -15,6 +24,7 @@ import java.util.List;
 
 public class BoardController {
     @FXML
+<<<<<<< HEAD
     private AnchorPane todoList;
     @FXML
     private  AnchorPane doingList;
@@ -34,8 +44,20 @@ public class BoardController {
     private MenuItem yourBoards;
     @FXML
     private MenuItem personalize;
+=======
+    private MenuItem joinBoard, addBoard, yourBoards, personalize;
+>>>>>>> dfeb391a6d92898cc8344ae1baf177a6bb9d1c0b
     @FXML
     private Label boardLabel;
+    @FXML
+    private VBox toDoBox, doingBox, doneBox;
+    @FXML
+    private HBox listBox, tagBoxToDo, tagBoxDoing, tagBoxDone;
+    @FXML
+    private GridPane toDo, doing, done;
+    @FXML
+    private MenuItem addTaskToDo, addTaskDoing, addTaskDone, addTagToDo,
+        addTagDoing, addTagDone, deleteToDo, deleteDoing, deleteDone, editToDo, editDoing, editDone;
 
     private final ShowCtrl showCtrl;
     private List<AnchorPane> cards;
@@ -155,4 +177,31 @@ public class BoardController {
     public void addBoard(){
         showCtrl.showAddBoard();
     }
+
+    public void showAddList(){
+        showCtrl.showAddList();
+    }
+
+    /**
+     * Puts the root of the scene (the grid representing the list) inside the board
+     * @param scene ,whose root we are looking to add to our board
+     * @return the updated scene of the board
+     */
+    public Scene putList(Scene scene){
+        listBox.getChildren().add(scene.getRoot());
+        return boardLabel.getScene();
+    }
+
+    public void deleteToDo(){
+        //should have confirmation + actual delete it from the database with showCtrl
+        listBox.getChildren().remove(toDo);
+    }
+    public void deleteDoing(){
+        listBox.getChildren().remove(doing);
+    }
+
+    public void deleteDone(){
+        listBox.getChildren().remove(done);
+    }
+
 }

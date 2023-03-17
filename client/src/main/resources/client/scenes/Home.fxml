@@ -31,7 +31,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="boardLabel" text="Board" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <Label fx:id="homeLabel" text="Home" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <font>
                   <Font size="23.0" />
                </font>
@@ -48,12 +48,12 @@
       </GridPane>
       <VBox fx:id="vbox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
          <children>
-            <Label fx:id="addListLabel" contentDisplay="CENTER" opacity="0.39" text="Add a list">
+            <Label fx:id="addListLabel" contentDisplay="CENTER" opacity="0.39" text="Add a board">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Button fx:id="addListButton" mnemonicParsing="false" onAction="#showAddList" prefHeight="37.0" prefWidth="56.0" text="+" />
+            <Button fx:id="addListButton" mnemonicParsing="false" onAction="#showAddBoard" prefHeight="37.0" prefWidth="56.0" text="+" />
          </children>
       </VBox>
    </children>
