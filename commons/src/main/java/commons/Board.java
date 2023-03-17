@@ -3,6 +3,8 @@ package commons;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 @Entity
@@ -13,16 +15,21 @@ public class Board {
     @Column(name = "id", columnDefinition = "integer")
     private int id;
 
-    @Column(name = "name", columnDefinition = "varchar(255)")
+    @Column(name = "name")
+    @Size(max = 20)
     private String name;
 
-    @Column(name = "password", columnDefinition = "varchar(255)")
+    @Column(name = "password")
+    @Size(max = 20)
     private String password;
 
-    @Column(name = "fontColor", columnDefinition = "varchar(7)")
+    @Column(name = "fontColor")
+    // regular expression that matches a valid color string in the format "#RRGGBB" or "#AARRGGBB"
+    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$")
     private String fontColor;
 
-    @Column(name = "backgroundColor", columnDefinition = "varchar(7)")
+    @Column(name = "backgroundColor")
+    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$")
     private String backgroundColor;
     @JsonManagedReference
     @OneToMany()
