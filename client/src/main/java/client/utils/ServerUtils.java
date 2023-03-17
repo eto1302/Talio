@@ -84,7 +84,7 @@ public class ServerUtils {
      */
     public int addlist(commons.List list, int boardId) {
         HttpEntity<commons.List> req = new HttpEntity<commons.List>(list);
-        int id = client.postForObject("http://localhost:8080/list/add"+boardId, req, Integer.class);
+        int id = client.postForObject("http://localhost:8080/list/add/"+boardId, req, Integer.class);
         return id;
     }
 

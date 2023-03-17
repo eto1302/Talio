@@ -40,6 +40,7 @@ public class AddBoardController {
     public void cancel(){
         clearFields();
         showCtrl.showAddBoard();
+        showCtrl.cancel();
     }
 
     /**
@@ -58,6 +59,7 @@ public class AddBoardController {
         }
 
         showCtrl.addBoard(board);
+        showCtrl.cancel();
     }
 
     /**
