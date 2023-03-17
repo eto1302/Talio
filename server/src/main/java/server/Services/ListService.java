@@ -20,8 +20,8 @@ public class ListService {
     }
 
 
-    public List getListById(int id){
-        return this.listRepositoy.getById(id);
+    public commons.List getListById(int id){
+        return this.listRepositoy.getListByID(id);
     }
 
     public java.util.List<commons.List> getAllLists() {

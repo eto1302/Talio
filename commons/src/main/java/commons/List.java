@@ -1,6 +1,7 @@
 package commons;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -15,18 +16,19 @@ public class List {
     @Column(name = "name", columnDefinition = "varchar(255)")
     private String name;
 
-    @OneToMany
-    private java.util.List<Task> tasks;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="boardId", nullable=false)
-    @JsonIgnore
-    private Board board;
-
     @Column(name="background", columnDefinition = "varchar(7)")
     private String backgroundColor;
     @Column(name="font", columnDefinition = "varchar(7)")
     private String fontColor;
+
+    @OneToMany
+    private java.util.List<Task> tasks;
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="boardId", nullable=false)
+    private Board board;
+
 
     public static List create(String name, String backgroundColor,
                               String fontColor, java.util.List<Task> tasks) {
@@ -123,7 +125,11 @@ public class List {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         List list = (List) o;
-        return getId() == list.getId() && Objects.equals(getName(), list.getName());
+        return getId() == list.getId() && Objects.equals(getName(), list.getName())
+                && Objects.equals(getTasks(), list.getTasks()) &&
+                Objects.equals(getBoard(), list.getBoard()) &&
+                Objects.equals(getBackgroundColor(), list.getBackgroundColor()) &&
+                Objects.equals(getFontColor(), list.getFontColor());
     }
 
     /**
@@ -132,7 +138,8 @@ public class List {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName());
+        return Objects.hash(getId(), getName(), getTasks(), getBoard(),
+                getBackgroundColor(), getFontColor());
     }
 
     /**
@@ -145,6 +152,9 @@ public class List {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", tasks=" + tasks +
+                ", board=" + board +
+                ", backgroundColor='" + backgroundColor + '\'' +
+                ", fontColor='" + fontColor + '\'' +
                 '}';
     }
 }

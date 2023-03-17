@@ -64,6 +64,7 @@ public class ShowCtrl {
         error = new Scene((Parent) loader.get(12).getValue());
 
         //showConnection();
+
         showBoard();
         primaryStage.show();
     }

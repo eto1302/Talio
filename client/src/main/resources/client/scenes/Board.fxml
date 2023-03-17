@@ -60,7 +60,6 @@
                       <RowConstraints minHeight="10.0" prefHeight="26.0" vgrow="NEVER" />
                       <RowConstraints minHeight="10.0" prefHeight="182.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="NEVER" />
-                        <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
                         <Label text="TO DO" GridPane.columnSpan="2" GridPane.halignment="CENTER">
@@ -77,7 +76,7 @@
                            <children>
                               <MenuButton mnemonicParsing="false" text="Edit">
                                 <items>
-                                  <MenuItem fx:id="editToDo" mnemonicParsing="false"  text="Edit list" />
+                                  <MenuItem fx:id="editToDo" mnemonicParsing="false" text="Edit list" />
                                   <MenuItem fx:id="deleteToDo" mnemonicParsing="false" onAction="#deleteToDo" text="Delete" />
                                 </items>
                               </MenuButton>
@@ -89,11 +88,6 @@
                               </MenuButton>
                            </children>
                         </HBox>
-                        <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-vbar-policy: never;" GridPane.rowIndex="3">
-                           <content>
-                              <HBox fx:id="tagBoxToDo" alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="192.0" style="-fx-spacing: 3px;" />
-                           </content>
-                        </ScrollPane>
                      </children>
                   </GridPane>
                   <GridPane fx:id="doing" style="-fx-border-color: gray;">
@@ -105,7 +99,6 @@
                       <RowConstraints minHeight="10.0" prefHeight="26.0" vgrow="NEVER" />
                       <RowConstraints minHeight="10.0" prefHeight="182.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="NEVER" />
-                        <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
                         <Label text="DOING:" GridPane.columnSpan="2" GridPane.halignment="CENTER">
@@ -134,11 +127,6 @@
                               </MenuButton>
                            </children>
                         </HBox>
-                        <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-vbar-policy: never;" GridPane.rowIndex="3">
-                           <content>
-                              <HBox fx:id="tagBoxDoing" alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="196.0" style="-fx-spacing: 3px;" />
-                           </content>
-                        </ScrollPane>
                      </children>
                   </GridPane>
                   <GridPane fx:id="done" style="-fx-border-color: gray;">
@@ -150,7 +138,6 @@
                       <RowConstraints minHeight="10.0" prefHeight="26.0" vgrow="NEVER" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="NEVER" />
-                        <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
                         <Separator prefWidth="200.0" GridPane.columnSpan="2" GridPane.valignment="BOTTOM" />
@@ -179,11 +166,6 @@
                               </MenuButton>
                            </children>
                         </HBox>
-                        <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-vbar-policy: never;" GridPane.rowIndex="3">
-                           <content>
-                              <HBox fx:id="tagBoxDone" alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="194.0" style="-fx-spacing: 3px;" />
-                           </content>
-                        </ScrollPane>
                      </children>
                   </GridPane>
                </children>

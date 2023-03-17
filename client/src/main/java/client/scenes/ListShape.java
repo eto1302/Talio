@@ -27,7 +27,6 @@ public class ListShape {
     private ShowCtrl showCtrl;
     private ServerUtils serverUtils;
     private int id;
-    private List list;
 
 
     @Inject
@@ -53,14 +52,16 @@ public class ListShape {
     }
 
     public void deleteList(){
-        //should have confirmation + deletion from database
+        List list = serverUtils.getList(id);
+        serverUtils.deleteList(list.getBoard().getId(), id);
         HBox parent = (HBox) listGrid.getParent();
         parent.getChildren().remove(listGrid);
+
 
     }
 
     public void editList(){
-        //List list = serverUtils.getList(id);
+        List list = serverUtils.getList(id);
         showCtrl.showEditList(list, this);
     }
 

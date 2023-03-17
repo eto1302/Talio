@@ -1,5 +1,7 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -22,8 +24,8 @@ public class Board {
 
     @Column(name = "backgroundColor", columnDefinition = "varchar(7)")
     private String backgroundColor;
-
-    @OneToMany
+    @JsonManagedReference
+    @OneToMany()
     private Set<List> lists;
 
     @OneToOne(cascade = CascadeType.ALL)

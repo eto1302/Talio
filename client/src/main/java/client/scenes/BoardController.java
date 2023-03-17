@@ -1,7 +1,5 @@
 package client.scenes;
 
-import commons.List;
-import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -11,7 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 
 public class BoardController {
     @FXML
@@ -21,7 +18,7 @@ public class BoardController {
     @FXML
     private VBox toDoBox, doingBox, doneBox;
     @FXML
-    private HBox listBox, tagBoxToDo, tagBoxDoing, tagBoxDone;
+    private HBox listBox;
     @FXML
     private GridPane toDo, doing, done;
     @FXML
@@ -66,7 +63,6 @@ public class BoardController {
     }
 
     public void deleteToDo(){
-        //should have confirmation + actual delete it from the database with showCtrl
         listBox.getChildren().remove(toDo);
     }
     public void deleteDoing(){

@@ -124,10 +124,10 @@ public class ServerUtils {
      * @param id id of the list
      * @return the list or null in case of an exception
      */
-    public List getList(int id) {
+    public commons.List getList(int id) {
         try {
-            ResponseEntity<List> response =
-                    client.getForEntity("http://localhost:8080/list/"+id, List.class);
+            ResponseEntity<commons.List> response =
+                    client.getForEntity("http://localhost:8080/list/"+id, commons.List.class);
             return response.getBody();
         } catch (Exception e) {
             return null;

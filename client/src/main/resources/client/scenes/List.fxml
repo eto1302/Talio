@@ -21,7 +21,6 @@
     <RowConstraints minHeight="10.0" prefHeight="26.0" vgrow="NEVER" />
     <RowConstraints minHeight="10.0" prefHeight="182.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="NEVER" />
-      <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="NEVER" />
   </rowConstraints>
    <children>
       <Label fx:id="listTitle" text="Label" GridPane.halignment="CENTER">
@@ -51,10 +50,5 @@
             </MenuButton>
          </children>
       </HBox>
-      <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-hbar-policy: never;" GridPane.rowIndex="3">
-         <content>
-            <HBox fx:id="tagBox" alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="192.0" style="-fx-spacing: 3px;" />
-         </content>
-      </ScrollPane>
    </children>
 </GridPane>
