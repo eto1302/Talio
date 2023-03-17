@@ -40,6 +40,7 @@ public class AddBoardController {
     public void cancel(){
         clearFields();
         showCtrl.showAddBoard();
+        showCtrl.cancel();
     }
 
     /**
@@ -56,7 +57,9 @@ public class AddBoardController {
             // show the error popup
             showCtrl.showError(response.getErrorMessage());
         }
-        cancel();
+
+        showCtrl.addBoard(board);
+        showCtrl.cancel();
     }
 
     /**

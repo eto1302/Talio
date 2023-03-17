@@ -62,6 +62,20 @@ public class ServerUtils {
     }
 
     /**
+     * Get all the boards,
+     * @return the boards or null if there is exception.
+     */
+    public Board[] getAllBoards() {
+        try {
+            ResponseEntity<Board[]> response =
+                    client.getForEntity("http://localhost:8080/board/findAll", Board[].class);
+            return response.getBody();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
      * Add new list to the board.
      *
      * @param list list to be added
@@ -90,10 +104,11 @@ public class ServerUtils {
     }
 
     /**
-     * Rename a list.
-     *
+     * Edits the list with the new values
      * @param name new name of the list
-     * @param listId id of the list
+     * @param listId id of the list to be edited
+     * @param background new background color of the list
+     * @param font new font color of the list
      * @return true if it succeeds, false otherwise
      */
     public boolean editList(String name, int listId, String background, String font) {

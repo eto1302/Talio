@@ -64,8 +64,7 @@ public class ListShape {
         showCtrl.showEditList(list, this);
     }
 
-    public void setId(int id, List list){
+    public void setId(int id){
         this.id=id;
-        this.list=list;
     }
 }
