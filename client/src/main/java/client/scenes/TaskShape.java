@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.utils.ServerUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.*;
@@ -14,11 +15,14 @@ public class TaskShape {
     @FXML
     private Label title;
     @FXML
-    private Label plusSign;
+    private Label plusSign, progressLabel;
     private ShowCtrl showCtrl;
+    private ServerUtils server;
+    private int id;
     @Inject
-    public TaskShape(ShowCtrl showCtrl){
+    public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils){
         this.showCtrl=showCtrl;
+        server=serverUtils;
     }
 
     public void doubleClick (){

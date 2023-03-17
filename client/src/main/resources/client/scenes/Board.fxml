@@ -24,11 +24,7 @@
         <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="39.20003662109377" vgrow="NEVER" />
     </rowConstraints>
     <children>
-<<<<<<< HEAD
-        <GridPane maxHeight="45.0" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: D5D3D3;" GridPane.columnIndex="1">
-=======
         <GridPane maxHeight="45.0" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: D5D3D3; -fx-padding: 5px;">
->>>>>>> dfeb391a6d92898cc8344ae1baf177a6bb9d1c0b
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -52,153 +48,6 @@
                 </MenuButton>
             </children>
         </GridPane>
-<<<<<<< HEAD
-
-        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-         <children>
-            <AnchorPane fx:id="todoList" layoutX="15.0" prefHeight="300.0" prefWidth="180.0">
-                    <children>
-                        <ListView prefHeight="300.0" prefWidth="180.0" />
-                        <Separator layoutY="40.0" prefWidth="180.0" />
-                        <Label layoutX="69.2" layoutY="10.0" text="TODO:">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                        </Label>
-                        <AnchorPane fx:id="card1" layoutY="40.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed"
-                                    onMouseReleased="#mouseReleased" prefHeight="40.0" prefWidth="180.0">
-                            <children>
-                                <Button fx:id="edit1" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
-                                    <font>
-                                        <Font size="10.0" />
-                                    </font>
-                                </Button>
-                                <Button fx:id="delete1" layoutX="128.4" layoutY="9.2" mnemonicParsing="false" onAction="#showConfirmDelete" text="Delete">
-                                    <font>
-                                        <Font size="10.0" />
-                                    </font>
-                                </Button>
-                                <Hyperlink fx:id="title1" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="Card title 1" />
-                            </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="card2" layoutY="80.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed"
-                                    onMouseReleased="#mouseReleased" prefHeight="40.0" prefWidth="180.0">
-                            <children>
-                                <Button fx:id="edit2" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
-                                    <font>
-                                        <Font size="10.0" />
-                                    </font>
-                                </Button>
-                                <Button fx:id="delete2" layoutX="128.4" layoutY="9.2" mnemonicParsing="false" onAction="#showConfirmDelete" text="Delete">
-                                    <font>
-                                        <Font size="10.0" />
-                                    </font>
-                                </Button>
-                                <Hyperlink fx:id="title2" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="Card title 2" />
-                            </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="card3" layoutY="120.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="40.0" prefWidth="180.0">
-                            <children>
-                                <Button fx:id="edit3" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
-                                    <font>
-                                        <Font size="10.0" />
-                                    </font>
-                                </Button>
-                                <Button fx:id="delete3" layoutX="128.4" layoutY="9.2" mnemonicParsing="false" onAction="#showConfirmDelete" text="Delete">
-                                    <font>
-                                        <Font size="10.0" />
-                                    </font>
-                                </Button>
-                                <Hyperlink fx:id="title3" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="Card title 3" />
-                            </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="card4" layoutY="160.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="40.0" prefWidth="180.0">
-                            <children>
-                                <Button fx:id="edit4" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
-                                    <font>
-                                        <Font size="10.0" />
-                                    </font>
-                                </Button>
-                                <Button fx:id="delete4" layoutX="128.4" layoutY="9.2" mnemonicParsing="false" onAction="#showConfirmDelete" text="Delete">
-                                    <font>
-                                        <Font size="10.0" />
-                                    </font>
-                                </Button>
-                                <Hyperlink fx:id="title4" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="Card title 4" />
-                            </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="card5" layoutY="200.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="40.0" prefWidth="180.0">
-                            <children>
-                                <Button fx:id="edit5" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
-                                    <font>
-                                        <Font size="10.0" />
-                                    </font>
-                                </Button>
-                                <Button fx:id="delete5" layoutX="128.4" layoutY="9.2" mnemonicParsing="false" onAction="#showConfirmDelete" text="Delete">
-                                    <font>
-                                        <Font size="10.0" />
-                                    </font>
-                                </Button>
-                                <Hyperlink fx:id="title5" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="Card title 5" />
-                            </children>
-                        </AnchorPane>
-                    </children>
-            </AnchorPane>
-            <AnchorPane fx:id="doingList" layoutX="210.0" prefHeight="300.0" prefWidth="180.0">
-               <children>
-                  <ListView prefHeight="300.0" prefWidth="180.0" />
-                  <Separator layoutY="40.0" prefWidth="180.0" />
-                  <Label layoutX="69.6" layoutY="10.0" text="Doing:">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                   <AnchorPane fx:id="card6" layoutY="40.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged"
-                               onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="40.0" prefWidth="180.0">
-                       <children>
-                           <Button fx:id="edit6" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
-                               <font>
-                                   <Font size="10.0" />
-                               </font>
-                           </Button>
-                           <Button fx:id="delete6" layoutX="128.4" layoutY="9.2" mnemonicParsing="false" onAction="#showConfirmDelete" text="Delete">
-                               <font>
-                                   <Font size="10.0" />
-                               </font>
-                           </Button>
-                           <Hyperlink fx:id="title6" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="Card title 6" />
-                       </children>
-                   </AnchorPane>
-               </children></AnchorPane>
-                <AnchorPane fx:id="doneList" layoutX="405.0" prefHeight="300.0" prefWidth="180.0">
-               <children>
-                  <ListView prefHeight="300.0" prefWidth="180.0" />
-                  <Separator layoutY="40.0" prefWidth="180.0" />
-                  <Label layoutX="71.6" layoutY="10.0" text="Done:">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                   <AnchorPane fx:id="card7" layoutY="40.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="40.0" prefWidth="180.0">
-                       <children>
-                           <Button fx:id="edit7" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
-                               <font>
-                                   <Font size="10.0" />
-                               </font>
-                           </Button>
-                           <Button fx:id="delete7" layoutX="128.4" layoutY="9.2" mnemonicParsing="false" onAction="#showConfirmDelete" text="Delete">
-                               <font>
-                                   <Font size="10.0" />
-                               </font>
-                           </Button>
-                           <Hyperlink fx:id="title7" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="Card title 7" />
-                       </children>
-                   </AnchorPane>
-               </children>
-                </AnchorPane>
-         </children>
-            </AnchorPane>
-=======
       <ScrollPane fitToHeight="true" minHeight="200.0" GridPane.rowIndex="1">
          <content>
             <HBox fx:id="listBox" prefHeight="312.0" style="-fx-padding: 7px; -fx-spacing: 7px;">
@@ -211,7 +60,6 @@
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="26.0" vgrow="NEVER" />
                       <RowConstraints minHeight="10.0" prefHeight="182.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="NEVER" />
                         <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
@@ -241,11 +89,6 @@
                               </MenuButton>
                            </children>
                         </HBox>
-                        <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-vbar-policy: never;" GridPane.rowIndex="3">
-                           <content>
-                              <HBox fx:id="tagBoxToDo" alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="192.0" style="-fx-spacing: 3px;" />
-                           </content>
-                        </ScrollPane>
                      </children>
                   </GridPane>
                   <GridPane fx:id="doing" style="-fx-border-color: gray;">
@@ -257,7 +100,6 @@
                       <RowConstraints minHeight="10.0" prefHeight="26.0" vgrow="NEVER" />
                       <RowConstraints minHeight="10.0" prefHeight="182.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="NEVER" />
-                        <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
                         <Label text="DOING:" GridPane.columnSpan="2" GridPane.halignment="CENTER">
@@ -286,11 +128,6 @@
                               </MenuButton>
                            </children>
                         </HBox>
-                        <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-vbar-policy: never;" GridPane.rowIndex="3">
-                           <content>
-                              <HBox fx:id="tagBoxDoing" alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="196.0" style="-fx-spacing: 3px;" />
-                           </content>
-                        </ScrollPane>
                      </children>
                   </GridPane>
                   <GridPane fx:id="done" style="-fx-border-color: gray;">
@@ -302,7 +139,6 @@
                       <RowConstraints minHeight="10.0" prefHeight="26.0" vgrow="NEVER" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="NEVER" />
-                        <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
                         <Separator prefWidth="200.0" GridPane.columnSpan="2" GridPane.valignment="BOTTOM" />
@@ -331,11 +167,6 @@
                               </MenuButton>
                            </children>
                         </HBox>
-                        <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-vbar-policy: never;" GridPane.rowIndex="3">
-                           <content>
-                              <HBox fx:id="tagBoxDone" alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="194.0" style="-fx-spacing: 3px;" />
-                           </content>
-                        </ScrollPane>
                      </children>
                   </GridPane>
                </children>
@@ -343,6 +174,5 @@
          </content>
       </ScrollPane>
       <Button fx:id="addListButton" mnemonicParsing="false" onAction="#showAddList" prefHeight="26.0" prefWidth="72.0" text="Add List" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
->>>>>>> dfeb391a6d92898cc8344ae1baf177a6bb9d1c0b
     </children>
 </GridPane>

@@ -18,6 +18,7 @@ public class ListController {
 
     @GetMapping("/{id}")
     @ResponseBody
+
     public ResponseEntity<commons.List> getList(@PathVariable int id){
         try {
             commons.List list = listService.getListById(id);
@@ -26,6 +27,7 @@ public class ListController {
             return ResponseEntity.badRequest().body(null);
         }
     }
+
 
     @GetMapping("/findAll")
     @ResponseBody
@@ -38,9 +40,10 @@ public class ListController {
         return listService.addList(list, boardId);
     }
 
-    @GetMapping("/rename/{listId}/{name}")
-    public boolean renameList(@PathVariable int listId, @PathVariable String name) {
-        return listService.renameList(listId, name);
+    @GetMapping("/edit/{listId}/{name}/{background}/{font}")
+    public boolean editList(@PathVariable int listId, @PathVariable String name,
+                              @PathVariable String background, @PathVariable String font) {
+        return listService.editList(listId, name, background, font);
     }
 
     @GetMapping("/delete/{boardId}/{listId}")

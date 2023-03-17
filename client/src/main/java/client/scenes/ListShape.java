@@ -1,6 +1,8 @@
 package client.scenes;
 
 
+import client.utils.ServerUtils;
+import commons.List;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -23,11 +25,14 @@ public class ListShape {
     @FXML
     private GridPane listGrid;
     private ShowCtrl showCtrl;
+    private ServerUtils serverUtils;
+    private int id;
 
 
     @Inject
-    public ListShape (ShowCtrl showCtrl){
+    public ListShape (ShowCtrl showCtrl, ServerUtils serverUtils){
         this.showCtrl=showCtrl;
+        this.serverUtils=serverUtils;
     }
 
     /**
@@ -38,10 +43,8 @@ public class ListShape {
      */
     public Scene getSceneUpdated(commons.List list){
         listTitle.setText(list.getName());
-        String rgbBackground = list.getBackgroundColor();
-        String rgbFont = list.getFontColor();
-        Color backgroundColor = Color.web(rgbBackground);
-        Color fontColor = Color.web(rgbFont);
+        Color backgroundColor= Color.web(list.getBackgroundColor());
+        Color fontColor= Color.web(list.getFontColor());
 
         listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
         listTitle.setTextFill(fontColor);
@@ -49,9 +52,20 @@ public class ListShape {
     }
 
     public void deleteList(){
-        //should have confirmation + deletion from database
+        List list = serverUtils.getList(id);
+        serverUtils.deleteList(list.getBoard().getId(), id);
         HBox parent = (HBox) listGrid.getParent();
         parent.getChildren().remove(listGrid);
 
+
+    }
+
+    public void editList(){
+        List list = serverUtils.getList(id);
+        showCtrl.showEditList(list, this);
+    }
+
+    public void setId(int id){
+        this.id=id;
     }
 }

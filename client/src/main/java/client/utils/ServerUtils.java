@@ -104,17 +104,34 @@ public class ServerUtils {
     }
 
     /**
-     * Rename a list.
-     *
+     * Edits the list with the new values
      * @param name new name of the list
-     * @param listId id of the list
+     * @param listId id of the list to be edited
+     * @param background new background color of the list
+     * @param font new font color of the list
      * @return true if it succeeds, false otherwise
      */
-    public boolean renameList(String name, int listId) {
+    public boolean editList(String name, int listId, String background, String font) {
         ResponseEntity<Boolean> response = client.getForEntity(
-                "http://localhost:8080/list/rename/"+listId+"/"+name,
+                "http://localhost:8080/list/edit/"+listId+"/"+name+"/"+background+"/"+font,
                 Boolean.class
         );
         return response.getBody();
     }
+
+    /**
+     * Returns the list with a certain id
+     * @param id id of the list
+     * @return the list or null in case of an exception
+     */
+    public commons.List getList(int id) {
+        try {
+            ResponseEntity<commons.List> response =
+                    client.getForEntity("http://localhost:8080/list/"+id, commons.List.class);
+            return response.getBody();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

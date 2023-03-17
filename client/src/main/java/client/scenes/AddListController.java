@@ -23,12 +23,12 @@ public class AddListController {
     private Button addButton;
 
     private final ShowCtrl showCtrl;
-    private final ServerUtils serverUtils;
+    private final ServerUtils server;
 
     @Inject
     public AddListController(ShowCtrl showCtrl, ServerUtils serverUtils) {
         this.showCtrl = showCtrl;
-        this.serverUtils=serverUtils;
+        this.server=serverUtils;
     }
 
     public void cancel(){
@@ -45,14 +45,15 @@ public class AddListController {
         List list = List.create(nameField.getText(),
                 backgroundColor, fontColor, new ArrayList<Task>());
 
-        serverUtils.addlist(list, 1);
-        showCtrl.addList(list);
+        //int id = server.addlist(list, 1);
+        List listTest = server.getList(4);
+        showCtrl.addList(listTest);
         showCtrl.cancel();
     }
 
     /**
      * Returns a hexadecimal string representation of javafx.scene.paint.Color.
-     * @param color
+     * @param color the color to be transformed
      * @return string representation of the color.
      */
     private String colorToHex(Color color){
