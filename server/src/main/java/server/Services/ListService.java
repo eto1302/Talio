@@ -74,10 +74,12 @@ public class ListService {
      * @param name new name of the list
      * @return true of renaming succeed, else false
      */
-    public boolean renameList(int listId, String name) {
+    public boolean editList(int listId, String name, String background, String font) {
         try {
             List list = listRepositoy.getById(listId);
             list.setName(name);
+            list.setBackgroundColor(background);
+            list.setFontColor(font);
             listRepositoy.save(list);
             return true;
         } catch (Exception e) {

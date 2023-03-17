@@ -77,7 +77,7 @@
                            <children>
                               <MenuButton mnemonicParsing="false" text="Edit">
                                 <items>
-                                  <MenuItem fx:id="editToDo" mnemonicParsing="false" text="Edit list" />
+                                  <MenuItem fx:id="editToDo" mnemonicParsing="false"  text="Edit list" />
                                   <MenuItem fx:id="deleteToDo" mnemonicParsing="false" onAction="#deleteToDo" text="Delete" />
                                 </items>
                               </MenuButton>

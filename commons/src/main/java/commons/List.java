@@ -18,10 +18,6 @@ public class List {
     @OneToMany
     private java.util.List<Task> tasks;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tagId", referencedColumnName = "id")
-    private Tag tag;
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="boardId", nullable=false)
     @JsonIgnore

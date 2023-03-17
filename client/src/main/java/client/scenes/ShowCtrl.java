@@ -17,7 +17,7 @@ public class ShowCtrl {
     private Stage primaryStage, secondaryStage, popUpStage;
     private HomeController homeCtrl;
     private Scene home, addTask, addList, yourBoards, search, addTag, board,
-            taskOverview, connection, addBoard, editTag, editTask, error;
+            taskOverview, connection, addBoard, editTag, editTask, error, editList;
     private AddListController addListCtrl;
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
@@ -30,7 +30,7 @@ public class ShowCtrl {
     private EditTagController editTagController;
     private EditTaskController editTaskController;
     private ErrorController errorController;
-
+    private EditListController editListCtrl;
 
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
@@ -136,6 +136,22 @@ public class ShowCtrl {
         secondaryStage.show();
     }
 
+    public void showEditList(commons.List list, ListShape controller){
+        var editList = FXML.load(EditListController.class,
+                "client", "scenes", "EditList.fxml");
+        editList.getKey().setup(list, controller);
+        secondaryStage=new Stage();
+        secondaryStage.setScene(new Scene(editList.getValue()));
+        secondaryStage.setTitle("Edit your list");
+        secondaryStage.show();
+    }
+
+    public void editList(commons.List list, ListShape controller) {
+        Scene updated = controller.getSceneUpdated(list);
+        primaryStage.setScene(updated);
+    }
+
+
     /**
      * Adds the list to the board and updates the scene
      * @param list the list object whose attributes specify the visual of the list
@@ -143,9 +159,9 @@ public class ShowCtrl {
     public void addList(commons.List list){
         var listShape = FXML.load(ListShape.class, "client", "scenes", "List.fxml");
         Scene initializeList = new Scene(listShape.getValue());
-
+        listShape.getKey().setId(list.getId(), list);
         Scene listScene =listShape.getKey().getSceneUpdated(list);
-        Scene scene = boardController.putList(listScene);
+        Scene scene = boardController.putList(listScene, list.getId());
         primaryStage.setScene(scene);
     }
 

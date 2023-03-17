@@ -1,6 +1,8 @@
 package client.scenes;
 
 
+import client.utils.ServerUtils;
+import commons.List;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -23,11 +25,15 @@ public class ListShape {
     @FXML
     private GridPane listGrid;
     private ShowCtrl showCtrl;
+    private ServerUtils serverUtils;
+    private int id;
+    private List list;
 
 
     @Inject
-    public ListShape (ShowCtrl showCtrl){
+    public ListShape (ShowCtrl showCtrl, ServerUtils serverUtils){
         this.showCtrl=showCtrl;
+        this.serverUtils=serverUtils;
     }
 
     /**
@@ -38,12 +44,8 @@ public class ListShape {
      */
     public Scene getSceneUpdated(commons.List list){
         listTitle.setText(list.getName());
-        String[] rgbBackground = list.getBackgroundColor().split("\\+");
-        String[] rgbFont = list.getFontColor().split("\\+");
-        Color backgroundColor= Color.color(Double.parseDouble(rgbBackground[0]),
-                Double.parseDouble(rgbBackground[1]), Double.parseDouble(rgbBackground[2]));
-        Color fontColor= Color.color(Double.parseDouble(rgbFont[0]),
-                Double.parseDouble(rgbFont[1]), Double.parseDouble(rgbFont[2]));
+        Color backgroundColor= Color.web(list.getBackgroundColor());
+        Color fontColor= Color.web(list.getFontColor());
 
         listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
         listTitle.setTextFill(fontColor);
@@ -55,5 +57,15 @@ public class ListShape {
         HBox parent = (HBox) listGrid.getParent();
         parent.getChildren().remove(listGrid);
 
+    }
+
+    public void editList(){
+        //List list = serverUtils.getList(id);
+        showCtrl.showEditList(list, this);
+    }
+
+    public void setId(int id, List list){
+        this.id=id;
+        this.list=list;
     }
 }

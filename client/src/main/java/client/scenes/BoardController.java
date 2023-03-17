@@ -1,5 +1,7 @@
 package client.scenes;
 
+import commons.List;
+import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -9,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 
 public class BoardController {
     @FXML
@@ -57,9 +60,10 @@ public class BoardController {
      * @param scene ,whose root we are looking to add to our board
      * @return the updated scene of the board
      */
-    public Scene putList(Scene scene){
-
-        listBox.getChildren().add(scene.getRoot());
+    public Scene putList(Scene scene, int id){
+        GridPane root = (GridPane) scene.getRoot();
+        root.setId("list"+id);
+        listBox.getChildren().add(root);
         return boardLabel.getScene();
     }
 
