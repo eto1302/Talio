@@ -1,5 +1,7 @@
 package server.api;
 
+import commons.Board;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.Services.ListService;
 
@@ -17,8 +19,13 @@ public class ListController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public String getList(@PathVariable int id){
-        return this.listService.getListById(id).toString();
+    public ResponseEntity<commons.List> getList(@PathVariable int id){
+        try {
+            commons.List list = listService.getListById(id);
+            return ResponseEntity.ok(list);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @GetMapping("/findAll")
