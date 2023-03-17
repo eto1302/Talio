@@ -61,7 +61,8 @@
                                 <Font size="14.0" />
                             </font>
                         </Label>
-                        <AnchorPane fx:id="card1" layoutY="40.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" prefHeight="40.0" prefWidth="180.0">
+                        <AnchorPane fx:id="card1" layoutY="40.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed"
+                                    onMouseReleased="#mouseReleased" prefHeight="40.0" prefWidth="180.0">
                             <children>
                                 <Button fx:id="edit1" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
                                     <font>
@@ -76,7 +77,8 @@
                                 <Hyperlink fx:id="title1" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="Card title 1" />
                             </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="card2" layoutY="80.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" prefHeight="40.0" prefWidth="180.0">
+                        <AnchorPane fx:id="card2" layoutY="80.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed"
+                                    onMouseReleased="#mouseReleased" prefHeight="40.0" prefWidth="180.0">
                             <children>
                                 <Button fx:id="edit2" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
                                     <font>
@@ -91,7 +93,7 @@
                                 <Hyperlink fx:id="title2" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="Card title 2" />
                             </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="card3" layoutY="120.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" prefHeight="40.0" prefWidth="180.0">
+                        <AnchorPane fx:id="card3" layoutY="120.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="40.0" prefWidth="180.0">
                             <children>
                                 <Button fx:id="edit3" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
                                     <font>
@@ -106,7 +108,7 @@
                                 <Hyperlink fx:id="title3" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="Card title 3" />
                             </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="card4" layoutY="160.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" prefHeight="40.0" prefWidth="180.0">
+                        <AnchorPane fx:id="card4" layoutY="160.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="40.0" prefWidth="180.0">
                             <children>
                                 <Button fx:id="edit4" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
                                     <font>
@@ -121,7 +123,7 @@
                                 <Hyperlink fx:id="title4" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="Card title 4" />
                             </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="card5" layoutY="200.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" prefHeight="40.0" prefWidth="180.0">
+                        <AnchorPane fx:id="card5" layoutY="200.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="40.0" prefWidth="180.0">
                             <children>
                                 <Button fx:id="edit5" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
                                     <font>
@@ -147,6 +149,22 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
+                   <AnchorPane fx:id="card6" layoutY="40.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged"
+                               onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="40.0" prefWidth="180.0">
+                       <children>
+                           <Button fx:id="edit6" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
+                               <font>
+                                   <Font size="10.0" />
+                               </font>
+                           </Button>
+                           <Button fx:id="delete6" layoutX="128.4" layoutY="9.2" mnemonicParsing="false" onAction="#showConfirmDelete" text="Delete">
+                               <font>
+                                   <Font size="10.0" />
+                               </font>
+                           </Button>
+                           <Hyperlink fx:id="title6" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="Card title 6" />
+                       </children>
+                   </AnchorPane>
                </children></AnchorPane>
                 <AnchorPane fx:id="doneList" layoutX="405.0" prefHeight="300.0" prefWidth="180.0">
                <children>
@@ -157,6 +175,21 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
+                   <AnchorPane fx:id="card7" layoutY="40.0" onDragDetected="#onDrag" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="40.0" prefWidth="180.0">
+                       <children>
+                           <Button fx:id="edit7" layoutX="88.8" layoutY="9.2" mnemonicParsing="false" onAction="#showEditList" text="Edit">
+                               <font>
+                                   <Font size="10.0" />
+                               </font>
+                           </Button>
+                           <Button fx:id="delete7" layoutX="128.4" layoutY="9.2" mnemonicParsing="false" onAction="#showConfirmDelete" text="Delete">
+                               <font>
+                                   <Font size="10.0" />
+                               </font>
+                           </Button>
+                           <Hyperlink fx:id="title7" layoutX="10.0" layoutY="8.0" onAction="#showDetails" text="Card title 7" />
+                       </children>
+                   </AnchorPane>
                </children>
                 </AnchorPane>
          </children>

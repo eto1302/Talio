@@ -5,7 +5,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import java.util.*;
+
+import java.util.List;
 
 public class ShowCtrl {
     private Stage primaryStage, secondaryStage;
@@ -131,5 +132,4 @@ public class ShowCtrl {
         Scene updated = homeCtrl.addList(title);
         primaryStage.setScene(updated);
     }
-
 }
