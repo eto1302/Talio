@@ -4,9 +4,8 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
 
-<GridPane fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="99.0" prefWidth="150.0" style="-fx-padding: 2px; -fx-border-color: gray;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskShape">
+<GridPane fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="99.0" prefWidth="164.0" style="-fx-padding: 2px; -fx-border-color: gray;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskShape">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="235.79998779296875" />
     <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="27.800012207031244" />
@@ -16,12 +15,9 @@
     <RowConstraints minHeight="10.0" prefHeight="36.800024414062506" vgrow="NEVER" />
   </rowConstraints>
    <children>
-      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" prefHeight="24.0" prefWidth="42.0" text="Title" textAlignment="JUSTIFY" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-         <font>
-            <Font size="15.0" />
-         </font></Label>
       <Label fx:id="plusSign" text="+" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
       <Label fx:id="progressLabel" opacity="0.39" text="0/1" GridPane.rowIndex="1" />
-      <Label text="X" GridPane.columnIndex="1" GridPane.valignment="TOP" />
+      <Label fx:id="deleteX" onMouseEntered="#delete" text="X" GridPane.columnIndex="1" GridPane.valignment="TOP" />
+      <Label fx:id="title" style="-fx-wrap-text: true;" text="Label" GridPane.halignment="CENTER" />
    </children>
 </GridPane>

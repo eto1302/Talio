@@ -54,6 +54,9 @@ public class ListShape {
         return listGrid.getScene();
     }
 
+    /**
+     *deletes the list from the board
+     */
     public void deleteList(){
         List list = serverUtils.getList(id);
         serverUtils.deleteList(list.getBoard().getId(), id);
@@ -62,11 +65,19 @@ public class ListShape {
 
     }
 
+    /**
+     * shows the window with options for editing the list
+     */
     public void editList(){
         List list = serverUtils.getList(id);
         showCtrl.showEditList(list, this, primaryStage);
     }
 
+    /**
+     * sets information
+     * @param id of the list
+     * @param primaryStage of the scene we are in
+     */
     public void set(int id, Stage primaryStage){
         this.id=id;
         this.primaryStage=primaryStage;
@@ -75,10 +86,18 @@ public class ListShape {
         return id;
     }
 
+    /**
+     * shows the add task window
+     */
     public void showAddTask(){
         showCtrl.showAddTask(this, primaryStage);
     }
 
+    /**
+     * Adds the task inside the box with tasks
+     * @param taskScene the scene containing the grid representing
+     * @return the updated scene
+     */
     public Scene addTask(Scene taskScene){
         tasksBox.getChildren().add(taskScene.getRoot());
         return tasksBox.getScene();
