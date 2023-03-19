@@ -2,7 +2,7 @@ package client.scenes;
 
 import commons.*;
 import client.utils.ServerUtils;
-import commons.models.BoardIdResponseModel;
+import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -50,12 +50,14 @@ public class AddBoardController {
         Board board = Board.create(nameField.getText(), null, new HashSet<>(),
                 colorToHex(fontColor.getValue()), colorToHex(backgroundColor.getValue()));
 
-        BoardIdResponseModel response = server.addBoard(board);
+        IdResponseModel response = server.addBoard(board);
 
         // if creation fails or client cannot connect to the server, it will return -1
-        if (response.getBoardId() == -1) {
+        if (response.getId() == -1) {
             // show the error popup
             showCtrl.showError(response.getErrorMessage());
+            showCtrl.cancel();
+            return;
         }
 
         showCtrl.addBoard(board);

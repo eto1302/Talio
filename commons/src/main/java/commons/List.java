@@ -3,6 +3,9 @@ package commons;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
@@ -13,28 +16,37 @@ public class List {
     @Column(name = "id", columnDefinition = "integer")
     private int id;
 
-    @Column(name = "name", columnDefinition = "varchar(255)")
+    @Column(name = "name")
+    @Size(max = 20)
     private String name;
 
-    @Column(name="background", columnDefinition = "varchar(7)")
+    @Column(name="background")
+    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$")
     private String backgroundColor;
-    @Column(name="font", columnDefinition = "varchar(7)")
+
+    @Column(name="font")
+    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$")
     private String fontColor;
+
+    @Column(name = "b_id")
+    @NotNull
+    private int boardId;
 
     @OneToMany
     private java.util.List<Task> tasks;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="boardId", nullable=false)
     private Board board;
 
 
     public static List create(String name, String backgroundColor,
-                              String fontColor, java.util.List<Task> tasks) {
+                              String fontColor, int boardId, java.util.List<Task> tasks) {
         List list = new List();
         list.name = name;
         list.backgroundColor=backgroundColor;
+        list.boardId = boardId;
         list.fontColor=fontColor;
         list.tasks=tasks;
         return list;
@@ -69,6 +81,10 @@ public class List {
         return board;
     }
 
+    public int getBoardId() {
+        return boardId;
+    }
+
     /**
      * Sets the name of the list
      * @param name the name to set
@@ -83,6 +99,10 @@ public class List {
      */
     public void setBoard(Board board) {
         this.board = board;
+    }
+
+    public void setBoardId(int boardId) {
+        this.boardId = boardId;
     }
 
     /**
@@ -125,11 +145,12 @@ public class List {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         List list = (List) o;
-        return getId() == list.getId() && Objects.equals(getName(), list.getName())
-                && Objects.equals(getTasks(), list.getTasks()) &&
-                Objects.equals(getBoard(), list.getBoard()) &&
-                Objects.equals(getBackgroundColor(), list.getBackgroundColor()) &&
-                Objects.equals(getFontColor(), list.getFontColor());
+        return id == list.id && boardId == list.boardId
+                && Objects.equals(name, list.name)
+                && Objects.equals(backgroundColor, list.backgroundColor)
+                && Objects.equals(fontColor, list.fontColor)
+                && Objects.equals(tasks, list.tasks)
+                && Objects.equals(board, list.board);
     }
 
     /**
@@ -151,10 +172,11 @@ public class List {
         return "List{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", tasks=" + tasks +
-                ", board=" + board +
                 ", backgroundColor='" + backgroundColor + '\'' +
                 ", fontColor='" + fontColor + '\'' +
+                ", boardId=" + boardId +
+                ", tasks=" + tasks +
+                ", board=" + board +
                 '}';
     }
 }

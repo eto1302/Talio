@@ -2,7 +2,7 @@ package server.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Board;
-import commons.models.BoardIdResponseModel;
+import commons.models.IdResponseModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -45,7 +45,7 @@ public class BoardControllerTest {
                 .andExpect(status().isOk());
 
         String boardStr = response.andReturn().getResponse().getContentAsString();
-        BoardIdResponseModel model = objectMapper.readValue(boardStr, BoardIdResponseModel.class);
+        IdResponseModel model = objectMapper.readValue(boardStr, IdResponseModel.class);
         assertEquals(null, model.getErrorMessage());
         verify(mockBoardRepo, times(1)).save(board);
     }

@@ -2,6 +2,8 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.List;
+import commons.models.IdResponseModel;
+import commons.models.ListEditModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -20,8 +22,8 @@ public class EditListController {
     private Button cancel, edit;
 
     private ShowCtrl showCtrl;
-    private int id;
-    private ListShape controller;
+    private List list;
+    private ListShapeCtrl listShapeCtrl;
     private ServerUtils server;
     @Inject
     private EditListController(ShowCtrl showCtrl, ServerUtils serverUtils){
@@ -33,9 +35,9 @@ public class EditListController {
         showCtrl.cancel();
     }
 
-    public void setup(List list, ListShape controller){
-        this.id=list.getId();
-        this.controller=controller;
+    public void setup(List list, ListShapeCtrl listShapeCtrl){
+        this.list = list;
+        this.listShapeCtrl = listShapeCtrl;
         newBackground.setValue(Color.web(list.getBackgroundColor()));
         newTitle.setText(list.getName());
         newFont.setValue(Color.web(list.getFontColor()));
@@ -45,8 +47,18 @@ public class EditListController {
         String backgroundColor = colorToHex(this.newBackground.getValue());
         String fontColor = colorToHex(this.newFont.getValue());
         String name = newTitle.getText();
-        server.editList(name, id, backgroundColor, fontColor);
-        showCtrl.editList(server.getList(id), controller);
+
+        ListEditModel requestModel = new ListEditModel(name, backgroundColor, fontColor);
+
+        IdResponseModel responseModel = server.editList(
+                list.getBoardId(), list.getId(), requestModel);
+
+        if (responseModel.getId() == -1) {
+            showCtrl.cancel();
+            showCtrl.showError(responseModel.getErrorMessage());
+            return;
+        }
+
         showCtrl.cancel();
     }
 

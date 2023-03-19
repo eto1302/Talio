@@ -1,7 +1,7 @@
 package server.Services;
 
 import commons.Board;
-import commons.models.BoardIdResponseModel;
+import commons.models.IdResponseModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,17 +28,17 @@ public class BoardServiceTest {
 
     @Test
     void saveBoard() {
-        BoardIdResponseModel model = boardService.saveBoard(board);
+        IdResponseModel model = boardService.saveBoard(board);
         assertNull(model.getErrorMessage());
-        assertEquals(board.getId(), model.getBoardId());
+        assertEquals(board.getId(), model.getId());
         verify(mockBoardRepository, times(1)).save(board);
     }
 
     @Test
     void saveBoardFails() {
         when(mockBoardRepository.save(board)).thenThrow(new RuntimeException("message"));
-        BoardIdResponseModel model = boardService.saveBoard(board);
-        assertEquals(-1, model.getBoardId());
+        IdResponseModel model = boardService.saveBoard(board);
+        assertEquals(-1, model.getId());
         assertEquals("message", model.getErrorMessage());
     }
 }

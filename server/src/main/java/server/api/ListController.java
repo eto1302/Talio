@@ -1,10 +1,14 @@
 package server.api;
 
+import commons.models.IdResponseModel;
+import commons.models.ListEditModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.Services.ListService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/list")
@@ -16,9 +20,8 @@ public class ListController {
         this.listService = listService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     @ResponseBody
-
     public ResponseEntity<commons.List> getList(@PathVariable int id){
         try {
             commons.List list = listService.getListById(id);
@@ -28,7 +31,16 @@ public class ListController {
         }
     }
 
-
+    @GetMapping("/getByBoard/{id}")
+    public ResponseEntity<Set<commons.List>> getByBoard(@PathVariable int id) {
+        try {
+            Set<commons.List> lists = listService.getAllListByBoard(id);
+            return ResponseEntity.ok().body(lists);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+    
     @GetMapping("/findAll")
     @ResponseBody
     public List<commons.List> getAllLists(){
@@ -36,18 +48,18 @@ public class ListController {
     }
 
     @PostMapping("/add/{boardId}")
-    public int addList(@PathVariable int boardId, @RequestBody commons.List list) {
+    public IdResponseModel addList(@PathVariable int boardId, @RequestBody commons.List list) {
         return listService.addList(list, boardId);
     }
 
-    @GetMapping("/edit/{listId}/{name}/{background}/{font}")
-    public boolean editList(@PathVariable int listId, @PathVariable String name,
-                              @PathVariable String background, @PathVariable String font) {
-        return listService.editList(listId, name, background, font);
+    @PostMapping("/edit/{boardId}/{listId}")
+    public IdResponseModel editList(@PathVariable int boardId, @PathVariable int listId,
+                                    @RequestBody ListEditModel model) {
+        return listService.editList(boardId, listId, model);
     }
 
     @GetMapping("/delete/{boardId}/{listId}")
-    public boolean removeList(@PathVariable int boardId, @PathVariable int listId) {
+    public IdResponseModel removeList(@PathVariable int boardId, @PathVariable int listId) {
         return listService.removeList(listId, boardId);
     }
 }
