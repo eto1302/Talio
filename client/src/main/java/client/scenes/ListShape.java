@@ -5,10 +5,12 @@ import client.utils.ServerUtils;
 import commons.List;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import javax.inject.Inject;
 
@@ -17,9 +19,9 @@ public class ListShape {
     @FXML
     private VBox tasksBox;
     @FXML
-    private HBox tagBox;
+    private MenuItem editList, deleteList;
     @FXML
-    private MenuItem editList, deleteList, addTask, addTag;
+    private Button addTask;
     @FXML
     private Label listTitle;
     @FXML
@@ -27,6 +29,7 @@ public class ListShape {
     private ShowCtrl showCtrl;
     private ServerUtils serverUtils;
     private int id;
+    private Stage primaryStage;
 
 
     @Inject
@@ -57,15 +60,27 @@ public class ListShape {
         HBox parent = (HBox) listGrid.getParent();
         parent.getChildren().remove(listGrid);
 
-
     }
 
     public void editList(){
         List list = serverUtils.getList(id);
-        showCtrl.showEditList(list, this);
+        showCtrl.showEditList(list, this, primaryStage);
     }
 
-    public void setId(int id){
+    public void set(int id, Stage primaryStage){
         this.id=id;
+        this.primaryStage=primaryStage;
+    }
+    public int getId(){
+        return id;
+    }
+
+    public void showAddTask(){
+        showCtrl.showAddTask(this, primaryStage);
+    }
+
+    public Scene addTask(Scene taskScene){
+        tasksBox.getChildren().add(taskScene.getRoot());
+        return tasksBox.getScene();
     }
 }

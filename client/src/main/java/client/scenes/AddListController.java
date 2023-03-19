@@ -45,8 +45,8 @@ public class AddListController {
         List list = List.create(nameField.getText(),
                 backgroundColor, fontColor, new ArrayList<Task>());
 
-        //int id = server.addlist(list, 1);
-        List listTest = server.getList(4);
+        int id = server.addlist(list, 1);
+        List listTest = server.getList(id);
         showCtrl.addList(listTest);
         showCtrl.cancel();
     }

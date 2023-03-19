@@ -47,8 +47,8 @@ public class BoardController {
     @FXML
     private GridPane toDo, doing, done;
     @FXML
-    private MenuItem addTaskToDo, addTaskDoing, addTaskDone, addTagToDo,
-        addTagDoing, addTagDone, deleteToDo, deleteDoing, deleteDone, editToDo, editDoing, editDone;
+    private MenuItem addTaskToDo, addTaskDoing, addTaskDone,
+         deleteToDo, deleteDoing, deleteDone, editToDo, editDoing, editDone;
 
     private final ShowCtrl showCtrl;
     private List<AnchorPane> cards;

@@ -1,8 +1,10 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 
@@ -34,5 +36,12 @@ public class TaskShape {
                         showCtrl.showTaskOverview();
             }
         });
+    }
+
+    public Scene getSceneUpdated(Task task){
+        title.setText(task.getTitle());
+        if (task.getDescription()==null)
+            plusSign.setVisible(false);
+        return grid.getScene();
     }
 }
