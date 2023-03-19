@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
 
-public class ListShape {
+public class ListShapeCtrl {
 
     @FXML
     private VBox tasksBox;
@@ -30,7 +30,7 @@ public class ListShape {
 
 
     @Inject
-    public ListShape (ShowCtrl showCtrl, ServerUtils serverUtils){
+    public ListShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils){
         this.showCtrl=showCtrl;
         this.serverUtils=serverUtils;
     }
@@ -53,15 +53,12 @@ public class ListShape {
 
     public void deleteList(){
         List list = serverUtils.getList(id);
-        serverUtils.deleteList(list.getBoard().getId(), id);
-        HBox parent = (HBox) listGrid.getParent();
-        parent.getChildren().remove(listGrid);
-
-
+        serverUtils.deleteList(list.getBoardId(), id);
     }
 
     public void editList(){
         List list = serverUtils.getList(id);
+        if(list == null) showCtrl.showError("Failed to get the list...");
         showCtrl.showEditList(list, this);
     }
 
