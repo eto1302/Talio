@@ -1,5 +1,9 @@
 package client.user;
 
+import client.messageClients.MessageSender;
+import client.sync.BoardUpdate;
+import client.utils.ServerUtils;
+import com.google.inject.Inject;
 import commons.Board;
 
 import java.io.*;
@@ -30,6 +34,29 @@ public class UserData {
     private Map<Integer, String> boards;
 
     /**
+<<<<<<< Updated upstream
+=======
+     * Current opened board, imperative for synchronization
+     */
+    private Board currentBoard;
+
+    /**
+     * Message sender used for synchronization
+     * Injected by guice
+     */
+    @Inject
+    private MessageSender messageSender;
+
+    /**
+     * Server utils object used for sending board requests and updates
+     * to the server
+     * Injected by guice
+     */
+    @Inject
+    private ServerUtils serverUtils;
+
+    /**
+>>>>>>> Stashed changes
      * Initializes the UserData class with a given filepath for the datafile. If this file
      * exists already, then it will be read and all user information imported into the fields
      * of this class. Otherwise, no action will be taken, and data will only be written when
@@ -105,11 +132,36 @@ public class UserData {
      * @param identifier the ID of the board to fetch
      * @return the full detailing of the fetched board
      */
-    public Board fetchBoard(int identifier) {
+    public Board openBoard(int identifier) {
         assert boards.containsKey(identifier);
 
-        // TODO integrate with server and messaging system
-        return null;
+        this.currentBoard = serverUtils.getBoard(identifier);
+        return currentBoard;
+    }
+
+    /**
+     * @return the current board (since last synchronization), or null if no board has been opened
+     */
+    public Board getCurrentBoard() {
+        return currentBoard;
+    }
+
+    /**
+     * Uses a {@link BoardUpdate} object to update the board in a particular way. This includes
+     * updating the current board locally, sending the update to the server, and messaging all
+     * other clients about the update.
+     *
+     * @param boardUpdate the update to apply
+     * @return true if the board update was successful, false otherwise (with no changes made)
+     */
+    public boolean updateBoard(BoardUpdate boardUpdate) {
+        if(!boardUpdate.sendToServer(serverUtils))
+            return false;
+
+        if(currentBoard != null && currentBoard.getId() == boardUpdate.getBoardID())
+            boardUpdate.apply(this);
+        messageSender.send(boardUpdate.getQueue(), boardUpdate);
+        return true;
     }
 
     /**

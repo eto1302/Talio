@@ -57,6 +57,10 @@ public class List {
         this.name = name;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setBoard(Board board) {
         this.board = board;
     }
