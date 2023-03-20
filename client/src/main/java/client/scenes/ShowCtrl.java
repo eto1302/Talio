@@ -124,6 +124,8 @@ public class ShowCtrl {
         var taskShape = FXML.load(TaskShape.class, "client", "scenes", "Task.fxml");
         Scene taskScene = new Scene(taskShape.getValue());
         Scene updated = taskShape.getKey().getSceneUpdated(task);
+        //taskShape.getKey().setup(controller, task.getId(), controller.getList());
+        taskShape.getKey().setup(controller);
         Scene finalScene = controller.addTask(updated);
 
         primaryStage.setScene(finalScene);
@@ -204,7 +206,7 @@ public class ShowCtrl {
     public void addList(commons.List list){
         var listShape = FXML.load(ListShape.class, "client", "scenes", "List.fxml");
         Scene initializeList = new Scene(listShape.getValue());
-        listShape.getKey().set(list.getId(), primaryStage);
+        listShape.getKey().set(list, primaryStage);
 
         Scene listScene =listShape.getKey().getSceneUpdated(list);
         Scene scene = boardController.putList(listScene);

@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -21,6 +22,8 @@ public class ListShape {
     @FXML
     private MenuItem editList, deleteList;
     @FXML
+    private ScrollPane scrollPane;
+    @FXML
     private Button addTask;
     @FXML
     private Label listTitle;
@@ -28,7 +31,7 @@ public class ListShape {
     private GridPane listGrid;
     private ShowCtrl showCtrl;
     private ServerUtils serverUtils;
-    private int id;
+    private List list;
     private Stage primaryStage;
 
 
@@ -58,8 +61,7 @@ public class ListShape {
      *deletes the list from the board
      */
     public void deleteList(){
-        List list = serverUtils.getList(id);
-        serverUtils.deleteList(list.getBoard().getId(), id);
+        serverUtils.deleteList(list.getBoard().getId(), list.getId());
         HBox parent = (HBox) listGrid.getParent();
         parent.getChildren().remove(listGrid);
 
@@ -69,21 +71,20 @@ public class ListShape {
      * shows the window with options for editing the list
      */
     public void editList(){
-        List list = serverUtils.getList(id);
         showCtrl.showEditList(list, this, primaryStage);
     }
 
     /**
      * sets information
-     * @param id of the list
+     * @param list our list
      * @param primaryStage of the scene we are in
      */
-    public void set(int id, Stage primaryStage){
-        this.id=id;
+    public void set(List list, Stage primaryStage){
+        this.list=list;
         this.primaryStage=primaryStage;
     }
-    public int getId(){
-        return id;
+    public List getList(){
+        return list;
     }
 
     /**
