@@ -14,6 +14,15 @@ class TagTest {
     }
 
     @Test
+    void createTest(){
+        Tag expected = new Tag();
+        expected.setId(0);
+        expected.setName("testTag");
+        expected.setColor("#000000");
+        assertEquals(expected, testTag);
+    }
+
+    @Test
     void getName() {
         assertEquals("testTag", testTag.getName());
     }

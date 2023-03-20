@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<GridPane fx:id="listGrid" prefHeight="334.0" prefWidth="202.0" style="-fx-border-color: gray;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ListShapeCtrl">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="26.0" vgrow="NEVER" />
+    <RowConstraints minHeight="10.0" prefHeight="182.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="NEVER" />
+  </rowConstraints>
+   <children>
+      <Label fx:id="listTitle" text="Label" GridPane.halignment="CENTER">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Separator prefWidth="200.0" GridPane.columnSpan="2" GridPane.valignment="BOTTOM" />
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-hbar-policy: never;" GridPane.rowIndex="1">
+         <content>
+            <VBox fx:id="tasksBox" prefHeight="222.0" prefWidth="190.0" />
+         </content>
+      </ScrollPane>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 80px;" GridPane.rowIndex="2">
+         <children>
+            <MenuButton mnemonicParsing="false" text="Edit">
+              <items>
+                <MenuItem fx:id="editList" mnemonicParsing="false" onAction="#editList" text="Edit list" />
+                <MenuItem fx:id="deleteList" mnemonicParsing="false" onAction="#deleteList" text="Delete " />
+              </items>
+            </MenuButton>
+            <MenuButton mnemonicParsing="false" text="+">
+              <items>
+                <MenuItem fx:id="addTask" mnemonicParsing="false" text="Add task" />
+                <MenuItem fx:id="addTag" mnemonicParsing="false" text="Add tag" />
+              </items>
+            </MenuButton>
+         </children>
+      </HBox>
+   </children>
+</GridPane>

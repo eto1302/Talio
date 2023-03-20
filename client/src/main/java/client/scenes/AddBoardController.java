@@ -1,16 +1,22 @@
 package client.scenes;
 
+import commons.*;
+import client.utils.ServerUtils;
+import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
+
+import java.util.HashSet;
 
 public class AddBoardController {
 
     private final ShowCtrl showCtrl;
-
+    private final ServerUtils server;
     @FXML
     private Button cancelButton;
     @FXML
@@ -23,18 +29,67 @@ public class AddBoardController {
     private ColorPicker fontColor;
 
     @Inject
-    public AddBoardController (ShowCtrl showCtrl){
+    public AddBoardController (ShowCtrl showCtrl, ServerUtils server){
         this.showCtrl=showCtrl;
+        this.server = server;
     }
 
+    /**
+     * Closes the AddBoard pop-up
+     */
     public void cancel(){
+        clearFields();
+        showCtrl.showAddBoard();
         showCtrl.cancel();
     }
 
+    /**
+     * Converts the user data into a board and sends it to the server
+     */
     public void addBoard(){
-        System.out.println(nameField.getText());
-        System.out.println(backgroundColor.getValue());
-        System.out.println(fontColor.getValue());
+        Board board = Board.create(nameField.getText(), null, new HashSet<>(),
+                colorToHex(fontColor.getValue()), colorToHex(backgroundColor.getValue()));
+
+        IdResponseModel response = server.addBoard(board);
+
+        // if creation fails or client cannot connect to the server, it will return -1
+        if (response.getId() == -1) {
+            // show the error popup
+            showCtrl.showError(response.getErrorMessage());
+            showCtrl.cancel();
+            return;
+        }
+
+        showCtrl.addBoard(board);
         showCtrl.cancel();
+    }
+
+    /**
+     * Clears all the fields
+     */
+    private void clearFields() {
+        nameField.clear();
+    }
+
+    /**
+     * Converts the user input into a board.
+     * @return board, the user created
+     */
+    private Board getBoard() {
+        return Board.create(nameField.getText(), null, new HashSet<>(),
+                colorToHex(fontColor.getValue()), colorToHex(backgroundColor.getValue()));
+    }
+
+    /**
+     * Returns a hexadecimal string representation of javafx.scene.paint.Color.
+     * @param color
+     * @return string representation of the color.
+     */
+    private String colorToHex(Color color){
+        String hexString = String.format("#%02X%02X%02X",
+                (int)(color.getRed() * 255),
+                (int)(color.getGreen() * 255),
+                (int)(color.getBlue() * 255));
+        return hexString;
     }
 }

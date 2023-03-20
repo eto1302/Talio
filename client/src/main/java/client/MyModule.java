@@ -19,6 +19,7 @@ import client.user.UserData;
 import client.messageClients.MessageAdmin;
 import client.messageClients.MessageSender;
 import client.scenes.ShowCtrl;
+import client.utils.ServerUtils;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -35,5 +36,7 @@ public class MyModule extends AbstractModule {
         bind(RestTemplate.class).toInstance(rt);
         bind(ShowCtrl.class).in(Scopes.SINGLETON);
         bind(UserData.class).in(Scopes.SINGLETON);
+        bind(ServerUtils.class).in(Scopes.SINGLETON);
+        bind(Error.class).in(Scopes.SINGLETON);
     }
 }
