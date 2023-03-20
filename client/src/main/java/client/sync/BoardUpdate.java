@@ -30,7 +30,8 @@ public abstract class BoardUpdate implements Message {
 
     @Override
     public void consume() {
-        if(userData != null && userData.getCurrentBoard() != null && userData.getCurrentBoard().getId() == boardID)
+        if(userData != null && userData.getCurrentBoard() != null
+                && userData.getCurrentBoard().getId() == boardID)
             apply(userData);
     }
 

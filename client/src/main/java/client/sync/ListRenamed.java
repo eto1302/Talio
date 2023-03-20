@@ -29,7 +29,8 @@ public class ListRenamed extends BoardUpdate {
 
     @Override
     public void apply(UserData data) {
-        data.getCurrentBoard().getLists().stream().filter(e -> e.getId() == super.getBoardID()).forEach(e -> e.setName(name));
+        data.getCurrentBoard().getLists().stream().filter(e -> e.getId() == super.getBoardID())
+                .forEach(e -> e.setName(name));
     }
 
 }

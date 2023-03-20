@@ -2,7 +2,6 @@ package client.sync;
 
 import client.user.UserData;
 import client.utils.ServerUtils;
-import commons.List;
 
 public class ListDeleted extends BoardUpdate {
 
