@@ -25,7 +25,7 @@ public abstract class BoardUpdate implements Message {
     }
 
     public String getQueue() {
-        return QUEUE + "/" + boardID;
+        return QUEUE + boardID;
     }
 
     @Override

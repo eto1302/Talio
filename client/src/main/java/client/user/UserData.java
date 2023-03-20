@@ -1,5 +1,6 @@
 package client.user;
 
+import client.messageClients.MessageAdmin;
 import client.messageClients.MessageSender;
 import client.sync.BoardUpdate;
 import client.utils.ServerUtils;
@@ -34,8 +35,6 @@ public class UserData {
     private Map<Integer, String> boards;
 
     /**
-<<<<<<< Updated upstream
-=======
      * Current opened board, imperative for synchronization
      */
     private Board currentBoard;
@@ -48,6 +47,13 @@ public class UserData {
     private MessageSender messageSender;
 
     /**
+     * Message admin used for synchronization
+     * Injected by guice
+     */
+    @Inject
+    private MessageAdmin messageAdmin;
+
+    /**
      * Server utils object used for sending board requests and updates
      * to the server
      * Injected by guice
@@ -56,7 +62,6 @@ public class UserData {
     private ServerUtils serverUtils;
 
     /**
->>>>>>> Stashed changes
      * Initializes the UserData class with a given filepath for the datafile. If this file
      * exists already, then it will be read and all user information imported into the fields
      * of this class. Otherwise, no action will be taken, and data will only be written when
@@ -136,6 +141,7 @@ public class UserData {
         assert boards.containsKey(identifier);
 
         this.currentBoard = serverUtils.getBoard(identifier);
+        this.messageAdmin.subscribe(BoardUpdate.QUEUE + currentBoard.getId());
         return currentBoard;
     }
 
