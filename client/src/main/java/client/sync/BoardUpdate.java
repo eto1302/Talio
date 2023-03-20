@@ -3,6 +3,7 @@ package client.sync;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.messaging.Messages.Message;
+import commons.models.IdResponseModel;
 
 public abstract class BoardUpdate implements Message {
 
@@ -35,7 +36,7 @@ public abstract class BoardUpdate implements Message {
             apply(userData);
     }
 
-    public abstract boolean sendToServer(ServerUtils server);
+    public abstract IdResponseModel sendToServer(ServerUtils server);
 
     public abstract void apply(UserData data);
 

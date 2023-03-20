@@ -2,6 +2,7 @@ package client.sync;
 
 import client.user.UserData;
 import client.utils.ServerUtils;
+import commons.models.IdResponseModel;
 
 public class ListDeleted extends BoardUpdate {
 
@@ -17,7 +18,7 @@ public class ListDeleted extends BoardUpdate {
     }
 
     @Override
-    public boolean sendToServer(ServerUtils server) {
+    public IdResponseModel sendToServer(ServerUtils server) {
         return server.deleteList(listId, super.getBoardID());
     }
 

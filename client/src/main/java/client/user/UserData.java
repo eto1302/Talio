@@ -6,6 +6,7 @@ import client.sync.BoardUpdate;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
+import commons.models.IdResponseModel;
 
 import java.io.*;
 import java.util.HashMap;
@@ -158,16 +159,17 @@ public class UserData {
      * other clients about the update.
      *
      * @param boardUpdate the update to apply
-     * @return true if the board update was successful, false otherwise (with no changes made)
+     * @return status of board update, note that no changes are made if status is fail (-1)
      */
-    public boolean updateBoard(BoardUpdate boardUpdate) {
-        if(!boardUpdate.sendToServer(serverUtils))
-            return false;
+    public IdResponseModel updateBoard(BoardUpdate boardUpdate) {
+        IdResponseModel response = boardUpdate.sendToServer(serverUtils);
+        if(boardUpdate.sendToServer(serverUtils).getId() == -1)
+            return response;
 
         if(currentBoard != null && currentBoard.getId() == boardUpdate.getBoardID())
             boardUpdate.apply(this);
         messageSender.send(boardUpdate.getQueue(), boardUpdate);
-        return true;
+        return response;
     }
 
     /**

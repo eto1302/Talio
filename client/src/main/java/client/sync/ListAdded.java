@@ -3,6 +3,7 @@ package client.sync;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
+import commons.models.IdResponseModel;
 
 public class ListAdded extends BoardUpdate {
 
@@ -19,12 +20,10 @@ public class ListAdded extends BoardUpdate {
     }
 
     @Override
-    public boolean sendToServer(ServerUtils server) {
-        int id = server.addlist(list, super.getBoardID());
-        if(id == -1)
-            return false;
-        list.setId(id);
-        return true;
+    public IdResponseModel sendToServer(ServerUtils server) {
+        IdResponseModel id = server.addList(list, super.getBoardID());
+        list.setId(id.getId());
+        return id;
     }
 
     @Override
