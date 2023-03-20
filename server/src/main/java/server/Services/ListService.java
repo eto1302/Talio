@@ -2,12 +2,14 @@ package server.Services;
 
 import commons.Board;
 import commons.List;
+import commons.models.IdResponseModel;
+import commons.models.ListEditModel;
 import org.springframework.stereotype.Service;
-import commons.Task;
 import server.database.BoardRepository;
 import server.database.ListRepositoy;
 
-import java.util.ArrayList;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 
 @Service
@@ -21,17 +23,18 @@ public class ListService {
         this.boardRepository = boardRepository;
     }
 
-    public List getList(){
-        java.util.List<Task> tasks = new ArrayList<>();
-        return  List.create("Urgent!", tasks);
-    }
 
-    public List getListById(int id){
-        return this.listRepositoy.getById(id);
+    public commons.List getListById(int id){
+        return this.listRepositoy.getListByID(id);
     }
 
     public java.util.List<commons.List> getAllLists() {
         return listRepositoy.findAll();
+    }
+
+    public Set<List> getAllListByBoard(int boardId) throws NoSuchElementException {
+        if(!boardRepository.existsById(boardId)) throw new NoSuchElementException();
+        return boardRepository.getBoardByID(boardId).getLists();
     }
 
     /**
@@ -41,16 +44,16 @@ public class ListService {
      * @param boardId id of the board
      * @return id of the list , or -1 if there is no board of this id
      */
-    public int addList(commons.List list, int boardId) {
+    public IdResponseModel addList(commons.List list, int boardId) {
         try {
             Board board = boardRepository.getById(boardId);
             board.getLists().add(list);
             list.setBoard(board);
+            list.setBoardId(boardId);
             listRepositoy.save(list);
-            return list.getId();
+            return new IdResponseModel(list.getId(), null);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return -1;
+            return new IdResponseModel(-1, e.getMessage());
         }
     }
 
@@ -61,33 +64,29 @@ public class ListService {
      * @param boardId if of the board
      * @return true if removal succeeds, false if there is no such board or list
      */
-    public boolean removeList(int listId, int boardId) {
+    public IdResponseModel removeList(int listId, int boardId) {
         try {
             Board board = boardRepository.getById(boardId);
             List list = listRepositoy.getById(listId);
             board.getLists().remove(list);
             listRepositoy.delete(list);
-            return true;
+            return new IdResponseModel(listId, null);
         } catch (Exception e) {
-            return false;
+            return new IdResponseModel(-1, e.getMessage());
         }
     }
 
-    /**
-     * Rename the list by its id.
-     *
-     * @param listId id of the list
-     * @param name new name of the list
-     * @return true of renaming succeed, else false
-     */
-    public boolean renameList(int listId, String name) {
+    public IdResponseModel editList(int boardId, int listId, ListEditModel model) {
         try {
-            List list = listRepositoy.getById(listId);
-            list.setName(name);
+            List list = listRepositoy.getListByID(listId);
+            list.setName(model.getName());
+            list.setBackgroundColor(model.getBackgroundColor());
+            list.setFontColor(model.getFontColor());
             listRepositoy.save(list);
-            return true;
+            return new IdResponseModel(listId, null);
         } catch (Exception e) {
-            return false;
+            return new IdResponseModel(-1, e.getMessage());
         }
     }
+
 }
