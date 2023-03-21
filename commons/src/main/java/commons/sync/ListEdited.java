@@ -1,7 +1,7 @@
-package client.sync;
+package commons.sync;
 
-import client.user.UserData;
-import client.utils.ServerUtils;
+import commons.mocks.IServerUtils;
+import commons.mocks.IUserData;
 import commons.models.IdResponseModel;
 import commons.models.ListEditModel;
 
@@ -25,12 +25,12 @@ public class ListEdited extends BoardUpdate {
     }
 
     @Override
-    public IdResponseModel sendToServer(ServerUtils server) {
+    public IdResponseModel sendToServer(IServerUtils server) {
         return server.editList(super.getBoardID(), listId, edit);
     }
 
     @Override
-    public void apply(UserData data) {
+    public void apply(IUserData data) {
         data.getCurrentBoard().getLists().stream().filter(e -> e.getId() == listId)
                 .forEach(e -> {
                     e.setName(edit.getName());

@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.sync.ListAdded;
+import commons.sync.ListAdded;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;

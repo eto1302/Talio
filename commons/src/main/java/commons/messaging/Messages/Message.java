@@ -2,7 +2,7 @@ package commons.messaging.Messages;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import client.sync.*;
+import commons.sync.*;
 
 /**
  * Message Interface
@@ -27,12 +27,9 @@ import client.sync.*;
         defaultImpl = TestMessage.class
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = TestMessage.class, name = "test"),
-        @JsonSubTypes.Type(value = SuccessMessage.class, name = "success"),
-        @JsonSubTypes.Type(value = BoardUpdate.class, name = "boardUpdate"),
-        @JsonSubTypes.Type(value = ListAdded.class, name = "listAdded"),
-        @JsonSubTypes.Type(value = ListDeleted.class, name = "listDeleted"),
-        @JsonSubTypes.Type(value = ListEdited.class, name = "listEdited")
+    @JsonSubTypes.Type(value = TestMessage.class, name = "test"),
+    @JsonSubTypes.Type(value = SuccessMessage.class, name = "success"),
+    @JsonSubTypes.Type(value = BoardUpdate.class, name = "boardUpdate"),
 })
 public interface Message {
     void consume();

@@ -3,10 +3,11 @@ package client.user;
 import client.messageClients.MessageAdmin;
 import client.messageClients.MessageSender;
 import client.scenes.ShowCtrl;
-import client.sync.BoardUpdate;
+import commons.sync.BoardUpdate;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
+import commons.mocks.IUserData;
 import commons.models.IdResponseModel;
 
 import java.io.*;
@@ -23,7 +24,7 @@ import java.util.Map;
  * preferences, such as background color/image, which will be stored
  * in the same configuration file as well.
  */
-public class UserData {
+public class UserData implements IUserData {
 
     /**
      * File in which to save the user's data
@@ -88,6 +89,8 @@ public class UserData {
             assert !savePath.isDirectory();
             loadFromDisk();
         }
+
+        BoardUpdate.setUserData(this);
     }
 
     /**
