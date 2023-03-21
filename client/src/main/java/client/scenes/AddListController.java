@@ -55,6 +55,7 @@ public class AddListController {
         }
 
         List listTest = server.getList(model.getId());
+
         showCtrl.addList(listTest);
         cancel();
     }
