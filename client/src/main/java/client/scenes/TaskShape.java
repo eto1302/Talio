@@ -155,6 +155,7 @@ public class TaskShape {
             parent.getChildren().clear();
             parent.getChildren().addAll(children);
             done = true;
+            ((GridPane) source).setOpacity(1);
         }
         event.setDropCompleted(done);
         event.consume();
