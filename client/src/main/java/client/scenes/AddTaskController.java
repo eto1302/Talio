@@ -13,7 +13,7 @@ public class AddTaskController {
 
     private final ShowCtrl showCtrl;
     private final ServerUtils server;
-    private ListShape controller;
+    private ListShapeCtrl controller;
     private Stage primaryStage;
 
     @FXML
@@ -40,7 +40,7 @@ public class AddTaskController {
         showCtrl.cancel();
     }
 
-    public void setup(ListShape controller, Stage primaryStage) {
+    public void setup(ListShapeCtrl controller, Stage primaryStage) {
         this.controller=controller;
         this.primaryStage=primaryStage;
     }

@@ -31,6 +31,7 @@ public class Board {
     @Column(name = "backgroundColor")
     @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$")
     private String backgroundColor;
+
     @JsonManagedReference
     @OneToMany()
     private Set<List> lists;

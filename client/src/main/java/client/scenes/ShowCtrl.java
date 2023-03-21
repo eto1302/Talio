@@ -61,9 +61,9 @@ public class ShowCtrl {
         errorController = (ErrorController) loader.get(10).getKey();
         error = new Scene((Parent) loader.get(10).getValue());
 
-        //showConnection();
+        showConnection();
 
-        showBoard();
+        //showBoard();
         primaryStage.show();
     }
 
@@ -103,7 +103,7 @@ public class ShowCtrl {
      * @param controller the list's controller
      * @param primaryStage the primary stage of our scenes.
      */
-    public void showAddTask(ListShape controller, Stage primaryStage){
+    public void showAddTask(ListShapeCtrl controller, Stage primaryStage){
         var addTask = FXML.load(AddTaskController.class, "client",
                 "scenes", "AddTask.fxml");
         Scene addTaskScene = new Scene(addTask.getValue());
@@ -120,7 +120,7 @@ public class ShowCtrl {
      * @param controller the list's controller
      * @param primaryStage the primary stage of the previous scene
      */
-    public void addTask(Task task, ListShape controller, Stage primaryStage){
+    public void addTask(Task task, ListShapeCtrl controller, Stage primaryStage){
         var taskShape = FXML.load(TaskShape.class, "client", "scenes", "Task.fxml");
         Scene taskScene = new Scene(taskShape.getValue());
         Scene updated = taskShape.getKey().getSceneUpdated(task);
@@ -134,7 +134,6 @@ public class ShowCtrl {
     public void cancel() {
         secondaryStage.close();
     }
-
 
     public void showSearch() {
         secondaryStage = new Stage();
@@ -153,6 +152,7 @@ public class ShowCtrl {
 
     public void showBoard(){
         primaryStage.setTitle("Board");
+        boardController.setup();
         primaryStage.setScene(this.board);
     }
 
@@ -177,7 +177,7 @@ public class ShowCtrl {
      * @param list the list that contains the info
      * @param controller the list's controller
      */
-    public void showEditList(commons.List list, ListShape controller, Stage primaryStage){
+    public void showEditList(commons.List list, ListShapeCtrl controller, Stage primaryStage){
         var editList = FXML.load(EditListController.class,
                 "client", "scenes", "EditList.fxml");
         editList.getKey().setup(list, controller, primaryStage);
@@ -193,7 +193,7 @@ public class ShowCtrl {
      * @param controller the list's controller
      * @param primaryStage of our windows.
      */
-    public void editList(commons.List list, ListShape controller, Stage primaryStage) {
+    public void editList(commons.List list, ListShapeCtrl controller, Stage primaryStage) {
         Scene updated = controller.getSceneUpdated(list);
         primaryStage.setScene(updated);
     }
@@ -204,13 +204,15 @@ public class ShowCtrl {
      * @param list the list object whose attributes specify the visual of the list
      */
     public void addList(commons.List list){
-        var listShape = FXML.load(ListShape.class, "client", "scenes", "List.fxml");
+        var listShape = FXML.load(ListShapeCtrl.class, "client", "scenes", "List.fxml");
         Scene initializeList = new Scene(listShape.getValue());
-        listShape.getKey().set(list, primaryStage);
 
-        Scene listScene =listShape.getKey().getSceneUpdated(list);
+        ListShapeCtrl listShapeCtrl = listShape.getKey();
+
+
+        listShapeCtrl.set(list, primaryStage);
+        Scene listScene = listShapeCtrl.getSceneUpdated(list);
         Scene scene = boardController.putList(listScene);
-
         primaryStage.setScene(scene);
     }
 

@@ -31,7 +31,7 @@ public class TaskShape {
     private List list;
     private double startx, starty;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
-    private ListShape controller;
+    private ListShapeCtrl controller;
     @Inject
     public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils){
         this.showCtrl=showCtrl;
@@ -80,7 +80,7 @@ public class TaskShape {
 //     * @param id the id of the task
 //     * @param list the task's list
      */
-    public void setup(ListShape controller){//int id, List list){
+    public void setup(ListShapeCtrl controller){//int id, List list){
 //        this.id= id;
 //        this.list=list;
         this.controller=controller;

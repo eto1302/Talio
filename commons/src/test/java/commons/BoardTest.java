@@ -154,9 +154,9 @@ class BoardTest {
     @Test
     void testToString() {
         String expectedString = "Board{id=0, name='Board1', password='password123'," +
-                " lists=[List{id=0, " +
-                "name='null', tasks=null, board=null, backgroundColor='null', fontColor='null'}]," +
-                " tag=null, fontColor=#000000, backgroundColor=#FFFFFF}";
+                " lists=[List{id=0, name='null', backgroundColor='null', fontColor='null'," +
+                " boardId=0, tasks=null, board=null}], tag=null, fontColor=#000000," +
+                " backgroundColor=#FFFFFF}";
 
         assertEquals(expectedString, board.toString());
     }
