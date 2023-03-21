@@ -23,6 +23,8 @@ public class EditListController {
     private Button cancel, edit;
 
     private ShowCtrl showCtrl;
+    private int id;
+    private Stage primaryStage;
     private List list;
     private ListShapeCtrl listShapeCtrl;
     private ServerUtils server;
@@ -36,9 +38,17 @@ public class EditListController {
         showCtrl.cancel();
     }
 
-    public void setup(List list, ListShapeCtrl listShapeCtrl){
-        this.list = list;
-        this.listShapeCtrl = listShapeCtrl;
+
+    /**
+     * Sets the values of the fields according to our list's information
+     * @param list the list to be edited
+     * @param controller the list's controller
+     * @param primaryStage of the window we clicked to this scene from.
+     */
+    public void setup(List list, ListShapeCtrl controller, Stage primaryStage){
+        this.id=list.getId();
+        this.listShapeCtrl=controller;
+        this.primaryStage = primaryStage;
         newBackground.setValue(Color.web(list.getBackgroundColor()));
         newTitle.setText(list.getName());
         newFont.setValue(Color.web(list.getFontColor()));
@@ -51,6 +61,7 @@ public class EditListController {
         String backgroundColor = colorToHex(this.newBackground.getValue());
         String fontColor = colorToHex(this.newFont.getValue());
         String name = newTitle.getText();
+        List list = server.getList(id);
 
         ListEditModel requestModel = new ListEditModel(name, backgroundColor, fontColor);
 
@@ -62,6 +73,7 @@ public class EditListController {
             showCtrl.showError(responseModel.getErrorMessage());
             return;
         }
+        showCtrl.editList(server.getList(id), listShapeCtrl, primaryStage);
         showCtrl.cancel();
     }
 

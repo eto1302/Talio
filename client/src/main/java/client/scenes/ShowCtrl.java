@@ -62,6 +62,7 @@ public class ShowCtrl {
         error = new Scene((Parent) loader.get(10).getValue());
 
         showConnection();
+        //showBoard();
         primaryStage.show();
     }
 
@@ -175,14 +176,25 @@ public class ShowCtrl {
      * @param list the list that contains the info
      * @param controller the list's controller
      */
-    public void showEditList(commons.List list, ListShapeCtrl controller){
+    public void showEditList(commons.List list, ListShapeCtrl controller, Stage primaryStage){
         var editList = FXML.load(EditListController.class,
                 "client", "scenes", "EditList.fxml");
-        editList.getKey().setup(list, controller);
+        editList.getKey().setup(list, controller, primaryStage);
         secondaryStage=new Stage();
         secondaryStage.setScene(new Scene(editList.getValue()));
         secondaryStage.setTitle("Edit your list");
         secondaryStage.show();
+    }
+
+    /**
+     * Updates the window after editing the respective list.
+     * @param list the updated list
+     * @param controller the list's controller
+     * @param primaryStage of our windows.
+     */
+    public void editList(commons.List list, ListShapeCtrl controller, Stage primaryStage) {
+        Scene updated = controller.getSceneUpdated(list);
+        primaryStage.setScene(updated);
     }
 
     /**
@@ -208,9 +220,9 @@ public class ShowCtrl {
         var boardShape = FXML.load(BoardShape.class, "client", "scenes", "BoardShape.fxml");
         Scene initializeBoard = new Scene(boardShape.getValue());
 
-//        Scene boardScene = boardShape.getKey().getSceneUpdated(board);
-//        Scene scene = yourBoardsCtrl.putBoard(boardScene);
-//        primaryStage.setScene(scene);
+        Scene boardScene = boardShape.getKey().getSceneUpdated(board);
+        Scene scene = yourBoardsCtrl.putBoard(boardScene);
+        primaryStage.setScene(scene);
     }
     public void showError(String errorMessage) {
         popUpStage = new Stage();

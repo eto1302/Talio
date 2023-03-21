@@ -9,6 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -62,14 +65,19 @@ public class ListShapeCtrl {
      */
     public void deleteList(){
         serverUtils.deleteList(list.getBoardId(), list.getId());
+        HBox parent = (HBox) listGrid.getParent();
+        parent.getChildren().remove(listGrid);
     }
 
     /**
      * shows the window with options for editing the list
      */
     public void editList(){
-        if(list == null) showCtrl.showError("Failed to get the list...");
-        showCtrl.showEditList(list, this);
+        if(list == null) {
+            showCtrl.showError("Failed to get the list...");
+            return;
+        }
+        showCtrl.showEditList(list, this, primaryStage);
     }
 
     /**
@@ -80,6 +88,9 @@ public class ListShapeCtrl {
     public void set(List list, Stage primaryStage){
         this.list=list;
         this.primaryStage=primaryStage;
+
+        listGrid.setOnDragOver(this::dragOver);
+        listGrid.setOnDragDropped(this::dragDrop);
     }
     public List getList(){
         return list;
@@ -100,5 +111,29 @@ public class ListShapeCtrl {
     public Scene addTask(Scene taskScene){
         tasksBox.getChildren().add(taskScene.getRoot());
         return tasksBox.getScene();
+    }
+
+    public void dragOver(DragEvent event){
+        Dragboard dragboard = event.getDragboard();
+        if (dragboard.hasString() && dragboard.getString().equals("grid")){
+            event.acceptTransferModes(TransferMode.MOVE);
+            event.consume();
+        }
+    }
+
+    public void dragDrop(DragEvent event){
+        Dragboard dragboard = event.getDragboard();
+        boolean done = false;
+        if (dragboard.hasString()) {
+            Object source = event.getGestureSource();
+            GridPane sourceGrid = (GridPane) source;
+
+            tasksBox.getChildren().add(sourceGrid);
+            //call method that changes the task's lists
+            done=true;
+            sourceGrid.setOpacity(1);
+        }
+        event.setDropCompleted(done);
+        event.consume();
     }
 }
