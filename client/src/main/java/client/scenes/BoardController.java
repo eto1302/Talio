@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
@@ -16,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class BoardController {
     @FXML
@@ -51,6 +53,7 @@ public class BoardController {
          deleteToDo, deleteDoing, deleteDone, editToDo, editDoing, editDone;
 
     private final ShowCtrl showCtrl;
+    private ServerUtils server;
     private List<AnchorPane> cards;
     private List<AnchorPane> boards;
     private double startX;
@@ -59,8 +62,9 @@ public class BoardController {
     private List<Bounds> bounds;
 
     @Inject
-    public BoardController(ShowCtrl showCtrl) {
+    public BoardController(ShowCtrl showCtrl, ServerUtils server) {
         this.showCtrl = showCtrl;
+        this.server = server;
         boards = new ArrayList<>();
         bounds = new ArrayList<>();
     }
@@ -87,30 +91,60 @@ public class BoardController {
         setup();
     }
 
-    private void setup() {
-        root = (AnchorPane) selectedCard.getParent().getParent();
-        List<Node> children = root.getChildren();
-        for(int i = 0; i < children.size(); ++i){
-            Node child = children.get(i);
-            if(child.getId().equals("todoList")){
-                this.todoList = (AnchorPane) child;
-                this.todoListBounds = todoList.localToScene(todoList.getLayoutBounds());
-            }
-            if(child.getId().equals("doingList")){
-                this.doingList = (AnchorPane) child;
-                this.doingListBounds = doingList.localToScene(doingList.getLayoutBounds());
-            }
-            if(child.getId().equals("doneList")){
-                this.doneList = (AnchorPane) child;
-                this.doneListBounds = doneList.localToScene(doneList.getLayoutBounds());
-            }
+    // I commented this code snippet as these three lists are not really connected to the server.
+    // If we want default lists in the board we can create the board with three default lists.
+    // When calling this function, the client will send a request to the server to fetch all
+    // lists in the corresponding board and display them.
+    public void setup() {
+//        root = (AnchorPane) selectedCard.getParent().getParent();
+//        List<Node> children = root.getChildren();
+//        for(int i = 0; i < children.size(); ++i){
+//            Node child = children.get(i);
+//            if(child.getId().equals("todoList")){
+//                this.todoList = (AnchorPane) child;
+//                this.todoListBounds = todoList.localToScene(todoList.getLayoutBounds());
+//            }
+//            if(child.getId().equals("doingList")){
+//                this.doingList = (AnchorPane) child;
+//                this.doingListBounds = doingList.localToScene(doingList.getLayoutBounds());
+//            }
+//            if(child.getId().equals("doneList")){
+//                this.doneList = (AnchorPane) child;
+//                this.doneListBounds = doneList.localToScene(doneList.getLayoutBounds());
+//            }
+//        }
+//        boards.add(todoList);
+//        boards.add(doingList);
+//        boards.add(doneList);
+//        bounds.add(todoListBounds);
+//        bounds.add(doingListBounds);
+//        bounds.add(doneListBounds);
+        refresh();
+    }
+
+
+    /**
+     *  Send a request to the server and fetch all lists stored in the default board with id 1 (for
+     *  single board mode).
+     *  TODO: For now, I added a button to call this function, but we can use webSocket to refresh
+     *  TODO: the board and get rid of the button in the future.
+     */
+    public void refresh() {
+        listBox.getChildren().clear();
+        listBox.getChildren();
+        Set<commons.List> lists;
+
+        try {
+            lists = server.getListByBoard(1);
+        } catch (Exception e) {
+            showCtrl.showError(e.getMessage());
+            return;
         }
-        boards.add(todoList);
-        boards.add(doingList);
-        boards.add(doneList);
-        bounds.add(todoListBounds);
-        bounds.add(doingListBounds);
-        bounds.add(doneListBounds);
+
+        for (commons.List list : lists) {
+            showCtrl.addList(list);
+        }
+
     }
 
     public void mouseDragged(MouseEvent event) {
@@ -181,6 +215,10 @@ public class BoardController {
     public Scene putList(Scene scene){
         listBox.getChildren().add(scene.getRoot());
         return boardLabel.getScene();
+    }
+
+    public void setServer() {
+        showCtrl.showConnection();
     }
 
     public void deleteToDo(){

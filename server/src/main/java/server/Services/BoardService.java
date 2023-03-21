@@ -1,7 +1,7 @@
 package server.Services;
 
 import commons.Board;
-import commons.models.BoardIdResponseModel;
+import commons.models.IdResponseModel;
 import org.springframework.stereotype.Service;
 import server.database.BoardRepository;
 @Service
@@ -17,12 +17,12 @@ public class BoardService {
      * @param board the content of the board
      * @return the id of the board, or the error message if creation fails.
      */
-    public BoardIdResponseModel saveBoard(Board board) {
+    public IdResponseModel saveBoard(Board board) {
         try {
             boardRepository.save(board);
-            return new BoardIdResponseModel(board.getId(), null);
+            return new IdResponseModel(board.getId(), null);
         } catch (Exception e) {
-            return new BoardIdResponseModel(-1, e.getMessage());
+            return new IdResponseModel(-1, e.getMessage());
         }
     }
 

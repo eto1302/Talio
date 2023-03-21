@@ -2,6 +2,8 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.List;
+import commons.models.IdResponseModel;
+import commons.models.ListEditModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -21,9 +23,8 @@ public class EditListController {
     private Button cancel, edit;
 
     private ShowCtrl showCtrl;
-    private int id;
-    private Stage primaryStage;
-    private ListShape controller;
+    private List list;
+    private ListShapeCtrl listShapeCtrl;
     private ServerUtils server;
     @Inject
     private EditListController(ShowCtrl showCtrl, ServerUtils serverUtils){
@@ -35,16 +36,9 @@ public class EditListController {
         showCtrl.cancel();
     }
 
-    /**
-     * Sets the values of the fields according to our list's information
-     * @param list the list to be edited
-     * @param controller the list's controller
-     * @param primaryStage of the window we clicked to this scene from.
-     */
-    public void setup(List list, ListShape controller, Stage primaryStage){
-        this.id=list.getId();
-        this.controller=controller;
-        this.primaryStage = primaryStage;
+    public void setup(List list, ListShapeCtrl listShapeCtrl){
+        this.list = list;
+        this.listShapeCtrl = listShapeCtrl;
         newBackground.setValue(Color.web(list.getBackgroundColor()));
         newTitle.setText(list.getName());
         newFont.setValue(Color.web(list.getFontColor()));
@@ -57,8 +51,17 @@ public class EditListController {
         String backgroundColor = colorToHex(this.newBackground.getValue());
         String fontColor = colorToHex(this.newFont.getValue());
         String name = newTitle.getText();
-        server.editList(name, id, backgroundColor, fontColor);
-        showCtrl.editList(server.getList(id), controller, primaryStage);
+
+        ListEditModel requestModel = new ListEditModel(name, backgroundColor, fontColor);
+
+        IdResponseModel responseModel = server.editList(
+                list.getBoardId(), list.getId(), requestModel);
+
+        if (responseModel.getId() == -1) {
+            showCtrl.cancel();
+            showCtrl.showError(responseModel.getErrorMessage());
+            return;
+        }
         showCtrl.cancel();
     }
 

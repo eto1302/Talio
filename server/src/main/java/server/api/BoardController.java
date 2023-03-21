@@ -1,7 +1,7 @@
 package server.api;
 
 import commons.Board;
-import commons.models.BoardIdResponseModel;
+import commons.models.IdResponseModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.Services.BoardService;
@@ -41,7 +41,7 @@ public class BoardController {
      * if the creation is successful,otherwise return bad request.
      */
     @PostMapping("/create")
-    public BoardIdResponseModel create(@RequestBody Board board) {
+    public IdResponseModel create(@RequestBody Board board) {
         return boardService.saveBoard(board);
     }
 

@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 import javax.inject.Inject;
 
-public class ListShape {
+public class ListShapeCtrl {
 
     @FXML
     private VBox tasksBox;
@@ -36,7 +36,7 @@ public class ListShape {
 
 
     @Inject
-    public ListShape (ShowCtrl showCtrl, ServerUtils serverUtils){
+    public ListShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils){
         this.showCtrl=showCtrl;
         this.serverUtils=serverUtils;
     }
@@ -61,17 +61,15 @@ public class ListShape {
      *deletes the list from the board
      */
     public void deleteList(){
-        serverUtils.deleteList(list.getBoard().getId(), list.getId());
-        HBox parent = (HBox) listGrid.getParent();
-        parent.getChildren().remove(listGrid);
-
+        serverUtils.deleteList(list.getBoardId(), list.getId());
     }
 
     /**
      * shows the window with options for editing the list
      */
     public void editList(){
-        showCtrl.showEditList(list, this, primaryStage);
+        if(list == null) showCtrl.showError("Failed to get the list...");
+        showCtrl.showEditList(list, this);
     }
 
     /**

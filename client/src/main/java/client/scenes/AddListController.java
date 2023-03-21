@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Task;
+import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
@@ -32,6 +33,7 @@ public class AddListController {
     }
 
     public void cancel(){
+        reset();
         showCtrl.cancel();
     }
 
@@ -43,12 +45,24 @@ public class AddListController {
         String fontColor = colorToHex(this.fontColor.getValue());
 
         List list = List.create(nameField.getText(),
-                backgroundColor, fontColor, new ArrayList<Task>());
+                backgroundColor, fontColor, 1, new ArrayList<Task>());
 
-        int id = server.addlist(list, 1);
-        List listTest = server.getList(id);
+        IdResponseModel model = server.addList(list, 1);
+        if (model.getId() == -1) {
+            showCtrl.showError(model.getErrorMessage());
+            showCtrl.cancel();
+            return;
+        }
+
+        List listTest = server.getList(model.getId());
         showCtrl.addList(listTest);
-        showCtrl.cancel();
+        cancel();
+    }
+
+    public void reset() {
+        nameField.clear();
+        backgroundColor.setValue(Color.WHITE);
+        fontColor.setValue(Color.BLACK);
     }
 
     /**
