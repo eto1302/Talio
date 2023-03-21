@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.user.UserData;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 
@@ -17,6 +18,9 @@ public class ConnectionCtrl {
     private final ServerUtils serverUtils;
 
     @Inject
+    private UserData userData;
+
+    @Inject
     public ConnectionCtrl(ServerUtils serverUtils, ShowCtrl showCtrl) {
         this.serverUtils = serverUtils;
         this.showCtrl = showCtrl;
@@ -27,6 +31,8 @@ public class ConnectionCtrl {
      */
     public void join(){
         serverUtils.setUrl(serverURL.getText());
+        if(userData.getCurrentBoard() == null)
+            userData.openBoard(1);
         showCtrl.showBoard();
     }
 

@@ -31,7 +31,7 @@ public class ListEdited extends BoardUpdate {
 
     @Override
     public void apply(UserData data) {
-        data.getCurrentBoard().getLists().stream().filter(e -> e.getId() == super.getBoardID())
+        data.getCurrentBoard().getLists().stream().filter(e -> e.getId() == listId)
                 .forEach(e -> {
                     e.setName(edit.getName());
                     e.setBackgroundColor(edit.getBackgroundColor());

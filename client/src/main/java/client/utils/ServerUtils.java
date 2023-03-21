@@ -66,7 +66,7 @@ public class ServerUtils {
     public Board getBoard(int id) {
         try {
             ResponseEntity<Board> response =
-                    client.getForEntity(url+"board/find"+id, Board.class);
+                    client.getForEntity(url+"board/find/"+id, Board.class);
             return response.getBody();
         } catch (Exception e) {
             return null;

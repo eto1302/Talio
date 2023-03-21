@@ -7,7 +7,7 @@ import commons.models.IdResponseModel;
 
 public abstract class BoardUpdate implements Message {
 
-    public static final String QUEUE = "/topic/board";
+    public static final String QUEUE = "board";
 
     private static UserData userData;
 
@@ -25,8 +25,8 @@ public abstract class BoardUpdate implements Message {
         return boardID;
     }
 
-    public String getQueue() {
-        return QUEUE + boardID;
+    public String getSendQueue() {
+        return "/app/" + QUEUE + boardID;
     }
 
     @Override

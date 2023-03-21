@@ -29,6 +29,7 @@ public class ListAdded extends BoardUpdate {
     @Override
     public void apply(UserData data) {
         data.getCurrentBoard().getLists().add(list);
+        data.getShowCtrl().addList(list);
     }
 
 }
