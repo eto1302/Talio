@@ -93,6 +93,10 @@ public class List {
         this.name = name;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     /**
      * Sets the board of the list
      * @param board the board to set
