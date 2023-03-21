@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import javax.inject.Inject;
 
@@ -21,6 +22,7 @@ public class EditListController {
 
     private ShowCtrl showCtrl;
     private int id;
+    private Stage primaryStage;
     private ListShape controller;
     private ServerUtils server;
     @Inject
@@ -33,20 +35,30 @@ public class EditListController {
         showCtrl.cancel();
     }
 
-    public void setup(List list, ListShape controller){
+    /**
+     * Sets the values of the fields according to our list's information
+     * @param list the list to be edited
+     * @param controller the list's controller
+     * @param primaryStage of the window we clicked to this scene from.
+     */
+    public void setup(List list, ListShape controller, Stage primaryStage){
         this.id=list.getId();
         this.controller=controller;
+        this.primaryStage = primaryStage;
         newBackground.setValue(Color.web(list.getBackgroundColor()));
         newTitle.setText(list.getName());
         newFont.setValue(Color.web(list.getFontColor()));
     }
 
+    /**
+     * Gets the values from the fields and edits the list accordingly.
+     */
     public void edit(){
         String backgroundColor = colorToHex(this.newBackground.getValue());
         String fontColor = colorToHex(this.newFont.getValue());
         String name = newTitle.getText();
         server.editList(name, id, backgroundColor, fontColor);
-        showCtrl.editList(server.getList(id), controller);
+        showCtrl.editList(server.getList(id), controller, primaryStage);
         showCtrl.cancel();
     }
 

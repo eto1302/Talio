@@ -5,10 +5,13 @@ import client.utils.ServerUtils;
 import commons.List;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import javax.inject.Inject;
 
@@ -17,16 +20,19 @@ public class ListShape {
     @FXML
     private VBox tasksBox;
     @FXML
-    private HBox tagBox;
+    private MenuItem editList, deleteList;
     @FXML
-    private MenuItem editList, deleteList, addTask, addTag;
+    private ScrollPane scrollPane;
+    @FXML
+    private Button addTask;
     @FXML
     private Label listTitle;
     @FXML
     private GridPane listGrid;
     private ShowCtrl showCtrl;
     private ServerUtils serverUtils;
-    private int id;
+    private List list;
+    private Stage primaryStage;
 
 
     @Inject
@@ -51,21 +57,50 @@ public class ListShape {
         return listGrid.getScene();
     }
 
+    /**
+     *deletes the list from the board
+     */
     public void deleteList(){
-        List list = serverUtils.getList(id);
-        serverUtils.deleteList(list.getBoard().getId(), id);
+        serverUtils.deleteList(list.getBoard().getId(), list.getId());
         HBox parent = (HBox) listGrid.getParent();
         parent.getChildren().remove(listGrid);
 
-
     }
 
+    /**
+     * shows the window with options for editing the list
+     */
     public void editList(){
-        List list = serverUtils.getList(id);
-        showCtrl.showEditList(list, this);
+        showCtrl.showEditList(list, this, primaryStage);
     }
 
-    public void setId(int id){
-        this.id=id;
+    /**
+     * sets information
+     * @param list our list
+     * @param primaryStage of the scene we are in
+     */
+    public void set(List list, Stage primaryStage){
+        this.list=list;
+        this.primaryStage=primaryStage;
+    }
+    public List getList(){
+        return list;
+    }
+
+    /**
+     * shows the add task window
+     */
+    public void showAddTask(){
+        showCtrl.showAddTask(this, primaryStage);
+    }
+
+    /**
+     * Adds the task inside the box with tasks
+     * @param taskScene the scene containing the grid representing
+     * @return the updated scene
+     */
+    public Scene addTask(Scene taskScene){
+        tasksBox.getChildren().add(taskScene.getRoot());
+        return tasksBox.getScene();
     }
 }

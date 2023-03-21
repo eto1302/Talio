@@ -2,8 +2,9 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -14,9 +15,9 @@ public class TaskOverview {
     @FXML
     private Text titleText;
     @FXML
-    private TextField descriptionField;
+    private TextArea descriptionField;
     @FXML
-    private Button okButton, addSubTaskButton;
+    private Button okButton, addSubTaskButton, delete;
     @FXML
     private VBox subtaskBox, buttonsBox;
     private final ShowCtrl showCtrl;
@@ -27,6 +28,11 @@ public class TaskOverview {
     public TaskOverview(ShowCtrl showCtrl, ServerUtils serverUtils){
         this.showCtrl=showCtrl;
         this.serverUtils=serverUtils;
+    }
+
+    public Scene setup(){
+
+        return titleText.getScene();
     }
 
 }

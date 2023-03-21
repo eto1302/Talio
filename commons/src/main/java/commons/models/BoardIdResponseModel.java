@@ -1,5 +1,7 @@
 package commons.models;
 
+import java.util.Objects;
+
 public class BoardIdResponseModel {
     private int boardId;
     private String errorMessage;
@@ -25,5 +27,18 @@ public class BoardIdResponseModel {
 
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BoardIdResponseModel model = (BoardIdResponseModel) o;
+        return boardId == model.boardId && Objects.equals(errorMessage, model.errorMessage);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(boardId, errorMessage);
     }
 }
