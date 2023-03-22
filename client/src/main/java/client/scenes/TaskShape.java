@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import commons.List;
 import commons.Task;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -24,14 +23,13 @@ public class TaskShape {
     @FXML
     private GridPane grid;
     @FXML
-    private Label plusSign, progressLabel, title, deleteX;
+    private Label plusSign, title, deleteX;
     private ShowCtrl showCtrl;
     private ServerUtils server;
     private int id;
-    private List list;
-    private double startx, starty;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
     private ListShapeCtrl controller;
+    private commons.Task task;
     @Inject
     public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils){
         this.showCtrl=showCtrl;
@@ -47,7 +45,7 @@ public class TaskShape {
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
                     if (event.getClickCount()==2)
-                        showCtrl.showTaskOverview();
+                        showCtrl.showTaskOverview(task);
             }
         });
     }
@@ -58,6 +56,7 @@ public class TaskShape {
      * @return the new scene updated
      */
     public Scene getSceneUpdated(Task task){
+        this.task = task;
         title.setText(task.getTitle());
         if (task.getDescription()==null)
             plusSign.setVisible(false);

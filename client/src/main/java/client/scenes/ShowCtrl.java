@@ -4,6 +4,7 @@ import client.MyFXML;
 import client.MyModule;
 import com.google.inject.Injector;
 import commons.Board;
+import commons.Tag;
 import commons.Task;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,8 +20,8 @@ public class ShowCtrl {
     private static final MyFXML FXML = new MyFXML(INJECTOR);
     private Stage primaryStage, secondaryStage, popUpStage;
     private HomeController homeCtrl;
-    private Scene home, addList, yourBoards, search, addTag, board,
-            taskOverview, connection, addBoard, editTag, editTask, error;
+    private Scene home, addList, yourBoards, search, addTag, board, taskOverview, connection,
+            addBoard, editTag, editTask, error, addSubTask, editSubTask;
     private AddListController addListCtrl;
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
@@ -34,6 +35,8 @@ public class ShowCtrl {
     private EditTaskController editTaskController;
     private ErrorController errorController;
     private EditListController editListCtrl;
+    private AddSubTaskController addSubTaskController;
+    private EditSubTaskController editSubTaskController;
 
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
@@ -60,6 +63,10 @@ public class ShowCtrl {
         editTask = new Scene((Parent) loader.get(9).getValue());
         errorController = (ErrorController) loader.get(10).getKey();
         error = new Scene((Parent) loader.get(10).getValue());
+        addSubTaskController = (AddSubTaskController) loader.get(11).getKey();
+        addSubTask = new Scene((Parent) loader.get(11).getValue());
+        editSubTaskController = (EditSubTaskController) loader.get(12).getKey();
+        editSubTask = new Scene((Parent) loader.get(12).getValue());
 
         showConnection();
         //showBoard();
@@ -141,12 +148,28 @@ public class ShowCtrl {
         secondaryStage.show();
     }
 
+    public void showAddTag(Task task){
+        popUpStage = new Stage();
+        popUpStage.setScene(addTag);
+        popUpStage.setTitle("Add a tag");
+        popUpStage.show();
+        addTagController.setup(task);
+    }
 
-    public void showAddTag(){
-        secondaryStage = new Stage();
-        secondaryStage.setScene(addTag);
-        secondaryStage.setTitle("Add a tag");
-        secondaryStage.show();
+    public void showAddSubTask(Task task) {
+        popUpStage = new Stage();
+        popUpStage.setScene(addSubTask);
+        popUpStage.setTitle("Add a sub-task");
+        popUpStage.show();
+        addSubTaskController.setup(task);
+    }
+
+    public void showEditSubTask(Task task, int index) {
+        popUpStage = new Stage();
+        popUpStage.setScene(editSubTask);
+        popUpStage.setTitle("Edit a sub-task");
+        popUpStage.show();
+        editSubTaskController.setup(task, index);
     }
 
     public void showBoard(){
@@ -159,12 +182,12 @@ public class ShowCtrl {
      * Shows the details of the task. First sets the information in the window according to
      * the task.
      */
-    public void showTaskOverview() {
+    public void showTaskOverview(Task task) {
         secondaryStage=new Stage();
         var taskOverview = FXML.load(TaskOverview.class, "client",
                 "scenes", "TaskOverview.fxml");
         Scene initialize = new Scene(taskOverview.getValue());
-        Scene updated = taskOverview.getKey().setup();
+        Scene updated = taskOverview.getKey().setup(task);
         secondaryStage.setScene(updated);
         secondaryStage.setTitle("See your task details");
         secondaryStage.show();
@@ -234,5 +257,19 @@ public class ShowCtrl {
 
     public void closePopUp() {
         popUpStage.close();
+    }
+
+    public void addTag(Tag tag, TaskOverview controller, Stage primaryStage) {
+    }
+
+    public void showEditTask(Task task) {
+        var editTaskPair = FXML.load(EditTaskController.class, "client", "scenes", "EditTask.fxml");
+        editTaskController = editTaskPair.getKey();
+        editTask = new Scene((Parent) editTaskPair.getValue());
+        Scene updated = editTaskController.setup(task);
+        secondaryStage = new Stage();
+        secondaryStage.setScene(editTask);
+        secondaryStage.setTitle("Edit a task");
+        secondaryStage.show();
     }
 }

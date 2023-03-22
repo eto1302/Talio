@@ -1,6 +1,7 @@
 package commons;
 
 import javax.persistence.*;
+//import java.util.ArrayList;
 import java.util.Objects;
 
 @Entity
@@ -22,6 +23,8 @@ public class Task {
     @JoinColumn(name = "tagId", referencedColumnName = "id")
     private Tag tag;
 
+//    private java.util.List<String> subTasks;
+
     /**
      * Creates a new task with the specified description and title.
      * @param description the description of the task
@@ -34,6 +37,14 @@ public class Task {
         task.title = title;
         return task;
     }
+
+//    public void makeSubtaskList(){
+//        this.subTasks = new ArrayList<>();
+//    }
+//
+//    public java.util.List<String> getSubTasks(){
+//        return this.subTasks;
+//    }
 
     /**
      * Constructs an empty task.
@@ -137,7 +148,7 @@ public class Task {
 
     /**
      * Computes the hash code for this task.
-     * @return the hash code for this tasj
+     * @return the hash code for this task
      */
     @Override
     public int hashCode() {

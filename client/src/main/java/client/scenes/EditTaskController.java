@@ -1,36 +1,51 @@
 package client.scenes;
 
+import commons.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.TextField;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 
 import javax.inject.Inject;
 
 public class EditTaskController {
 
     private final ShowCtrl showCtrl;
-
     @FXML
-    private Button cancelButton;
+    private TextField title;
     @FXML
-    private Button editButton;
-    @FXML
-    private TextField textField;
-    @FXML
-    private ColorPicker colorPicker;
+    private TextArea descriptionField;
+    private commons.Task task;
 
     @Inject
     public EditTaskController (ShowCtrl showCtrl){
         this.showCtrl=showCtrl;
     }
 
+    public Scene setup(Task task){
+        this.task = task;
+        this.title.setText(task.getTitle());
+        this.descriptionField.setText(task.getDescription());
+        return title.getScene();
+    }
+
     public void cancel(){
         showCtrl.cancel();
     }
 
-    public void editTask(){
-        //TODO
+    public void showAddTag() {
+        showCtrl.showAddTag(task);
+    }
+
+    public void showAddSubTask(){
+        showCtrl.showAddSubTask(task);
+    }
+
+    public void save() {
+        String title = this.title.getText();
+        String description = this.descriptionField.getText();
+        task.setTitle(title);
+        task.setDescription(description);
         showCtrl.cancel();
+        showCtrl.showTaskOverview(task);
     }
 }

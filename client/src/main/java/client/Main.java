@@ -59,8 +59,10 @@ public class Main extends Application {
         var connection=FXML.load(ConnectionCtrl.class, "client", "scenes", "Connection.fxml");
         var addBoard=FXML.load(AddBoardController.class, "client", "scenes", "AddBoard.fxml");
         var editTag=FXML.load(AddBoardController.class, "client", "scenes", "EditTag.fxml");
-        var editTask=FXML.load(AddBoardController.class, "client", "scenes", "EditTask.fxml");
+        var editTask=FXML.load(EditTaskController.class, "client", "scenes", "EditTask.fxml");
         var error=FXML.load(ErrorController.class, "client", "scenes", "Error.fxml");
+        var addSubTask=FXML.load(AddSubTaskController.class, "client", "scenes", "AddSubTask.fxml");
+        var editSubTask=FXML.load(EditSubTaskController.class, "client", "scenes", "EditSubTask.fxml");
 
         loader.add(home);
         loader.add(addList);
@@ -73,6 +75,8 @@ public class Main extends Application {
         loader.add(editTag);
         loader.add(editTask);
         loader.add(error);
+        loader.add(addSubTask);
+        loader.add(editSubTask);
 
     }
 }
