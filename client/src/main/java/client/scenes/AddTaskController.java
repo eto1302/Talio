@@ -3,9 +3,9 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
@@ -17,13 +17,12 @@ public class AddTaskController {
     private ListShapeCtrl controller;
     private Stage primaryStage;
     private Task task;
-
-    @FXML
-    private Button add, cancel, editTask, deleteTask;
     @FXML
     private TextField title;
     @FXML
     private TextArea descriptionField;
+    @FXML
+    private VBox subtaskBox, tagBox;
 
 
     @Inject

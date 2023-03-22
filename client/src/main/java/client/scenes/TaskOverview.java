@@ -4,7 +4,6 @@ import client.utils.ServerUtils;
 import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
@@ -13,8 +12,6 @@ import javax.inject.Inject;
 public class TaskOverview {
     @FXML
     private Label title, descriptionField;
-    @FXML
-    private Button editTask, deleteTask, done;
     @FXML
     private VBox subtaskBox, tagBox;
     private final ShowCtrl showCtrl;

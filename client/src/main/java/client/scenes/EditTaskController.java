@@ -4,6 +4,7 @@ import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
 
@@ -14,6 +15,8 @@ public class EditTaskController {
     private TextField title;
     @FXML
     private TextArea descriptionField;
+    @FXML
+    private VBox subtaskBox, tagBox;
     private commons.Task task;
 
     @Inject
