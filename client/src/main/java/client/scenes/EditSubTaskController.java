@@ -4,11 +4,11 @@ import commons.Task;
 import javafx.fxml.FXML;
 
 import javax.inject.Inject;
-import java.awt.*;
+import javafx.scene.control.TextArea;
 
 public class EditSubTaskController {
     @FXML
-    private TextField name;
+    private TextArea description;
     private ShowCtrl showCtrl;
     private Task task;
     private int index;
@@ -28,7 +28,7 @@ public class EditSubTaskController {
     }
 
     public void editSubTask() {
-        String name = this.name.getText();
+        String name = this.description.getText();
 //        if(task.getSubTasks() == null){
 //            task.makeSubtaskList();
 //        }

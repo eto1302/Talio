@@ -21,8 +21,8 @@
                 <Font size="16.0" />
             </font>
         </Label>
-        <Button fx:id="cancelButton" layoutX="129.0" layoutY="235.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
-        <Button fx:id="saveButton" layoutX="229.0" layoutY="234.0" mnemonicParsing="false" onAction="#editSubTask" prefHeight="26.0" prefWidth="51.0" text="Save" />
+        <Button layoutX="129.0" layoutY="235.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+        <Button layoutX="229.0" layoutY="234.0" mnemonicParsing="false" onAction="#editSubTask" prefHeight="26.0" prefWidth="51.0" text="Save" />
         <TextArea fx:id="description" layoutX="100.0" layoutY="120.0" prefHeight="96.0" prefWidth="200.0" />
     </children>
 </AnchorPane>
