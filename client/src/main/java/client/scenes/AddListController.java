@@ -1,5 +1,7 @@
 package client.scenes;
 
+import commons.sync.ListAdded;
+import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Task;
@@ -27,6 +29,9 @@ public class AddListController {
     private final ServerUtils server;
 
     @Inject
+    private UserData userData;
+
+    @Inject
     public AddListController(ShowCtrl showCtrl, ServerUtils serverUtils) {
         this.showCtrl = showCtrl;
         this.server=serverUtils;
@@ -47,16 +52,13 @@ public class AddListController {
         List list = List.create(nameField.getText(),
                 backgroundColor, fontColor, 1, new ArrayList<Task>());
 
-        IdResponseModel model = server.addList(list, 1);
+        IdResponseModel model = userData.updateBoard(new ListAdded(1, list));
         if (model.getId() == -1) {
             showCtrl.showError(model.getErrorMessage());
             showCtrl.cancel();
             return;
         }
 
-        List listTest = server.getList(model.getId());
-
-        showCtrl.addList(listTest);
         cancel();
     }
 

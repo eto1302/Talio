@@ -33,6 +33,6 @@ public class MessageSender {
     public void send(String queue, Message msg) {
         var receiptable = session.send(queue, msg);
         receiptable.addReceiptTask(new Receipt());
-        receiptable.addReceiptLostTask(new NoReceipt());
+        //receiptable.addReceiptLostTask(new NoReceipt());
     }
 }

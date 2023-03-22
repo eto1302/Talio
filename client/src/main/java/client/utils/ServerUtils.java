@@ -19,6 +19,7 @@ package client.utils;
 import com.google.inject.Inject;
 
 import commons.*;
+import commons.mocks.IServerUtils;
 import commons.models.IdResponseModel;
 import commons.models.ListEditModel;
 import org.springframework.core.ParameterizedTypeReference;
@@ -32,7 +33,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 
-public class ServerUtils {
+public class ServerUtils implements IServerUtils {
     @Inject
     private RestTemplate client;
     private static String url = "http://localhost:8080/";
@@ -66,7 +67,7 @@ public class ServerUtils {
     public Board getBoard(int id) {
         try {
             ResponseEntity<Board> response =
-                    client.getForEntity(url+"board/find"+id, Board.class);
+                    client.getForEntity(url+"board/find/"+id, Board.class);
             return response.getBody();
         } catch (Exception e) {
             return null;
