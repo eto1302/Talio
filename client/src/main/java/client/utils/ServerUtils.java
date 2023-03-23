@@ -19,8 +19,10 @@ package client.utils;
 import com.google.inject.Inject;
 
 import commons.*;
+import commons.mocks.IServerUtils;
 import commons.models.IdResponseModel;
 import commons.models.ListEditModel;
+import commons.models.TaskEditModel;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -32,7 +34,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 
-public class ServerUtils {
+public class ServerUtils implements IServerUtils {
     @Inject
     private RestTemplate client;
     private static String url = "http://localhost:8080/";
@@ -66,7 +68,7 @@ public class ServerUtils {
     public Board getBoard(int id) {
         try {
             ResponseEntity<Board> response =
-                    client.getForEntity(url+"board/find"+id, Board.class);
+                    client.getForEntity(url+"board/find/"+id, Board.class);
             return response.getBody();
         } catch (Exception e) {
             return null;
@@ -203,4 +205,79 @@ public class ServerUtils {
         }
     }
 
+    public IdResponseModel addTask(commons.Task task, int listID){
+        try{
+            HttpEntity<commons.Task> req = new HttpEntity<>(task);
+            IdResponseModel id = client.postForObject(
+                url + "task/add/" + listID, req, IdResponseModel.class);
+            return id;
+        }
+        catch(Exception e){
+            return new IdResponseModel(-1, "Oops, failed to connect to the server...");
+        }
+    }
+
+    public IdResponseModel removeTask(int taskID, int listID){
+        try{
+            ResponseEntity<IdResponseModel> response = client.getForEntity(
+                url+"task/remove/"+taskID+"/"+listID,
+                IdResponseModel.class);
+            return response.getBody();
+        }
+        catch (Exception e){
+            return new IdResponseModel(-1, "Oops, failed to connect to the server...");
+        }
+    }
+
+    public IdResponseModel editTask(int taskID, commons.models.TaskEditModel model){
+        try {
+            HttpEntity<TaskEditModel> req = new HttpEntity<>(model);
+            ResponseEntity<IdResponseModel> response = client.postForEntity(
+                url + "task/edit/" + taskID, req, IdResponseModel.class
+            );
+            return response.getBody();
+        }
+        catch (Exception e){
+            return new IdResponseModel(-1, "Oops, failed to connect to the server...");
+        }
+    }
+
+    public commons.Task getTask(int id) {
+        try {
+            ResponseEntity<commons.Task> response = client.getForEntity(
+                url + "task/get." + id, commons.Task.class
+            );
+            return response.getBody();
+        }
+        catch (Exception e){
+            return null;
+        }
+    }
+
+    public java.util.List<commons.Task> getTaskByList(int listID) {
+        try {
+            ResponseEntity<java.util.List<commons.Task>> response = client.exchange(
+                url+"task/getByList/" + listID,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<java.util.List<commons.Task>>() {}
+            );
+
+            // return the task if the request succeeded
+            if (response.getStatusCode().is2xxSuccessful()) {
+                java.util.List<commons.Task> tasks = response.getBody();
+                return tasks;
+            }
+
+            // list id doesn't exist
+            if(response.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
+                throw new NoSuchElementException("There is no such list");
+            }
+
+            throw new RuntimeException("something went wrong...");
+
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }

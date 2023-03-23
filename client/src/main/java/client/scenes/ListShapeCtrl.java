@@ -100,7 +100,7 @@ public class ListShapeCtrl {
      * shows the add task window
      */
     public void showAddTask(){
-        showCtrl.showAddTask(this, primaryStage);
+        showCtrl.showAddTask(this, primaryStage, list);
     }
 
     /**
@@ -135,5 +135,10 @@ public class ListShapeCtrl {
         }
         event.setDropCompleted(done);
         event.consume();
+    }
+
+    public Scene putTask(Scene scene){
+        tasksBox.getChildren().add(scene.getRoot());
+        return tasksBox.getScene();
     }
 }

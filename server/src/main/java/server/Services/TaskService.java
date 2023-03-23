@@ -23,6 +23,10 @@ public class TaskService {
         return this.taskRepository.getTaskById(id);
     }
 
+    public java.util.List<commons.Task> getAllTasks(){
+        return taskRepository.findAll();
+    }
+
     public java.util.List<commons.Task> getAllTaskByList(int listID) throws NoSuchElementException {
         if(!listRepositoy.existsById(listID)){
             throw new NoSuchElementException();

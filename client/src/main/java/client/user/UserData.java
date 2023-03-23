@@ -2,10 +2,12 @@ package client.user;
 
 import client.messageClients.MessageAdmin;
 import client.messageClients.MessageSender;
-import client.sync.BoardUpdate;
+import client.scenes.ShowCtrl;
+import commons.sync.BoardUpdate;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
+import commons.mocks.IUserData;
 import commons.models.IdResponseModel;
 
 import java.io.*;
@@ -22,7 +24,7 @@ import java.util.Map;
  * preferences, such as background color/image, which will be stored
  * in the same configuration file as well.
  */
-public class UserData {
+public class UserData implements IUserData {
 
     /**
      * File in which to save the user's data
@@ -63,6 +65,13 @@ public class UserData {
     private ServerUtils serverUtils;
 
     /**
+     * Stage controller
+     * Injected by guice
+     */
+    @Inject
+    private ShowCtrl showCtrl;
+
+    /**
      * Initializes the UserData class with a given filepath for the datafile. If this file
      * exists already, then it will be read and all user information imported into the fields
      * of this class. Otherwise, no action will be taken, and data will only be written when
@@ -80,6 +89,8 @@ public class UserData {
             assert !savePath.isDirectory();
             loadFromDisk();
         }
+
+        BoardUpdate.setUserData(this);
     }
 
     /**
@@ -142,7 +153,7 @@ public class UserData {
         assert boards.containsKey(identifier);
 
         this.currentBoard = serverUtils.getBoard(identifier);
-        this.messageAdmin.subscribe(BoardUpdate.QUEUE + currentBoard.getId());
+        this.messageAdmin.subscribe("/topic/" + BoardUpdate.QUEUE + currentBoard.getId());
         return currentBoard;
     }
 
@@ -151,6 +162,14 @@ public class UserData {
      */
     public Board getCurrentBoard() {
         return currentBoard;
+    }
+
+    /**
+     * Refreshes the current open board by fetching the most recent version from the server
+     */
+    public void refresh() {
+        if(currentBoard != null)
+            this.currentBoard = serverUtils.getBoard(currentBoard.getId());
     }
 
     /**
@@ -163,13 +182,18 @@ public class UserData {
      */
     public IdResponseModel updateBoard(BoardUpdate boardUpdate) {
         IdResponseModel response = boardUpdate.sendToServer(serverUtils);
-        if(boardUpdate.sendToServer(serverUtils).getId() == -1)
+        if(response.getId() == -1)
             return response;
 
-        if(currentBoard != null && currentBoard.getId() == boardUpdate.getBoardID())
-            boardUpdate.apply(this);
-        messageSender.send(boardUpdate.getQueue(), boardUpdate);
+        messageSender.send(boardUpdate.getSendQueue(), boardUpdate);
         return response;
+    }
+
+    /**
+     * @return the stage controller
+     */
+    public ShowCtrl getShowCtrl() {
+        return showCtrl;
     }
 
     /**

@@ -3,6 +3,8 @@ package commons;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
@@ -24,7 +26,7 @@ class TaskTest {
 
     @Test
     void create() {
-        Task task = Task.create("Description", "Title");
+        Task task = Task.create("Description", "Title", 1, null);
         assertNotNull(task);
         assertEquals(0, task.getId());
         assertEquals("Description", task.getDescription());
@@ -57,10 +59,12 @@ class TaskTest {
     }
 
     @Test
-    void setTag() {
+    void setTags() {
         Tag tag = new Tag();
-        task1.setTag(tag);
-        assertEquals(tag, task1.getTag());
+        java.util.List<Tag> tags = new ArrayList<>();
+        tags.add(tag);
+        task1.setTags(tags);
+        assertEquals(tags, task1.getTags());
     }
 
     @Test
@@ -69,8 +73,8 @@ class TaskTest {
         assertFalse(task1.equals(null));
         assertFalse(task1.equals(new Object()));
         assertFalse(task1.equals(task2));
-        assertFalse(task1.equals(Task.create("Description 1", "Title 2")));
-        assertFalse(task1.equals(Task.create("Description 2", "Title 1")));
+        assertFalse(task1.equals(Task.create("Description 1", "Title 2", 1, null)));
+        assertFalse(task1.equals(Task.create("Description 2", "Title 1", 2, null)));
     }
 
     @Test

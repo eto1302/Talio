@@ -5,6 +5,7 @@ import client.MyModule;
 import com.google.inject.Injector;
 import commons.Board;
 import commons.Tag;
+import commons.mocks.IShowCtrl;
 import commons.Task;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,7 +16,7 @@ import java.util.List;
 
 import static com.google.inject.Guice.createInjector;
 
-public class ShowCtrl {
+public class ShowCtrl implements IShowCtrl {
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
     private Stage primaryStage, secondaryStage, popUpStage;
@@ -106,14 +107,16 @@ public class ShowCtrl {
 
     /**
      * Shows the window with options for adding a task in a list.
-     * @param controller the list's controller
+     *
+     * @param controller   the list's controller
      * @param primaryStage the primary stage of our scenes.
+     * @param list
      */
-    public void showAddTask(ListShapeCtrl controller, Stage primaryStage){
+    public void showAddTask(ListShapeCtrl controller, Stage primaryStage, commons.List list){
         var addTask = FXML.load(AddTaskController.class, "client",
                 "scenes", "AddTask.fxml");
         Scene addTaskScene = new Scene(addTask.getValue());
-        addTask.getKey().setup(controller, primaryStage);
+        addTask.getKey().setup(controller, primaryStage, list);
         secondaryStage = new Stage();
         secondaryStage.setScene(addTaskScene);
         secondaryStage.setTitle("Add a task");
@@ -222,9 +225,11 @@ public class ShowCtrl {
 
     /**
      * Adds the list to the board and updates the scene
+     *
      * @param list the list object whose attributes specify the visual of the list
+     * @return
      */
-    public void addList(commons.List list){
+    public void addList(commons.List list) {
         var listShape = FXML.load(ListShapeCtrl.class, "client", "scenes", "List.fxml");
         Scene initializeList = new Scene(listShape.getValue());
         ListShapeCtrl listShapeCtrl = listShape.getKey();
@@ -232,6 +237,29 @@ public class ShowCtrl {
         listShapeCtrl.set(list, primaryStage);
         Scene listScene = listShapeCtrl.getSceneUpdated(list);
         Scene scene = boardController.putList(listScene);
+        primaryStage.setScene(scene);
+    }
+
+    public ListShapeCtrl addAndReturnList(commons.List list) {
+        var listShape = FXML.load(ListShapeCtrl.class, "client", "scenes", "List.fxml");
+        Scene initializeList = new Scene(listShape.getValue());
+        ListShapeCtrl listShapeCtrl = listShape.getKey();
+
+        listShapeCtrl.set(list, primaryStage);
+        Scene listScene = listShapeCtrl.getSceneUpdated(list);
+        Scene scene = boardController.putList(listScene);
+        primaryStage.setScene(scene);
+        return listShapeCtrl;
+    }
+
+    public void addTask(Task task, ListShapeCtrl listShapeCtrl) {
+        var taskShape = FXML.load(TaskShape.class, "client", "scenes", "Task.fxml");
+        Scene taskScene = new Scene(taskShape.getValue());
+        TaskShape taskShapeCtrl = taskShape.getKey();
+
+        taskShapeCtrl.set(task, primaryStage);
+        Scene updated = taskShapeCtrl.getSceneUpdated(task);
+        Scene scene = listShapeCtrl.putTask(updated);
         primaryStage.setScene(scene);
     }
 

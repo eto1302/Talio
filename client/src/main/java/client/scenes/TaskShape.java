@@ -15,6 +15,7 @@ import javafx.scene.layout.*;
 
 import javax.inject.Inject;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,6 +31,7 @@ public class TaskShape {
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
     private ListShapeCtrl controller;
     private commons.Task task;
+    private Stage primaryStage;
     @Inject
     public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils){
         this.showCtrl=showCtrl;
@@ -83,6 +85,20 @@ public class TaskShape {
 //        this.id= id;
 //        this.list=list;
         this.controller=controller;
+        grid.setOnDragDetected(this::dragDetected);
+        grid.setOnDragOver(this::dragOver);
+        grid.setOnDragDropped(this::dragDrop);
+        grid.setOnMousePressed(event->{
+            grid.setOpacity(0.4);
+        });
+        grid.setOnMouseReleased(event->{
+            grid.setOpacity(1);
+        });
+    }
+
+    public void set(Task task, Stage primaryStage){
+        this.task = task;
+        this.primaryStage = primaryStage;
         grid.setOnDragDetected(this::dragDetected);
         grid.setOnDragOver(this::dragOver);
         grid.setOnDragDropped(this::dragDrop);

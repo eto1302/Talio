@@ -23,6 +23,10 @@ public class Board {
     @Size(max = 20)
     private String password;
 
+    @Column(name="inviteKey")
+    @Size(max=20)
+    private String inviteKey;
+
     @Column(name = "fontColor")
     // regular expression that matches a valid color string in the format "#RRGGBB" or "#AARRGGBB"
     @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$")
@@ -207,5 +211,14 @@ public class Board {
                 ", fontColor=" + fontColor +
                 ", backgroundColor=" + backgroundColor +
                 '}';
+    }
+
+    public List getListById(int listID) {
+        for(List list: lists){
+            if(list.getId() == listID){
+                return list;
+            }
+        }
+        throw new NoSuchElementException("The list does not exist...");
     }
 }

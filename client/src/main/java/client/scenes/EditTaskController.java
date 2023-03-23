@@ -1,6 +1,9 @@
 package client.scenes;
 
+import client.utils.ServerUtils;
 import commons.Task;
+import commons.models.IdResponseModel;
+import commons.models.TaskEditModel;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -18,9 +21,11 @@ public class EditTaskController {
     @FXML
     private VBox subtaskBox, tagBox;
     private commons.Task task;
+    private ServerUtils server;
 
     @Inject
-    public EditTaskController (ShowCtrl showCtrl){
+    public EditTaskController (ShowCtrl showCtrl, ServerUtils serverUtils){
+        this.server = serverUtils;
         this.showCtrl=showCtrl;
     }
 
@@ -48,6 +53,16 @@ public class EditTaskController {
         String description = this.descriptionField.getText();
         task.setTitle(title);
         task.setDescription(description);
+
+        TaskEditModel model = new TaskEditModel(title, description);
+        IdResponseModel response = server.editTask(task.getId(), model);
+
+        if (response.getId() == -1) {
+            showCtrl.cancel();
+            showCtrl.showError(response.getErrorMessage());
+            return;
+        }
+
         showCtrl.cancel();
         showCtrl.showTaskOverview(task);
     }
