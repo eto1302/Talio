@@ -2,7 +2,7 @@ package commons.messaging.Messages;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
+import commons.sync.*;
 
 /**
  * Message Interface
@@ -28,7 +28,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 )
 @JsonSubTypes({
     @JsonSubTypes.Type(value = TestMessage.class, name = "test"),
-    @JsonSubTypes.Type(value = SuccessMessage.class, name = "success")
+    @JsonSubTypes.Type(value = SuccessMessage.class, name = "success"),
+    @JsonSubTypes.Type(value = BoardUpdate.class, name = "boardUpdate"),
 })
 public interface Message {
     void consume();

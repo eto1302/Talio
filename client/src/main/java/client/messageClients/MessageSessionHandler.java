@@ -1,6 +1,7 @@
 package client.messageClients;
 
 import commons.messaging.Messages.Message;
+import javafx.application.Platform;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
@@ -47,7 +48,7 @@ public class MessageSessionHandler extends StompSessionHandlerAdapter {
     @Override
     public void handleFrame(StompHeaders headers, Object payload){
         Message msg = (Message) payload;
-        msg.consume();
+        Platform.runLater(() -> msg.consume());
     }
 
     /**

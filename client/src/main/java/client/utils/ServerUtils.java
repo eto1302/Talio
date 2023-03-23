@@ -19,28 +19,43 @@ package client.utils;
 import com.google.inject.Inject;
 
 import commons.*;
+import commons.mocks.IServerUtils;
+import commons.models.IdResponseModel;
+import commons.models.ListEditModel;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.NoSuchElementException;
+import java.util.Set;
 
-public class ServerUtils {
+
+public class ServerUtils implements IServerUtils {
     @Inject
     private RestTemplate client;
+    private static String url = "http://localhost:8080/";
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     /**
      * Send a new Board to the server.
      *
      * @param board content of the board
-     * @return the id of the board, or -1 if the creation fails
+     * @return the id of the board, or -1 and the error message if the creation fails
      */
-    public int addBoard(Board board) {
+    public IdResponseModel addBoard(Board board) {
         try {
             HttpEntity<Board> req = new HttpEntity<>(board);
-            int id = client.postForObject("http://localhost:8080/board/create", req, Integer.class);
-            return id;
+            IdResponseModel response = client.postForObject(
+                    url+"board/create", req, IdResponseModel.class);
+            return response;
         } catch (Exception e) {
-            return -1;
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
         }
     }
 
@@ -52,7 +67,21 @@ public class ServerUtils {
     public Board getBoard(int id) {
         try {
             ResponseEntity<Board> response =
-                    client.getForEntity("http://localhost:8080/board/find"+id, Board.class);
+                    client.getForEntity(url+"board/find/"+id, Board.class);
+            return response.getBody();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Get all the boards,
+     * @return the boards or null if there is exception.
+     */
+    public Board[] getAllBoards() {
+        try {
+            ResponseEntity<Board[]> response =
+                    client.getForEntity(url+"board/findAll", Board[].class);
             return response.getBody();
         } catch (Exception e) {
             return null;
@@ -66,10 +95,16 @@ public class ServerUtils {
      * @param boardId id of the board
      * @return id of the list, or -1 if it fails
      */
-    public int addlist(commons.List list, int boardId) {
-        HttpEntity<commons.List> req = new HttpEntity<commons.List>(list);
-        int id = client.postForObject("http://localhost:8080/list/add"+boardId, req, Integer.class);
-        return id;
+    public IdResponseModel addList(commons.List list, int boardId) {
+        try {
+            HttpEntity<commons.List> req = new HttpEntity<commons.List>(list);
+            IdResponseModel id = client.postForObject(
+                    url+"list/add/"+boardId, req, IdResponseModel.class);
+            return id;
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
+        }
+
     }
 
     /**
@@ -79,26 +114,94 @@ public class ServerUtils {
      * @param listId id of the list
      * @return true if it succeeds, false otherwise
      */
-    public boolean deleteList(int boardId, int listId) {
-        ResponseEntity<Boolean> response = client.getForEntity(
-                "http://localhost:8080/list/delete/"+boardId+"/"+listId,
-                Boolean.class
-        );
-        return response.getBody();
+    public IdResponseModel deleteList(int boardId, int listId) {
+        try {
+            ResponseEntity<IdResponseModel> response = client.getForEntity(
+                    url+"list/delete/"+boardId+"/"+listId,
+                    IdResponseModel.class
+            );
+            return response.getBody();
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
+        }
+
     }
 
     /**
-     * Rename a list.
      *
-     * @param name new name of the list
+     * Edit the name, background color and font color of a list.
+     *
+     * @param boardId id of the board
      * @param listId id of the list
-     * @return true if it succeeds, false otherwise
+     * @param model  name and color information of the modified list
+     * @return
      */
-    public boolean renameList(String name, int listId) {
-        ResponseEntity<Boolean> response = client.getForEntity(
-                "http://localhost:8080/list/rename/"+listId+"/"+name,
-                Boolean.class
-        );
-        return response.getBody();
+    public IdResponseModel editList(int boardId, int listId, ListEditModel model) {
+        try {
+            HttpEntity<ListEditModel> req = new HttpEntity<ListEditModel>(model);
+            ResponseEntity<IdResponseModel> response = client.postForEntity(
+                    url+"list/edit/"+boardId+"/"+listId, req,
+                    IdResponseModel.class
+            );
+
+            if (listId != response.getBody().getId())
+                return new IdResponseModel(-1, "list doesn't match");
+
+            return response.getBody();
+
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
+        }
+
     }
+
+    /**
+     * Returns the list with a certain id
+     * @param id id of the list
+     * @return the list or null in case of an exception
+     */
+    public commons.List getList(int id) {
+        try {
+            ResponseEntity<commons.List> response = client.getForEntity(
+                    url+"list/get/"+id, commons.List.class);
+            return response.getBody();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /***
+     *
+     *  Get the list set by board id.
+     *
+     * @param boardId id of the board
+     * @return the set of list of the board
+     */
+    public Set<commons.List> getListByBoard(int boardId) {
+        try {
+            ResponseEntity<Set<commons.List>> response = client.exchange(
+                    url+"list/getByBoard/" + boardId,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<Set<List>>() {}
+            );
+
+            // return the list if the request succeeded
+            if (response.getStatusCode().is2xxSuccessful()) {
+                Set<commons.List> lists = response.getBody();
+                return lists;
+            }
+
+            // board id doesn't exist
+            if(response.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
+                throw new NoSuchElementException("There is no such board");
+            }
+
+            throw new RuntimeException("something went wrong...");
+
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
 }

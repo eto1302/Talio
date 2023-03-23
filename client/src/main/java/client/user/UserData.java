@@ -1,6 +1,14 @@
 package client.user;
 
+import client.messageClients.MessageAdmin;
+import client.messageClients.MessageSender;
+import client.scenes.ShowCtrl;
+import commons.sync.BoardUpdate;
+import client.utils.ServerUtils;
+import com.google.inject.Inject;
 import commons.Board;
+import commons.mocks.IUserData;
+import commons.models.IdResponseModel;
 
 import java.io.*;
 import java.util.HashMap;
@@ -16,7 +24,7 @@ import java.util.Map;
  * preferences, such as background color/image, which will be stored
  * in the same configuration file as well.
  */
-public class UserData {
+public class UserData implements IUserData {
 
     /**
      * File in which to save the user's data
@@ -28,6 +36,40 @@ public class UserData {
      * strings (board passwords)
      */
     private Map<Integer, String> boards;
+
+    /**
+     * Current opened board, imperative for synchronization
+     */
+    private Board currentBoard;
+
+    /**
+     * Message sender used for synchronization
+     * Injected by guice
+     */
+    @Inject
+    private MessageSender messageSender;
+
+    /**
+     * Message admin used for synchronization
+     * Injected by guice
+     */
+    @Inject
+    private MessageAdmin messageAdmin;
+
+    /**
+     * Server utils object used for sending board requests and updates
+     * to the server
+     * Injected by guice
+     */
+    @Inject
+    private ServerUtils serverUtils;
+
+    /**
+     * Stage controller
+     * Injected by guice
+     */
+    @Inject
+    private ShowCtrl showCtrl;
 
     /**
      * Initializes the UserData class with a given filepath for the datafile. If this file
@@ -47,6 +89,8 @@ public class UserData {
             assert !savePath.isDirectory();
             loadFromDisk();
         }
+
+        BoardUpdate.setUserData(this);
     }
 
     /**
@@ -105,11 +149,51 @@ public class UserData {
      * @param identifier the ID of the board to fetch
      * @return the full detailing of the fetched board
      */
-    public Board fetchBoard(int identifier) {
+    public Board openBoard(int identifier) {
         assert boards.containsKey(identifier);
 
-        // TODO integrate with server and messaging system
-        return null;
+        this.currentBoard = serverUtils.getBoard(identifier);
+        this.messageAdmin.subscribe("/topic/" + BoardUpdate.QUEUE + currentBoard.getId());
+        return currentBoard;
+    }
+
+    /**
+     * @return the current board (since last synchronization), or null if no board has been opened
+     */
+    public Board getCurrentBoard() {
+        return currentBoard;
+    }
+
+    /**
+     * Refreshes the current open board by fetching the most recent version from the server
+     */
+    public void refresh() {
+        if(currentBoard != null)
+            this.currentBoard = serverUtils.getBoard(currentBoard.getId());
+    }
+
+    /**
+     * Uses a {@link BoardUpdate} object to update the board in a particular way. This includes
+     * updating the current board locally, sending the update to the server, and messaging all
+     * other clients about the update.
+     *
+     * @param boardUpdate the update to apply
+     * @return status of board update, note that no changes are made if status is fail (-1)
+     */
+    public IdResponseModel updateBoard(BoardUpdate boardUpdate) {
+        IdResponseModel response = boardUpdate.sendToServer(serverUtils);
+        if(response.getId() == -1)
+            return response;
+
+        messageSender.send(boardUpdate.getSendQueue(), boardUpdate);
+        return response;
+    }
+
+    /**
+     * @return the stage controller
+     */
+    public ShowCtrl getShowCtrl() {
+        return showCtrl;
     }
 
     /**
