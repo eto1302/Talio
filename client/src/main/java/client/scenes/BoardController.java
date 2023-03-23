@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.user.UserData;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -38,6 +39,9 @@ public class BoardController {
 
     private final ShowCtrl showCtrl;
     private ServerUtils server;
+
+    @Inject
+    private UserData userData;
 
     @Inject
     public BoardController(ShowCtrl showCtrl, ServerUtils server) {
@@ -90,11 +94,12 @@ public class BoardController {
         Set<commons.List> lists;
 
         try {
-            lists = server.getListByBoard(1);
+            userData.refresh();
         } catch (Exception e) {
             showCtrl.showError(e.getMessage());
             return;
         }
+        lists = userData.getCurrentBoard().getLists();
 
         for (commons.List list : lists) {
             showCtrl.addList(list);

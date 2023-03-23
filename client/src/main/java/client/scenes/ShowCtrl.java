@@ -5,6 +5,7 @@ import client.MyModule;
 import com.google.inject.Injector;
 import commons.Board;
 import commons.Tag;
+import commons.mocks.IShowCtrl;
 import commons.Task;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,7 +16,7 @@ import java.util.List;
 
 import static com.google.inject.Guice.createInjector;
 
-public class ShowCtrl {
+public class ShowCtrl implements IShowCtrl {
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
     private Stage primaryStage, secondaryStage, popUpStage;
@@ -224,7 +225,7 @@ public class ShowCtrl {
      * Adds the list to the board and updates the scene
      * @param list the list object whose attributes specify the visual of the list
      */
-    public void addList(commons.List list){
+    public void addList(commons.List list) {
         var listShape = FXML.load(ListShapeCtrl.class, "client", "scenes", "List.fxml");
         Scene initializeList = new Scene(listShape.getValue());
         ListShapeCtrl listShapeCtrl = listShape.getKey();

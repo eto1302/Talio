@@ -1,7 +1,7 @@
-package client.sync;
+package commons.sync;
 
-import client.user.UserData;
-import client.utils.ServerUtils;
+import commons.mocks.IServerUtils;
+import commons.mocks.IUserData;
 import commons.models.IdResponseModel;
 
 public class ListDeleted extends BoardUpdate {
@@ -18,12 +18,12 @@ public class ListDeleted extends BoardUpdate {
     }
 
     @Override
-    public IdResponseModel sendToServer(ServerUtils server) {
+    public IdResponseModel sendToServer(IServerUtils server) {
         return server.deleteList(listId, super.getBoardID());
     }
 
     @Override
-    public void apply(UserData data) {
+    public void apply(IUserData data) {
         data.getCurrentBoard().getLists().removeIf(list -> list.getId() == listId);
     }
 
