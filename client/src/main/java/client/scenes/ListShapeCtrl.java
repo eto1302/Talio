@@ -100,7 +100,7 @@ public class ListShapeCtrl {
      * shows the add task window
      */
     public void showAddTask(){
-        showCtrl.showAddTask(this, primaryStage);
+        showCtrl.showAddTask(this, primaryStage, list);
     }
 
     /**
