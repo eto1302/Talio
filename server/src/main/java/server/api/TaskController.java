@@ -1,5 +1,6 @@
 package server.api;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.Services.TaskService;
 
@@ -15,7 +16,10 @@ public class TaskController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public String getTask(@PathVariable int id){
-        return this.taskService.getTaskById(id).toString();
+    public ResponseEntity<commons.Task> getTask(@PathVariable int id){
+        try{
+            commons.Task task = taskService.getTaskById(id);
+            return ResponseEntity.ok(task);
+        }
     }
 }
