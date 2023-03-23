@@ -1,7 +1,5 @@
 package commons.models;
 
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
-
 public class TaskEditModel {
     private String title;
     private String description;

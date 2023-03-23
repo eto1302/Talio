@@ -257,9 +257,7 @@ public class ServerUtils implements IServerUtils {
     public java.util.List<commons.Task> getTaskByList(int listID) {
         try {
             ResponseEntity<java.util.List<commons.Task>> response = client.exchange(
-                url+"task/getByList/" + listID,
-                HttpMethod.GET,
-                null,
+                url+"task/getByList/" + listID, HttpMethod.GET, null,
                 new ParameterizedTypeReference<java.util.List<commons.Task>>() {}
             );
 
