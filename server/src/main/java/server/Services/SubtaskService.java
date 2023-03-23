@@ -3,6 +3,7 @@ package server.Services;
 import commons.Subtask;
 import commons.Task;
 import commons.models.IdResponseModel;
+import commons.models.SubtaskEditModel;
 import org.springframework.stereotype.Service;
 import server.database.SubtaskRepository;
 import server.database.TaskRepository;
@@ -90,5 +91,23 @@ public class SubtaskService {
         }
     }
 
+    /**
+     * Edits the subtask, setting it a new description and status
+     * @param subtaskID the id of the subtask
+     * @param model of the editable attributes
+     * @return an appropriate response, containing the edited subtask's ID
+     *           or -1 and an error message if the subtask doesn't exist
+     */
+    public IdResponseModel editSubtask(int subtaskID, SubtaskEditModel model) {
+        try {
+            Subtask subtask = subtaskRepository.getSubtaskByID(subtaskID);
+            subtask.setChecked(model.isChecked());
+            subtask.setDescription(model.getDescription());
+            subtaskRepository.save(subtask);
+            return new IdResponseModel(subtaskID, null);
+        } catch (Exception e) {
+            return new IdResponseModel(-1, e.getMessage());
+        }
+    }
 
 }
