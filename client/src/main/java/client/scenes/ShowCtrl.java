@@ -196,6 +196,10 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.show();
     }
 
+    public void refreshBoard() {
+        boardController.refresh();
+    }
+
     /**
      * Shows the window with options for the editing the list.
      * First sets up the scene to the list's information
