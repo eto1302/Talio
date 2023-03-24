@@ -4,7 +4,6 @@ import client.utils.ServerUtils;
 import commons.Task;
 import commons.models.IdResponseModel;
 import commons.models.TaskEditModel;
-import commons.sync.TaskEdited;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
