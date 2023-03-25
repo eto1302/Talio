@@ -22,6 +22,7 @@ import commons.*;
 import commons.mocks.IServerUtils;
 import commons.models.IdResponseModel;
 import commons.models.ListEditModel;
+import commons.models.SubtaskEditModel;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -204,4 +205,100 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
+    /**
+     * Adds a subtask to the specified task
+     * @param subtask the subtask to be added
+     * @param taskID the id of the associated task
+     * @return appropriate model, with the id of the newly added subtask if it succeeds or
+     *      -1 if it fails
+     */
+    public IdResponseModel addSubtask(Subtask subtask, int taskID) {
+        try {
+            HttpEntity<Subtask> req = new HttpEntity<>(subtask);
+            IdResponseModel response = client.postForObject(
+                    url+"subtask/add/"+taskID, req, IdResponseModel.class);
+            return response;
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Server connection failed");
+        }
+    }
+
+    /**
+     * Gets a subtask
+     * @param id of the subtask
+     * @return the subtask
+     */
+    public Subtask getSubtask(int id) {
+        try {
+            ResponseEntity<Subtask> response = client.getForEntity(
+                    url+"subtask/get/"+id, Subtask.class);
+            return response.getBody();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Deletes a subtask from the associated task
+     * @param taskID the id of the associated task
+     * @param subtaskID the id of the subtask
+     * @return appropriate model, with the id of the deleted subtask if it succeeds or
+     *          -1 if it fails
+     */
+    public IdResponseModel deleteSubtask(int taskID, int subtaskID) {
+        try {
+            ResponseEntity<IdResponseModel> response = client.getForEntity(
+                    url+"subtask/delete/"+taskID+"/"+subtaskID,
+                    IdResponseModel.class
+            );
+            return response.getBody();
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Server connection failed");
+        }
+    }
+
+    /**
+     * Edits the description and status of a subtask (checked/unchecked)
+     * @param subtaskID the id of the subtask to be edited
+     * @param model containing the description and status of the updated subtask,
+     *              serving as the request body
+     * @return appropriate model, with the id of the edited subtask if it succeeds or
+     *                -1 if it fails
+     */
+    public IdResponseModel editSubtask(int subtaskID, SubtaskEditModel model) {
+        try {
+            HttpEntity<SubtaskEditModel> req = new HttpEntity<>(model);
+            ResponseEntity<IdResponseModel> response = client.postForEntity(
+                    url+"subtask/edit/"+subtaskID, req,
+                    IdResponseModel.class);
+
+            if (subtaskID != response.getBody().getId())
+                return new IdResponseModel(-1, "Subtasks don't match");
+            return response.getBody();
+
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Server connection failed");
+        }
+    }
+
+    /**
+     * Get all the subtasks associated with a task
+     * @param taskID the id of the associated task
+     * @return all the subtasks associated with a task or exceptions if
+     *      there is no such task or if something else fails
+     */
+    public java.util.List<Subtask> getSubtasksByTask(int taskID){
+        ResponseEntity<java.util.List<Subtask>> response = client.exchange(
+                url+"subtask/getByTask/" + taskID,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>(){} );
+
+        if (response.getStatusCode().is2xxSuccessful())
+             return response.getBody();
+        else if (response.getStatusCode().equals(HttpStatus.BAD_REQUEST))
+            throw new NoSuchElementException("No such task id");
+
+        throw new RuntimeException("Something went wrong");
+    }
 }

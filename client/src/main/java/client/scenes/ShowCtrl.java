@@ -101,14 +101,16 @@ public class ShowCtrl implements IShowCtrl {
 
     /**
      * Shows the window with options for adding a task in a list.
-     * @param controller the list's controller
+     *
+     * @param controller   the list's controller
      * @param primaryStage the primary stage of our scenes.
+     * @param list
      */
-    public void showAddTask(ListShapeCtrl controller, Stage primaryStage){
+    public void showAddTask(ListShapeCtrl controller, Stage primaryStage, commons.List list){
         var addTask = FXML.load(AddTaskController.class, "client",
                 "scenes", "AddTask.fxml");
         Scene addTaskScene = new Scene(addTask.getValue());
-        addTask.getKey().setup(controller, primaryStage);
+        addTask.getKey().setup(controller, primaryStage, list);
         secondaryStage = new Stage();
         secondaryStage.setScene(addTaskScene);
         secondaryStage.setTitle("Add a task");

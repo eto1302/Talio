@@ -76,6 +76,14 @@ public class ListService {
         }
     }
 
+    /**
+     * Edits the list, setting it a new name, background and font color
+     * @param boardId the id of the board the list is in
+     * @param listId the id of the list to be edited
+     * @param model the model in which we saved the new attributes
+     * @return an appropriate response, containing the edited list's ID
+     *           or -1 and an error message if the list doesn't exist
+     */
     public IdResponseModel editList(int boardId, int listId, ListEditModel model) {
         try {
             List list = listRepositoy.getListByID(listId);
