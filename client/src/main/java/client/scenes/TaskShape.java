@@ -32,6 +32,7 @@ public class TaskShape {
     private ListShapeCtrl controller;
     private commons.Task task;
     private Stage primaryStage;
+
     @Inject
     public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils){
         this.showCtrl=showCtrl;
@@ -47,7 +48,7 @@ public class TaskShape {
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
                     if (event.getClickCount()==2)
-                        showCtrl.showTaskOverview(task);
+                        showCtrl.showTaskOverview(task, controller);
             }
         });
     }
@@ -96,9 +97,10 @@ public class TaskShape {
         });
     }
 
-    public void set(Task task, Stage primaryStage){
+    public void set(Task task, Stage primaryStage, ListShapeCtrl listShapeCtrl){
         this.task = task;
         this.primaryStage = primaryStage;
+        this.controller = listShapeCtrl;
         grid.setOnDragDetected(this::dragDetected);
         grid.setOnDragOver(this::dragOver);
         grid.setOnDragDropped(this::dragDrop);

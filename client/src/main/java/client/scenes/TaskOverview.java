@@ -18,6 +18,7 @@ public class TaskOverview {
     private ServerUtils serverUtils;
     private int id;
     private commons.Task task;
+    private ListShapeCtrl listShapeCtrl;
 
     @Inject
     public TaskOverview(ShowCtrl showCtrl, ServerUtils serverUtils){
@@ -25,16 +26,17 @@ public class TaskOverview {
         this.serverUtils=serverUtils;
     }
 
-    public Scene setup(Task task){
+    public Scene setup(Task task, ListShapeCtrl listShapeCtrl){
         this.task = task;
         title.setText(task.getTitle());
         descriptionField.setText((task.getDescription()));
+        this.listShapeCtrl = listShapeCtrl;
         return title.getScene();
     }
 
     public void showEditTask(){
         showCtrl.cancel();
-        showCtrl.showEditTask(task);
+        showCtrl.showEditTask(task, listShapeCtrl);
     }
 
     public void cancel(){

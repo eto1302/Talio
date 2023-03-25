@@ -22,6 +22,7 @@ public class EditTaskController {
     private VBox subtaskBox, tagBox;
     private commons.Task task;
     private ServerUtils server;
+    private ListShapeCtrl listShapeCtrl;
 
     @Inject
     public EditTaskController (ShowCtrl showCtrl, ServerUtils serverUtils){
@@ -29,10 +30,11 @@ public class EditTaskController {
         this.showCtrl=showCtrl;
     }
 
-    public Scene setup(Task task){
+    public Scene setup(Task task, ListShapeCtrl listShapeCtrl){
         this.task = task;
         this.title.setText(task.getTitle());
         this.descriptionField.setText(task.getDescription());
+        this.listShapeCtrl = listShapeCtrl;
         return title.getScene();
     }
 
@@ -54,16 +56,17 @@ public class EditTaskController {
         task.setTitle(title);
         task.setDescription(description);
 
-        TaskEditModel model = new TaskEditModel(title, description);
-        IdResponseModel response = server.editTask(task.getId(), model);
+//        TaskEditModel model = new TaskEditModel(title, description);
+//        IdResponseModel response = server.editTask(task.getId(), model);
+//
+//        if (response.getId() == -1) {
+//            showCtrl.cancel();
+//            showCtrl.showError(response.getErrorMessage());
+//            return;
+//        }
 
-        if (response.getId() == -1) {
-            showCtrl.cancel();
-            showCtrl.showError(response.getErrorMessage());
-            return;
-        }
-
+        listShapeCtrl.refreshList();
         showCtrl.cancel();
-        showCtrl.showTaskOverview(task);
+        showCtrl.showTaskOverview(task, listShapeCtrl);
     }
 }

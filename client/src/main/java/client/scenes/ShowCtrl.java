@@ -185,12 +185,12 @@ public class ShowCtrl implements IShowCtrl {
      * Shows the details of the task. First sets the information in the window according to
      * the task.
      */
-    public void showTaskOverview(Task task) {
+    public void showTaskOverview(Task task, ListShapeCtrl listShapeCtrl) {
         secondaryStage=new Stage();
         var taskOverview = FXML.load(TaskOverview.class, "client",
                 "scenes", "TaskOverview.fxml");
         Scene initialize = new Scene(taskOverview.getValue());
-        Scene updated = taskOverview.getKey().setup(task);
+        Scene updated = taskOverview.getKey().setup(task, listShapeCtrl);
         secondaryStage.setScene(updated);
         secondaryStage.setTitle("See your task details");
         secondaryStage.show();
@@ -261,7 +261,7 @@ public class ShowCtrl implements IShowCtrl {
         Scene taskScene = new Scene(taskShape.getValue());
         TaskShape taskShapeCtrl = taskShape.getKey();
 
-        taskShapeCtrl.set(task, primaryStage);
+        taskShapeCtrl.set(task, primaryStage, listShapeCtrl);
         Scene updated = taskShapeCtrl.getSceneUpdated(task);
         Scene scene = listShapeCtrl.putTask(updated);
         primaryStage.setScene(scene);
@@ -294,11 +294,11 @@ public class ShowCtrl implements IShowCtrl {
     public void addTag(Tag tag, TaskOverview controller, Stage primaryStage) {
     }
 
-    public void showEditTask(Task task) {
+    public void showEditTask(Task task, ListShapeCtrl listShapeCtrl) {
         var editTaskPair = FXML.load(EditTaskController.class, "client", "scenes", "EditTask.fxml");
         editTaskController = editTaskPair.getKey();
         editTask = new Scene((Parent) editTaskPair.getValue());
-        Scene updated = editTaskController.setup(task);
+        Scene updated = editTaskController.setup(task, listShapeCtrl);
         secondaryStage = new Stage();
         secondaryStage.setScene(editTask);
         secondaryStage.setTitle("Edit a task");

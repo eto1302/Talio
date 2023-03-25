@@ -31,6 +31,7 @@ public class AddTaskController {
     private VBox subtaskBox, tagBox;
     private List list;
 
+
     @Inject
     private UserData userData;
 

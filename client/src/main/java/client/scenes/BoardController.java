@@ -104,6 +104,7 @@ public class BoardController {
 
         for (commons.List list : lists) {
             ListShapeCtrl listShapeCtrl = showCtrl.addAndReturnList(list);
+            listShapeCtrl.setBoard(this);
             tasks = list.getTasks();
             for(commons.Task task: tasks){
                 showCtrl.addTask(task, listShapeCtrl);
