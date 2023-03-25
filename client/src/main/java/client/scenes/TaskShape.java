@@ -1,8 +1,6 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import commons.Subtask;
-import commons.Tag;
 import commons.Task;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
