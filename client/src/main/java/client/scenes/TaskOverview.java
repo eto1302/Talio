@@ -1,28 +1,24 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 import javax.inject.Inject;
 
 public class TaskOverview {
-
     @FXML
-    private Text titleText;
+    private Label title, descriptionField;
     @FXML
-    private TextArea descriptionField;
-    @FXML
-    private Button okButton, addSubTaskButton, delete;
-    @FXML
-    private VBox subtaskBox, buttonsBox;
+    private VBox subtaskBox, tagBox;
     private final ShowCtrl showCtrl;
     private ServerUtils serverUtils;
     private int id;
+    private commons.Task task;
+    private ListShapeCtrl listShapeCtrl;
 
     @Inject
     public TaskOverview(ShowCtrl showCtrl, ServerUtils serverUtils){
@@ -30,9 +26,20 @@ public class TaskOverview {
         this.serverUtils=serverUtils;
     }
 
-    public Scene setup(){
-
-        return titleText.getScene();
+    public Scene setup(Task task, ListShapeCtrl listShapeCtrl){
+        this.task = task;
+        title.setText(task.getTitle());
+        descriptionField.setText((task.getDescription()));
+        this.listShapeCtrl = listShapeCtrl;
+        return title.getScene();
     }
 
+    public void showEditTask(){
+        showCtrl.cancel();
+        showCtrl.showEditTask(task, listShapeCtrl);
+    }
+
+    public void cancel(){
+        showCtrl.cancel();
+    }
 }

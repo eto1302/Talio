@@ -4,6 +4,8 @@ import client.MyFXML;
 import client.MyModule;
 import com.google.inject.Injector;
 import commons.Board;
+import commons.Subtask;
+import commons.Tag;
 import commons.mocks.IShowCtrl;
 import commons.Task;
 import javafx.scene.Parent;
@@ -20,8 +22,8 @@ public class ShowCtrl implements IShowCtrl {
     private static final MyFXML FXML = new MyFXML(INJECTOR);
     private Stage primaryStage, secondaryStage, popUpStage;
     private HomeController homeCtrl;
-    private Scene home, addList, yourBoards, search, addTag, board,
-            taskOverview, connection, addBoard, editTag, editTask, error;
+    private Scene home, addList, yourBoards, search, addTag, board, taskOverview, connection,
+            addBoard, editTag, editTask, errorScene, addSubTask, editSubTask;
     private AddListController addListCtrl;
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
@@ -35,6 +37,8 @@ public class ShowCtrl implements IShowCtrl {
     private EditTaskController editTaskController;
     private ErrorController errorController;
     private EditListController editListCtrl;
+    private AddSubTaskController addSubTaskController;
+    private EditSubTaskController editSubTaskController;
 
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
@@ -60,10 +64,13 @@ public class ShowCtrl implements IShowCtrl {
         editTaskController = (EditTaskController) loader.get(9).getKey();
         editTask = new Scene((Parent) loader.get(9).getValue());
         errorController = (ErrorController) loader.get(10).getKey();
-        error = new Scene((Parent) loader.get(10).getValue());
+        errorScene = new Scene((Parent) loader.get(10).getValue());
+        addSubTaskController = (AddSubTaskController) loader.get(11).getKey();
+        addSubTask = new Scene((Parent) loader.get(11).getValue());
+        editSubTaskController = (EditSubTaskController) loader.get(12).getKey();
+        editSubTask = new Scene((Parent) loader.get(12).getValue());
 
         showConnection();
-
         //showBoard();
         primaryStage.show();
     }
@@ -127,8 +134,7 @@ public class ShowCtrl implements IShowCtrl {
         var taskShape = FXML.load(TaskShape.class, "client", "scenes", "Task.fxml");
         Scene taskScene = new Scene(taskShape.getValue());
         Scene updated = taskShape.getKey().getSceneUpdated(task);
-        //taskShape.getKey().setup(controller, task.getId(), controller.getList());
-        taskShape.getKey().setup(controller);
+        taskShape.getKey().set(task, primaryStage, controller);
         Scene finalScene = controller.addTask(updated);
 
         primaryStage.setScene(finalScene);
@@ -145,12 +151,28 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.show();
     }
 
+    public void showAddTag(Task task){
+        popUpStage = new Stage();
+        popUpStage.setScene(addTag);
+        popUpStage.setTitle("Add a tag");
+        popUpStage.show();
+        addTagController.setup(task);
+    }
 
-    public void showAddTag(){
-        secondaryStage = new Stage();
-        secondaryStage.setScene(addTag);
-        secondaryStage.setTitle("Add a tag");
-        secondaryStage.show();
+    public void showAddSubTask(Task task) {
+        popUpStage = new Stage();
+        popUpStage.setScene(addSubTask);
+        popUpStage.setTitle("Add a sub-task");
+        popUpStage.show();
+        addSubTaskController.setup(task);
+    }
+
+    public void showEditSubTask(Task task, int index) {
+        popUpStage = new Stage();
+        popUpStage.setScene(editSubTask);
+        popUpStage.setTitle("Edit a sub-task");
+        popUpStage.show();
+        editSubTaskController.setup(task, index);
     }
 
     public void showBoard(){
@@ -163,15 +185,19 @@ public class ShowCtrl implements IShowCtrl {
      * Shows the details of the task. First sets the information in the window according to
      * the task.
      */
-    public void showTaskOverview() {
+    public void showTaskOverview(Task task, ListShapeCtrl listShapeCtrl) {
         secondaryStage=new Stage();
         var taskOverview = FXML.load(TaskOverview.class, "client",
                 "scenes", "TaskOverview.fxml");
         Scene initialize = new Scene(taskOverview.getValue());
-        Scene updated = taskOverview.getKey().setup();
+        Scene updated = taskOverview.getKey().setup(task, listShapeCtrl);
         secondaryStage.setScene(updated);
         secondaryStage.setTitle("See your task details");
         secondaryStage.show();
+    }
+
+    public void refreshBoard() {
+        boardController.refresh();
     }
 
     /**
@@ -201,21 +227,43 @@ public class ShowCtrl implements IShowCtrl {
         primaryStage.setScene(updated);
     }
 
-
     /**
      * Adds the list to the board and updates the scene
+     *
      * @param list the list object whose attributes specify the visual of the list
+     * @return
      */
     public void addList(commons.List list) {
         var listShape = FXML.load(ListShapeCtrl.class, "client", "scenes", "List.fxml");
         Scene initializeList = new Scene(listShape.getValue());
-
         ListShapeCtrl listShapeCtrl = listShape.getKey();
-
 
         listShapeCtrl.set(list, primaryStage);
         Scene listScene = listShapeCtrl.getSceneUpdated(list);
         Scene scene = boardController.putList(listScene);
+        primaryStage.setScene(scene);
+    }
+
+    public ListShapeCtrl addAndReturnList(commons.List list) {
+        var listShape = FXML.load(ListShapeCtrl.class, "client", "scenes", "List.fxml");
+        Scene initializeList = new Scene(listShape.getValue());
+        ListShapeCtrl listShapeCtrl = listShape.getKey();
+
+        listShapeCtrl.set(list, primaryStage);
+        Scene listScene = listShapeCtrl.getSceneUpdated(list);
+        Scene scene = boardController.putList(listScene);
+        primaryStage.setScene(scene);
+        return listShapeCtrl;
+    }
+
+    public void addTask(Task task, ListShapeCtrl listShapeCtrl) {
+        var taskShape = FXML.load(TaskShape.class, "client", "scenes", "Task.fxml");
+        Scene taskScene = new Scene(taskShape.getValue());
+        TaskShape taskShapeCtrl = taskShape.getKey();
+
+        taskShapeCtrl.set(task, primaryStage, listShapeCtrl);
+        Scene updated = taskShapeCtrl.getSceneUpdated(task);
+        Scene scene = listShapeCtrl.putTask(updated);
         primaryStage.setScene(scene);
     }
 
@@ -232,8 +280,11 @@ public class ShowCtrl implements IShowCtrl {
         primaryStage.setScene(scene);
     }
     public void showError(String errorMessage) {
+        var error=FXML.load(ErrorController.class, "client", "scenes", "Error.fxml");
+        errorController = error.getKey();
+        errorScene =new Scene((Parent)error.getValue());
         popUpStage = new Stage();
-        popUpStage.setScene(error);
+        popUpStage.setScene(errorScene);
         popUpStage.setTitle("error");
         errorController.setErrorMessage(errorMessage);
         popUpStage.show();
@@ -241,5 +292,29 @@ public class ShowCtrl implements IShowCtrl {
 
     public void closePopUp() {
         popUpStage.close();
+    }
+
+    public void addTag(Tag tag, TaskOverview controller, Stage primaryStage) {
+    }
+
+    public void showEditTask(Task task, ListShapeCtrl listShapeCtrl) {
+        var editTaskPair = FXML.load(EditTaskController.class, "client", "scenes", "EditTask.fxml");
+        editTaskController = editTaskPair.getKey();
+        editTask = new Scene((Parent) editTaskPair.getValue());
+        Scene updated = editTaskController.setup(task, listShapeCtrl, primaryStage);
+        secondaryStage = new Stage();
+        secondaryStage.setScene(editTask);
+        secondaryStage.setTitle("Edit a task");
+        secondaryStage.show();
+    }
+
+    public void addSubTask(Subtask subtask, EditTaskController editTaskController) {
+        Scene subTaskScene = null;
+        editTaskController.putSubtask(subTaskScene);
+    }
+
+    public void addTag(Tag tag, EditTaskController editTaskController) {
+        Scene tagScene = null;
+        editTaskController.putTag(tagScene);
     }
 }

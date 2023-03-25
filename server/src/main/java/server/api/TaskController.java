@@ -1,5 +1,8 @@
 package server.api;
 
+import commons.Task;
+import commons.models.IdResponseModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.Services.TaskService;
 
@@ -13,9 +16,48 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     @ResponseBody
-    public String getTask(@PathVariable int id){
-        return this.taskService.getTaskById(id).toString();
+    public ResponseEntity<commons.Task> getTask(@PathVariable int id){
+        try{
+            commons.Task task = taskService.getTaskById(id);
+            return ResponseEntity.ok(task);
+        }
+        catch(Exception e){
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @GetMapping("/getByList/{id}")
+    public ResponseEntity<java.util.List<Task>> getByList(@PathVariable int id){
+        try{
+            java.util.List<Task> tasks = taskService.getAllTaskByList(id);
+            return ResponseEntity.ok(tasks);
+        }
+        catch(Exception e){
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @GetMapping("/findAll")
+    @ResponseBody
+    public java.util.List<Task> getAllTasks(){
+        return this.taskService.getAllTasks();
+    }
+
+    @PostMapping("/add/{listID}")
+    public IdResponseModel addTask(@PathVariable int listID, @RequestBody commons.Task task){
+        return this.taskService.addTask(task, listID);
+    }
+
+    @PostMapping("/edit/{taskID}")
+    public IdResponseModel editTask(@PathVariable int taskID,
+                                    @RequestBody commons.models.TaskEditModel model){
+        return this.taskService.editTask(taskID, model);
+    }
+
+    @PostMapping("/remove/{taskID}/{listID}")
+    public IdResponseModel removeTask(@PathVariable int taskID, @PathVariable int listID){
+        return this.taskService.removeTask(taskID, listID);
     }
 }

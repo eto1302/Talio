@@ -6,4 +6,5 @@ public interface IShowCtrl {
 
     void addList(List list);
 
+//    void addTask(Task task);
 }

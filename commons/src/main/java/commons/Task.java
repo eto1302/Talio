@@ -167,7 +167,7 @@ public class Task {
 
     /**
      * Computes the hash code for this task.
-     * @return the hash code for this tasj
+     * @return the hash code for this task
      */
     @Override
     public int hashCode() {

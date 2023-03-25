@@ -38,6 +38,7 @@ public class EditListController {
         showCtrl.cancel();
     }
 
+
     /**
      * Sets the values of the fields according to our list's information
      * @param list the list to be edited
@@ -72,7 +73,6 @@ public class EditListController {
             showCtrl.showError(responseModel.getErrorMessage());
             return;
         }
-
         showCtrl.editList(server.getList(id), listShapeCtrl, primaryStage);
         showCtrl.cancel();
     }

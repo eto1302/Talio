@@ -92,6 +92,7 @@ public class BoardController {
         listBox.getChildren().clear();
         listBox.getChildren();
         Set<commons.List> lists;
+        java.util.List<commons.Task> tasks;
 
         try {
             userData.refresh();
@@ -102,7 +103,12 @@ public class BoardController {
         lists = userData.getCurrentBoard().getLists();
 
         for (commons.List list : lists) {
-            showCtrl.addList(list);
+            ListShapeCtrl listShapeCtrl = showCtrl.addAndReturnList(list);
+            listShapeCtrl.setBoard(this);
+            tasks = list.getTasks();
+            for(commons.Task task: tasks){
+                showCtrl.addTask(task, listShapeCtrl);
+            }
         }
 
     }

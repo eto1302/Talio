@@ -16,7 +16,7 @@
   </rowConstraints>
    <children>
       <Label fx:id="plusSign" text="+" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-      <Label fx:id="progressLabel" opacity="0.39" text="0/1" GridPane.rowIndex="1" />
+      <Label opacity="0.39" text="0/1" GridPane.rowIndex="1" />
       <Label fx:id="deleteX" onMouseEntered="#delete" text="X" GridPane.columnIndex="1" GridPane.valignment="TOP" />
       <Label fx:id="title" style="-fx-wrap-text: true;" text="Label" GridPane.halignment="CENTER" />
    </children>

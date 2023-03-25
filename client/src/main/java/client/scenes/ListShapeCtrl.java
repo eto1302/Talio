@@ -36,6 +36,7 @@ public class ListShapeCtrl {
     private ServerUtils serverUtils;
     private List list;
     private Stage primaryStage;
+    private BoardController boardController;
 
 
     @Inject
@@ -58,6 +59,15 @@ public class ListShapeCtrl {
         listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
         listTitle.setTextFill(fontColor);
         return listGrid.getScene();
+    }
+
+    public void refreshList(){
+        boardController.refresh();
+    }
+
+    public Scene putTask(Scene scene){
+        tasksBox.getChildren().add(scene.getRoot());
+        return tasksBox.getScene();
     }
 
     /**
@@ -121,7 +131,7 @@ public class ListShapeCtrl {
         }
     }
 
-    public void dragDrop(DragEvent event){
+    public void dragDrop(DragEvent event) {
         Dragboard dragboard = event.getDragboard();
         boolean done = false;
         if (dragboard.hasString()) {
@@ -130,10 +140,14 @@ public class ListShapeCtrl {
 
             tasksBox.getChildren().add(sourceGrid);
             //call method that changes the task's lists
-            done=true;
+            done = true;
             sourceGrid.setOpacity(1);
         }
         event.setDropCompleted(done);
         event.consume();
+    }
+
+    public void setBoard(BoardController boardController) {
+        this.boardController = boardController;
     }
 }

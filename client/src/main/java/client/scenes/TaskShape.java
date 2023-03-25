@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import commons.List;
 import commons.Task;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -16,6 +15,7 @@ import javafx.scene.layout.*;
 
 import javax.inject.Inject;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,14 +24,15 @@ public class TaskShape {
     @FXML
     private GridPane grid;
     @FXML
-    private Label plusSign, progressLabel, title, deleteX;
+    private Label plusSign, title, deleteX;
     private ShowCtrl showCtrl;
     private ServerUtils server;
     private int id;
-    private List list;
-    private double startx, starty;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
     private ListShapeCtrl controller;
+    private commons.Task task;
+    private Stage primaryStage;
+
     @Inject
     public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils){
         this.showCtrl=showCtrl;
@@ -47,7 +48,7 @@ public class TaskShape {
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
                     if (event.getClickCount()==2)
-                        showCtrl.showTaskOverview();
+                        showCtrl.showEditTask(task, controller);
             }
         });
     }
@@ -58,6 +59,7 @@ public class TaskShape {
      * @return the new scene updated
      */
     public Scene getSceneUpdated(Task task){
+        this.task = task;
         title.setText(task.getTitle());
         if (task.getDescription()==null)
             plusSign.setVisible(false);
@@ -80,10 +82,10 @@ public class TaskShape {
 //     * @param id the id of the task
 //     * @param list the task's list
      */
-    public void setup(ListShapeCtrl controller){//int id, List list){
-//        this.id= id;
-//        this.list=list;
-        this.controller=controller;
+    public void set(Task task, Stage primaryStage, ListShapeCtrl listShapeCtrl){
+        this.task = task;
+        this.primaryStage = primaryStage;
+        this.controller = listShapeCtrl;
         grid.setOnDragDetected(this::dragDetected);
         grid.setOnDragOver(this::dragOver);
         grid.setOnDragDropped(this::dragDrop);
