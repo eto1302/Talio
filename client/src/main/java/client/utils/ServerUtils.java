@@ -246,7 +246,7 @@ public class ServerUtils implements IServerUtils {
     public commons.Task getTask(int id) {
         try {
             ResponseEntity<commons.Task> response = client.getForEntity(
-                url + "task/get." + id, commons.Task.class
+                url + "task/get/" + id, commons.Task.class
             );
             return response.getBody();
         } catch (Exception e) {

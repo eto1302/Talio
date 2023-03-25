@@ -58,7 +58,7 @@ public class AddTaskController {
             return;
         }
         Task taskTest = server.getTask(model.getId());
-        showCtrl.addTask(task, controller, primaryStage);
+        showCtrl.addTask(taskTest, controller, primaryStage);
         showCtrl.cancel();
     }
 

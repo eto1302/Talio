@@ -4,6 +4,7 @@ import client.MyFXML;
 import client.MyModule;
 import com.google.inject.Injector;
 import commons.Board;
+import commons.Subtask;
 import commons.Tag;
 import commons.mocks.IShowCtrl;
 import commons.Task;
@@ -22,7 +23,7 @@ public class ShowCtrl implements IShowCtrl {
     private Stage primaryStage, secondaryStage, popUpStage;
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, addTag, board, taskOverview, connection,
-            addBoard, editTag, editTask, error, addSubTask, editSubTask;
+            addBoard, editTag, editTask, errorScene, addSubTask, editSubTask;
     private AddListController addListCtrl;
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
@@ -63,7 +64,7 @@ public class ShowCtrl implements IShowCtrl {
         editTaskController = (EditTaskController) loader.get(9).getKey();
         editTask = new Scene((Parent) loader.get(9).getValue());
         errorController = (ErrorController) loader.get(10).getKey();
-        error = new Scene((Parent) loader.get(10).getValue());
+        errorScene = new Scene((Parent) loader.get(10).getValue());
         addSubTaskController = (AddSubTaskController) loader.get(11).getKey();
         addSubTask = new Scene((Parent) loader.get(11).getValue());
         editSubTaskController = (EditSubTaskController) loader.get(12).getKey();
@@ -133,8 +134,7 @@ public class ShowCtrl implements IShowCtrl {
         var taskShape = FXML.load(TaskShape.class, "client", "scenes", "Task.fxml");
         Scene taskScene = new Scene(taskShape.getValue());
         Scene updated = taskShape.getKey().getSceneUpdated(task);
-        //taskShape.getKey().setup(controller, task.getId(), controller.getList());
-        taskShape.getKey().setup(controller);
+        taskShape.getKey().set(task, primaryStage, controller);
         Scene finalScene = controller.addTask(updated);
 
         primaryStage.setScene(finalScene);
@@ -280,8 +280,11 @@ public class ShowCtrl implements IShowCtrl {
         primaryStage.setScene(scene);
     }
     public void showError(String errorMessage) {
+        var error=FXML.load(ErrorController.class, "client", "scenes", "Error.fxml");
+        errorController = error.getKey();
+        errorScene =new Scene((Parent)error.getValue());
         popUpStage = new Stage();
-        popUpStage.setScene(error);
+        popUpStage.setScene(errorScene);
         popUpStage.setTitle("error");
         errorController.setErrorMessage(errorMessage);
         popUpStage.show();
@@ -298,10 +301,20 @@ public class ShowCtrl implements IShowCtrl {
         var editTaskPair = FXML.load(EditTaskController.class, "client", "scenes", "EditTask.fxml");
         editTaskController = editTaskPair.getKey();
         editTask = new Scene((Parent) editTaskPair.getValue());
-        Scene updated = editTaskController.setup(task, listShapeCtrl);
+        Scene updated = editTaskController.setup(task, listShapeCtrl, primaryStage);
         secondaryStage = new Stage();
         secondaryStage.setScene(editTask);
         secondaryStage.setTitle("Edit a task");
         secondaryStage.show();
+    }
+
+    public void addSubTask(Subtask subtask, EditTaskController editTaskController) {
+        Scene subTaskScene = null;
+        editTaskController.putSubtask(subTaskScene);
+    }
+
+    public void addTag(Tag tag, EditTaskController editTaskController) {
+        Scene tagScene = null;
+        editTaskController.putTag(tagScene);
     }
 }

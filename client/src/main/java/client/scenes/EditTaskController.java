@@ -1,11 +1,16 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.Subtask;
+import commons.Tag;
 import commons.Task;
+import commons.models.IdResponseModel;
+import commons.models.TaskEditModel;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import javax.inject.Inject;
 
@@ -21,6 +26,7 @@ public class EditTaskController {
     private commons.Task task;
     private ServerUtils server;
     private ListShapeCtrl listShapeCtrl;
+    private Stage primaryStage;
 
     @Inject
     public EditTaskController (ShowCtrl showCtrl, ServerUtils serverUtils){
@@ -28,12 +34,33 @@ public class EditTaskController {
         this.showCtrl=showCtrl;
     }
 
-    public Scene setup(Task task, ListShapeCtrl listShapeCtrl){
+    public Scene setup(Task task, ListShapeCtrl listShapeCtrl, Stage primaryStage){
         this.task = task;
         this.title.setText(task.getTitle());
         this.descriptionField.setText(task.getDescription());
         this.listShapeCtrl = listShapeCtrl;
+        this.primaryStage = primaryStage;
+
+        java.util.List<Subtask> subtasks = task.getSubtasks();
+        for(Subtask subtask: subtasks){
+            showCtrl.addSubTask(subtask, this);
+        }
+        java.util.List<Tag> tags = task.getTags();
+        for(Tag tag: tags){
+            showCtrl.addTag(tag, this);
+        }
+
         return title.getScene();
+    }
+
+    public Scene putSubtask(Scene scene){
+        subtaskBox.getChildren().add(scene.getRoot());
+        return subtaskBox.getScene();
+    }
+
+    public Scene putTag(Scene scene){
+        tagBox.getChildren().add(scene.getRoot());
+        return tagBox.getScene();
     }
 
     public void cancel(){
@@ -54,17 +81,15 @@ public class EditTaskController {
         task.setTitle(title);
         task.setDescription(description);
 
-//        TaskEditModel model = new TaskEditModel(title, description);
-//        IdResponseModel response = server.editTask(task.getId(), model);
-//
-//        if (response.getId() == -1) {
-//            showCtrl.cancel();
-//            showCtrl.showError(response.getErrorMessage());
-//            return;
-//        }
+        TaskEditModel model = new TaskEditModel(title, description);
+        IdResponseModel response = server.editTask(task.getId(), model);
+
+        if (response.getId() == -1) {
+            showCtrl.cancel();
+            showCtrl.showError(response.getErrorMessage());
+            return;
+        }
 
         listShapeCtrl.refreshList();
-        showCtrl.cancel();
-        showCtrl.showTaskOverview(task, listShapeCtrl);
     }
 }

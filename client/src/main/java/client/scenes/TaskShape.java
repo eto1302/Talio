@@ -1,6 +1,8 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.Subtask;
+import commons.Tag;
 import commons.Task;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -48,7 +50,7 @@ public class TaskShape {
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
                     if (event.getClickCount()==2)
-                        showCtrl.showTaskOverview(task, controller);
+                        showCtrl.showEditTask(task, controller);
             }
         });
     }
@@ -82,21 +84,6 @@ public class TaskShape {
 //     * @param id the id of the task
 //     * @param list the task's list
      */
-    public void setup(ListShapeCtrl controller){//int id, List list){
-//        this.id= id;
-//        this.list=list;
-        this.controller=controller;
-        grid.setOnDragDetected(this::dragDetected);
-        grid.setOnDragOver(this::dragOver);
-        grid.setOnDragDropped(this::dragDrop);
-        grid.setOnMousePressed(event->{
-            grid.setOpacity(0.4);
-        });
-        grid.setOnMouseReleased(event->{
-            grid.setOpacity(1);
-        });
-    }
-
     public void set(Task task, Stage primaryStage, ListShapeCtrl listShapeCtrl){
         this.task = task;
         this.primaryStage = primaryStage;
