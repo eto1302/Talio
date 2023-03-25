@@ -4,7 +4,6 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.List;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
