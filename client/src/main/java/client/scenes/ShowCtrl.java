@@ -177,7 +177,7 @@ public class ShowCtrl implements IShowCtrl {
 
     public void showBoard(){
         primaryStage.setTitle("Board");
-        boardController.setup();
+        boardController.setup(primaryStage);
         primaryStage.setScene(this.board);
     }
 
@@ -254,17 +254,6 @@ public class ShowCtrl implements IShowCtrl {
         Scene scene = boardController.putList(listScene);
         primaryStage.setScene(scene);
         return listShapeCtrl;
-    }
-
-    public void addTask(Task task, ListShapeCtrl listShapeCtrl) {
-        var taskShape = FXML.load(TaskShape.class, "client", "scenes", "Task.fxml");
-        Scene taskScene = new Scene(taskShape.getValue());
-        TaskShape taskShapeCtrl = taskShape.getKey();
-
-        taskShapeCtrl.set(task, primaryStage, listShapeCtrl);
-        Scene updated = taskShapeCtrl.getSceneUpdated(task);
-        Scene scene = listShapeCtrl.putTask(updated);
-        primaryStage.setScene(scene);
     }
 
     /**

@@ -74,6 +74,8 @@ public class TaskShape {
             VBox parent = (VBox) grid.getParent();
             parent.getChildren().remove(grid);
         });
+
+        server.removeTask(task.getId(), task.getListID());
     }
 
     /**

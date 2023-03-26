@@ -9,6 +9,6 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     @Query("SELECT b FROM Board b WHERE id = (:id)")
     Board getBoardByID(@Param("id") int id);
 
-    @Query("SELECT b FROM Board b WHERE inviteKey=(:invitekey)")
+    @Query("SELECT b FROM Board b WHERE b.inviteKey=:inviteKey")
     Board getBoardByInviteKey(@Param("inviteKey") String inviteKey);
 }
