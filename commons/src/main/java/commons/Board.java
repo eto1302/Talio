@@ -165,6 +165,22 @@ public class Board {
     }
 
     /**
+     * Gets the invite key of the board
+     * @return the invite key
+     */
+    public String getInviteKey() {
+        return inviteKey;
+    }
+
+    /**
+     * Sets the invite key of the board
+     * @param inviteKey the invite key to be set
+     */
+    public void setInviteKey(String inviteKey) {
+        this.inviteKey = inviteKey;
+    }
+
+    /**
      * Returns true if the given object is equal to this board.
      * <p>
      * Two boards are considered equal if they have the same id, name, and password.
