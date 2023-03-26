@@ -88,6 +88,8 @@ public class TaskShape {
         this.task = task;
         this.primaryStage = primaryStage;
         this.controller = listShapeCtrl;
+        if (task.getDescription().equals("No description yet"))
+            plusSign.setVisible(false);
         grid.setOnDragDetected(this::dragDetected);
         grid.setOnDragOver(this::dragOver);
         grid.setOnDragDropped(this::dragDrop);
