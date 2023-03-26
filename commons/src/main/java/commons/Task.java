@@ -1,6 +1,7 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,9 @@ public class Task {
     @Column(name = "title", columnDefinition = "varchar(255)")
     private String title;
 
+    @Column(name="index", columnDefinition = "integer")
+    private int index;
+
     @Column(name = "l_id")
     @NotNull
     private int listID;
@@ -27,9 +31,11 @@ public class Task {
     private List list;
 
     @OneToMany
+    @JsonManagedReference
     private java.util.List<Subtask> subtasks;
 
     @OneToMany()
+    @JsonManagedReference
     private java.util.List<Tag> tags;
 
     /**
@@ -83,6 +89,22 @@ public class Task {
 
     public void setSubtasks(java.util.List<Subtask> subtasks) {
         this.subtasks = subtasks;
+    }
+
+    /**
+     * Gets the index of the task in the list
+     * @return the index
+     */
+    public int getIndex() {
+        return index;
+    }
+
+    /**
+     * Sets the index of the task in its list
+     * @param index the index to be set
+     */
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     /**

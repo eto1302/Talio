@@ -27,7 +27,6 @@ public class TaskShape {
     private Label plusSign, title, deleteX;
     private ShowCtrl showCtrl;
     private ServerUtils server;
-    private int id;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
     private ListShapeCtrl controller;
     private commons.Task task;
@@ -111,7 +110,7 @@ public class TaskShape {
         ClipboardContent clipboardContent = new ClipboardContent();
         SnapshotParameters snapshotParams = new SnapshotParameters();
         WritableImage image = grid.snapshot(snapshotParams, null);
-        clipboardContent.putString("grid");
+        clipboardContent.putString(task.getId()+"+"+ task.getListID());
 
         drag.set(grid);
         dragboard.setDragView(image, event.getX(), event.getY());
@@ -126,7 +125,7 @@ public class TaskShape {
      */
     private void dragOver(DragEvent event){
         Dragboard dragboard = event.getDragboard();
-        if (dragboard.hasString() && dragboard.getString().equals("grid")){
+        if (dragboard.hasString()){
             event.acceptTransferModes(TransferMode.MOVE);
             event.consume();
         }
@@ -141,28 +140,28 @@ public class TaskShape {
     private void dragDrop(DragEvent event){
         Dragboard dragboard = event.getDragboard();
         boolean done = false;
+        Object source = event.getGestureSource();
 
         if (dragboard.hasString()){
             VBox parent = (VBox) grid.getParent();
-            Object source = event.getGestureSource();
 
             int sourceIndex = parent.getChildren().indexOf(source);
             int targetIndex = parent.getChildren().indexOf(grid);
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
 
-            if (sourceIndex<targetIndex)
-                Collections.rotate(children.subList(sourceIndex, targetIndex+1), -1);
-            else Collections.rotate(children.subList(targetIndex, sourceIndex+1), 1);
+            if (sourceIndex<targetIndex) {
+                Collections.rotate(children.subList(sourceIndex, targetIndex + 1), -1);
+            }
+            else {
+                Collections.rotate(children.subList(targetIndex, sourceIndex+1), 1);
+            }
 
-            // in here I suggest we call a method on the server side that sets the indexes
-            //of the tasks (a new int field) based on their position in the grid. This way when we
-            //return all the tasks of a list when it comes to setting them inside one,
-            //we do so based on the indexes and not IDs (just need a special query for that).
             parent.getChildren().clear();
             parent.getChildren().addAll(children);
             done = true;
-            ((GridPane) source).setOpacity(1);
         }
+        ((GridPane) source).setOpacity(1);
+
         event.setDropCompleted(done);
         event.consume();
     }

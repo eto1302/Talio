@@ -119,7 +119,7 @@ public class ShowCtrl implements IShowCtrl {
         Scene taskScene = new Scene(taskShape.getValue());
         Scene updated = taskShape.getKey().getSceneUpdated(task);
         taskShape.getKey().set(task, primaryStage, controller);
-        Scene finalScene = controller.addTask(updated);
+        Scene finalScene = controller.addTask(updated, task);
 
         primaryStage.setScene(finalScene);
     }

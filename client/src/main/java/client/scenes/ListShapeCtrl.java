@@ -3,7 +3,9 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.List;
+import commons.Task;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -118,14 +120,16 @@ public class ListShapeCtrl {
      * @param taskScene the scene containing the grid representing
      * @return the updated scene
      */
-    public Scene addTask(Scene taskScene){
-        tasksBox.getChildren().add(taskScene.getRoot());
+    public Scene addTask(Scene taskScene, Task task){
+        Node root = taskScene.getRoot();
+        tasksBox.getChildren().add(root);
+        task.setIndex(tasksBox.getChildren().indexOf(root));
         return tasksBox.getScene();
     }
 
     public void dragOver(DragEvent event){
         Dragboard dragboard = event.getDragboard();
-        if (dragboard.hasString() && dragboard.getString().equals("grid")){
+        if (dragboard.hasString()){
             event.acceptTransferModes(TransferMode.MOVE);
             event.consume();
         }
@@ -134,15 +138,24 @@ public class ListShapeCtrl {
     public void dragDrop(DragEvent event) {
         Dragboard dragboard = event.getDragboard();
         boolean done = false;
-        if (dragboard.hasString()) {
-            Object source = event.getGestureSource();
-            GridPane sourceGrid = (GridPane) source;
+        Object source = event.getGestureSource();
 
-            tasksBox.getChildren().add(sourceGrid);
-            //call method that changes the task's lists
+        String identify = dragboard.getString();
+        int taskId = Integer.parseInt(identify.split("\\+")[0].trim());
+        int previousListId = Integer.parseInt(identify.split("\\+")[1].trim());
+
+        if (previousListId!=list.getId()) {
+            Task task =serverUtils.getTask(taskId);
+            List previousList = serverUtils.getList(previousListId);
+
+            list.getTasks().add(task);
+
+            tasksBox.getChildren().add(((GridPane) source));
+
             done = true;
-            sourceGrid.setOpacity(1);
         }
+        ((GridPane) source).setOpacity(1);
+
         event.setDropCompleted(done);
         event.consume();
     }
