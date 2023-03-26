@@ -15,24 +15,22 @@
  */
 package client;
 
-import static com.google.inject.Guice.createInjector;
+import client.scenes.*;
+import client.user.UserData;
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import client.scenes.*;
-import client.user.UserData;
-import com.google.inject.Injector;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.util.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static client.utils.Constants.FXML;
+import static client.utils.Constants.INJECTOR;
 
 public class Main extends Application {
-
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
-
 
     public static void main(String[] args) throws URISyntaxException, IOException {
         launch();

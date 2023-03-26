@@ -1,25 +1,23 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
-import com.google.inject.Injector;
 import commons.Board;
 import commons.Subtask;
 import commons.Tag;
-import commons.mocks.IShowCtrl;
 import commons.Task;
+import commons.mocks.IShowCtrl;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import static com.google.inject.Guice.createInjector;
+import static client.utils.Constants.FXML;
 
 public class ShowCtrl implements IShowCtrl {
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
+
     private Stage primaryStage, secondaryStage, popUpStage;
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, addTag, board, taskOverview, connection,
@@ -40,6 +38,7 @@ public class ShowCtrl implements IShowCtrl {
     private AddSubTaskController addSubTaskController;
     private EditSubTaskController editSubTaskController;
 
+    private Map<Integer, ListShapeCtrl> listControllers;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
         this.primaryStage = primaryStage;
@@ -69,6 +68,8 @@ public class ShowCtrl implements IShowCtrl {
         addSubTask = new Scene((Parent) loader.get(11).getValue());
         editSubTaskController = (EditSubTaskController) loader.get(12).getKey();
         editSubTask = new Scene((Parent) loader.get(12).getValue());
+
+        listControllers = new HashMap<>();
 
         showConnection();
         //showBoard();
@@ -122,22 +123,6 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.setScene(addTaskScene);
         secondaryStage.setTitle("Add a task");
         secondaryStage.show();
-    }
-
-    /**
-     * Adds a task to the list.
-     * @param task the task with the info
-     * @param controller the list's controller
-     * @param primaryStage the primary stage of the previous scene
-     */
-    public void addTask(Task task, ListShapeCtrl controller, Stage primaryStage){
-        var taskShape = FXML.load(TaskShape.class, "client", "scenes", "Task.fxml");
-        Scene taskScene = new Scene(taskShape.getValue());
-        Scene updated = taskShape.getKey().getSceneUpdated(task);
-        taskShape.getKey().set(task, primaryStage, controller);
-        Scene finalScene = controller.addTask(updated);
-
-        primaryStage.setScene(finalScene);
     }
 
     public void cancel() {
@@ -204,12 +189,11 @@ public class ShowCtrl implements IShowCtrl {
      * Shows the window with options for the editing the list.
      * First sets up the scene to the list's information
      * @param list the list that contains the info
-     * @param controller the list's controller
      */
-    public void showEditList(commons.List list, ListShapeCtrl controller, Stage primaryStage){
+    public void showEditList(commons.List list, Stage primaryStage){
         var editList = FXML.load(EditListController.class,
                 "client", "scenes", "EditList.fxml");
-        editList.getKey().setup(list, controller, primaryStage);
+        editList.getKey().setup(list, primaryStage);
         secondaryStage=new Stage();
         secondaryStage.setScene(new Scene(editList.getValue()));
         secondaryStage.setTitle("Edit your list");
@@ -219,21 +203,32 @@ public class ShowCtrl implements IShowCtrl {
     /**
      * Updates the window after editing the respective list.
      * @param list the updated list
-     * @param controller the list's controller
-     * @param primaryStage of our windows.
      */
-    public void editList(commons.List list, ListShapeCtrl controller, Stage primaryStage) {
+    public void editList(commons.List list) {
+        ListShapeCtrl controller = listControllers.get(list.getId());
         Scene updated = controller.getSceneUpdated(list);
         primaryStage.setScene(updated);
+    }
+
+    /**
+     * Deletes a list from the window
+     * @param list the list to delete
+     */
+    public void deleteList(commons.List list) {
+        ListShapeCtrl controller = listControllers.get(list.getId());
+        if(controller != null) {
+            listControllers.remove(list.getId());
+            controller.deleteList();
+        }
     }
 
     /**
      * Adds the list to the board and updates the scene
      *
      * @param list the list object whose attributes specify the visual of the list
-     * @return
+     * @return the new list shape controller
      */
-    public void addList(commons.List list) {
+    public ListShapeCtrl addList(commons.List list) {
         var listShape = FXML.load(ListShapeCtrl.class, "client", "scenes", "List.fxml");
         Scene initializeList = new Scene(listShape.getValue());
         ListShapeCtrl listShapeCtrl = listShape.getKey();
@@ -242,24 +237,15 @@ public class ShowCtrl implements IShowCtrl {
         Scene listScene = listShapeCtrl.getSceneUpdated(list);
         Scene scene = boardController.putList(listScene);
         primaryStage.setScene(scene);
-    }
-
-    public ListShapeCtrl addAndReturnList(commons.List list) {
-        var listShape = FXML.load(ListShapeCtrl.class, "client", "scenes", "List.fxml");
-        Scene initializeList = new Scene(listShape.getValue());
-        ListShapeCtrl listShapeCtrl = listShape.getKey();
-
-        listShapeCtrl.set(list, primaryStage);
-        Scene listScene = listShapeCtrl.getSceneUpdated(list);
-        Scene scene = boardController.putList(listScene);
-        primaryStage.setScene(scene);
+        listControllers.put(list.getId(), listShapeCtrl);
         return listShapeCtrl;
     }
 
-    public void addTask(Task task, ListShapeCtrl listShapeCtrl) {
+    public void addTask(Task task, commons.List list) {
         var taskShape = FXML.load(TaskShape.class, "client", "scenes", "Task.fxml");
         Scene taskScene = new Scene(taskShape.getValue());
         TaskShape taskShapeCtrl = taskShape.getKey();
+        ListShapeCtrl listShapeCtrl = listControllers.get(list.getId());
 
         taskShapeCtrl.set(task, primaryStage, listShapeCtrl);
         Scene updated = taskShapeCtrl.getSceneUpdated(task);

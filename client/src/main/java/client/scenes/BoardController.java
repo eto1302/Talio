@@ -103,11 +103,11 @@ public class BoardController {
         lists = userData.getCurrentBoard().getLists();
 
         for (commons.List list : lists) {
-            ListShapeCtrl listShapeCtrl = showCtrl.addAndReturnList(list);
+            ListShapeCtrl listShapeCtrl = showCtrl.addList(list);
             listShapeCtrl.setBoard(this);
             tasks = list.getTasks();
             for(commons.Task task: tasks){
-                showCtrl.addTask(task, listShapeCtrl);
+                showCtrl.addTask(task, list);
             }
         }
 

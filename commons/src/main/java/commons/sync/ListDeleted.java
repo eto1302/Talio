@@ -6,25 +6,35 @@ import commons.models.IdResponseModel;
 
 public class ListDeleted extends BoardUpdate {
 
-    private final int listId;
+    private int listId;
 
     public ListDeleted(int boardID, int listId) {
         super(boardID);
         this.listId = listId;
     }
 
+    public ListDeleted() {
+        super();
+    }
+
     public int getListId() {
         return listId;
     }
 
+    public void setListId(int listId) {
+        this.listId = listId;
+    }
+
     @Override
     public IdResponseModel sendToServer(IServerUtils server) {
-        return server.deleteList(listId, super.getBoardID());
+        return server.deleteList(super.getBoardID(), listId);
     }
 
     @Override
     public void apply(IUserData data) {
-        data.getCurrentBoard().getLists().removeIf(list -> list.getId() == listId);
+        commons.List list = data.getCurrentBoard().getListById(listId);
+        data.getCurrentBoard().getLists().remove(list);
+        data.getShowCtrl().deleteList(list);
     }
 
 }

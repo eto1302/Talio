@@ -7,8 +7,8 @@ import commons.models.ListEditModel;
 
 public class ListEdited extends BoardUpdate {
 
-    private final int listId;
-    private final ListEditModel edit;
+    private int listId;
+    private ListEditModel edit;
 
     public ListEdited(int boardID, int listId, ListEditModel edit) {
         super(boardID);
@@ -16,12 +16,24 @@ public class ListEdited extends BoardUpdate {
         this.edit = edit;
     }
 
+    public ListEdited() {
+        super();
+    }
+
     public int getListId() {
         return listId;
     }
 
+    public void setListId(int listId) {
+        this.listId = listId;
+    }
+
     public ListEditModel getEdit() {
         return edit;
+    }
+
+    public void setEdit(ListEditModel edit) {
+        this.edit = edit;
     }
 
     @Override
@@ -31,12 +43,11 @@ public class ListEdited extends BoardUpdate {
 
     @Override
     public void apply(IUserData data) {
-        data.getCurrentBoard().getLists().stream().filter(e -> e.getId() == listId)
-                .forEach(e -> {
-                    e.setName(edit.getName());
-                    e.setBackgroundColor(edit.getBackgroundColor());
-                    e.setFontColor(edit.getFontColor());
-                });
+        commons.List list = data.getCurrentBoard().getListById(listId);
+        list.setName(edit.getName());
+        list.setBackgroundColor(edit.getBackgroundColor());
+        list.setFontColor(edit.getFontColor());
+        data.getShowCtrl().editList(list);
     }
 
 }
