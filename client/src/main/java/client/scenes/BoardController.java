@@ -10,6 +10,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.util.Set;
@@ -39,6 +40,7 @@ public class BoardController {
 
     private final ShowCtrl showCtrl;
     private ServerUtils server;
+    private Stage primaryStage;
 
     @Inject
     private UserData userData;
@@ -50,34 +52,8 @@ public class BoardController {
     }
 
 
-    // I commented this code snippet as these three lists are not really connected to the server.
-    // If we want default lists in the board we can create the board with three default lists.
-    // When calling this function, the client will send a request to the server to fetch all
-    // lists in the corresponding board and display them.
-    public void setup() {
-//        root = (AnchorPane) selectedCard.getParent().getParent();
-//        List<Node> children = root.getChildren();
-//        for(int i = 0; i < children.size(); ++i){
-//            Node child = children.get(i);
-//            if(child.getId().equals("todoList")){
-//                this.todoList = (AnchorPane) child;
-//                this.todoListBounds = todoList.localToScene(todoList.getLayoutBounds());
-//            }
-//            if(child.getId().equals("doingList")){
-//                this.doingList = (AnchorPane) child;
-//                this.doingListBounds = doingList.localToScene(doingList.getLayoutBounds());
-//            }
-//            if(child.getId().equals("doneList")){
-//                this.doneList = (AnchorPane) child;
-//                this.doneListBounds = doneList.localToScene(doneList.getLayoutBounds());
-//            }
-//        }
-//        boards.add(todoList);
-//        boards.add(doingList);
-//        boards.add(doneList);
-//        bounds.add(todoListBounds);
-//        bounds.add(doingListBounds);
-//        bounds.add(doneListBounds);
+    public void setup(Stage primaryStage) {
+        this.primaryStage=primaryStage;
         refresh();
     }
 
@@ -107,7 +83,7 @@ public class BoardController {
             listShapeCtrl.setBoard(this);
             tasks = list.getTasks();
             for(commons.Task task: tasks){
-                showCtrl.addTask(task, listShapeCtrl);
+                showCtrl.addTask(task, listShapeCtrl, primaryStage);
             }
         }
 

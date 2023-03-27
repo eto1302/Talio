@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javax.inject.Inject;
 
 import java.util.HashSet;
+import java.util.Random;
 
 public class AddBoardController {
 
@@ -49,6 +50,8 @@ public class AddBoardController {
     public void addBoard(){
         Board board = Board.create(nameField.getText(), null, new HashSet<>(),
                 colorToHex(fontColor.getValue()), colorToHex(backgroundColor.getValue()));
+        String inviteKey = generateInviteKey();
+        board.setInviteKey(inviteKey);
 
         IdResponseModel response = server.addBoard(board);
 
@@ -91,5 +94,21 @@ public class AddBoardController {
                 (int)(color.getGreen() * 255),
                 (int)(color.getBlue() * 255));
         return hexString;
+    }
+
+    /**
+     * Generates a random 15-character string to serve as the invite key
+     * @return the generated invite key
+     */
+    private String generateInviteKey(){
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i=0; i<15; i++){
+            int randomInt = random.nextInt(0, 26);
+            char letter = (char) (randomInt +'a');
+            sb.append(letter);
+        }
+
+        return sb.toString();
     }
 }

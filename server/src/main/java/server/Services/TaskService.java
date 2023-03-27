@@ -40,7 +40,7 @@ public class TaskService {
             task.setList(list);
             task.setListID(listID);
             taskRepository.save(task);
-            return new IdResponseModel(listID, null);
+            return new IdResponseModel(task.getId(), null);
         }
         catch(Exception e){
             return new IdResponseModel(-1, e.getMessage());

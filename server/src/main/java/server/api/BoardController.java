@@ -50,5 +50,15 @@ public class BoardController {
         return boardService.getAllBoards();
     }
 
-    
+    @GetMapping("/getByInvite/{inviteKey}")
+    @ResponseBody
+    public ResponseEntity<Board> getBoardByInviteKey(@PathVariable String inviteKey){
+        try{
+            Board board = boardService.getBoardByInviteKey(inviteKey);
+            return ResponseEntity.ok(board);
+        }
+        catch(Exception e){
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
 }
