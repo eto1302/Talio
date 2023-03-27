@@ -87,6 +87,22 @@ public class ServerUtils implements IServerUtils {
     }
 
     /**
+     * Returns the board with the corresponding invite key
+     * @param inviteKey the invite-key og the board
+     * @return the board or null if there is no board with such an invite-key.
+     */
+    public Board getBoardByInviteKey(String inviteKey){
+        try{
+            ResponseEntity<Board> response =
+                    client.getForEntity(url+"board/getByInvite/"+inviteKey, Board.class);
+            return response.getBody();
+        }
+        catch(Exception e){
+            return null;
+        }
+    }
+
+    /**
      * Get all the boards,
      * @return the boards or null if there is exception.
      */

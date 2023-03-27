@@ -91,5 +91,6 @@ public class EditTaskController {
         }
 
         listShapeCtrl.refreshList();
+        showCtrl.cancel();
     }
 }

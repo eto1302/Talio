@@ -95,7 +95,7 @@ public class ListShapeCtrl {
      * @param list our list
      * @param primaryStage of the scene we are in
      */
-    public void set(List list, Stage primaryStage){
+    public void set(List list, Stage primaryStage, BoardController boardController){
         this.list=list;
         this.primaryStage=primaryStage;
 

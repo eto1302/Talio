@@ -1,6 +1,6 @@
 package client.scenes;
 
-import commons.Task;
+import commons.Subtask;
 import javafx.fxml.FXML;
 
 import javax.inject.Inject;
@@ -10,8 +10,7 @@ public class EditSubTaskController {
     @FXML
     private TextArea description;
     private ShowCtrl showCtrl;
-    private Task task;
-    private int index;
+    private Subtask subtask;
 
     @Inject
     public EditSubTaskController(ShowCtrl showCtrl){
@@ -22,17 +21,13 @@ public class EditSubTaskController {
         showCtrl.closePopUp();
     }
 
-    public void setup(Task task, int index){
-        this.task = task;
-        this.index = index;
+    public void setup(Subtask subtask){
+        this.subtask = subtask;
     }
 
     public void editSubTask() {
         String name = this.description.getText();
-//        if(task.getSubTasks() == null){
-//            task.makeSubtaskList();
-//        }
-//        task.getSubTasks().add(index, name);
+
     }
 }
 

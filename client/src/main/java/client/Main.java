@@ -54,32 +54,20 @@ public class Main extends Application {
         var addList =FXML.load(AddListController.class, "client", "scenes", "AddList.fxml");
         var yourBoards=FXML.load(YourBoardsController.class, "client", "scenes", "YourBoards.fxml");
         var search = FXML.load(SearchCtrl.class, "client", "scenes","Search.fxml");
-        var addTag = FXML.load(AddTagController.class, "client", "scenes", "AddTag.fxml");
         var board = FXML.load(BoardController.class, "client", "scenes", "Board.fxml");
         var connection=FXML.load(ConnectionCtrl.class, "client", "scenes", "Connection.fxml");
         var addBoard=FXML.load(AddBoardController.class, "client", "scenes", "AddBoard.fxml");
-        var editTag=FXML.load(AddBoardController.class, "client", "scenes", "EditTag.fxml");
-        var editTask=FXML.load(EditTaskController.class, "client", "scenes", "EditTask.fxml");
         var error=FXML.load(ErrorController.class, "client", "scenes", "Error.fxml");
-        var addSubTask=FXML.load(AddSubTaskController.class,
-            "client", "scenes", "AddSubTask.fxml");
-        var editSubTask=FXML.load(EditSubTaskController.class,
-            "client", "scenes", "EditSubTask.fxml");
         var admin = FXML.load(AdminController.class, "client", "scenes", "Admin.fxml");
 
         loader.add(home);
         loader.add(addList);
         loader.add(yourBoards);
         loader.add(search);
-        loader.add(addTag);
         loader.add(board);
         loader.add(connection);
         loader.add(addBoard);
-        loader.add(editTag);
-        loader.add(editTask);
         loader.add(error);
-        loader.add(addSubTask);
-        loader.add(editSubTask);
         loader.add(admin);
 
     }

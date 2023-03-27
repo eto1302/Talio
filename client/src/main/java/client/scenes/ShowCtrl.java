@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -30,23 +31,17 @@ public class ShowCtrl implements IShowCtrl {
     private Stage primaryStage, secondaryStage, popUpStage;
 
     private HomeController homeCtrl;
-    private Scene home, addList, yourBoards, search, addTag, board, taskOverview, connection,
-            addBoard, editTag, editTask, errorScene, addSubTask, editSubTask, admin;
+    private Scene home, addList, yourBoards, search, board, taskOverview, connection,
+            addBoard, editTask, errorScene, admin;
     private AddListController addListCtrl;
-    private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
-    private AddTagController addTagController;
     private BoardController boardController;
     private TaskOverview taskOverviewCtrl;
     private ConnectionCtrl connectionCtrl;
     private AddBoardController addBoardController;
-    private EditTagController editTagController;
     private EditTaskController editTaskController;
     private ErrorController errorController;
-    private EditListController editListCtrl;
-    private AddSubTaskController addSubTaskController;
-    private EditSubTaskController editSubTaskController;
     private AdminController adminController;
 
 
@@ -60,26 +55,16 @@ public class ShowCtrl implements IShowCtrl {
         yourBoards = new Scene((Parent) loader.get(2).getValue());
         searchCtrl = (SearchCtrl) loader.get(3).getKey();
         search = new Scene((Parent) loader.get(3).getValue());
-        addTagController = (AddTagController) loader.get(4).getKey();
-        addTag = new Scene((Parent) loader.get(4).getValue());
-        boardController = (BoardController) loader.get(5).getKey();
-        board = new Scene((Parent) loader.get(5).getValue());
-        connectionCtrl=(ConnectionCtrl) loader.get(6).getKey();
-        connection = new Scene((Parent)loader.get(6).getValue());
-        addBoardController = (AddBoardController) loader.get(7).getKey();
-        addBoard = new Scene((Parent) loader.get(7).getValue());
-        editTagController = (EditTagController) loader.get(8).getKey();
-        editTag = new Scene((Parent) loader.get(8).getValue());
-        editTaskController = (EditTaskController) loader.get(9).getKey();
-        editTask = new Scene((Parent) loader.get(9).getValue());
-        errorController = (ErrorController) loader.get(10).getKey();
-        errorScene = new Scene((Parent) loader.get(10).getValue());
-        addSubTaskController = (AddSubTaskController) loader.get(11).getKey();
-        addSubTask = new Scene((Parent) loader.get(11).getValue());
-        editSubTaskController = (EditSubTaskController) loader.get(12).getKey();
-        editSubTask = new Scene((Parent) loader.get(12).getValue());
-        admin = new Scene((Parent) loader.get(13).getValue());
-        adminController = (AdminController) loader.get(13).getKey();
+        boardController = (BoardController) loader.get(4).getKey();
+        board = new Scene((Parent) loader.get(4).getValue());
+        connectionCtrl=(ConnectionCtrl) loader.get(5).getKey();
+        connection = new Scene((Parent)loader.get(5).getValue());
+        addBoardController = (AddBoardController) loader.get(6).getKey();
+        addBoard = new Scene((Parent) loader.get(6).getValue());
+        errorController = (ErrorController) loader.get(7).getKey();
+        errorScene = new Scene((Parent) loader.get(7).getValue());
+        admin = new Scene((Parent) loader.get(8).getValue());
+        adminController = (AdminController) loader.get(8).getKey();
 
         showConnection();
         //showBoard();
@@ -164,31 +149,42 @@ public class ShowCtrl implements IShowCtrl {
 
     public void showAddTag(Task task){
         popUpStage = new Stage();
-        popUpStage.setScene(addTag);
+        var addTagPair = FXML.load(AddTagController.class,
+                "client", "scenes", "AddTag.fxml");
+        Scene addTagScene = new Scene(addTagPair.getValue());
+        addTagPair.getKey().setup(task);
+        popUpStage.setScene(addTagScene);
         popUpStage.setTitle("Add a tag");
         popUpStage.show();
-        addTagController.setup(task);
     }
 
     public void showAddSubTask(Task task) {
         popUpStage = new Stage();
-        popUpStage.setScene(addSubTask);
+        var addSubtaskPair = FXML.load(AddSubTaskController.class,
+                "client", "scenes", "AddSubTask.fxml");
+        Scene addSubtaskScene = new Scene(addSubtaskPair.getValue());
+        addSubtaskPair.getKey().setup(task);
+
+        popUpStage.setScene(addSubtaskScene);
         popUpStage.setTitle("Add a sub-task");
         popUpStage.show();
-        addSubTaskController.setup(task);
     }
 
-    public void showEditSubTask(Task task, int index) {
+    public void showEditSubTask(Subtask subtask) {
         popUpStage = new Stage();
-        popUpStage.setScene(editSubTask);
+        var editSubtaskPair = FXML.load(EditSubTaskController.class,
+                "client", "scenes", "AddSubTask.fxml");
+        Scene editSubtaskScene = new Scene(editSubtaskPair.getValue());
+        editSubtaskPair.getKey().setup(subtask);
+
+        popUpStage.setScene(editSubtaskScene);
         popUpStage.setTitle("Edit a sub-task");
         popUpStage.show();
-        editSubTaskController.setup(task, index);
     }
 
     public void showBoard(){
         primaryStage.setTitle("Board");
-        boardController.setup();
+        boardController.setup(primaryStage);
         primaryStage.setScene(this.board);
     }
 
@@ -245,7 +241,7 @@ public class ShowCtrl implements IShowCtrl {
         Scene initializeList = new Scene(listShape.getValue());
         ListShapeCtrl listShapeCtrl = listShape.getKey();
 
-        listShapeCtrl.set(list, primaryStage);
+        listShapeCtrl.set(list, primaryStage, boardController);
         Scene listScene = listShapeCtrl.getSceneUpdated(list);
         Scene scene = boardController.putList(listScene);
         primaryStage.setScene(scene);
@@ -256,22 +252,11 @@ public class ShowCtrl implements IShowCtrl {
         Scene initializeList = new Scene(listShape.getValue());
         ListShapeCtrl listShapeCtrl = listShape.getKey();
 
-        listShapeCtrl.set(list, primaryStage);
+        listShapeCtrl.set(list, primaryStage, boardController);
         Scene listScene = listShapeCtrl.getSceneUpdated(list);
         Scene scene = boardController.putList(listScene);
         primaryStage.setScene(scene);
         return listShapeCtrl;
-    }
-
-    public void addTask(Task task, ListShapeCtrl listShapeCtrl) {
-        var taskShape = FXML.load(TaskShape.class, "client", "scenes", "Task.fxml");
-        Scene taskScene = new Scene(taskShape.getValue());
-        TaskShape taskShapeCtrl = taskShape.getKey();
-
-        taskShapeCtrl.set(task, primaryStage, listShapeCtrl);
-        Scene updated = taskShapeCtrl.getSceneUpdated(task);
-        Scene scene = listShapeCtrl.putTask(updated);
-        primaryStage.setScene(scene);
     }
 
     /**
@@ -345,6 +330,10 @@ public class ShowCtrl implements IShowCtrl {
                 // show an error message if the password is wrong
                 showError("Wrong password");
             }
+        });
+        text.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER)
+                button.fire();
         });
 
         VBox layout = new VBox(10);

@@ -52,4 +52,13 @@ public class BoardService {
     public java.util.List<Board> getAllBoards() {
         return boardRepository.findAll();
     }
+
+    /**
+     * Gets the board with the corresponding invite key
+     * @param inviteKey the invite key of the board
+     * @return the board
+     */
+    public Board getBoardByInviteKey(String inviteKey){
+        return boardRepository.getBoardByInviteKey(inviteKey);
+    }
 }
