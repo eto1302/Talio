@@ -287,9 +287,6 @@ public class ShowCtrl implements IShowCtrl {
         primaryStage.setScene(scene);
     }
     public void showError(String errorMessage) {
-        var error=FXML.load(ErrorController.class, "client", "scenes", "Error.fxml");
-        errorController = error.getKey();
-        errorScene =new Scene((Parent)error.getValue());
         popUpStage = new Stage();
         popUpStage.setScene(errorScene);
         popUpStage.setTitle("error");
@@ -336,10 +333,10 @@ public class ShowCtrl implements IShowCtrl {
 
         Button button = new Button("Submit");
         button.setOnAction(e -> {
+            stage.close();
 
             // verify the password and go to the admin board if correct
             if (adminController.verifyAdmin(text.getText())) {
-                stage.close();
                 primaryStage.setTitle("Admin Board");
                 adminController.setup();
                 primaryStage.setScene(this.admin);
@@ -357,5 +354,9 @@ public class ShowCtrl implements IShowCtrl {
         stage.setScene(scene);
 
         stage.showAndWait();
+    }
+
+    public void refreshAdminBoards() {
+        adminController.setup();
     }
 }

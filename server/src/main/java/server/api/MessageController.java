@@ -28,6 +28,7 @@ public class MessageController {
     public void send(@DestinationVariable("dest") String dest, Message msg){
         System.out.println("Message to app/"+dest+" forwarded to /topic/" + dest);
         String url = "/topic/"+dest;
+        System.out.println("Message: "+msg);
         template.convertAndSend(url, msg);
     }
 

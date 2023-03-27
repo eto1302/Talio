@@ -1,8 +1,11 @@
 package client.scenes;
 
+import client.user.UserData;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
+import commons.models.IdResponseModel;
+import commons.sync.BoardDeleted;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,12 +33,17 @@ public class AdminController {
     private TableColumn<Board, String> id, name, pwd;
 
     @Inject
+    private UserData userData;
+
+    @Inject
     public AdminController (ShowCtrl showCtrl, ServerUtils server){
         this.showCtrl=showCtrl;
         this.server = server;
     }
 
     public void setup(){
+        userData.subscribeToAdmin();
+
         Board[] boards = server.getAllBoards();
         ObservableList<Board> boardsList = FXCollections.observableArrayList(boards);
 
@@ -59,6 +67,7 @@ public class AdminController {
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         search.setOnMouseClicked(event -> search.selectAll());
     }
+
 
     public void cancel(){
         showCtrl.showHome();
@@ -85,9 +94,14 @@ public class AdminController {
     public void delete(){
         List<Board> boards = table.getSelectionModel().getSelectedItems();
         for(Board board : boards){
-            server.deleteBoard(board.getId());
+            BoardDeleted boardDeleted = new BoardDeleted(board.getId());
+            IdResponseModel model = userData.deleteBoard(boardDeleted);
+
+            if (model.getId() == -1) {
+                showCtrl.showError(model.getErrorMessage());
+                return;
+            }
         }
-        setup();
     }
 
     public boolean verifyAdmin(String password){
