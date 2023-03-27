@@ -4,6 +4,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Task;
+import commons.models.TaskEditModel;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -147,6 +148,9 @@ public class ListShapeCtrl {
         if (previousListId!=list.getId()) {
             Task task =serverUtils.getTask(taskId);
             List previousList = serverUtils.getList(previousListId);
+            previousList.getTasks().remove(task);
+            TaskEditModel model = new TaskEditModel(task.getTitle(), task.getDescription(), list);
+            serverUtils.editTask(taskId, model);
 
             list.getTasks().add(task);
 

@@ -37,7 +37,7 @@ public class Board {
     private String backgroundColor;
 
     @JsonManagedReference
-    @OneToMany()
+    @OneToMany(mappedBy = "board")
     private Set<List> lists;
 
     @OneToOne(cascade = CascadeType.ALL)

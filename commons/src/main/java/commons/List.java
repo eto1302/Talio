@@ -33,7 +33,7 @@ public class List {
     @NotNull
     private int boardId;
 
-    @OneToMany
+    @OneToMany(mappedBy = "list")
     @JsonManagedReference
     private java.util.List<Task> tasks;
 

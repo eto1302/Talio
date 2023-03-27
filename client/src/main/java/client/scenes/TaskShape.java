@@ -72,9 +72,9 @@ public class TaskShape {
         deleteX.setOnMouseClicked(event -> {
             VBox parent = (VBox) grid.getParent();
             parent.getChildren().remove(grid);
+            server.removeTask(task.getId(), task.getListID());
         });
 
-        server.removeTask(task.getId(), task.getListID());
     }
 
     /**
@@ -110,7 +110,10 @@ public class TaskShape {
         ClipboardContent clipboardContent = new ClipboardContent();
         SnapshotParameters snapshotParams = new SnapshotParameters();
         WritableImage image = grid.snapshot(snapshotParams, null);
-        clipboardContent.putString(task.getId()+"+"+ task.getListID());
+        Task task1 =server.getTask(task.getId());
+        if (dragboard.hasString())
+            clipboardContent.putString(task.getId()+"+"+ task1.getListID());
+        else clipboardContent.putString(task.getId()+"+"+ task1.getListID());
 
         drag.set(grid);
         dragboard.setDragView(image, event.getX(), event.getY());

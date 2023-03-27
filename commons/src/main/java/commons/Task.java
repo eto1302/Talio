@@ -7,7 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
-@Entity
+@Entity()
+@Table(name="Task")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +31,11 @@ public class Task {
     @JoinColumn(name="listId", nullable=false)
     private List list;
 
-    @OneToMany
+    @OneToMany (mappedBy = "task")
     @JsonManagedReference
     private java.util.List<Subtask> subtasks;
 
-    @OneToMany()
+    @OneToMany(mappedBy = "task")
     @JsonManagedReference
     private java.util.List<Tag> tags;
 

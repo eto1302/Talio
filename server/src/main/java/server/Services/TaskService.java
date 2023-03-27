@@ -69,6 +69,8 @@ public class TaskService {
             commons.Task task = taskRepository.getTaskById(taskID);
             task.setTitle(model.getTitle());
             task.setDescription(model.getDescription());
+            task.setList(model.getList());
+            task.setListID(model.getList().getId());
             taskRepository.save(task);
             return new IdResponseModel(taskID, null);
         }
