@@ -65,6 +65,7 @@ public class Main extends Application {
             "client", "scenes", "AddSubTask.fxml");
         var editSubTask=FXML.load(EditSubTaskController.class,
             "client", "scenes", "EditSubTask.fxml");
+        var admin = FXML.load(AdminController.class, "client", "scenes", "Admin.fxml");
 
         loader.add(home);
         loader.add(addList);
@@ -79,6 +80,7 @@ public class Main extends Application {
         loader.add(error);
         loader.add(addSubTask);
         loader.add(editSubTask);
+        loader.add(admin);
 
     }
 }

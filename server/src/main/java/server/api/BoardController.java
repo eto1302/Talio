@@ -50,5 +50,14 @@ public class BoardController {
         return boardService.getAllBoards();
     }
 
+    @GetMapping("/delete/{id}")
+    public IdResponseModel deleteBoard(@PathVariable int id) {
+        return boardService.deleteBoard(id);
+    }
+
+    @GetMapping("/verify/{password}")
+    public boolean verifyAdminPassword(@PathVariable String password) {
+        return boardService.verifyAdminPassword(password);
+    }
     
 }

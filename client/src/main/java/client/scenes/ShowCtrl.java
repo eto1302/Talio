@@ -8,8 +8,13 @@ import commons.Subtask;
 import commons.Tag;
 import commons.mocks.IShowCtrl;
 import commons.Task;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -18,12 +23,15 @@ import java.util.List;
 import static com.google.inject.Guice.createInjector;
 
 public class ShowCtrl implements IShowCtrl {
+
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
+
     private Stage primaryStage, secondaryStage, popUpStage;
+
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, addTag, board, taskOverview, connection,
-            addBoard, editTag, editTask, errorScene, addSubTask, editSubTask;
+            addBoard, editTag, editTask, errorScene, addSubTask, editSubTask, admin;
     private AddListController addListCtrl;
     private AddTaskController addTaskCtrl;
     private YourBoardsController yourBoardsCtrl;
@@ -39,6 +47,7 @@ public class ShowCtrl implements IShowCtrl {
     private EditListController editListCtrl;
     private AddSubTaskController addSubTaskController;
     private EditSubTaskController editSubTaskController;
+    private AdminController adminController;
 
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
@@ -69,6 +78,8 @@ public class ShowCtrl implements IShowCtrl {
         addSubTask = new Scene((Parent) loader.get(11).getValue());
         editSubTaskController = (EditSubTaskController) loader.get(12).getKey();
         editSubTask = new Scene((Parent) loader.get(12).getValue());
+        admin = new Scene((Parent) loader.get(13).getValue());
+        adminController = (AdminController) loader.get(13).getKey();
 
         showConnection();
         //showBoard();
@@ -196,10 +207,6 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.show();
     }
 
-    public void refreshBoard() {
-        boardController.refresh();
-    }
-
     /**
      * Shows the window with options for the editing the list.
      * First sets up the scene to the list's information
@@ -316,5 +323,39 @@ public class ShowCtrl implements IShowCtrl {
     public void addTag(Tag tag, EditTaskController editTaskController) {
         Scene tagScene = null;
         editTaskController.putTag(tagScene);
+    }
+
+    // show a popup for the user to enter the admin password,
+    public void showAdmin(){
+        Stage stage = new Stage();
+        stage.setTitle("Please enter admin password: ");
+
+        Label label = new Label("Password: ");
+        TextField text = new TextField();
+        text.setPromptText("Enter password");
+
+        Button button = new Button("Submit");
+        button.setOnAction(e -> {
+
+            // verify the password and go to the admin board if correct
+            if (adminController.verifyAdmin(text.getText())) {
+                stage.close();
+                primaryStage.setTitle("Admin Board");
+                adminController.setup();
+                primaryStage.setScene(this.admin);
+            } else {
+
+                // show an error message if the password is wrong
+                showError("Wrong password");
+            }
+        });
+
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(label, text, button);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(layout);
+        stage.setScene(scene);
+
+        stage.showAndWait();
     }
 }

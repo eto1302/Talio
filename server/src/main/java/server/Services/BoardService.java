@@ -7,6 +7,7 @@ import server.database.BoardRepository;
 @Service
 public class BoardService {
     private BoardRepository boardRepository;
+    private String adminPassword;
     public BoardService(BoardRepository boardRepository){
         this.boardRepository = boardRepository;
     }
@@ -24,6 +25,23 @@ public class BoardService {
         } catch (Exception e) {
             return new IdResponseModel(-1, e.getMessage());
         }
+    }
+
+    public void setAdminPassword(String adminPassword) {
+        this.adminPassword = adminPassword;
+    }
+
+    public IdResponseModel deleteBoard(int boardId) {
+        try {
+            boardRepository.deleteById(boardId);
+            return new IdResponseModel(boardId, null);
+        } catch (Exception e) {
+            return new IdResponseModel(-1, e.getMessage());
+        }
+    }
+
+    public boolean verifyAdminPassword(String password){
+        return password.equals(adminPassword);
     }
 
 
