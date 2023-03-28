@@ -1,5 +1,6 @@
-package client.scenes;
+package client.scenes.lists;
 
+import client.scenes.ShowCtrl;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;

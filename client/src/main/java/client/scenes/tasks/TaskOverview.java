@@ -1,5 +1,7 @@
-package client.scenes;
+package client.scenes.tasks;
 
+import client.scenes.ShowCtrl;
+import client.scenes.lists.ListShapeCtrl;
 import client.utils.ServerUtils;
 import commons.Task;
 import javafx.fxml.FXML;

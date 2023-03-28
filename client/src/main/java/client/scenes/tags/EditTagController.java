@@ -1,5 +1,6 @@
-package client.scenes;
+package client.scenes.tags;
 
+import client.scenes.ShowCtrl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;

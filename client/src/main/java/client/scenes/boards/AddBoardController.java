@@ -1,5 +1,6 @@
-package client.scenes;
+package client.scenes.boards;
 
+import client.scenes.ShowCtrl;
 import commons.*;
 import client.utils.ServerUtils;
 import commons.models.IdResponseModel;

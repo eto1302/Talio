@@ -16,6 +16,10 @@
 package client;
 
 import client.scenes.*;
+import client.scenes.boards.AddBoardController;
+import client.scenes.boards.BoardController;
+import client.scenes.boards.EditBoardController;
+import client.scenes.lists.AddListController;
 import client.user.UserData;
 import javafx.application.Application;
 import javafx.stage.Stage;

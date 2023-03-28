@@ -1,5 +1,7 @@
-package client.scenes;
+package client.scenes.tasks;
 
+import client.scenes.ShowCtrl;
+import client.scenes.lists.ListShapeCtrl;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Task;
@@ -27,6 +29,8 @@ public class TaskShape {
     private GridPane grid;
     @FXML
     private Label plusSign, title, deleteX;
+    @FXML
+    private HBox tagMarkerContainer;
     private ShowCtrl showCtrl;
     private ServerUtils server;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();

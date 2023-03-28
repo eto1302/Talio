@@ -1,5 +1,20 @@
 package client.scenes;
 
+import client.scenes.boards.AddBoardController;
+import client.scenes.boards.BoardController;
+import client.scenes.boards.BoardShape;
+import client.scenes.boards.EditBoardController;
+import client.scenes.lists.AddListController;
+import client.scenes.lists.EditListController;
+import client.scenes.lists.ListShapeCtrl;
+import client.scenes.subtasks.AddSubTaskController;
+import client.scenes.subtasks.EditSubTaskController;
+import client.scenes.subtasks.SubTaskShapeCtrl;
+import client.scenes.tags.AddTagController;
+import client.scenes.tasks.AddTaskController;
+import client.scenes.tasks.EditTaskController;
+import client.scenes.tasks.TaskOverview;
+import client.scenes.tasks.TaskShape;
 import commons.Board;
 import commons.Subtask;
 import commons.Tag;
