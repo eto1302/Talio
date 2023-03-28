@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
+import java.util.Map;
 
 public class YourBoardsController {
 
@@ -27,6 +29,8 @@ public class YourBoardsController {
     @FXML
     private Button searchButton;
     private ServerUtils serverUtils;
+    @Inject
+    private UserData userData;
 
     @Inject
     public YourBoardsController(ShowCtrl showCtrl, ServerUtils serverUtils){
@@ -34,9 +38,10 @@ public class YourBoardsController {
         this.serverUtils = serverUtils;
     }
     public void fillBoardBox() {
-        Board[] boards = serverUtils.getAllBoards();
-        for(int i = 0; i < boards.length; ++i){
-            Board currentBoard = boards[i];
+        this.boardList.getChildren().removeAll(this.boardList.getChildren());
+        Map<Integer, String> boardMap = this.userData.getBoards();
+        for(int id : boardMap.keySet()){
+            Board currentBoard = this.serverUtils.getBoard(id);
             showCtrl.addBoard(currentBoard);
         }
     }

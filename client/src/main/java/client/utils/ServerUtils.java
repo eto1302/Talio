@@ -20,10 +20,7 @@ import com.google.inject.Inject;
 
 import commons.*;
 import commons.mocks.IServerUtils;
-import commons.models.IdResponseModel;
-import commons.models.ListEditModel;
-import commons.models.TaskEditModel;
-import commons.models.SubtaskEditModel;
+import commons.models.*;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -81,6 +78,25 @@ public class ServerUtils implements IServerUtils {
             ResponseEntity<IdResponseModel> response =
                     client.getForEntity(url+"board/delete/"+id, IdResponseModel.class);
             return response.getBody();
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
+        }
+    }
+
+    @Override
+    public IdResponseModel editBoard(int boardId, BoardEditModel edit) {
+        try {
+            HttpEntity<BoardEditModel> req = new HttpEntity<BoardEditModel>(edit);
+            ResponseEntity<IdResponseModel> response = client.postForEntity(
+                    url+"board/edit/"+boardId, req,
+                    IdResponseModel.class
+            );
+
+            if (boardId != response.getBody().getId())
+                return new IdResponseModel(-1, "Board doesn't match");
+
+            return response.getBody();
+
         } catch (Exception e) {
             return new IdResponseModel(-1, "Oops, failed to connect to server...");
         }

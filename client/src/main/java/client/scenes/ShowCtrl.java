@@ -28,7 +28,7 @@ public class ShowCtrl implements IShowCtrl {
 
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, board, taskOverview, connection,
-            addBoard, editTask, errorScene, admin;
+            addBoard, editTask, errorScene, admin, editBoard;
     private AddListController addListCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
@@ -39,7 +39,7 @@ public class ShowCtrl implements IShowCtrl {
     private EditTaskController editTaskController;
     private ErrorController errorController;
     private AdminController adminController;
-
+    private EditBoardController editBoardController;
     private Map<Integer, ListShapeCtrl> listControllers;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
@@ -62,6 +62,8 @@ public class ShowCtrl implements IShowCtrl {
         errorScene = new Scene((Parent) loader.get(7).getValue());
         admin = new Scene((Parent) loader.get(8).getValue());
         adminController = (AdminController) loader.get(8).getKey();
+        editBoard = new Scene((Parent) loader.get(9).getValue());
+        editBoardController = (EditBoardController) loader.get(9).getKey();
 
         listControllers = new HashMap<>();
 
@@ -349,8 +351,14 @@ public class ShowCtrl implements IShowCtrl {
         adminController.setup();
     }
 
+    public void showEditBoard(BoardController controller) {
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Edit Board");
+        secondaryStage.setScene(this.editBoard);
+        editBoardController.setup(controller);
+        secondaryStage.show();
+    }
     public void refreshBoardCtrl() {
         boardController.refresh();
     }
-
 }

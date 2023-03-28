@@ -107,7 +107,7 @@ public class AddBoardController {
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
         for (int i=0; i<15; i++){
-            int randomInt = random.nextInt(0, 26);
+            int randomInt = random.nextInt(26);
             char letter = (char) (randomInt +'a');
             sb.append(letter);
         }
