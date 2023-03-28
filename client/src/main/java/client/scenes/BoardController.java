@@ -9,9 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
+import java.awt.*;
 import java.util.List;
 import java.util.Set;
 
@@ -59,6 +61,7 @@ public class BoardController {
      */
     public void refresh() {
         this.boardLabel.setText(this.userData.getCurrentBoard().getName());
+        this.boardLabel.setTextFill(Color.web(this.userData.getCurrentBoard().getFontColor()));
         listBox.getChildren().clear();
         listBox.getChildren();
         Set<commons.List> lists;

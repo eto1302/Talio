@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.user.UserData;
+import commons.Board;
 import commons.models.BoardEditModel;
 import commons.sync.BoardEdited;
 import javafx.fxml.FXML;
@@ -13,7 +14,6 @@ public class EditBoardController {
 
     @FXML
     private TextField newTitle;
-
     @FXML
     private ColorPicker newBackground;
     @FXML
@@ -58,5 +58,9 @@ public class EditBoardController {
 
     public void setup(BoardController controller){
         this.boardController=controller;
+        Board currentBoard = this.userData.getCurrentBoard();
+        this.newTitle.setText(currentBoard.getName());
+        this.newFont.setValue(Color.web(currentBoard.getFontColor()));
+        this.newBackground.setValue(Color.web(currentBoard.getBackgroundColor()));
     }
 }
