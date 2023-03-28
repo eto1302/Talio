@@ -348,4 +348,9 @@ public class ShowCtrl implements IShowCtrl {
     public void refreshAdminBoards() {
         adminController.setup();
     }
+
+    public void refreshBoardCtrl() {
+        boardController.refresh();
+    }
+
 }

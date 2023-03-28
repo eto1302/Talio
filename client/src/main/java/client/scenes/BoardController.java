@@ -72,8 +72,7 @@ public class BoardController {
         lists = userData.getCurrentBoard().getLists();
 
         for (commons.List list : lists) {
-            ListShapeCtrl listShapeCtrl = showCtrl.addList(list);
-            listShapeCtrl.setBoard(this);
+            showCtrl.addList(list);
             
             List<Task> orderedTasks = server.getTasksOrdered(list.getId());
             for(Task task: orderedTasks){
