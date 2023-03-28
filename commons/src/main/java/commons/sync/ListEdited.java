@@ -43,7 +43,8 @@ public class ListEdited extends BoardUpdate {
 
     @Override
     public void apply(IUserData data) {
-        commons.List list = data.getCurrentBoard().getListById(listId);
+        commons.List list = data.getCurrentBoard().getLists().stream()
+                .filter(e -> e.getId() == listId).findFirst().orElse(null);
         list.setName(edit.getName());
         list.setBackgroundColor(edit.getBackgroundColor());
         list.setFontColor(edit.getFontColor());

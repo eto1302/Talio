@@ -45,7 +45,8 @@ public class TaskAdded extends BoardUpdate {
 
     @Override
     public void apply(IUserData data) {
-        commons.List list = data.getCurrentBoard().getListById(listID);
+        commons.List list = data.getCurrentBoard().getLists().stream()
+                .filter(e -> e.getId() == listId).findFirst().orElse(null);
         list.getTasks().add(task);
         data.getShowCtrl().addTask(task, list);
     }

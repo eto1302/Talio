@@ -32,7 +32,8 @@ public class ListDeleted extends BoardUpdate {
 
     @Override
     public void apply(IUserData data) {
-        commons.List list = data.getCurrentBoard().getListById(listId);
+        commons.List list = data.getCurrentBoard().getLists().stream()
+                .filter(e -> e.getId() == listId).findFirst().orElse(null);
         data.getCurrentBoard().getLists().remove(list);
         data.getShowCtrl().deleteList(list);
     }
