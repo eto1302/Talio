@@ -15,15 +15,34 @@
  */
 package server;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Bean;
+import server.Services.BoardService;
+
 
 @SpringBootApplication
 @EntityScan(basePackages = { "commons", "server" })
 public class Main {
 
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
+    }
+
+    // generate a random UUID as the admin password when the server starts.
+    @Bean
+    CommandLineRunner runner(BoardService boardService) {
+        return args -> {
+            String pwd = java.util.UUID.randomUUID().toString();
+            boardService.setAdminPassword(pwd);
+            logger.info("Admin password: " + pwd);
+            System.out.println("Admin password: " + pwd);
+        };
     }
 }

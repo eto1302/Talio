@@ -1,7 +1,9 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.List;
 import commons.Task;
+import commons.models.TaskEditModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
@@ -27,7 +29,6 @@ public class TaskShape {
     private Label plusSign, title, deleteX;
     private ShowCtrl showCtrl;
     private ServerUtils server;
-    private int id;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
     private ListShapeCtrl controller;
     private commons.Task task;
@@ -39,6 +40,10 @@ public class TaskShape {
         server=serverUtils;
     }
 
+    public void setTaskUpdated(){
+        task=server.getTask(task.getId());
+    }
+
     /**
      * On double-click, this will show the window containing the overview (details of the task)
      */
@@ -47,8 +52,10 @@ public class TaskShape {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
-                    if (event.getClickCount()==2)
+                    if (event.getClickCount()==2) {
+                        setTaskUpdated();
                         showCtrl.showEditTask(task, controller);
+                    }
             }
         });
     }
@@ -73,7 +80,9 @@ public class TaskShape {
         deleteX.setOnMouseClicked(event -> {
             VBox parent = (VBox) grid.getParent();
             parent.getChildren().remove(grid);
+            server.removeTask(task.getId(), task.getListID());
         });
+
     }
 
     /**
@@ -86,15 +95,14 @@ public class TaskShape {
         this.task = task;
         this.primaryStage = primaryStage;
         this.controller = listShapeCtrl;
+        if (task.getDescription().equals("No description yet"))
+            plusSign.setVisible(false);
+
         grid.setOnDragDetected(this::dragDetected);
         grid.setOnDragOver(this::dragOver);
         grid.setOnDragDropped(this::dragDrop);
-        grid.setOnMousePressed(event->{
-            grid.setOpacity(0.4);
-        });
-        grid.setOnMouseReleased(event->{
-            grid.setOpacity(1);
-        });
+        grid.setOnMousePressed(event-> grid.setOpacity(0.4));
+        grid.setOnMouseReleased(event-> grid.setOpacity(1));
     }
 
     /**
@@ -107,7 +115,10 @@ public class TaskShape {
         ClipboardContent clipboardContent = new ClipboardContent();
         SnapshotParameters snapshotParams = new SnapshotParameters();
         WritableImage image = grid.snapshot(snapshotParams, null);
-        clipboardContent.putString("grid");
+        Task task1 =server.getTask(task.getId());
+        if (dragboard.hasString())
+            clipboardContent.putString(task.getId()+"+"+ task1.getListID());
+        else clipboardContent.putString(task.getId()+"+"+ task1.getListID());
 
         drag.set(grid);
         dragboard.setDragView(image, event.getX(), event.getY());
@@ -122,7 +133,7 @@ public class TaskShape {
      */
     private void dragOver(DragEvent event){
         Dragboard dragboard = event.getDragboard();
-        if (dragboard.hasString() && dragboard.getString().equals("grid")){
+        if (dragboard.hasString()){
             event.acceptTransferModes(TransferMode.MOVE);
             event.consume();
         }
@@ -132,35 +143,60 @@ public class TaskShape {
      * Method for dropping the task in the box; gets the children of the box (the other tasks) and
      * rotates (shifts) all the tasks that sit in-between the source and the target (inclusive).
      * Then puts all the children back in the box.
+     * Also changes the index of all tasks after this update
      * @param event the rag event
      */
     private void dragDrop(DragEvent event){
         Dragboard dragboard = event.getDragboard();
         boolean done = false;
+        Object source = event.getGestureSource();
 
         if (dragboard.hasString()){
             VBox parent = (VBox) grid.getParent();
-            Object source = event.getGestureSource();
 
             int sourceIndex = parent.getChildren().indexOf(source);
             int targetIndex = parent.getChildren().indexOf(grid);
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
 
-            if (sourceIndex<targetIndex)
-                Collections.rotate(children.subList(sourceIndex, targetIndex+1), -1);
-            else Collections.rotate(children.subList(targetIndex, sourceIndex+1), 1);
+            Task task1 =server.getTask(task.getId());
+            task=task1;
+            ArrayList<Task> orderedTasks=
+                    (ArrayList<Task>) server.getTasksOrdered(task1.getListID());
 
-            // in here I suggest we call a method on the server side that sets the indexes
-            //of the tasks (a new int field) based on their position in the grid. This way when we
-            //return all the tasks of a list when it comes to setting them inside one,
-            //we do so based on the indexes and not IDs (just need a special query for that).
+            if (sourceIndex<targetIndex) {
+                Collections.rotate(children.subList(sourceIndex, targetIndex + 1), -1);
+                Collections.rotate(orderedTasks.subList(sourceIndex, targetIndex+1),-1);
+            }
+            else {
+                Collections.rotate(children.subList(targetIndex, sourceIndex+1), 1);
+                Collections.rotate(orderedTasks.subList(targetIndex, sourceIndex+1), 1);
+            }
+
+            List list = server.getList(task.getListID());
+            reorderTasks(orderedTasks, list);
+
             parent.getChildren().clear();
             parent.getChildren().addAll(children);
             done = true;
-            ((GridPane) source).setOpacity(1);
         }
+        ((GridPane) source).setOpacity(1);
+
         event.setDropCompleted(done);
         event.consume();
+    }
+
+    /**
+     * Re-assigns the tasks' indexes after the drag event update
+     * @param tasksToReorder the tasks to be reordered
+     * @param list the list in which this happens
+     */
+    private void reorderTasks(java.util.List<Task> tasksToReorder, List list){
+        for (int i=0; i<tasksToReorder.size(); i++){
+            Task taskIndex = tasksToReorder.get(i);
+            TaskEditModel model = new TaskEditModel(taskIndex.getTitle(),
+                    taskIndex.getDescription(), i, list);
+            server.editTask(taskIndex.getId(), model);
+        }
     }
 
 

@@ -76,6 +76,32 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
+    public IdResponseModel deleteBoard(int id) {
+        try {
+            ResponseEntity<IdResponseModel> response =
+                    client.getForEntity(url+"board/delete/"+id, IdResponseModel.class);
+            return response.getBody();
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
+        }
+    }
+
+    /**
+     * Returns the board with the corresponding invite key
+     * @param inviteKey the invite-key og the board
+     * @return the board or null if there is no board with such an invite-key.
+     */
+    public Board getBoardByInviteKey(String inviteKey){
+        try{
+            ResponseEntity<Board> response =
+                    client.getForEntity(url+"board/getByInvite/"+inviteKey, Board.class);
+            return response.getBody();
+        }
+        catch(Exception e){
+            return null;
+        }
+    }
+
     /**
      * Get all the boards,
      * @return the boards or null if there is exception.
@@ -87,6 +113,16 @@ public class ServerUtils implements IServerUtils {
             return response.getBody();
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    public boolean verifyAdmin(String password) {
+        try {
+            ResponseEntity<Boolean> response = client.getForEntity(
+                    url+"board/verify/"+password, Boolean.class);
+            return response.getBody();
+        } catch (Exception e) {
+            return false;
         }
     }
 
@@ -310,6 +346,26 @@ public class ServerUtils implements IServerUtils {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    /**
+     * Gets the tasks from a list sorted by the index they are at in the list
+     * @param listID the id of the associated list
+     * @return the sorted list of tasks
+     */
+    public java.util.List<Task> getTasksOrdered(int listID){
+        ResponseEntity<java.util.List<Task>> response = client.exchange(
+                url+"task/getSorted/" + listID,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>(){} );
+
+        if (response.getStatusCode().is2xxSuccessful())
+            return response.getBody();
+        else if (response.getStatusCode().equals(HttpStatus.BAD_REQUEST))
+            throw new NoSuchElementException("No such list id");
+
+        throw new RuntimeException("Something went wrong");
     }
 
     /**

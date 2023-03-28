@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" minHeight="400.0" prefHeight="434.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardController">
+<GridPane alignment="CENTER" minHeight="400.0" prefHeight="434.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardController">
     <columnConstraints>
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
@@ -43,6 +43,7 @@
                         <MenuItem fx:id="addBoard" mnemonicParsing="false" onAction="#addBoard" text="Add board" />
                         <MenuItem fx:id="yourBoards" mnemonicParsing="false" onAction="#showYourBoards" text="Your boards" />
                         <MenuItem fx:id="personalize" mnemonicParsing="false" text="Personalize" />
+                  <MenuItem mnemonicParsing="false" onAction="#showAdmin" text="Admin" />
                     </items>
                 </MenuButton>
             </children>
@@ -77,7 +78,7 @@
                                         <MenuButton mnemonicParsing="false" text="Edit">
                                             <items>
                                                 <MenuItem fx:id="editToDo" mnemonicParsing="false" text="Edit list" />
-                                                <MenuItem fx:id="deleteToDo" mnemonicParsing="false" onAction="#deleteToDo" text="Delete" />
+                                                <MenuItem fx:id="deleteToDo" mnemonicParsing="false"  text="Delete" />
                                             </items>
                                         </MenuButton>
                                         <MenuButton fx:id="plusToDo" mnemonicParsing="false" text="+">
@@ -116,7 +117,7 @@
                                         <MenuButton mnemonicParsing="false" text="Edit">
                                             <items>
                                                 <MenuItem fx:id="editDoing" mnemonicParsing="false" text="Edit list" />
-                                                <MenuItem fx:id="deleteDoing" mnemonicParsing="false" onAction="#deleteDoing" text="Delete" />
+                                                <MenuItem fx:id="deleteDoing" mnemonicParsing="false"  text="Delete" />
                                             </items>
                                         </MenuButton>
                                         <MenuButton fx:id="plusDoing" mnemonicParsing="false" text="+">
@@ -155,7 +156,7 @@
                                         <MenuButton mnemonicParsing="false" text="Edit">
                                             <items>
                                                 <MenuItem fx:id="editDone" mnemonicParsing="false" text="Edit list" />
-                                                <MenuItem fx:id="deleteDone" mnemonicParsing="false" onAction="#deleteDone" text="Delete" />
+                                                <MenuItem fx:id="deleteDone" mnemonicParsing="false" text="Delete" />
                                             </items>
                                         </MenuButton>
                                         <MenuButton fx:id="plusDone" mnemonicParsing="false" text="+">

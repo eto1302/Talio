@@ -18,6 +18,8 @@ public class Subtask {
     private String description;
     @Column(name = "checked", columnDefinition = "boolean")
     private boolean checked;
+    @Column(name="index", columnDefinition = "integer")
+    private int index;
 
     @Column(name = "t_id")
     @NotNull
@@ -105,6 +107,14 @@ public class Subtask {
         this.checked = checked;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     /**
      * Sets the ID of the task the subtask is in
      * @param taskID ID of the task to be set
@@ -133,6 +143,7 @@ public class Subtask {
         if (o == null || getClass() != o.getClass()) return false;
         Subtask subtask = (Subtask) o;
         return getId() == subtask.getId() && isChecked() == subtask.isChecked() &&
+                getIndex()==subtask.getIndex() &&
                 getTaskID() == subtask.getTaskID() &&
                 Objects.equals(getDescription(), subtask.getDescription())
                 && Objects.equals(getTask(), subtask.getTask());
@@ -144,7 +155,8 @@ public class Subtask {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDescription(), isChecked(), getTaskID(), getTask());
+        return Objects.hash(getId(), getDescription(), isChecked(),
+                getTaskID(), getTask(), getIndex());
     }
 
     /**
@@ -155,6 +167,7 @@ public class Subtask {
     public String toString() {
         return "Subtask{" +
                 "id=" + id +
+                "index=" + index+
                 ", description='" + description + '\'' +
                 ", checked=" + checked +
                 ", taskID=" + taskID +

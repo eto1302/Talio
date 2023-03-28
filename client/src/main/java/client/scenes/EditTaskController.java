@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.List;
 import commons.Subtask;
 import commons.Tag;
 import commons.Task;
@@ -83,8 +84,9 @@ public class EditTaskController {
         String description = this.descriptionField.getText();
         task.setTitle(title);
         task.setDescription(description);
+        List list =server.getList(task.getListID());
 
-        TaskEditModel model = new TaskEditModel(title, description);
+        TaskEditModel model = new TaskEditModel(title, description, task.getIndex(), list);
         IdResponseModel response = server.editTask(task.getId(), model);
 
         if (response.getId() == -1) {
@@ -94,5 +96,6 @@ public class EditTaskController {
         }
 
         listShapeCtrl.refreshList();
+        showCtrl.cancel();
     }
 }

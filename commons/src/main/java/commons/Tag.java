@@ -1,5 +1,7 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -15,6 +17,12 @@ public class Tag {
 
     @Column(name = "color", columnDefinition = "varchar(7) default '#000000'")
     private String color;
+
+    @JsonBackReference
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name="taskId")
+    private Task task;
+
 
     /**
      * Creates a new tag object with the given name and color.
