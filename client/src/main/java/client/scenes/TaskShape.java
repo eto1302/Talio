@@ -154,29 +154,17 @@ public class TaskShape {
         int taskId = Integer.parseInt(identify.split("\\+")[0].trim());
         int previousListId = Integer.parseInt(identify.split("\\+")[1].trim());
 
-        Task currentTask =server.getTask(task.getId());
-        task=currentTask;
+        task =server.getTask(task.getId());
         Task previousTask = server.getTask(taskId);
         List currentlist = server.getList(task.getListID());
 
         if (previousListId==task.getListID()){
             VBox parent = (VBox) grid.getParent();
-
-            int sourceIndex = parent.getChildren().indexOf(source);
-            int targetIndex = parent.getChildren().indexOf(grid);
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
-
             ArrayList<Task> orderedTasks=
                     (ArrayList<Task>) server.getTasksOrdered(task.getListID());
 
-            if (sourceIndex<targetIndex) {
-                Collections.rotate(children.subList(sourceIndex, targetIndex + 1), -1);
-                Collections.rotate(orderedTasks.subList(sourceIndex, targetIndex+1),-1);
-            }
-            else {
-                Collections.rotate(children.subList(targetIndex, sourceIndex+1), 1);
-                Collections.rotate(orderedTasks.subList(targetIndex, sourceIndex+1), 1);
-            }
+            rearrange(source, parent, children, orderedTasks);
 
             reorderTasks(orderedTasks, currentlist);
 
@@ -216,6 +204,30 @@ public class TaskShape {
             TaskEditModel model = new TaskEditModel(taskIndex.getTitle(),
                     taskIndex.getDescription(), i, list);
             server.editTask(taskIndex.getId(), model);
+        }
+    }
+
+    /**
+     * Rearranges the tasks and the inside the current list when we perform drag and drop
+     * between tasks
+     * @param source the source task that is getting dragged
+     * @param parent the parent of the current task that is getting dropped onto
+     * @param children all the tasks in the current list, represented as grids
+     * @param orderedTasks the ordered tasks of the current, which need to be reordered in
+     *                     the database
+     */
+    private void rearrange(Object source, VBox parent, ArrayList<Node> children,
+                           ArrayList<Task> orderedTasks){
+        int sourceIndex = parent.getChildren().indexOf(source);
+        int targetIndex = parent.getChildren().indexOf(grid);
+
+        if (sourceIndex<targetIndex) {
+            Collections.rotate(children.subList(sourceIndex, targetIndex + 1), -1);
+            Collections.rotate(orderedTasks.subList(sourceIndex, targetIndex+1),-1);
+        }
+        else {
+            Collections.rotate(children.subList(targetIndex, sourceIndex+1), 1);
+            Collections.rotate(orderedTasks.subList(targetIndex, sourceIndex+1), 1);
         }
     }
 
