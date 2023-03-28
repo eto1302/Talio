@@ -14,5 +14,7 @@ public interface IShowCtrl {
 
     void refreshAdminBoards();
 
+    void refreshList(int listID);
+
 //    void addTask(Task task);
 }

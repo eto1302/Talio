@@ -290,7 +290,7 @@ public class ShowCtrl implements IShowCtrl {
         var editTaskPair = FXML.load(EditTaskController.class, "client", "scenes", "EditTask.fxml");
         editTaskController = editTaskPair.getKey();
         editTask = new Scene((Parent) editTaskPair.getValue());
-        Scene updated = editTaskController.setup(task, listShapeCtrl, primaryStage);
+        Scene updated = editTaskController.setup(task, listShapeCtrl);
         secondaryStage = new Stage();
         secondaryStage.setScene(editTask);
         secondaryStage.setTitle("Edit a task");
@@ -351,6 +351,12 @@ public class ShowCtrl implements IShowCtrl {
 
     public void refreshBoardCtrl() {
         boardController.refresh();
+    }
+
+    public void refreshList(int listID) {
+        ListShapeCtrl ctrl = listControllers.get(listID);
+        if(ctrl != null)
+            ctrl.refreshList();
     }
 
 }
