@@ -86,8 +86,8 @@ public class EditTaskController {
         List list = server.getList(task.getListID());
 
         TaskEditModel model = new TaskEditModel(title, description, task.getIndex(), list);
-        IdResponseModel response = userData.updateBoard(new TaskEdited
-                (list.getBoardId(), list.getId(), task.getId(), model));
+        IdResponseModel response = userData.updateBoard
+                (new TaskEdited(list.getBoardId(), list.getId(), task.getId(), model));
 
         if (response.getId() == -1) {
             showCtrl.cancel();
