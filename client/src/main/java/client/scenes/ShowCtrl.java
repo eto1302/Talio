@@ -119,7 +119,7 @@ public class ShowCtrl implements IShowCtrl {
         Scene taskScene = new Scene(taskShape.getValue());
         Scene updated = taskShape.getKey().getSceneUpdated(task);
         taskShape.getKey().set(task, primaryStage, controller);
-        Scene finalScene = controller.addTask(updated);
+        Scene finalScene = controller.addTask(updated, task);
 
         primaryStage.setScene(finalScene);
     }
@@ -233,7 +233,7 @@ public class ShowCtrl implements IShowCtrl {
         Scene initializeList = new Scene(listShape.getValue());
         ListShapeCtrl listShapeCtrl = listShape.getKey();
 
-        listShapeCtrl.set(list, primaryStage, boardController);
+        listShapeCtrl.set(list, primaryStage);
         Scene listScene = listShapeCtrl.getSceneUpdated(list);
         Scene scene = boardController.putList(listScene);
         primaryStage.setScene(scene);
@@ -244,7 +244,7 @@ public class ShowCtrl implements IShowCtrl {
         Scene initializeList = new Scene(listShape.getValue());
         ListShapeCtrl listShapeCtrl = listShape.getKey();
 
-        listShapeCtrl.set(list, primaryStage, boardController);
+        listShapeCtrl.set(list, primaryStage);
         Scene listScene = listShapeCtrl.getSceneUpdated(list);
         Scene scene = boardController.putList(listScene);
         primaryStage.setScene(scene);

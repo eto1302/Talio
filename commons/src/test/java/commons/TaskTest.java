@@ -17,11 +17,13 @@ class TaskTest {
         task1.setId(1);
         task1.setTitle("Title 1");
         task1.setDescription("Description 1");
+        task1.setIndex(1);
 
         task2 = new Task();
         task2.setId(2);
         task2.setTitle("Title 2");
         task2.setDescription("Description 2");
+        task2.setIndex(2);
     }
 
     @Test
@@ -86,5 +88,10 @@ class TaskTest {
     void testToString() {
         String expected = new String("Task{id=1, description='Description 1', title='Title 1'}");
         assertEquals(expected, task1.toString());
+    }
+    @Test
+    void testIndex(){
+        task1.setIndex(5);
+        assertEquals(5, task1.getIndex());
     }
 }

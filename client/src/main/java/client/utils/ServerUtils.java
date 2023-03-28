@@ -329,6 +329,26 @@ public class ServerUtils implements IServerUtils {
     }
 
     /**
+     * Gets the tasks from a list sorted by the index they are at in the list
+     * @param listID the id of the associated list
+     * @return the sorted list of tasks
+     */
+    public java.util.List<Task> getTasksOrdered(int listID){
+        ResponseEntity<java.util.List<Task>> response = client.exchange(
+                url+"task/getSorted/" + listID,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>(){} );
+
+        if (response.getStatusCode().is2xxSuccessful())
+            return response.getBody();
+        else if (response.getStatusCode().equals(HttpStatus.BAD_REQUEST))
+            throw new NoSuchElementException("No such list id");
+
+        throw new RuntimeException("Something went wrong");
+    }
+
+    /**
      * Deletes a subtask from the associated task
      * @param taskID the id of the associated task
      * @param subtaskID the id of the subtask

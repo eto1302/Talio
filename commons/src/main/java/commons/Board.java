@@ -37,7 +37,7 @@ public class Board {
     private String backgroundColor;
 
     @JsonManagedReference
-    @OneToMany()
+    @OneToMany(mappedBy = "board")
     private Set<List> lists;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -222,19 +222,9 @@ public class Board {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", lists=" + lists +
                 ", tag=" + tag +
                 ", fontColor=" + fontColor +
                 ", backgroundColor=" + backgroundColor +
                 '}';
-    }
-
-    public List getListById(int listID) {
-        for(List list: lists){
-            if(list.getId() == listID){
-                return list;
-            }
-        }
-        throw new NoSuchElementException("The list does not exist...");
     }
 }

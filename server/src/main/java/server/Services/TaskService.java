@@ -26,6 +26,10 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    public java.util.List<commons.Task> getTasksSortedByIndex(int listId){
+        return taskRepository.getTasksByIndex(listId);
+    }
+
     public java.util.List<commons.Task> getAllTaskByList(int listID) throws NoSuchElementException {
         if(!listRepositoy.existsById(listID)){
             throw new NoSuchElementException();
@@ -65,6 +69,9 @@ public class TaskService {
             commons.Task task = taskRepository.getTaskById(taskID);
             task.setTitle(model.getTitle());
             task.setDescription(model.getDescription());
+            task.setList(model.getList());
+            task.setListID(model.getList().getId());
+            task.setIndex(model.getIndex());
             taskRepository.save(task);
             return new IdResponseModel(taskID, null);
         }

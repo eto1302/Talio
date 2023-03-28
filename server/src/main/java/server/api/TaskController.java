@@ -60,4 +60,10 @@ public class TaskController {
     public IdResponseModel removeTask(@PathVariable int taskID, @PathVariable int listID){
         return this.taskService.removeTask(taskID, listID);
     }
+
+    @GetMapping("/getSorted/{listId}")
+    @ResponseBody
+    public java.util.List<Task> getTasksSorted(@PathVariable int listId){
+        return this.taskService.getTasksSortedByIndex(listId);
+    }
 }

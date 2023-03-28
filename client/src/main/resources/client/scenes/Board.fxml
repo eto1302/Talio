@@ -77,7 +77,7 @@
                                         <MenuButton mnemonicParsing="false" text="Edit">
                                             <items>
                                                 <MenuItem fx:id="editToDo" mnemonicParsing="false" text="Edit list" />
-                                                <MenuItem fx:id="deleteToDo" mnemonicParsing="false" onAction="#deleteToDo" text="Delete" />
+                                                <MenuItem fx:id="deleteToDo" mnemonicParsing="false"  text="Delete" />
                                             </items>
                                         </MenuButton>
                                         <MenuButton fx:id="plusToDo" mnemonicParsing="false" text="+">
@@ -116,7 +116,7 @@
                                         <MenuButton mnemonicParsing="false" text="Edit">
                                             <items>
                                                 <MenuItem fx:id="editDoing" mnemonicParsing="false" text="Edit list" />
-                                                <MenuItem fx:id="deleteDoing" mnemonicParsing="false" onAction="#deleteDoing" text="Delete" />
+                                                <MenuItem fx:id="deleteDoing" mnemonicParsing="false"  text="Delete" />
                                             </items>
                                         </MenuButton>
                                         <MenuButton fx:id="plusDoing" mnemonicParsing="false" text="+">
@@ -155,7 +155,7 @@
                                         <MenuButton mnemonicParsing="false" text="Edit">
                                             <items>
                                                 <MenuItem fx:id="editDone" mnemonicParsing="false" text="Edit list" />
-                                                <MenuItem fx:id="deleteDone" mnemonicParsing="false" onAction="#deleteDone" text="Delete" />
+                                                <MenuItem fx:id="deleteDone" mnemonicParsing="false" text="Delete" />
                                             </items>
                                         </MenuButton>
                                         <MenuButton fx:id="plusDone" mnemonicParsing="false" text="+">

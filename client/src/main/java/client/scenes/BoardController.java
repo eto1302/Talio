@@ -2,17 +2,17 @@ package client.scenes;
 
 import client.user.UserData;
 import client.utils.ServerUtils;
+import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Set;
 
 public class BoardController {
@@ -29,14 +29,7 @@ public class BoardController {
     @FXML
     private Label boardLabel;
     @FXML
-    private VBox toDoBox, doingBox, doneBox;
-    @FXML
     private HBox listBox;
-    @FXML
-    private GridPane toDo, doing, done;
-    @FXML
-    private MenuItem addTaskToDo, addTaskDoing, addTaskDone,
-         deleteToDo, deleteDoing, deleteDone, editToDo, editDoing, editDone;
 
     private final ShowCtrl showCtrl;
     private ServerUtils server;
@@ -81,8 +74,8 @@ public class BoardController {
         for (commons.List list : lists) {
             ListShapeCtrl listShapeCtrl = showCtrl.addAndReturnList(list);
             listShapeCtrl.setBoard(this);
-            tasks = list.getTasks();
-            for(commons.Task task: tasks){
+            List<Task> orderedTasks = server.getTasksOrdered(list.getId());
+            for(Task task: orderedTasks){
                 showCtrl.addTask(task, listShapeCtrl, primaryStage);
             }
         }
@@ -94,12 +87,6 @@ public class BoardController {
     }
 
     public void showSearch() {showCtrl.showSearch();}
-
-    public void showDetails() {};
-
-    public void showEditList() {};
-
-    public void showConfirmDelete() {};
 
     public void addBoard(){
         showCtrl.showAddBoard();
@@ -123,15 +110,5 @@ public class BoardController {
         showCtrl.showConnection();
     }
 
-    public void deleteToDo(){
-        listBox.getChildren().remove(toDo);
-    }
-    public void deleteDoing(){
-        listBox.getChildren().remove(doing);
-    }
-
-    public void deleteDone(){
-        listBox.getChildren().remove(done);
-    }
 
 }
