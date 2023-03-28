@@ -2,6 +2,7 @@ package commons.mocks;
 
 import commons.List;
 import commons.Task;
+import commons.models.BoardEditModel;
 import commons.models.IdResponseModel;
 import commons.models.ListEditModel;
 
@@ -20,4 +21,6 @@ public interface IServerUtils {
     IdResponseModel editTask(int taskID, commons.models.TaskEditModel model);
 
     IdResponseModel deleteBoard(int boardID);
+
+    IdResponseModel editBoard(int boardId, BoardEditModel edit);
 }

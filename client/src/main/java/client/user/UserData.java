@@ -20,7 +20,7 @@ import java.util.Map;
  * boards that this client is connected to including their passwords,
  * as well as a path in which to store this data when the application
  * is closed (including functionality to read and write to said path)
- *
+ * <p>
  * In the future, this class may also store information about user
  * preferences, such as background color/image, which will be stored
  * in the same configuration file as well.
@@ -85,11 +85,9 @@ public class UserData implements IUserData {
         assert savePath != null;
         this.savePath = savePath;
         this.boards = new HashMap<>();
-
-        if(savePath.exists()) {
-            assert !savePath.isDirectory();
-            loadFromDisk();
-        }
+        this.savePath.createNewFile();
+        assert !savePath.isDirectory();
+        loadFromDisk();
 
         BoardUpdate.setUserData(this);
     }
@@ -123,7 +121,7 @@ public class UserData implements IUserData {
      * This will not be saved to the datafile until done explicitly.
      *
      * @param identifier the board ID of the new board to join
-     * @param password the board's password
+     * @param password   the board's password
      */
     public void joinBoard(int identifier, String password) {
         boards.put(identifier, password);
@@ -141,7 +139,7 @@ public class UserData implements IUserData {
 
     /**
      * [WORK IN PROGRESS, to integrate with server and messaging system]
-     *
+     * <p>
      * Fetches a board with a given identifier, returning a board object
      * containing the full details of said board. This method asserts that
      * the identifier of the board must be one of the joined boards,
@@ -169,7 +167,7 @@ public class UserData implements IUserData {
      * Refreshes the current open board by fetching the most recent version from the server
      */
     public void refresh() {
-        if(currentBoard != null)
+        if (currentBoard != null)
             this.currentBoard = serverUtils.getBoard(currentBoard.getId());
     }
 
@@ -183,7 +181,7 @@ public class UserData implements IUserData {
      */
     public IdResponseModel updateBoard(BoardUpdate boardUpdate) {
         IdResponseModel response = boardUpdate.sendToServer(serverUtils);
-        if(response.getId() == -1)
+        if (response.getId() == -1)
             return response;
 
         messageSender.send(boardUpdate.getSendQueue(), boardUpdate);
@@ -192,7 +190,7 @@ public class UserData implements IUserData {
 
     public IdResponseModel deleteBoard(BoardDeleted boardDeleted) {
         IdResponseModel response = boardDeleted.sendToServer(serverUtils);
-        if(response.getId() == -1)
+        if (response.getId() == -1)
             return response;
 
         messageSender.send(boardDeleted.getSendQueue(), boardDeleted);
@@ -212,7 +210,7 @@ public class UserData implements IUserData {
      * file.
      *
      * @throws IOException if any IO error occurred while reading,
-     * including a poorly formatted file
+     *                     including a poorly formatted file
      */
     public void loadFromDisk() throws IOException {
         boards.clear();
@@ -220,21 +218,20 @@ public class UserData implements IUserData {
         BufferedReader br = new BufferedReader(fr);
 
         String line;
-        while((line = br.readLine()) != null) {
+        while ((line = br.readLine()) != null) {
             line = line.trim();
-            if(line.length() == 0)
+            if (line.length() == 0)
                 continue;
 
             String[] items = line.split("\\\\");
-            if(items[0].trim().equals("b")) {
-                if(items.length != 3)
+            if (items[0].trim().equals("b")) {
+                if (items.length != 3)
                     throw new InvalidFormatException("On line: " + line);
 
                 int identifier;
                 try {
                     identifier = Integer.parseInt(items[1].trim());
-                }
-                catch(NumberFormatException ex) {
+                } catch (NumberFormatException ex) {
                     throw new InvalidFormatException(ex);
                 }
 
@@ -243,7 +240,7 @@ public class UserData implements IUserData {
             // Future directives can be inserted here
             else throw new
                     InvalidFormatException(
-                            String.format("No such directive '%s' on line: %s", items[0], line));
+                    String.format("No such directive '%s' on line: %s", items[0], line));
         }
 
         br.close();
@@ -257,20 +254,26 @@ public class UserData implements IUserData {
      *
      * @throws IOException if any IO error occurred while writing.
      */
-    public void saveToDisk() throws IOException {
-        FileWriter fw = new FileWriter(savePath, false);
-        BufferedWriter bw = new BufferedWriter(fw);
+    public void saveToDisk(){
+        try {
+            FileWriter fw = new FileWriter(savePath, false);
+            BufferedWriter bw = new BufferedWriter(fw);
 
-        for(Map.Entry<Integer, String> boardEntry : boards.entrySet()) {
-            String line = "b\\" +
-                    boardEntry.getKey() +
-                    "\\" +
-                    boardEntry.getValue();
-            bw.write(line);
+            for (Map.Entry<Integer, String> boardEntry : boards.entrySet()) {
+                String line = "b\\" +
+                        boardEntry.getKey() +
+                        "\\" +
+                        boardEntry.getValue();
+                bw.write(line);
+            }
+
+            bw.close();
+            fw.close();
+        }
+        catch (IOException e){
+            System.out.println("Local file not created!");
         }
 
-        bw.close();
-        fw.close();
     }
 
     public void subscribeToAdmin() {

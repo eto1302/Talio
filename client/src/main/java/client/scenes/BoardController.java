@@ -115,4 +115,5 @@ public class BoardController {
     }
 
 
+    public void showEditBoard() { showCtrl.showEditBoard();}
 }
