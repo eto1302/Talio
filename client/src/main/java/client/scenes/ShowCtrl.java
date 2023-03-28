@@ -358,6 +358,7 @@ public class ShowCtrl implements IShowCtrl {
         editBoardController.setup(controller);
         secondaryStage.show();
     }
-
-
+    public void refreshBoardCtrl() {
+        boardController.refresh();
+    }
 }

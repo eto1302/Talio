@@ -43,7 +43,6 @@ public class ListShapeCtrl {
     private final UserData userData;
     private List list;
     private Stage primaryStage;
-    private BoardController boardController;
 
 
     @Inject
@@ -70,7 +69,7 @@ public class ListShapeCtrl {
     }
 
     public void refreshList(){
-        boardController.refresh();
+        showCtrl.refreshBoardCtrl();
     }
 
     public Scene putTask(Scene scene){
@@ -208,7 +207,4 @@ public class ListShapeCtrl {
         }
     }
 
-    public void setBoard(BoardController boardController) {
-        this.boardController = boardController;
-    }
 }
