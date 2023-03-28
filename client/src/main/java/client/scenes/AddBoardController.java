@@ -62,8 +62,9 @@ public class AddBoardController {
             showCtrl.cancel();
             return;
         }
+        Board boardUpdated = server.getBoard(response.getId());
 
-        showCtrl.addBoard(board);
+        showCtrl.addBoard(boardUpdated);
         showCtrl.cancel();
     }
 

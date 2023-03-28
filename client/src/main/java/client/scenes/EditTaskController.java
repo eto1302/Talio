@@ -83,7 +83,7 @@ public class EditTaskController {
         task.setDescription(description);
         List list =server.getList(task.getListID());
 
-        TaskEditModel model = new TaskEditModel(title, description, list);
+        TaskEditModel model = new TaskEditModel(title, description, task.getIndex(), list);
         IdResponseModel response = server.editTask(task.getId(), model);
 
         if (response.getId() == -1) {

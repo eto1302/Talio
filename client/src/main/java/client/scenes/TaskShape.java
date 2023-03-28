@@ -1,7 +1,9 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.List;
 import commons.Task;
+import commons.models.TaskEditModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
@@ -38,6 +40,10 @@ public class TaskShape {
         server=serverUtils;
     }
 
+    public void setTaskUpdated(){
+        task=server.getTask(task.getId());
+    }
+
     /**
      * On double-click, this will show the window containing the overview (details of the task)
      */
@@ -46,8 +52,10 @@ public class TaskShape {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
-                    if (event.getClickCount()==2)
+                    if (event.getClickCount()==2) {
+                        setTaskUpdated();
                         showCtrl.showEditTask(task, controller);
+                    }
             }
         });
     }
@@ -89,15 +97,12 @@ public class TaskShape {
         this.controller = listShapeCtrl;
         if (task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
+
         grid.setOnDragDetected(this::dragDetected);
         grid.setOnDragOver(this::dragOver);
         grid.setOnDragDropped(this::dragDrop);
-        grid.setOnMousePressed(event->{
-            grid.setOpacity(0.4);
-        });
-        grid.setOnMouseReleased(event->{
-            grid.setOpacity(1);
-        });
+        grid.setOnMousePressed(event-> grid.setOpacity(0.4));
+        grid.setOnMouseReleased(event-> grid.setOpacity(1));
     }
 
     /**
@@ -138,6 +143,7 @@ public class TaskShape {
      * Method for dropping the task in the box; gets the children of the box (the other tasks) and
      * rotates (shifts) all the tasks that sit in-between the source and the target (inclusive).
      * Then puts all the children back in the box.
+     * Also changes the index of all tasks after this update
      * @param event the rag event
      */
     private void dragDrop(DragEvent event){
@@ -152,12 +158,22 @@ public class TaskShape {
             int targetIndex = parent.getChildren().indexOf(grid);
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
 
+            Task task1 =server.getTask(task.getId());
+            task=task1;
+            ArrayList<Task> orderedTasks=
+                    (ArrayList<Task>) server.getTasksOrdered(task1.getListID());
+
             if (sourceIndex<targetIndex) {
                 Collections.rotate(children.subList(sourceIndex, targetIndex + 1), -1);
+                Collections.rotate(orderedTasks.subList(sourceIndex, targetIndex+1),-1);
             }
             else {
                 Collections.rotate(children.subList(targetIndex, sourceIndex+1), 1);
+                Collections.rotate(orderedTasks.subList(targetIndex, sourceIndex+1), 1);
             }
+
+            List list = server.getList(task.getListID());
+            reorderTasks(orderedTasks, list);
 
             parent.getChildren().clear();
             parent.getChildren().addAll(children);
@@ -167,6 +183,20 @@ public class TaskShape {
 
         event.setDropCompleted(done);
         event.consume();
+    }
+
+    /**
+     * Re-assigns the tasks' indexes after the drag event update
+     * @param tasksToReorder the tasks to be reordered
+     * @param list the list in which this happens
+     */
+    private void reorderTasks(java.util.List<Task> tasksToReorder, List list){
+        for (int i=0; i<tasksToReorder.size(); i++){
+            Task taskIndex = tasksToReorder.get(i);
+            TaskEditModel model = new TaskEditModel(taskIndex.getTitle(),
+                    taskIndex.getDescription(), i, list);
+            server.editTask(taskIndex.getId(), model);
+        }
     }
 
 

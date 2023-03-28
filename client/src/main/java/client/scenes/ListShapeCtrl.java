@@ -98,7 +98,7 @@ public class ListShapeCtrl {
      * @param list our list
      * @param primaryStage of the scene we are in
      */
-    public void set(List list, Stage primaryStage, BoardController boardController){
+    public void set(List list, Stage primaryStage){
         this.list=list;
         this.primaryStage=primaryStage;
 
@@ -128,6 +128,10 @@ public class ListShapeCtrl {
         return tasksBox.getScene();
     }
 
+    /**
+     * Allows the task to be dragged over this list
+     * @param event the drag event
+     */
     public void dragOver(DragEvent event){
         Dragboard dragboard = event.getDragboard();
         if (dragboard.hasString()){
@@ -136,6 +140,12 @@ public class ListShapeCtrl {
         }
     }
 
+    /**
+     * Drops the dragged task into this list, changing the task's index and list references
+     * to this list by sending a request to the server.
+     * Only allows this if the task comes from a different list
+     * @param event the drag event
+     */
     public void dragDrop(DragEvent event) {
         Dragboard dragboard = event.getDragboard();
         boolean done = false;
@@ -149,12 +159,16 @@ public class ListShapeCtrl {
             Task task =serverUtils.getTask(taskId);
             List previousList = serverUtils.getList(previousListId);
             previousList.getTasks().remove(task);
-            TaskEditModel model = new TaskEditModel(task.getTitle(), task.getDescription(), list);
+
+            tasksBox.getChildren().add(((GridPane) source));
+            int newIndex= tasksBox.getChildren().indexOf((GridPane) source);
+
+            TaskEditModel model = new TaskEditModel(task.getTitle(),
+                    task.getDescription(), newIndex, list);
             serverUtils.editTask(taskId, model);
 
             list.getTasks().add(task);
-
-            tasksBox.getChildren().add(((GridPane) source));
+            reorderTasks(previousListId);
 
             done = true;
         }
@@ -162,6 +176,22 @@ public class ListShapeCtrl {
 
         event.setDropCompleted(done);
         event.consume();
+    }
+
+    /**
+     * Re-assigns the tasks' indexes after the drag and drop event update
+     * @param previousListId the list in which the other task got dragged from
+     */
+    private void reorderTasks(int previousListId){
+        java.util.List<Task> tasksToReorder = serverUtils.getTasksOrdered(previousListId);
+        List previousList = serverUtils.getList(previousListId);
+
+        for (int i=0; i<tasksToReorder.size(); i++){
+            Task taskIndex = tasksToReorder.get(i);
+            TaskEditModel model = new TaskEditModel(taskIndex.getTitle(),
+                    taskIndex.getDescription(), i, previousList);
+            serverUtils.editTask(taskIndex.getId(), model);
+        }
     }
 
     public void setBoard(BoardController boardController) {
