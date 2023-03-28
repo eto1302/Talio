@@ -15,6 +15,7 @@
  */
 package client;
 
+import client.scenes.AdminController;
 import client.user.UserData;
 import client.messageClients.MessageAdmin;
 import client.messageClients.MessageSender;
@@ -38,5 +39,6 @@ public class MyModule extends AbstractModule {
         bind(UserData.class).in(Scopes.SINGLETON);
         bind(ServerUtils.class).in(Scopes.SINGLETON);
         bind(Error.class).in(Scopes.SINGLETON);
+        bind(AdminController.class).in(Scopes.SINGLETON);
     }
 }

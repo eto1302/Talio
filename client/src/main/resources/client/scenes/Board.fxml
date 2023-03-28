@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" minHeight="400.0" prefHeight="434.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardController">
+<GridPane alignment="CENTER" minHeight="400.0" prefHeight="434.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardController">
     <columnConstraints>
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
@@ -43,6 +43,7 @@
                         <MenuItem fx:id="addBoard" mnemonicParsing="false" onAction="#addBoard" text="Add board" />
                         <MenuItem fx:id="yourBoards" mnemonicParsing="false" onAction="#showYourBoards" text="Your boards" />
                         <MenuItem fx:id="personalize" mnemonicParsing="false" text="Personalize" />
+                  <MenuItem mnemonicParsing="false" onAction="#showAdmin" text="Admin" />
                     </items>
                 </MenuButton>
             </children>

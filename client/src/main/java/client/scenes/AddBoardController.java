@@ -66,6 +66,8 @@ public class AddBoardController {
 
         showCtrl.addBoard(boardUpdated);
         showCtrl.cancel();
+        clearFields();
+        showCtrl.showBoard();
     }
 
     /**

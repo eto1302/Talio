@@ -3,6 +3,7 @@ package client.user;
 import client.messageClients.MessageAdmin;
 import client.messageClients.MessageSender;
 import client.scenes.ShowCtrl;
+import commons.sync.BoardDeleted;
 import commons.sync.BoardUpdate;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -189,6 +190,15 @@ public class UserData implements IUserData {
         return response;
     }
 
+    public IdResponseModel deleteBoard(BoardDeleted boardDeleted) {
+        IdResponseModel response = boardDeleted.sendToServer(serverUtils);
+        if(response.getId() == -1)
+            return response;
+
+        messageSender.send(boardDeleted.getSendQueue(), boardDeleted);
+        return response;
+    }
+
     /**
      * @return the stage controller
      */
@@ -261,6 +271,10 @@ public class UserData implements IUserData {
 
         bw.close();
         fw.close();
+    }
+
+    public void subscribeToAdmin() {
+        messageAdmin.subscribe("/topic/admin");
     }
 
 }

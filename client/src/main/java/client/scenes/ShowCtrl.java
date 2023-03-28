@@ -8,8 +8,14 @@ import commons.Subtask;
 import commons.Tag;
 import commons.mocks.IShowCtrl;
 import commons.Task;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -18,12 +24,15 @@ import java.util.List;
 import static com.google.inject.Guice.createInjector;
 
 public class ShowCtrl implements IShowCtrl {
+
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
+
     private Stage primaryStage, secondaryStage, popUpStage;
+
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, board, taskOverview, connection,
-            addBoard, editTask, errorScene;
+            addBoard, editTask, errorScene, admin;
     private AddListController addListCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
@@ -33,6 +42,7 @@ public class ShowCtrl implements IShowCtrl {
     private AddBoardController addBoardController;
     private EditTaskController editTaskController;
     private ErrorController errorController;
+    private AdminController adminController;
 
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
@@ -53,6 +63,8 @@ public class ShowCtrl implements IShowCtrl {
         addBoard = new Scene((Parent) loader.get(6).getValue());
         errorController = (ErrorController) loader.get(7).getKey();
         errorScene = new Scene((Parent) loader.get(7).getValue());
+        admin = new Scene((Parent) loader.get(8).getValue());
+        adminController = (AdminController) loader.get(8).getKey();
 
         showConnection();
         //showBoard();
@@ -191,10 +203,6 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.show();
     }
 
-    public void refreshBoard() {
-        boardController.refresh();
-    }
-
     /**
      * Shows the window with options for the editing the list.
      * First sets up the scene to the list's information
@@ -264,9 +272,6 @@ public class ShowCtrl implements IShowCtrl {
         primaryStage.setScene(scene);
     }
     public void showError(String errorMessage) {
-        var error=FXML.load(ErrorController.class, "client", "scenes", "Error.fxml");
-        errorController = error.getKey();
-        errorScene =new Scene((Parent)error.getValue());
         popUpStage = new Stage();
         popUpStage.setScene(errorScene);
         popUpStage.setTitle("error");
@@ -300,5 +305,47 @@ public class ShowCtrl implements IShowCtrl {
     public void addTag(Tag tag, EditTaskController editTaskController) {
         Scene tagScene = null;
         editTaskController.putTag(tagScene);
+    }
+
+    // show a popup for the user to enter the admin password,
+    public void showAdmin(){
+        Stage stage = new Stage();
+        stage.setTitle("Please enter admin password: ");
+
+        Label label = new Label("Password: ");
+        TextField text = new TextField();
+        text.setPromptText("Enter password");
+
+        Button button = new Button("Submit");
+        button.setOnAction(e -> {
+            stage.close();
+
+            // verify the password and go to the admin board if correct
+            if (adminController.verifyAdmin(text.getText())) {
+                primaryStage.setTitle("Admin Board");
+                adminController.setup();
+                primaryStage.setScene(this.admin);
+            } else {
+
+                // show an error message if the password is wrong
+                showError("Wrong password");
+            }
+        });
+        text.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER)
+                button.fire();
+        });
+
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(label, text, button);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(layout);
+        stage.setScene(scene);
+
+        stage.showAndWait();
+    }
+
+    public void refreshAdminBoards() {
+        adminController.setup();
     }
 }
