@@ -18,4 +18,6 @@ public interface IServerUtils {
     IdResponseModel removeTask(int taskID, int listID);
 
     IdResponseModel editTask(int taskID, commons.models.TaskEditModel model);
+
+    IdResponseModel deleteBoard(int boardID);
 }

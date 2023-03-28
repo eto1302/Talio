@@ -6,7 +6,10 @@ import client.utils.ServerUtils;
 import commons.List;
 import commons.models.IdResponseModel;
 import commons.sync.ListDeleted;
+import commons.Task;
+import commons.models.TaskEditModel;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -132,33 +135,77 @@ public class ListShapeCtrl {
      * @param taskScene the scene containing the grid representing
      * @return the updated scene
      */
-    public Scene addTask(Scene taskScene){
-        tasksBox.getChildren().add(taskScene.getRoot());
+    public Scene addTask(Scene taskScene, Task task){
+        Node root = taskScene.getRoot();
+        tasksBox.getChildren().add(root);
+        task.setIndex(tasksBox.getChildren().indexOf(root));
         return tasksBox.getScene();
     }
 
+    /**
+     * Allows the task to be dragged over this list
+     * @param event the drag event
+     */
     public void dragOver(DragEvent event){
         Dragboard dragboard = event.getDragboard();
-        if (dragboard.hasString() && dragboard.getString().equals("grid")){
+        if (dragboard.hasString()){
             event.acceptTransferModes(TransferMode.MOVE);
             event.consume();
         }
     }
 
+    /**
+     * Drops the dragged task into this list, changing the task's index and list references
+     * to this list by sending a request to the server.
+     * Only allows this if the task comes from a different list
+     * @param event the drag event
+     */
     public void dragDrop(DragEvent event) {
         Dragboard dragboard = event.getDragboard();
         boolean done = false;
-        if (dragboard.hasString()) {
-            Object source = event.getGestureSource();
-            GridPane sourceGrid = (GridPane) source;
+        Object source = event.getGestureSource();
 
-            tasksBox.getChildren().add(sourceGrid);
-            //call method that changes the task's lists
+        String identify = dragboard.getString();
+        int taskId = Integer.parseInt(identify.split("\\+")[0].trim());
+        int previousListId = Integer.parseInt(identify.split("\\+")[1].trim());
+
+        if (previousListId!=list.getId()) {
+            Task task =serverUtils.getTask(taskId);
+            List previousList = serverUtils.getList(previousListId);
+            previousList.getTasks().remove(task);
+
+            tasksBox.getChildren().add(((GridPane) source));
+            int newIndex= tasksBox.getChildren().indexOf((GridPane) source);
+
+            TaskEditModel model = new TaskEditModel(task.getTitle(),
+                    task.getDescription(), newIndex, list);
+            serverUtils.editTask(taskId, model);
+
+            list.getTasks().add(task);
+            reorderTasks(previousListId);
+
             done = true;
-            sourceGrid.setOpacity(1);
         }
+        ((GridPane) source).setOpacity(1);
+
         event.setDropCompleted(done);
         event.consume();
+    }
+
+    /**
+     * Re-assigns the tasks' indexes after the drag and drop event update
+     * @param previousListId the list in which the other task got dragged from
+     */
+    private void reorderTasks(int previousListId){
+        java.util.List<Task> tasksToReorder = serverUtils.getTasksOrdered(previousListId);
+        List previousList = serverUtils.getList(previousListId);
+
+        for (int i=0; i<tasksToReorder.size(); i++){
+            Task taskIndex = tasksToReorder.get(i);
+            TaskEditModel model = new TaskEditModel(taskIndex.getTitle(),
+                    taskIndex.getDescription(), i, previousList);
+            serverUtils.editTask(taskIndex.getId(), model);
+        }
     }
 
     public void setBoard(BoardController boardController) {

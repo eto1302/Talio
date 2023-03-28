@@ -50,6 +50,8 @@ public class AddTaskController {
         String description = this.descriptionField.getText();
         task.setTitle(title);
         task.setDescription(description);
+        java.util.List<Task> tasks = server.getTaskByList(list.getId());
+        task.setIndex(tasks.size());
 
         IdResponseModel model = userData.updateBoard(new
                 TaskAdded(list.getBoardId(), list.getId(), task));

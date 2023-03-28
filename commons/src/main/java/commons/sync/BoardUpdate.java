@@ -18,6 +18,7 @@ import commons.models.IdResponseModel;
     @JsonSubTypes.Type(value = ListDeleted.class, name = "listDeleted"),
     @JsonSubTypes.Type(value = ListEdited.class, name = "listEdited"),
     @JsonSubTypes.Type(value = TaskAdded.class, name = "taskAdded")
+    @JsonSubTypes.Type(value = BoardDeleted.class, name = "boardDeleted")
 })
 public abstract class BoardUpdate implements Message {
 
@@ -44,6 +45,10 @@ public abstract class BoardUpdate implements Message {
 
     public void setBoardID(int boardID) {
         this.boardID = boardID;
+    }
+
+    public static IUserData getUserData() {
+        return userData;
     }
 
     public String getSendQueue() {

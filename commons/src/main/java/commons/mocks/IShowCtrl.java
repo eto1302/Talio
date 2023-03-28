@@ -12,4 +12,7 @@ public interface IShowCtrl {
 
     void addTask(Task task, List list);
 
+    void refreshAdminBoards();
+
+//    void addTask(Task task);
 }
