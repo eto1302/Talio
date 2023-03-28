@@ -45,7 +45,7 @@ public class AddTagController {
     }
 
     public void cancel(){
-        showCtrl.cancel();
+        showCtrl.closePopUp();
     }
 
     /**
