@@ -53,14 +53,14 @@ public class AddTaskController {
         java.util.List<Task> tasks = server.getTaskByList(list.getId());
         task.setIndex(tasks.size());
 
-        IdResponseModel model = userData.updateBoard(new TaskAdded(list.getId(), task));
+        IdResponseModel model = userData.updateBoard(new
+                TaskAdded(list.getBoardId(), list.getId(), task));
         if(model.getId() == -1){
             showCtrl.showError(model.getErrorMessage());
             showCtrl.cancel();
             return;
         }
-        Task taskTest = server.getTask(model.getId());
-        showCtrl.addTask(taskTest, controller, primaryStage);
+
         showCtrl.cancel();
     }
 

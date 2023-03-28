@@ -148,40 +148,48 @@ public class TaskShape {
      */
     private void dragDrop(DragEvent event){
         Dragboard dragboard = event.getDragboard();
-        boolean done = false;
         Object source = event.getGestureSource();
 
-        if (dragboard.hasString()){
+        String identify = dragboard.getString();
+        int taskId = Integer.parseInt(identify.split("\\+")[0].trim());
+        int previousListId = Integer.parseInt(identify.split("\\+")[1].trim());
+
+        task =server.getTask(task.getId());
+        Task previousTask = server.getTask(taskId);
+        List currentlist = server.getList(task.getListID());
+
+        if (previousListId==task.getListID()){
             VBox parent = (VBox) grid.getParent();
-
-            int sourceIndex = parent.getChildren().indexOf(source);
-            int targetIndex = parent.getChildren().indexOf(grid);
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
-
-            Task task1 =server.getTask(task.getId());
-            task=task1;
             ArrayList<Task> orderedTasks=
-                    (ArrayList<Task>) server.getTasksOrdered(task1.getListID());
+                    (ArrayList<Task>) server.getTasksOrdered(task.getListID());
 
-            if (sourceIndex<targetIndex) {
-                Collections.rotate(children.subList(sourceIndex, targetIndex + 1), -1);
-                Collections.rotate(orderedTasks.subList(sourceIndex, targetIndex+1),-1);
-            }
-            else {
-                Collections.rotate(children.subList(targetIndex, sourceIndex+1), 1);
-                Collections.rotate(orderedTasks.subList(targetIndex, sourceIndex+1), 1);
-            }
+            rearrange(source, parent, children, orderedTasks);
 
-            List list = server.getList(task.getListID());
-            reorderTasks(orderedTasks, list);
+            reorderTasks(orderedTasks, currentlist);
 
             parent.getChildren().clear();
             parent.getChildren().addAll(children);
-            done = true;
+        }
+        else{
+            List previousList = server.getList(previousListId);
+            previousList.getTasks().remove(previousTask);
+            VBox parent = (VBox) grid.getParent();
+
+            parent.getChildren().add(((GridPane) source));
+            int newIndex= parent.getChildren().indexOf((GridPane) source);
+
+            TaskEditModel model = new TaskEditModel(previousTask.getTitle(),
+                    previousTask.getDescription(), newIndex, currentlist);
+            server.editTask(taskId, model);
+
+            currentlist.getTasks().add(previousTask);
+            java.util.List<Task> previousListTasks = server.getTasksOrdered(previousListId);
+            reorderTasks(previousListTasks, previousList);
         }
         ((GridPane) source).setOpacity(1);
 
-        event.setDropCompleted(done);
+        event.setDropCompleted(true);
         event.consume();
     }
 
@@ -196,6 +204,30 @@ public class TaskShape {
             TaskEditModel model = new TaskEditModel(taskIndex.getTitle(),
                     taskIndex.getDescription(), i, list);
             server.editTask(taskIndex.getId(), model);
+        }
+    }
+
+    /**
+     * Rearranges the tasks and the inside the current list when we perform drag and drop
+     * between tasks
+     * @param source the source task that is getting dragged
+     * @param parent the parent of the current task that is getting dropped onto
+     * @param children all the tasks in the current list, represented as grids
+     * @param orderedTasks the ordered tasks of the current, which need to be reordered in
+     *                     the database
+     */
+    private void rearrange(Object source, VBox parent, ArrayList<Node> children,
+                           ArrayList<Task> orderedTasks){
+        int sourceIndex = parent.getChildren().indexOf(source);
+        int targetIndex = parent.getChildren().indexOf(grid);
+
+        if (sourceIndex<targetIndex) {
+            Collections.rotate(children.subList(sourceIndex, targetIndex + 1), -1);
+            Collections.rotate(orderedTasks.subList(sourceIndex, targetIndex+1),-1);
+        }
+        else {
+            Collections.rotate(children.subList(targetIndex, sourceIndex+1), 1);
+            Collections.rotate(orderedTasks.subList(targetIndex, sourceIndex+1), 1);
         }
     }
 

@@ -11,6 +11,8 @@ public class ListEditModel {
         this.fontColor = fontColor;
     }
 
+    public ListEditModel() {}
+
     public void setName(String name) {
         this.name = name;
     }

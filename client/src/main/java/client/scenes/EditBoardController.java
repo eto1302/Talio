@@ -22,6 +22,7 @@ public class EditBoardController {
     private ShowCtrl showCtrl;
     @Inject
     private UserData userData;
+    private BoardController boardController;
 
     @Inject
     public EditBoardController(){
@@ -37,6 +38,9 @@ public class EditBoardController {
                         new BoardEditModel(newTitle.getText(),
                                 colorToHex(newBackground.getValue()),
                                 colorToHex(newFont.getValue()))));
+        cancel();
+        this.userData.openBoard(this.userData.getCurrentBoard().getId());
+        showCtrl.showBoard();
     }
 
     /**
@@ -50,5 +54,9 @@ public class EditBoardController {
                 (int)(color.getGreen() * 255),
                 (int)(color.getBlue() * 255));
         return hexString;
+    }
+
+    public void setup(BoardController controller){
+        this.boardController=controller;
     }
 }

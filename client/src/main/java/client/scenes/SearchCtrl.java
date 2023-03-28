@@ -41,7 +41,7 @@ public class SearchCtrl {
             this.userData.saveToDisk();
             this.userData.openBoard(board.getId());
             showCtrl.showBoard();
-            //showCtrl.cancel();
+            showCtrl.cancel();
         }
     }
 }

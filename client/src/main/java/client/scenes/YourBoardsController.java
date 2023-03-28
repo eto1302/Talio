@@ -38,6 +38,7 @@ public class YourBoardsController {
         this.serverUtils = serverUtils;
     }
     public void fillBoardBox() {
+        this.boardList.getChildren().removeAll(this.boardList.getChildren());
         Map<Integer, String> boardMap = this.userData.getBoards();
         for(int id : boardMap.keySet()){
             Board currentBoard = this.serverUtils.getBoard(id);

@@ -10,7 +10,7 @@ public interface IServerUtils {
 
     IdResponseModel addList(List list, int id);
 
-    IdResponseModel deleteList(int id, int boardID);
+    IdResponseModel deleteList(int boardId, int listId);
 
     IdResponseModel editList(int boardId, int listId, ListEditModel model);
 

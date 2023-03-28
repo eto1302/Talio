@@ -58,6 +58,7 @@ public class BoardController {
      *  TODO: the board and get rid of the button in the future.
      */
     public void refresh() {
+        this.boardLabel.setText(this.userData.getCurrentBoard().getName());
         listBox.getChildren().clear();
         listBox.getChildren();
         Set<commons.List> lists;
@@ -72,11 +73,12 @@ public class BoardController {
         lists = userData.getCurrentBoard().getLists();
 
         for (commons.List list : lists) {
-            ListShapeCtrl listShapeCtrl = showCtrl.addAndReturnList(list);
+            ListShapeCtrl listShapeCtrl = showCtrl.addList(list);
             listShapeCtrl.setBoard(this);
+            
             List<Task> orderedTasks = server.getTasksOrdered(list.getId());
             for(Task task: orderedTasks){
-                showCtrl.addTask(task, listShapeCtrl, primaryStage);
+                showCtrl.addTask(task, list);
             }
         }
 
@@ -115,5 +117,5 @@ public class BoardController {
     }
 
 
-    public void showEditBoard() { showCtrl.showEditBoard();}
+    public void showEditBoard() { showCtrl.showEditBoard(this);}
 }
