@@ -2,7 +2,10 @@ package client.scenes;
 
 import client.user.UserData;
 import client.utils.ServerUtils;
+import commons.Board;
 import commons.Task;
+import commons.models.IdResponseModel;
+import commons.sync.BoardDeleted;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -13,7 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
-import java.awt.*;
 import java.util.List;
 import java.util.Set;
 
@@ -120,4 +122,20 @@ public class BoardController {
 
 
     public void showEditBoard() { showCtrl.showEditBoard(this);}
+
+    public void delete() {
+        Board board = this.userData.getCurrentBoard();
+        this.userData.leaveBoard(board.getId());
+        this.userData.saveToDisk();
+        BoardDeleted boardDeleted = new BoardDeleted(board.getId());
+
+        IdResponseModel model = userData.deleteBoard(boardDeleted);
+
+        if (model.getId() == -1) {
+            showCtrl.showError(model.getErrorMessage());
+        }
+        else{
+            showCtrl.showYourBoards();
+        }
+    }
 }
