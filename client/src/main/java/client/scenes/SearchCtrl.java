@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
@@ -17,6 +18,8 @@ public class SearchCtrl {
     @FXML
     private TextField inviteKeyField;
     private ServerUtils server;
+    @Inject
+    private UserData userData;
 
     @Inject
     public SearchCtrl(ShowCtrl showCtrl, ServerUtils serverUtils){
@@ -34,7 +37,10 @@ public class SearchCtrl {
             alert.setContentText("Invalid invite key. Try again?");
         }
         else{
-          //  showCtrl.showBoard();
+            this.userData.joinBoard(board.getId(), board.getPassword());
+            this.userData.saveToDisk();
+            this.userData.openBoard(board.getId());
+            showCtrl.showBoard();
             showCtrl.cancel();
         }
     }

@@ -39,7 +39,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         var userData = INJECTOR.getInstance(UserData.class);
-        userData.initialize(new File("%userprofile%\\applicationData.txt"));
+        userData.initialize(new File(System.getProperty("user.dir") + "\\talioData.txt"));
 
         var showCtrl = INJECTOR.getInstance(ShowCtrl.class);
         List<Pair> loader = new ArrayList<>();
@@ -57,6 +57,7 @@ public class Main extends Application {
         var addBoard=FXML.load(AddBoardController.class, "client", "scenes", "AddBoard.fxml");
         var error=FXML.load(ErrorController.class, "client", "scenes", "Error.fxml");
         var admin = FXML.load(AdminController.class, "client", "scenes", "Admin.fxml");
+        var editBoard = FXML.load(EditBoardController.class, "client", "scenes", "EditBoard.fxml");
 
         loader.add(home);
         loader.add(addList);
@@ -67,6 +68,7 @@ public class Main extends Application {
         loader.add(addBoard);
         loader.add(error);
         loader.add(admin);
+        loader.add(editBoard);
 
     }
 }

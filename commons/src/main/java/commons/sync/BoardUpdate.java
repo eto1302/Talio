@@ -17,6 +17,7 @@ import commons.models.IdResponseModel;
     @JsonSubTypes.Type(value = ListAdded.class, name = "listAdded"),
     @JsonSubTypes.Type(value = ListDeleted.class, name = "listDeleted"),
     @JsonSubTypes.Type(value = ListEdited.class, name = "listEdited"),
+    @JsonSubTypes.Type(value = BoardEdited.class, name = "boardEdited"),
     @JsonSubTypes.Type(value = TaskAdded.class, name = "taskAdded"),
     @JsonSubTypes.Type(value = TaskEdited.class, name = "taskEdited"),
     @JsonSubTypes.Type(value = BoardDeleted.class, name = "boardDeleted")

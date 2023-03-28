@@ -2,13 +2,17 @@ package client.scenes;
 
 import client.user.UserData;
 import client.utils.ServerUtils;
+import commons.Board;
 import commons.Task;
+import commons.models.IdResponseModel;
+import commons.sync.BoardDeleted;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
@@ -58,6 +62,8 @@ public class BoardController {
      *  TODO: the board and get rid of the button in the future.
      */
     public void refresh() {
+        this.boardLabel.setText(this.userData.getCurrentBoard().getName());
+        this.boardLabel.setTextFill(Color.web(this.userData.getCurrentBoard().getFontColor()));
         listBox.getChildren().clear();
         listBox.getChildren();
         Set<commons.List> lists;
@@ -115,4 +121,21 @@ public class BoardController {
     }
 
 
+    public void showEditBoard() { showCtrl.showEditBoard(this);}
+
+    public void delete() {
+        Board board = this.userData.getCurrentBoard();
+        this.userData.leaveBoard(board.getId());
+        this.userData.saveToDisk();
+        BoardDeleted boardDeleted = new BoardDeleted(board.getId());
+
+        IdResponseModel model = userData.deleteBoard(boardDeleted);
+
+        if (model.getId() == -1) {
+            showCtrl.showError(model.getErrorMessage());
+        }
+        else{
+            showCtrl.showYourBoards();
+        }
+    }
 }

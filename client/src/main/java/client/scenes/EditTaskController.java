@@ -44,6 +44,10 @@ public class EditTaskController {
         this.descriptionField.setText(task.getDescription());
         this.listShapeCtrl = listShapeCtrl;
 
+        return refresh();
+    }
+
+    public Scene refresh(){
         java.util.List<Subtask> subtasks = task.getSubtasks();
         for(Subtask subtask: subtasks){
             showCtrl.addSubTask(subtask, this);
