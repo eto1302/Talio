@@ -58,6 +58,7 @@ public class Main extends Application {
         var connection=FXML.load(ConnectionCtrl.class, "client", "scenes", "Connection.fxml");
         var addBoard=FXML.load(AddBoardController.class, "client", "scenes", "AddBoard.fxml");
         var error=FXML.load(ErrorController.class, "client", "scenes", "Error.fxml");
+        var admin = FXML.load(AdminController.class, "client", "scenes", "Admin.fxml");
 
         loader.add(home);
         loader.add(addList);
@@ -67,6 +68,7 @@ public class Main extends Application {
         loader.add(connection);
         loader.add(addBoard);
         loader.add(error);
+        loader.add(admin);
 
     }
 }

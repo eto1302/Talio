@@ -76,6 +76,16 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
+    public IdResponseModel deleteBoard(int id) {
+        try {
+            ResponseEntity<IdResponseModel> response =
+                    client.getForEntity(url+"board/delete/"+id, IdResponseModel.class);
+            return response.getBody();
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
+        }
+    }
+
     /**
      * Returns the board with the corresponding invite key
      * @param inviteKey the invite-key og the board
@@ -103,6 +113,16 @@ public class ServerUtils implements IServerUtils {
             return response.getBody();
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    public boolean verifyAdmin(String password) {
+        try {
+            ResponseEntity<Boolean> response = client.getForEntity(
+                    url+"board/verify/"+password, Boolean.class);
+            return response.getBody();
+        } catch (Exception e) {
+            return false;
         }
     }
 

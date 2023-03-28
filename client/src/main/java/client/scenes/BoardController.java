@@ -96,6 +96,10 @@ public class BoardController {
         showCtrl.showAddList();
     }
 
+    public void showAdmin(){
+        showCtrl.showAdmin();
+    }
+
     /**
      * Puts the root of the scene (the grid representing the list) inside the board
      * @param scene ,whose root we are looking to add to our board
