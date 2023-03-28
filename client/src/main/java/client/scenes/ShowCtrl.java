@@ -298,7 +298,8 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     public void addSubTask(Subtask subtask, EditTaskController editTaskController) {
-        var subTaskShapePair = FXML.load(SubTaskShapeCtrl.class, "client", "scenes", "SubTaskShape.fxml");
+        var subTaskShapePair = FXML.load(SubTaskShapeCtrl.class,
+            "client", "scenes", "SubTaskShape.fxml");
         SubTaskShapeCtrl subTaskShapeCtrl = subTaskShapePair.getKey();
 //        subTaskShapeCtrl.setup(subtask, editTaskController);
         Scene subTaskScene = subTaskShapeCtrl.getScene(subtask);
