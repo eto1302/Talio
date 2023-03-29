@@ -40,9 +40,9 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private java.util.List<List> lists;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany
     @JoinColumn(name = "tagId", referencedColumnName = "id")
-    private Tag tag;
+    private java.util.List<Tag> tag;
 
     /**
      * Creates a new Board object with the given name, password, and set of lists.
