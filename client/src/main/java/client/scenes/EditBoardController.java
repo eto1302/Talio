@@ -36,8 +36,10 @@ public class EditBoardController {
         this.userData.updateBoard(
                 new BoardEdited(this.userData.getCurrentBoard().getId(),
                         new BoardEditModel(newTitle.getText(),
-                                this.userData.getCurrentBoard().getBackgroundColor(),
-                                this.userData.getCurrentBoard().getFontColor())));
+                                this.userData.getCurrentBoard()
+                                        .getBoardColor().getBackgroundColor(),
+                                this.userData.getCurrentBoard()
+                                        .getBoardColor().getFontColor())));
         cancel();
         this.userData.openBoard(this.userData.getCurrentBoard().getId());
         showCtrl.showBoard();

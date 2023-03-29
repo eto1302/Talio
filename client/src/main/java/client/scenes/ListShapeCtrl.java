@@ -60,8 +60,8 @@ public class ListShapeCtrl {
      */
     public Scene getSceneUpdated(commons.List list){
         listTitle.setText(list.getName());
-        Color backgroundColor= Color.web(list.getBackgroundColor());
-        Color fontColor= Color.web(list.getFontColor());
+        Color backgroundColor= Color.web(list.getBoard().getListColor().getBackgroundColor());
+        Color fontColor= Color.web(list.getBoard().getListColor().getFontColor());
 
         listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
         listTitle.setTextFill(fontColor);

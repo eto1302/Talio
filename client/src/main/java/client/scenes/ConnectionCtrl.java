@@ -3,6 +3,7 @@ package client.scenes;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
+import commons.Color;
 import javafx.fxml.FXML;
 
 import javax.inject.Inject;
@@ -36,7 +37,8 @@ public class ConnectionCtrl {
         serverUtils.setUrl(serverURL.getText());
         if (serverUtils.getBoard(1)==null){
             Board board = Board.create("Default", null, new HashSet<>(),
-                    "#000000","#D3D3D3");
+                    Color.create("#000000", "#D3D3D3"),
+                    Color.create("#000000", "#D3D3D3"));
             serverUtils.addBoard(board);
         }
         if(userData.getCurrentBoard() == null)

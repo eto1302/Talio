@@ -1,8 +1,8 @@
 package server.Services;
 
 import commons.Board;
+import commons.models.BoardEditModel;
 import commons.models.IdResponseModel;
-import commons.models.ListEditModel;
 import org.springframework.stereotype.Service;
 import server.database.BoardRepository;
 @Service
@@ -63,12 +63,10 @@ public class BoardService {
         return boardRepository.getBoardByInviteKey(inviteKey);
     }
 
-    public IdResponseModel editBoard(int boardId, ListEditModel model) {
+    public IdResponseModel editBoard(int boardId, BoardEditModel model) {
         try {
             Board board = boardRepository.getBoardByID(boardId);
             board.setName(model.getName());
-            board.setBackgroundColor(model.getBackgroundColor());
-            board.setFontColor(model.getFontColor());
             boardRepository.save(board);
             return new IdResponseModel(boardId, null);
         } catch (Exception e) {

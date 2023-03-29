@@ -1,5 +1,6 @@
 package server.Services;
 
+import commons.Color;
 import commons.Tag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,6 +66,6 @@ class TagServiceTest {
     }
 
     private static Tag getTestTag(String q) {
-        return Tag.create(q, "#000000");
+        return Tag.create(q, Color.create("#000000", "#FFFFFF"));
     }
 }

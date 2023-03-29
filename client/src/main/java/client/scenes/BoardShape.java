@@ -58,8 +58,8 @@ public class BoardShape {
      */
     public Scene getSceneUpdated(Board board){
         nameLabel.setText(board.getName());
-        String rgbBackground = board.getBackgroundColor();
-        String rgbFont = board.getFontColor();
+        String rgbBackground = board.getBoardColor().getBackgroundColor();
+        String rgbFont = board.getBoardColor().getFontColor();
         Color backgroundColor = Color.web(rgbBackground);
         Color fontColor = Color.web(rgbFont);
 

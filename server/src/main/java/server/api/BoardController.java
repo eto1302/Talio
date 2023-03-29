@@ -1,8 +1,8 @@
 package server.api;
 
 import commons.Board;
+import commons.models.BoardEditModel;
 import commons.models.IdResponseModel;
-import commons.models.ListEditModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.Services.BoardService;
@@ -72,7 +72,7 @@ public class BoardController {
         return boardService.verifyAdminPassword(password);
     }
     @PostMapping("/edit/{boardId}")
-    public IdResponseModel editList(@PathVariable int boardId, @RequestBody ListEditModel model) {
+    public IdResponseModel editList(@PathVariable int boardId, @RequestBody BoardEditModel model) {
         return boardService.editBoard(boardId, model);
     }
 }

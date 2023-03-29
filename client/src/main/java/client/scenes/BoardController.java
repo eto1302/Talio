@@ -63,7 +63,8 @@ public class BoardController {
      */
     public void refresh() {
         this.boardLabel.setText(this.userData.getCurrentBoard().getName());
-        this.boardLabel.setTextFill(Color.web(this.userData.getCurrentBoard().getFontColor()));
+        this.boardLabel.setTextFill(Color.web(
+                this.userData.getCurrentBoard().getBoardColor().getFontColor()));
         listBox.getChildren().clear();
         listBox.getChildren();
         Set<commons.List> lists;

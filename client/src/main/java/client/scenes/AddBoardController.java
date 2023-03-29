@@ -5,7 +5,6 @@ import client.utils.ServerUtils;
 import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
@@ -45,7 +44,8 @@ public class AddBoardController {
      */
     public void addBoard(){
         Board board = Board.create(nameField.getText(), null, new HashSet<>(),
-                "#000000", "#FFFFFF");
+                commons.Color.create("#000000", "#FFFFFF"),
+                commons.Color.create("#000000", "#FFFFFF"));
         String inviteKey = generateInviteKey();
         board.setInviteKey(inviteKey);
 
@@ -79,7 +79,8 @@ public class AddBoardController {
      */
     private Board getBoard() {
         return Board.create(nameField.getText(), null, new HashSet<>(),
-                "#000000", "#FFFFFF");
+                commons.Color.create("#000000", "#FFFFFF"),
+                commons.Color.create("#000000", "#FFFFFF"));
     }
 
     /**
