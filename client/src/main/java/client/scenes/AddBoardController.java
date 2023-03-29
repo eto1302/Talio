@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -45,7 +46,7 @@ public class AddBoardController {
     public void addBoard(){
         Board board = Board.create(nameField.getText(), null, new HashSet<>(),
                 commons.Color.create("#000000", "#FFFFFF"),
-                commons.Color.create("#000000", "#FFFFFF"));
+                commons.Color.create("#000000", "#FFFFFF"), new ArrayList<>());
         String inviteKey = generateInviteKey();
         board.setInviteKey(inviteKey);
 
@@ -80,7 +81,7 @@ public class AddBoardController {
     private Board getBoard() {
         return Board.create(nameField.getText(), null, new HashSet<>(),
                 commons.Color.create("#000000", "#FFFFFF"),
-                commons.Color.create("#000000", "#FFFFFF"));
+                commons.Color.create("#000000", "#FFFFFF"), new ArrayList<>());
     }
 
     /**

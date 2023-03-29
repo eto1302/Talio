@@ -25,13 +25,10 @@ public class ColorPicker {
     private javafx.scene.control.ColorPicker listFont;
     @FXML
     private VBox taskColorList;
-
     @Inject
     private UserData userData;
-
     @Inject
     private ShowCtrl showCtrl;
-
     public ColorPicker(){
 
     }
@@ -41,7 +38,10 @@ public class ColorPicker {
     }
 
     public void reset(){
-
+        this.boardBackground.setValue(Color.web("#FFFFFF"));
+        this.boardFont.setValue(Color.web("#000000"));
+        this.listBackground.setValue(Color.web("#FFFFFF"));
+        this.listFont.setValue(Color.web("#000000"));
     }
 
     public void fillTaskColors(){
@@ -66,5 +66,9 @@ public class ColorPicker {
     public Scene putColor(Scene taskScene){
         taskColorList.getChildren().add(taskScene.getRoot());
         return boardLabel.getScene();
+    }
+
+    public void showAddTaskColor() {
+        this.showCtrl.showAddTagColor();
     }
 }

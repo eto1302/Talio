@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import server.database.BoardRepository;
 
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -35,7 +37,7 @@ public class BoardControllerTest {
 
     private transient Board board = Board.create("name", "pwd",
             null, Color.create("#000000", "#FFFFFF"),
-            Color.create("#000000", "#FFFFFF"));
+            Color.create("#000000", "#FFFFFF"), new ArrayList<>());
 
 
     @Test

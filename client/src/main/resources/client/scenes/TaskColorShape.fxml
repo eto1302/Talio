@@ -24,7 +24,7 @@
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <children>
             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#delete" text="X" />
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setDefault" text="Set Default">
+            <Button fx:id="setDefaultButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setDefault" text="Set Default" visible="true">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin></Button>

@@ -3,7 +3,7 @@ package commons.models;
 public class BoardEditModel {
     private String name;
 
-    public BoardEditModel(String name, String backgroundColor, String fontColor) {
+    public BoardEditModel(String name) {
         this.name = name;
     }
 

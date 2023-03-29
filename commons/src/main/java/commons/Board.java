@@ -56,13 +56,15 @@ public class Board {
      * @return A new Board object with the given name, password, and set of lists.
      */
     public static Board create(String name, String password, Set<List> lists,
-                               Color boardColor, Color listColor) {
+                               Color boardColor, Color listColor,
+                               java.util.List<Color> taskColors) {
         Board board = new Board();
         board.name = name;
         board.password = password;
         board.lists = lists;
         board.boardColor = boardColor;
         board.listColor = listColor;
+        board.taskColors = taskColors;
         return board;
     }
 

@@ -21,6 +21,17 @@ public class Color {
     @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$")
     private String backgroundColor;
 
+    @Column(name = "isDefault")
+    private boolean isDefault;
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
+    }
+
     public Color() {
     }
 

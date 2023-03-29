@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import server.database.BoardRepository;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -25,7 +27,7 @@ public class BoardServiceTest {
     private transient Board board = Board.create("name", "pwd",
             null,
             Color.create("#000000", "#FFFFFF"),
-            Color.create("#000000", "#FFFFFF"));
+            Color.create("#000000", "#FFFFFF"), new ArrayList<>());
 
     @Test
     void saveBoard() {

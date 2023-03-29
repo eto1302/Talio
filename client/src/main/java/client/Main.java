@@ -59,6 +59,7 @@ public class Main extends Application {
         var admin = FXML.load(AdminController.class, "client", "scenes", "Admin.fxml");
         var editBoard = FXML.load(EditBoardController.class, "client", "scenes", "EditBoard.fxml");
         var colorPicker = FXML.load(ColorPicker.class, "client", "scenes", "ColorPicker.fxml");
+        var addTaskColor = FXML.load(AddTaskColor.class, "client", "scenes", "AddTaskColor.fxml");
 
         loader.add(home);
         loader.add(addList);
@@ -71,5 +72,6 @@ public class Main extends Application {
         loader.add(admin);
         loader.add(editBoard);
         loader.add(colorPicker);
+        loader.add(addTaskColor);
     }
 }

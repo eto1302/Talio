@@ -3,6 +3,7 @@ package commons;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,7 +22,8 @@ class BoardTest {
         boardColor = Color.create("#000000", "#FFFFFF");
         listColor = Color.create("#000000", "#111111");
 
-        board = Board.create("Board1", "password123", lists, boardColor, listColor);
+        board = Board.create("Board1", "password123", lists,
+                boardColor, listColor, new ArrayList<>());
     }
 
     @Test
@@ -52,7 +54,7 @@ class BoardTest {
         Color boardColor1 = Color.create("#000000", "#FFFFFF");
         Color listColor1 = Color.create("#000000", "#111111");
         Board actualBoard = Board.create("Board1", "password123", expectedLists,
-                boardColor1, listColor1);
+                boardColor1, listColor1, new ArrayList<>());
         expectedBoard.setBoardColor(boardColor1);
         expectedBoard.setListColor(listColor1);
 
@@ -120,7 +122,8 @@ class BoardTest {
 
     @Test
     void testNotEquals() {
-        Board board2 = Board.create("board2", "password2", new HashSet<>(), boardColor, listColor);
+        Board board2 = Board.create("board2", "password2",
+                new HashSet<>(), boardColor, listColor, new ArrayList<>());
         assertNotEquals(board, board2);
     }
 
@@ -148,12 +151,11 @@ class BoardTest {
 
     @Test
     void testToString() {
-        String expectedString = "Board{id=0, name='Board1', " +
-                "password='password123', inviteKey='null', " +
-                "lists=[List{id=0, name='null', boardId=0}], tag=null, " +
+        String expectedString = "Board{id=0, name='Board1', password='password123', " +
+                "inviteKey='null', lists=[List{id=0, name='null', boardId=0}], tag=null, " +
                 "boardColor=Color{id=0, fontColor='#000000', backgroundColor='#FFFFFF'}, " +
                 "listColor=Color{id=0, fontColor='#000000', backgroundColor='#111111'}, " +
-                "taskColors=null}";
+                "taskColors=[]}";
 
         assertEquals(expectedString, board.toString());
     }

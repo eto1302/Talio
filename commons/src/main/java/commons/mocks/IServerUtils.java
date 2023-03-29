@@ -1,5 +1,6 @@
 package commons.mocks;
 
+import commons.Color;
 import commons.List;
 import commons.Task;
 import commons.models.BoardEditModel;
@@ -23,4 +24,8 @@ public interface IServerUtils {
     IdResponseModel deleteBoard(int boardID);
 
     IdResponseModel editBoard(int boardId, BoardEditModel edit);
+
+    IdResponseModel deleteColor(int boardID, int colorId);
+
+    IdResponseModel addColor(Color color, int boardID);
 }
