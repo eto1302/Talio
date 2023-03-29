@@ -38,7 +38,7 @@ public class Board {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "board")
-    private Set<List> lists;
+    private java.util.List<List> lists;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tagId", referencedColumnName = "id")
@@ -52,7 +52,7 @@ public class Board {
      * @param lists    The set of lists associated with the board.
      * @return A new Board object with the given name, password, and set of lists.
      */
-    public static Board create(String name, String password, Set<List> lists,
+    public static Board create(String name, String password, java.util.List<List> lists,
                                String fontColor, String backgroundColor) {
         Board board = new Board();
         board.name = name;
@@ -101,7 +101,7 @@ public class Board {
      *
      * @return The set of lists associated with the board.
      */
-    public Set<List> getLists() {
+    public java.util.List<List> getLists() {
         return lists;
     }
 
@@ -128,7 +128,7 @@ public class Board {
      *
      * @param lists The new lists of the board.
      */
-    public void setLists(Set<List> lists) {
+    public void setLists(java.util.List<List> lists) {
         this.lists = lists;
     }
 

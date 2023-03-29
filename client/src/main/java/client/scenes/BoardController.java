@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Set;
 
 public class BoardController {
     @FXML
@@ -66,7 +65,7 @@ public class BoardController {
         this.boardLabel.setTextFill(Color.web(this.userData.getCurrentBoard().getFontColor()));
         listBox.getChildren().clear();
         listBox.getChildren();
-        Set<commons.List> lists;
+        List<commons.List> lists;
         java.util.List<commons.Task> tasks;
 
         try {
