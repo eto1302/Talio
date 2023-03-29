@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -27,19 +28,19 @@ public class ShowCtrl implements IShowCtrl {
     private Stage primaryStage, secondaryStage, popUpStage;
 
     private HomeController homeCtrl;
-    private Scene home, addList, yourBoards, search, board, taskOverview, connection,
-            addBoard, editTask, errorScene, admin, editBoard;
+    private Scene home, addList, yourBoards, search, board, connection,
+            addBoard, editTask, errorScene, admin, editBoard, help;
     private AddListController addListCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
     private BoardController boardController;
-    private TaskOverview taskOverviewCtrl;
     private ConnectionCtrl connectionCtrl;
     private AddBoardController addBoardController;
     private EditTaskController editTaskController;
     private ErrorController errorController;
     private AdminController adminController;
     private EditBoardController editBoardController;
+    private HelpCtrl helpCtrl;
     private Map<Integer, ListShapeCtrl> listControllers;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
@@ -64,13 +65,33 @@ public class ShowCtrl implements IShowCtrl {
         adminController = (AdminController) loader.get(8).getKey();
         editBoard = new Scene((Parent) loader.get(9).getValue());
         editBoardController = (EditBoardController) loader.get(9).getKey();
+        help = new Scene((Parent) loader.get(10).getValue());
+        helpCtrl = (HelpCtrl) loader.get(10).getKey();
 
         listControllers = new HashMap<>();
+        setUpKeys();
 
         showConnection();
-        //showBoard();
         primaryStage.show();
     }
+
+    private void keyRelease(KeyEvent event) {
+        if(event.isShiftDown()){
+            if (event.getCode()==KeyCode.SLASH)
+                showHelpMenu();
+        }
+    }
+
+    public void setUpKeys(){
+        addList.setOnKeyReleased(this::keyRelease);
+        yourBoards.setOnKeyReleased(this::keyRelease);
+        search.setOnKeyReleased(this::keyRelease);
+        board.setOnKeyReleased(this::keyRelease);
+        addBoard.setOnKeyReleased(this::keyRelease);
+        admin.setOnKeyReleased(this::keyRelease);
+        editBoard.setOnKeyReleased(this::keyRelease);
+    }
+
 
     public void showAddBoard(){
         secondaryStage = new Stage();
@@ -114,7 +135,8 @@ public class ShowCtrl implements IShowCtrl {
         var addTask = FXML.load(AddTaskController.class, "client",
                 "scenes", "AddTask.fxml");
         Scene addTaskScene = new Scene(addTask.getValue());
-        addTask.getKey().setup(controller, primaryStage, list);
+        addTaskScene.setOnKeyReleased(this::keyRelease);
+        addTask.getKey().setup(controller, list);
         secondaryStage = new Stage();
         secondaryStage.setScene(addTaskScene);
         secondaryStage.setTitle("Add a task");
@@ -137,6 +159,8 @@ public class ShowCtrl implements IShowCtrl {
         var addTagPair = FXML.load(AddTagController.class,
                 "client", "scenes", "AddTag.fxml");
         Scene addTagScene = new Scene(addTagPair.getValue());
+        addTagScene.setOnKeyReleased(this::keyRelease);
+
         addTagPair.getKey().setup(task);
         popUpStage.setScene(addTagScene);
         popUpStage.setTitle("Add a tag");
@@ -174,21 +198,6 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     /**
-     * Shows the details of the task. First sets the information in the window according to
-     * the task.
-     */
-    public void showTaskOverview(Task task, ListShapeCtrl listShapeCtrl) {
-        secondaryStage=new Stage();
-        var taskOverview = FXML.load(TaskOverview.class, "client",
-                "scenes", "TaskOverview.fxml");
-        Scene initialize = new Scene(taskOverview.getValue());
-        Scene updated = taskOverview.getKey().setup(task, listShapeCtrl);
-        secondaryStage.setScene(updated);
-        secondaryStage.setTitle("See your task details");
-        secondaryStage.show();
-    }
-
-    /**
      * Shows the window with options for the editing the list.
      * First sets up the scene to the list's information
      * @param list the list that contains the info
@@ -197,6 +206,7 @@ public class ShowCtrl implements IShowCtrl {
         var editList = FXML.load(EditListController.class,
                 "client", "scenes", "EditList.fxml");
         editList.getKey().setup(list, primaryStage);
+
         secondaryStage=new Stage();
         secondaryStage.setScene(new Scene(editList.getValue()));
         secondaryStage.setTitle("Edit your list");
@@ -257,7 +267,7 @@ public class ShowCtrl implements IShowCtrl {
 
         taskShapeCtrl.set(task, primaryStage, listShapeCtrl);
         Scene updated = taskShapeCtrl.getSceneUpdated(task);
-        Scene scene = listShapeCtrl.putTask(updated);
+        Scene scene = listShapeCtrl.addTask(updated, task);
         primaryStage.setScene(scene);
     }
 
@@ -285,13 +295,15 @@ public class ShowCtrl implements IShowCtrl {
         popUpStage.close();
     }
 
-    public void addTag(Tag tag, TaskOverview controller, Stage primaryStage) {
+    public void addTag(Tag tag, EditTaskController controller, Stage primaryStage) {
     }
 
     public void showEditTask(Task task, ListShapeCtrl listShapeCtrl) {
         var editTaskPair = FXML.load(EditTaskController.class, "client", "scenes", "EditTask.fxml");
         editTaskController = editTaskPair.getKey();
         editTask = new Scene((Parent) editTaskPair.getValue());
+        editTask.setOnKeyReleased(this::keyRelease);
+
         Scene updated = editTaskController.setup(task, listShapeCtrl);
         secondaryStage = new Stage();
         secondaryStage.setScene(editTask);
@@ -370,6 +382,19 @@ public class ShowCtrl implements IShowCtrl {
         ListShapeCtrl ctrl = listControllers.get(listID);
         if(ctrl != null)
             ctrl.refreshList();
+    }
+
+    public void showHelpMenu(){
+        popUpStage=new Stage();
+        help.setOnKeyReleased(event->{
+            if (event.getCode()==KeyCode.Q)
+                closePopUp();
+        });
+        popUpStage.setScene(help);
+        popUpStage.setTitle("Help menu - Shortcuts");
+        popUpStage.setResizable(false);
+
+        popUpStage.show();
     }
 
 }
