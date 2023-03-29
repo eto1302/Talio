@@ -63,4 +63,8 @@ public class EditBoardController {
         Board currentBoard = this.userData.getCurrentBoard();
         this.newTitle.setText(currentBoard.getName());
     }
+
+    public void showColorPicker() {
+        showCtrl.showColorPicker();
+    }
 }

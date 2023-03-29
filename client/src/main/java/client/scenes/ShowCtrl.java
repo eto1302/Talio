@@ -1,9 +1,6 @@
 package client.scenes;
 
-import commons.Board;
-import commons.Subtask;
-import commons.Tag;
-import commons.Task;
+import commons.*;
 import commons.mocks.IShowCtrl;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -28,7 +25,7 @@ public class ShowCtrl implements IShowCtrl {
 
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, board, taskOverview, connection,
-            addBoard, editTask, errorScene, admin, editBoard;
+            addBoard, editTask, errorScene, admin, editBoard, colorPicker;
     private AddListController addListCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
@@ -40,6 +37,7 @@ public class ShowCtrl implements IShowCtrl {
     private ErrorController errorController;
     private AdminController adminController;
     private EditBoardController editBoardController;
+    private ColorPicker colorPickerController;
     private Map<Integer, ListShapeCtrl> listControllers;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
@@ -64,6 +62,8 @@ public class ShowCtrl implements IShowCtrl {
         adminController = (AdminController) loader.get(8).getKey();
         editBoard = new Scene((Parent) loader.get(9).getValue());
         editBoardController = (EditBoardController) loader.get(9).getKey();
+        colorPicker = new Scene((Parent) loader.get(10).getValue());
+        colorPickerController = (ColorPicker) loader.get(10).getKey();
 
         listControllers = new HashMap<>();
 
@@ -233,7 +233,6 @@ public class ShowCtrl implements IShowCtrl {
      */
     public ListShapeCtrl addList(commons.List list) {
         var listShape = FXML.load(ListShapeCtrl.class, "client", "scenes", "List.fxml");
-        Scene initializeList = new Scene(listShape.getValue());
         ListShapeCtrl listShapeCtrl = listShape.getKey();
 
         listShapeCtrl.set(list, primaryStage);
@@ -242,6 +241,23 @@ public class ShowCtrl implements IShowCtrl {
         primaryStage.setScene(scene);
         listControllers.put(list.getId(), listShapeCtrl);
         return listShapeCtrl;
+    }
+
+    /**
+     * Adds the taskColor to the ColorPicker and updates the scene
+     *
+     * @param color the color object whose attributes specify the visual of the shape
+     * @return the new TaskColorShape shape controller
+     */
+    public TaskColorShape addTaskColor(Color color) {
+        var taskColorShape = FXML.load(TaskColorShape.class, "client", "scenes", "TaskColorShape.fxml");
+        TaskColorShape taskColorShapeController = taskColorShape.getKey();
+
+        taskColorShapeController.set(color);
+        Scene taskScene = taskColorShapeController.getSceneUpdated(color);
+        Scene scene = colorPickerController.putColor(taskScene);
+        primaryStage.setScene(scene);
+        return taskColorShapeController;
     }
 
     /**
@@ -372,4 +388,11 @@ public class ShowCtrl implements IShowCtrl {
             ctrl.refreshList();
     }
 
+    public void showColorPicker() {
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Color Picker");
+        secondaryStage.setScene(this.colorPicker);
+        this.colorPickerController.setup();
+        secondaryStage.show();
+    }
 }
