@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -68,11 +69,29 @@ public class ShowCtrl implements IShowCtrl {
         helpCtrl = (HelpCtrl) loader.get(10).getKey();
 
         listControllers = new HashMap<>();
+        setUpKeys();
 
         showConnection();
-        //showBoard();
         primaryStage.show();
     }
+
+    private void keyRelease(KeyEvent event) {
+        if(event.isShiftDown()){
+            if (event.getCode()==KeyCode.SLASH)
+                showHelpMenu();
+        }
+    }
+
+    public void setUpKeys(){
+        addList.setOnKeyReleased(this::keyRelease);
+        yourBoards.setOnKeyReleased(this::keyRelease);
+        search.setOnKeyReleased(this::keyRelease);
+        board.setOnKeyReleased(this::keyRelease);
+        addBoard.setOnKeyReleased(this::keyRelease);
+        admin.setOnKeyReleased(this::keyRelease);
+        editBoard.setOnKeyReleased(this::keyRelease);
+    }
+
 
     public void showAddBoard(){
         secondaryStage = new Stage();
@@ -116,7 +135,8 @@ public class ShowCtrl implements IShowCtrl {
         var addTask = FXML.load(AddTaskController.class, "client",
                 "scenes", "AddTask.fxml");
         Scene addTaskScene = new Scene(addTask.getValue());
-        addTask.getKey().setup(controller, primaryStage, list);
+        addTaskScene.setOnKeyReleased(this::keyRelease);
+        addTask.getKey().setup(controller, list);
         secondaryStage = new Stage();
         secondaryStage.setScene(addTaskScene);
         secondaryStage.setTitle("Add a task");
@@ -139,6 +159,8 @@ public class ShowCtrl implements IShowCtrl {
         var addTagPair = FXML.load(AddTagController.class,
                 "client", "scenes", "AddTag.fxml");
         Scene addTagScene = new Scene(addTagPair.getValue());
+        addTagScene.setOnKeyReleased(this::keyRelease);
+
         addTagPair.getKey().setup(task);
         popUpStage.setScene(addTagScene);
         popUpStage.setTitle("Add a tag");
@@ -184,6 +206,7 @@ public class ShowCtrl implements IShowCtrl {
         var editList = FXML.load(EditListController.class,
                 "client", "scenes", "EditList.fxml");
         editList.getKey().setup(list, primaryStage);
+
         secondaryStage=new Stage();
         secondaryStage.setScene(new Scene(editList.getValue()));
         secondaryStage.setTitle("Edit your list");
@@ -279,6 +302,8 @@ public class ShowCtrl implements IShowCtrl {
         var editTaskPair = FXML.load(EditTaskController.class, "client", "scenes", "EditTask.fxml");
         editTaskController = editTaskPair.getKey();
         editTask = new Scene((Parent) editTaskPair.getValue());
+        editTask.setOnKeyReleased(this::keyRelease);
+
         Scene updated = editTaskController.setup(task, listShapeCtrl);
         secondaryStage = new Stage();
         secondaryStage.setScene(editTask);

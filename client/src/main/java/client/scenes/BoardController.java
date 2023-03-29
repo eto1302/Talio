@@ -11,8 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -141,10 +139,4 @@ public class BoardController {
         }
     }
 
-    public void showHelpMenu(KeyEvent event){
-        if(event.isShiftDown()){
-            if (event.getCode()==KeyCode.SLASH)
-                showCtrl.showHelpMenu();
-        }
-    }
 }

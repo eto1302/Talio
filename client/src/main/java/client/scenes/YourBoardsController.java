@@ -7,8 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -61,10 +59,4 @@ public class YourBoardsController {
         return boardList.getScene();
     }
 
-    public void showHelpMenu(KeyEvent event){
-        if(event.isShiftDown()){
-            if (event.getCode()== KeyCode.SLASH)
-                showCtrl.showHelpMenu();
-        }
-    }
 }
