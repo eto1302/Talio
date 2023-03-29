@@ -2,16 +2,21 @@ package client.scenes;
 
 import client.user.UserData;
 import client.utils.ServerUtils;
+import commons.Board;
+import commons.Task;
+import commons.models.IdResponseModel;
+import commons.sync.BoardDeleted;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Set;
 
 public class BoardController {
@@ -28,17 +33,11 @@ public class BoardController {
     @FXML
     private Label boardLabel;
     @FXML
-    private VBox toDoBox, doingBox, doneBox;
-    @FXML
     private HBox listBox;
-    @FXML
-    private GridPane toDo, doing, done;
-    @FXML
-    private MenuItem addTaskToDo, addTaskDoing, addTaskDone,
-         deleteToDo, deleteDoing, deleteDone, editToDo, editDoing, editDone;
 
     private final ShowCtrl showCtrl;
     private ServerUtils server;
+    private Stage primaryStage;
 
     @Inject
     private UserData userData;
@@ -50,34 +49,8 @@ public class BoardController {
     }
 
 
-    // I commented this code snippet as these three lists are not really connected to the server.
-    // If we want default lists in the board we can create the board with three default lists.
-    // When calling this function, the client will send a request to the server to fetch all
-    // lists in the corresponding board and display them.
-    public void setup() {
-//        root = (AnchorPane) selectedCard.getParent().getParent();
-//        List<Node> children = root.getChildren();
-//        for(int i = 0; i < children.size(); ++i){
-//            Node child = children.get(i);
-//            if(child.getId().equals("todoList")){
-//                this.todoList = (AnchorPane) child;
-//                this.todoListBounds = todoList.localToScene(todoList.getLayoutBounds());
-//            }
-//            if(child.getId().equals("doingList")){
-//                this.doingList = (AnchorPane) child;
-//                this.doingListBounds = doingList.localToScene(doingList.getLayoutBounds());
-//            }
-//            if(child.getId().equals("doneList")){
-//                this.doneList = (AnchorPane) child;
-//                this.doneListBounds = doneList.localToScene(doneList.getLayoutBounds());
-//            }
-//        }
-//        boards.add(todoList);
-//        boards.add(doingList);
-//        boards.add(doneList);
-//        bounds.add(todoListBounds);
-//        bounds.add(doingListBounds);
-//        bounds.add(doneListBounds);
+    public void setup(Stage primaryStage) {
+        this.primaryStage=primaryStage;
         refresh();
     }
 
@@ -89,9 +62,12 @@ public class BoardController {
      *  TODO: the board and get rid of the button in the future.
      */
     public void refresh() {
+        this.boardLabel.setText(this.userData.getCurrentBoard().getName());
+        this.boardLabel.setTextFill(Color.web(this.userData.getCurrentBoard().getFontColor()));
         listBox.getChildren().clear();
         listBox.getChildren();
         Set<commons.List> lists;
+        java.util.List<commons.Task> tasks;
 
         try {
             userData.refresh();
@@ -103,6 +79,11 @@ public class BoardController {
 
         for (commons.List list : lists) {
             showCtrl.addList(list);
+            
+            List<Task> orderedTasks = server.getTasksOrdered(list.getId());
+            for(Task task: orderedTasks){
+                showCtrl.addTask(task, list);
+            }
         }
 
     }
@@ -113,18 +94,16 @@ public class BoardController {
 
     public void showSearch() {showCtrl.showSearch();}
 
-    public void showDetails() {};
-
-    public void showEditList() {};
-
-    public void showConfirmDelete() {};
-
     public void addBoard(){
         showCtrl.showAddBoard();
     }
 
     public void showAddList(){
         showCtrl.showAddList();
+    }
+
+    public void showAdmin(){
+        showCtrl.showAdmin();
     }
 
     /**
@@ -141,15 +120,22 @@ public class BoardController {
         showCtrl.showConnection();
     }
 
-    public void deleteToDo(){
-        listBox.getChildren().remove(toDo);
-    }
-    public void deleteDoing(){
-        listBox.getChildren().remove(doing);
-    }
 
-    public void deleteDone(){
-        listBox.getChildren().remove(done);
-    }
+    public void showEditBoard() { showCtrl.showEditBoard(this);}
 
+    public void delete() {
+        Board board = this.userData.getCurrentBoard();
+        this.userData.leaveBoard(board.getId());
+        this.userData.saveToDisk();
+        BoardDeleted boardDeleted = new BoardDeleted(board.getId());
+
+        IdResponseModel model = userData.deleteBoard(boardDeleted);
+
+        if (model.getId() == -1) {
+            showCtrl.showError(model.getErrorMessage());
+        }
+        else{
+            showCtrl.showYourBoards();
+        }
+    }
 }

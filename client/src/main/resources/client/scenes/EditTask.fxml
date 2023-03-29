@@ -1,28 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="255.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EditTaskController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="391.0" prefWidth="594.0" style="-fx-padding: 5px; -fx-vgap: 2px;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EditTaskController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="41.9999755859375" minHeight="10.0" prefHeight="41.9999755859375" vgrow="NEVER" />
+        <RowConstraints maxHeight="281.200033569336" minHeight="10.0" prefHeight="171.8000061035156" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="182.20000915527345" minHeight="10.0" prefHeight="171.7999938964844" vgrow="SOMETIMES" />
+    </rowConstraints>
     <children>
-        <Text layoutX="204.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Task" wrappingWidth="126.943359375">
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="292.0" text="Task Details" GridPane.halignment="CENTER" GridPane.valignment="TOP">
             <font>
-                <Font size="26.0" />
-            </font>
-        </Text>
-        <Line endX="140.79998779296875" endY="-1.1444091796875E-5" layoutX="300.0" layoutY="59.0" startX="-179.99996948242188" startY="-1.1444091796875E-5" />
-        <Label layoutX="115.0" layoutY="96.0" text="Title">
-            <font>
-                <Font size="20.0" />
+                <Font size="30.0" />
             </font>
         </Label>
-        <Button fx:id="cancelButton" layoutX="331.0" layoutY="217.0" mnemonicParsing="false" onAction="#cancel" prefHeight="26.0" prefWidth="69.0" text="Cancel" />
-        <Button fx:id="editButton" layoutX="423.0" layoutY="217.0" mnemonicParsing="false" onAction="#editTask" prefHeight="26.0" prefWidth="51.0" text="Edit" />
-        <TextField fx:id="textField" layoutX="115.0" layoutY="131.0" prefHeight="26.0" prefWidth="322.0" />
+        <GridPane prefHeight="251.0" prefWidth="590.0" style="-fx-padding: 19px;" GridPane.rowIndex="1">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                <RowConstraints minHeight="10.0" prefHeight="20.0" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" GridPane.rowIndex="3" />
+                <Label text="Description:" GridPane.rowIndex="3">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <Label prefHeight="30.0" text="Title:" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+                </Label>
+                <TextArea fx:id="descriptionField" prefHeight="81.0" prefWidth="503.0" text="No description yet" GridPane.columnSpan="4" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+            <TextField fx:id="title" prefHeight="26.0" prefWidth="421.0" GridPane.columnSpan="4" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="80.0" />
+               </GridPane.margin></TextField>
+            </children>
+        </GridPane>
+        <GridPane style="-fx-padding: 15px; -fx-hgap: 5px;" GridPane.rowIndex="2">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="388.200048828125" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="164.19995117187494" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="103.40005645751951" vgrow="ALWAYS" />
+                <RowConstraints minHeight="4.199987792968756" prefHeight="34.599943542480474" vgrow="ALWAYS" />
+            </rowConstraints>
+            <children>
+                <Button mnemonicParsing="false" onAction="#showAddSubTask" text="Add sub-tasks" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+                <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
+                    <content>
+                        <VBox fx:id="subtaskBox" prefHeight="101.0" prefWidth="383.0" style="-fx-spacing: 3px; -fx-padding: 5px;" />
+                    </content>
+                </ScrollPane>
+                <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                    <content>
+                        <VBox fx:id="tagBox" prefHeight="101.0" prefWidth="159.0" style="-fx-padding: 5px; -fx-spacing: 3px;" />
+                    </content>
+                </ScrollPane>
+                <Button mnemonicParsing="false" onAction="#showAddTag" text="Add tags" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                    <GridPane.margin>
+                        <Insets />
+                    </GridPane.margin></Button>
+            </children>
+        </GridPane>
+        <Line endX="160.0928955078125" endY="0.5928825736045837" startX="-100.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
+      <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel" text="Cancel" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets right="70.0" />
+         </GridPane.margin>
+      </Button>
+          <Button fx:id="save" mnemonicParsing="false" onAction="#save" text="Save" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+              <GridPane.margin>
+                  <Insets right="10.0" />
+              </GridPane.margin>
+      </Button>
     </children>
-</AnchorPane>
+</GridPane>

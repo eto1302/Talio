@@ -48,6 +48,7 @@ public class MessageSessionHandler extends StompSessionHandlerAdapter {
     @Override
     public void handleFrame(StompHeaders headers, Object payload){
         Message msg = (Message) payload;
+        System.out.println("Received message: "+ msg);
         Platform.runLater(() -> msg.consume());
     }
 

@@ -43,12 +43,12 @@
                         <Insets left="5.0" top="12.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="leaveButton" alignment="CENTER" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" text="Leave">
+                  <Button fx:id="leaveButton" alignment="CENTER" layoutX="10.0" layoutY="10.0" onAction="#leave" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" text="Leave">
                      <HBox.margin>
                         <Insets left="5.0" top="12.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="copyButton" alignment="CENTER" layoutX="111.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" text="Copy">
+                  <Button fx:id="copyButton" alignment="CENTER" layoutX="111.0" layoutY="10.0" mnemonicParsing="false" onAction="#copy" prefHeight="26.0" prefWidth="50.0" text="Copy">
                      <HBox.margin>
                         <Insets left="5.0" top="12.0" />
                      </HBox.margin>

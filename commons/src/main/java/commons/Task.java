@@ -1,9 +1,14 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
-@Entity
+@Entity()
+@Table(name="Task")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,13 +19,25 @@ public class Task {
     @Column(name = "title", columnDefinition = "varchar(255)")
     private String title;
 
-    @ManyToOne
+    @Column(name="index", columnDefinition = "integer")
+    private int index;
+
+    @Column(name = "l_id")
+    @NotNull
+    private int listID;
+
+    @JsonBackReference
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="listId", nullable=false)
     private List list;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tagId", referencedColumnName = "id")
-    private Tag tag;
+    @OneToMany (mappedBy = "task")
+    @JsonManagedReference
+    private java.util.List<Subtask> subtasks;
+
+    @OneToMany(mappedBy = "task")
+    @JsonManagedReference
+    private java.util.List<Tag> tags;
 
     /**
      * Creates a new task with the specified description and title.
@@ -28,10 +45,13 @@ public class Task {
      * @param title the title of the task
      * @return the newly created task
      */
-    public static Task create(String description, String title) {
+    public static Task create(String description, String title, int listID,
+                              java.util.List<Subtask> subtasks) {
         Task task = new Task();
         task.description = description;
         task.title = title;
+        task.listID=listID;
+        task.subtasks=subtasks;
         return task;
     }
 
@@ -54,6 +74,38 @@ public class Task {
      */
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getListID() {
+        return listID;
+    }
+
+    public void setListID(int listID) {
+        this.listID = listID;
+    }
+
+    public java.util.List<Subtask> getSubtasks() {
+        return subtasks;
+    }
+
+    public void setSubtasks(java.util.List<Subtask> subtasks) {
+        this.subtasks = subtasks;
+    }
+
+    /**
+     * Gets the index of the task in the list
+     * @return the index
+     */
+    public int getIndex() {
+        return index;
+    }
+
+    /**
+     * Sets the index of the task in its list
+     * @param index the index to be set
+     */
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     /**
@@ -105,19 +157,19 @@ public class Task {
     }
 
     /**
-     * Gets the tag associated with the task.
-     * @return the tag associated with the task
+     * Gets the tags associated with the task.
+     * @return the tags associated with the task
      */
-    public Tag getTag() {
-        return tag;
+    public java.util.List<Tag> getTags() {
+        return tags;
     }
 
     /**
-     * Sets the tag associated with the task.
-     * @param tag the tag associated with the task
+     * Sets the tags associated with the task.
+     * @param tags the tags associated with the task
      */
-    public void setTag(Tag tag) {
-        this.tag = tag;
+    public void setTags(java.util.List<Tag> tags) {
+        this.tags = tags;
     }
 
     /**
@@ -132,16 +184,17 @@ public class Task {
         Task task = (Task) o;
         return getId() == task.getId() &&
                 Objects.equals(getDescription(), task.getDescription())
-                && Objects.equals(getTitle(), task.getTitle());
+                && Objects.equals(getTitle(), task.getTitle())
+                && Objects.equals(getListID(), task.getListID());
     }
 
     /**
      * Computes the hash code for this task.
-     * @return the hash code for this tasj
+     * @return the hash code for this task
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDescription(), getTitle());
+        return Objects.hash(getId(), getDescription(), getTitle(), getListID());
     }
 
     /**

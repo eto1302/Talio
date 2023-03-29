@@ -15,24 +15,22 @@
  */
 package client;
 
-import static com.google.inject.Guice.createInjector;
+import client.scenes.*;
+import client.user.UserData;
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import client.scenes.*;
-import client.user.UserData;
-import com.google.inject.Injector;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.util.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static client.utils.Constants.FXML;
+import static client.utils.Constants.INJECTOR;
 
 public class Main extends Application {
-
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
-
 
     public static void main(String[] args) throws URISyntaxException, IOException {
         launch();
@@ -41,7 +39,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         var userData = INJECTOR.getInstance(UserData.class);
-        userData.initialize(new File("%userprofile%\\applicationData.txt"));
+        userData.initialize(new File(System.getProperty("user.dir") + "\\talioData.txt"));
 
         var showCtrl = INJECTOR.getInstance(ShowCtrl.class);
         List<Pair> loader = new ArrayList<>();
@@ -54,25 +52,23 @@ public class Main extends Application {
         var addList =FXML.load(AddListController.class, "client", "scenes", "AddList.fxml");
         var yourBoards=FXML.load(YourBoardsController.class, "client", "scenes", "YourBoards.fxml");
         var search = FXML.load(SearchCtrl.class, "client", "scenes","Search.fxml");
-        var addTag = FXML.load(AddTagController.class, "client", "scenes", "AddTag.fxml");
         var board = FXML.load(BoardController.class, "client", "scenes", "Board.fxml");
         var connection=FXML.load(ConnectionCtrl.class, "client", "scenes", "Connection.fxml");
         var addBoard=FXML.load(AddBoardController.class, "client", "scenes", "AddBoard.fxml");
-        var editTag=FXML.load(AddBoardController.class, "client", "scenes", "EditTag.fxml");
-        var editTask=FXML.load(AddBoardController.class, "client", "scenes", "EditTask.fxml");
         var error=FXML.load(ErrorController.class, "client", "scenes", "Error.fxml");
+        var admin = FXML.load(AdminController.class, "client", "scenes", "Admin.fxml");
+        var editBoard = FXML.load(EditBoardController.class, "client", "scenes", "EditBoard.fxml");
 
         loader.add(home);
         loader.add(addList);
         loader.add(yourBoards);
         loader.add(search);
-        loader.add(addTag);
         loader.add(board);
         loader.add(connection);
         loader.add(addBoard);
-        loader.add(editTag);
-        loader.add(editTask);
         loader.add(error);
+        loader.add(admin);
+        loader.add(editBoard);
 
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
@@ -43,6 +44,7 @@
                         <MenuItem fx:id="addBoard" mnemonicParsing="false" onAction="#addBoard" text="Add board" />
                         <MenuItem fx:id="yourBoards" mnemonicParsing="false" onAction="#showYourBoards" text="Your boards" />
                         <MenuItem fx:id="personalize" mnemonicParsing="false" text="Personalize" />
+                  <MenuItem mnemonicParsing="false" onAction="#showAdmin" text="Admin" />
                     </items>
                 </MenuButton>
             </children>
@@ -77,7 +79,7 @@
                                         <MenuButton mnemonicParsing="false" text="Edit">
                                             <items>
                                                 <MenuItem fx:id="editToDo" mnemonicParsing="false" text="Edit list" />
-                                                <MenuItem fx:id="deleteToDo" mnemonicParsing="false" onAction="#deleteToDo" text="Delete" />
+                                                <MenuItem fx:id="deleteToDo" mnemonicParsing="false" text="Delete" />
                                             </items>
                                         </MenuButton>
                                         <MenuButton fx:id="plusToDo" mnemonicParsing="false" text="+">
@@ -116,7 +118,7 @@
                                         <MenuButton mnemonicParsing="false" text="Edit">
                                             <items>
                                                 <MenuItem fx:id="editDoing" mnemonicParsing="false" text="Edit list" />
-                                                <MenuItem fx:id="deleteDoing" mnemonicParsing="false" onAction="#deleteDoing" text="Delete" />
+                                                <MenuItem fx:id="deleteDoing" mnemonicParsing="false" text="Delete" />
                                             </items>
                                         </MenuButton>
                                         <MenuButton fx:id="plusDoing" mnemonicParsing="false" text="+">
@@ -155,7 +157,7 @@
                                         <MenuButton mnemonicParsing="false" text="Edit">
                                             <items>
                                                 <MenuItem fx:id="editDone" mnemonicParsing="false" text="Edit list" />
-                                                <MenuItem fx:id="deleteDone" mnemonicParsing="false" onAction="#deleteDone" text="Delete" />
+                                                <MenuItem fx:id="deleteDone" mnemonicParsing="false" text="Delete" />
                                             </items>
                                         </MenuButton>
                                         <MenuButton fx:id="plusDone" mnemonicParsing="false" text="+">
@@ -172,6 +174,20 @@
                 </HBox>
             </content>
         </ScrollPane>
-        <Button fx:id="addListButton" mnemonicParsing="false" onAction="#showAddList" prefHeight="26.0" prefWidth="72.0" text="Add List" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+         <children>
+            <Button fx:id="addListButton" mnemonicParsing="false" onAction="#showAddList" prefHeight="26.0" prefWidth="72.0" text="Add List" />
+            <Button fx:id="editBoardButton" mnemonicParsing="false" onAction="#showEditBoard" prefHeight="26.0" prefWidth="72.0" text="Edit Board">
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#delete" prefHeight="26.0" prefWidth="72.0" text="Delete">
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
     </children>
 </GridPane>

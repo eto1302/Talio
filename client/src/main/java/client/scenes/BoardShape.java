@@ -1,5 +1,7 @@
 package client.scenes;
 
+import client.user.UserData;
+import client.utils.ServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -12,6 +14,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 
 public class BoardShape {
 
@@ -36,9 +41,13 @@ public class BoardShape {
     @FXML
     private Button copyButton;
     private ShowCtrl showCtrl;
+    private ServerUtils server;
+    @Inject 
+    private UserData userData;
     @Inject
-    public BoardShape (ShowCtrl showCtrl){
+    public BoardShape (ShowCtrl showCtrl, ServerUtils serverUtils){
         this.showCtrl=showCtrl;
+        this.server=serverUtils;
     }
 
     /**
@@ -61,6 +70,25 @@ public class BoardShape {
     }
 
     public void enter(){
-        System.out.println(getId());
+        this.userData.openBoard(id);
+        this.showCtrl.showBoard();
+    }
+
+    public void leave(){
+        this.userData.leaveBoard(id);
+        this.userData.saveToDisk();
+        this.showCtrl.showYourBoards();
+    }
+
+    /**
+     * Copies to clipboard the invite key of the board, to be used in later purposes
+     */
+    public void copy(){
+        Board board = server.getBoard(id);
+        String inviteKey = board.getInviteKey();
+
+        StringSelection string = new StringSelection(inviteKey);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(string, null);
     }
 }

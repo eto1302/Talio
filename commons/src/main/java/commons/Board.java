@@ -23,6 +23,10 @@ public class Board {
     @Size(max = 20)
     private String password;
 
+    @Column(name="inviteKey")
+    @Size(max=20)
+    private String inviteKey;
+
     @Column(name = "fontColor")
     // regular expression that matches a valid color string in the format "#RRGGBB" or "#AARRGGBB"
     @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$")
@@ -33,7 +37,7 @@ public class Board {
     private String backgroundColor;
 
     @JsonManagedReference
-    @OneToMany()
+    @OneToMany(mappedBy = "board")
     private Set<List> lists;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -161,6 +165,22 @@ public class Board {
     }
 
     /**
+     * Gets the invite key of the board
+     * @return the invite key
+     */
+    public String getInviteKey() {
+        return inviteKey;
+    }
+
+    /**
+     * Sets the invite key of the board
+     * @param inviteKey the invite key to be set
+     */
+    public void setInviteKey(String inviteKey) {
+        this.inviteKey = inviteKey;
+    }
+
+    /**
      * Returns true if the given object is equal to this board.
      * <p>
      * Two boards are considered equal if they have the same id, name, and password.
@@ -202,7 +222,6 @@ public class Board {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", lists=" + lists +
                 ", tag=" + tag +
                 ", fontColor=" + fontColor +
                 ", backgroundColor=" + backgroundColor +

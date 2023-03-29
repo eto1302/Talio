@@ -2,6 +2,7 @@ package server.api;
 
 import commons.Board;
 import commons.models.IdResponseModel;
+import commons.models.ListEditModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.Services.BoardService;
@@ -50,5 +51,28 @@ public class BoardController {
         return boardService.getAllBoards();
     }
 
-    
+    @GetMapping("/getByInvite/{inviteKey}")
+    @ResponseBody
+    public ResponseEntity<Board> getBoardByInviteKey(@PathVariable String inviteKey){
+        try{
+            Board board = boardService.getBoardByInviteKey(inviteKey);
+            return ResponseEntity.ok(board);
+        }
+        catch(Exception e){
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+    @GetMapping("/delete/{id}")
+    public IdResponseModel deleteBoard(@PathVariable int id) {
+        return boardService.deleteBoard(id);
+    }
+
+    @GetMapping("/verify/{password}")
+    public boolean verifyAdminPassword(@PathVariable String password) {
+        return boardService.verifyAdminPassword(password);
+    }
+    @PostMapping("/edit/{boardId}")
+    public IdResponseModel editList(@PathVariable int boardId, @RequestBody ListEditModel model) {
+        return boardService.editBoard(boardId, model);
+    }
 }

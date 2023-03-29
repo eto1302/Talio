@@ -1,6 +1,7 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,7 +33,8 @@ public class List {
     @NotNull
     private int boardId;
 
-    @OneToMany
+    @OneToMany(mappedBy = "list")
+    @JsonManagedReference
     private java.util.List<Task> tasks;
 
     @JsonBackReference
@@ -178,9 +180,6 @@ public class List {
                 ", name='" + name + '\'' +
                 ", backgroundColor='" + backgroundColor + '\'' +
                 ", fontColor='" + fontColor + '\'' +
-                ", boardId=" + boardId +
-                ", tasks=" + tasks +
-                ", board=" + board +
-                '}';
+                ", boardId=" + boardId;
     }
 }

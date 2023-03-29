@@ -2,11 +2,13 @@ package server.Services;
 
 import commons.Board;
 import commons.models.IdResponseModel;
+import commons.models.ListEditModel;
 import org.springframework.stereotype.Service;
 import server.database.BoardRepository;
 @Service
 public class BoardService {
     private BoardRepository boardRepository;
+    private String adminPassword;
     public BoardService(BoardRepository boardRepository){
         this.boardRepository = boardRepository;
     }
@@ -26,6 +28,23 @@ public class BoardService {
         }
     }
 
+    public void setAdminPassword(String adminPassword) {
+        this.adminPassword = adminPassword;
+    }
+
+    public IdResponseModel deleteBoard(int boardId) {
+        try {
+            boardRepository.deleteById(boardId);
+            return new IdResponseModel(boardId, null);
+        } catch (Exception e) {
+            return new IdResponseModel(-1, e.getMessage());
+        }
+    }
+
+    public boolean verifyAdminPassword(String password){
+        return password.equals(adminPassword);
+    }
+
 
     public Board getBoardById(int id){
         return boardRepository.getBoardByID(id);
@@ -33,5 +52,27 @@ public class BoardService {
 
     public java.util.List<Board> getAllBoards() {
         return boardRepository.findAll();
+    }
+
+    /**
+     * Gets the board with the corresponding invite key
+     * @param inviteKey the invite key of the board
+     * @return the board
+     */
+    public Board getBoardByInviteKey(String inviteKey){
+        return boardRepository.getBoardByInviteKey(inviteKey);
+    }
+
+    public IdResponseModel editBoard(int boardId, ListEditModel model) {
+        try {
+            Board board = boardRepository.getBoardByID(boardId);
+            board.setName(model.getName());
+            board.setBackgroundColor(model.getBackgroundColor());
+            board.setFontColor(model.getFontColor());
+            boardRepository.save(board);
+            return new IdResponseModel(boardId, null);
+        } catch (Exception e) {
+            return new IdResponseModel(-1, e.getMessage());
+        }
     }
 }

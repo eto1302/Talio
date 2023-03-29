@@ -11,12 +11,16 @@ import commons.models.IdResponseModel;
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
         property = "type",
-        defaultImpl = ListAdded.class
+        defaultImpl = ListDeleted.class
 )
 @JsonSubTypes({
     @JsonSubTypes.Type(value = ListAdded.class, name = "listAdded"),
     @JsonSubTypes.Type(value = ListDeleted.class, name = "listDeleted"),
-    @JsonSubTypes.Type(value = ListEdited.class, name = "listEdited")
+    @JsonSubTypes.Type(value = ListEdited.class, name = "listEdited"),
+    @JsonSubTypes.Type(value = BoardEdited.class, name = "boardEdited"),
+    @JsonSubTypes.Type(value = TaskAdded.class, name = "taskAdded"),
+    @JsonSubTypes.Type(value = TaskEdited.class, name = "taskEdited"),
+    @JsonSubTypes.Type(value = BoardDeleted.class, name = "boardDeleted")
 })
 public abstract class BoardUpdate implements Message {
 
@@ -43,6 +47,10 @@ public abstract class BoardUpdate implements Message {
 
     public void setBoardID(int boardID) {
         this.boardID = boardID;
+    }
+
+    public static IUserData getUserData() {
+        return userData;
     }
 
     public String getSendQueue() {
