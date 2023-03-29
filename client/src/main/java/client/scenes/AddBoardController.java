@@ -24,10 +24,6 @@ public class AddBoardController {
     private Button addButton;
     @FXML
     private TextField nameField;
-    @FXML
-    private ColorPicker backgroundColor;
-    @FXML
-    private ColorPicker fontColor;
 
     @Inject
     public AddBoardController (ShowCtrl showCtrl, ServerUtils server){
@@ -49,7 +45,7 @@ public class AddBoardController {
      */
     public void addBoard(){
         Board board = Board.create(nameField.getText(), null, new HashSet<>(),
-                colorToHex(fontColor.getValue()), colorToHex(backgroundColor.getValue()));
+                "#000000", "#FFFFFF");
         String inviteKey = generateInviteKey();
         board.setInviteKey(inviteKey);
 
@@ -83,7 +79,7 @@ public class AddBoardController {
      */
     private Board getBoard() {
         return Board.create(nameField.getText(), null, new HashSet<>(),
-                colorToHex(fontColor.getValue()), colorToHex(backgroundColor.getValue()));
+                "#000000", "#FFFFFF");
     }
 
     /**
