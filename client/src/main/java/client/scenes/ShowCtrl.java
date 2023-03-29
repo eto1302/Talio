@@ -28,7 +28,7 @@ public class ShowCtrl implements IShowCtrl {
 
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, board, connection,
-            addBoard, editTask, errorScene, admin, editBoard;
+            addBoard, editTask, errorScene, admin, editBoard, help;
     private AddListController addListCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
@@ -39,6 +39,7 @@ public class ShowCtrl implements IShowCtrl {
     private ErrorController errorController;
     private AdminController adminController;
     private EditBoardController editBoardController;
+    private HelpCtrl helpCtrl;
     private Map<Integer, ListShapeCtrl> listControllers;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
@@ -63,6 +64,8 @@ public class ShowCtrl implements IShowCtrl {
         adminController = (AdminController) loader.get(8).getKey();
         editBoard = new Scene((Parent) loader.get(9).getValue());
         editBoardController = (EditBoardController) loader.get(9).getKey();
+        help = new Scene((Parent) loader.get(10).getValue());
+        helpCtrl = (HelpCtrl) loader.get(10).getKey();
 
         listControllers = new HashMap<>();
 
@@ -241,7 +244,7 @@ public class ShowCtrl implements IShowCtrl {
 
         taskShapeCtrl.set(task, primaryStage, listShapeCtrl);
         Scene updated = taskShapeCtrl.getSceneUpdated(task);
-        Scene scene = listShapeCtrl.putTask(updated);
+        Scene scene = listShapeCtrl.addTask(updated, task);
         primaryStage.setScene(scene);
     }
 
@@ -354,6 +357,19 @@ public class ShowCtrl implements IShowCtrl {
         ListShapeCtrl ctrl = listControllers.get(listID);
         if(ctrl != null)
             ctrl.refreshList();
+    }
+
+    public void showHelpMenu(){
+        popUpStage=new Stage();
+        help.setOnKeyReleased(event->{
+            if (event.getCode()==KeyCode.Q)
+                closePopUp();
+        });
+        popUpStage.setScene(help);
+        popUpStage.setTitle("Help menu - Shortcuts");
+        popUpStage.setResizable(false);
+
+        popUpStage.show();
     }
 
 }

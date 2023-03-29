@@ -1,11 +1,8 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import commons.List;
 import commons.Subtask;
-import commons.Task;
 import commons.models.SubtaskEditModel;
-import commons.models.TaskEditModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;

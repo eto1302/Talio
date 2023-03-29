@@ -68,7 +68,7 @@ public class TaskShape {
     public Scene getSceneUpdated(Task task){
         this.task = task;
         title.setText(task.getTitle());
-        if (task.getDescription()==null)
+        if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
         return grid.getScene();
     }
