@@ -27,13 +27,12 @@ public class ShowCtrl implements IShowCtrl {
     private Stage primaryStage, secondaryStage, popUpStage;
 
     private HomeController homeCtrl;
-    private Scene home, addList, yourBoards, search, board, taskOverview, connection,
+    private Scene home, addList, yourBoards, search, board, connection,
             addBoard, editTask, errorScene, admin, editBoard;
     private AddListController addListCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
     private BoardController boardController;
-    private TaskOverview taskOverviewCtrl;
     private ConnectionCtrl connectionCtrl;
     private AddBoardController addBoardController;
     private EditTaskController editTaskController;
@@ -174,21 +173,6 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     /**
-     * Shows the details of the task. First sets the information in the window according to
-     * the task.
-     */
-    public void showTaskOverview(Task task, ListShapeCtrl listShapeCtrl) {
-        secondaryStage=new Stage();
-        var taskOverview = FXML.load(TaskOverview.class, "client",
-                "scenes", "TaskOverview.fxml");
-        Scene initialize = new Scene(taskOverview.getValue());
-        Scene updated = taskOverview.getKey().setup(task, listShapeCtrl);
-        secondaryStage.setScene(updated);
-        secondaryStage.setTitle("See your task details");
-        secondaryStage.show();
-    }
-
-    /**
      * Shows the window with options for the editing the list.
      * First sets up the scene to the list's information
      * @param list the list that contains the info
@@ -285,7 +269,7 @@ public class ShowCtrl implements IShowCtrl {
         popUpStage.close();
     }
 
-    public void addTag(Tag tag, TaskOverview controller, Stage primaryStage) {
+    public void addTag(Tag tag, EditTaskController controller, Stage primaryStage) {
     }
 
     public void showEditTask(Task task, ListShapeCtrl listShapeCtrl) {
