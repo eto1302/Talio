@@ -132,6 +132,17 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
+    public Board[] getBoardsUpdated() {
+        try {
+            ResponseEntity<Board[]> response =
+                    client.getForEntity(url+"board/findAllUpdated", Board[].class);
+            return response.getBody();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
     public boolean verifyAdmin(String password) {
         try {
             ResponseEntity<Boolean> response = client.getForEntity(
