@@ -19,16 +19,12 @@ public class TagService {
     private TaskRepository taskRepository;
     private BoardRepository boardRepository;
 
-    public TagService(TagRepository tagRepository){
+    public TagService(TagRepository tagRepository,
+                      TaskRepository taskRepository, BoardRepository boardRepository){
         this.tagRepository = tagRepository;
+        this.taskRepository = taskRepository;
+        this.boardRepository = boardRepository;
     }
-
-//    public TagService(TagRepository tagRepository,
-//                      TaskRepository taskRepository, BoardRepository boardRepository) {
-//        this.tagRepository = tagRepository;
-//        this.taskRepository = taskRepository;
-//        this.boardRepository = boardRepository;
-//    }
 
 
     public Tag getTagById(int id) {
