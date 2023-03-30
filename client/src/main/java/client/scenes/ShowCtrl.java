@@ -300,6 +300,11 @@ public class ShowCtrl implements IShowCtrl {
         editTask = new Scene((Parent) editTaskPair.getValue());
         editTask.setOnKeyReleased(this::keyRelease);
 
+        editTask.setOnKeyPressed(event -> {
+            if (event.getCode()==KeyCode.ESCAPE)
+                cancel();
+        });
+
         Scene updated = editTaskController.setup(task, listShapeCtrl);
         secondaryStage = new Stage();
         secondaryStage.setScene(editTask);

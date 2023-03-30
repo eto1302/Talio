@@ -105,10 +105,17 @@ public class TaskShape {
             VBox parent = (VBox) grid.getParent();
             parent.getChildren().remove(grid);
             server.removeTask(task.getId(), task.getListID());
+            controller.getTaskControllers().remove(this);
         });
 
     }
 
+    public void deleteOnKey(){
+        VBox parent = (VBox) grid.getParent();
+        parent.getChildren().remove(grid);
+        server.removeTask(task.getId(), task.getListID());
+        controller.getTaskControllers().remove(this);
+    }
     /**
      * Sets the information of the list and task. Sets the methods for the dragging and dropping
      * for the ordering tasks feature

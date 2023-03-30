@@ -144,6 +144,7 @@ public class BoardController {
     public void movement(KeyEvent event){
         if (selectedTask==null)
             find();
+        System.out.println(event.getCode().getName());
 
         KeyCode key = event.getCode();
         if (selectedTask!=null) {
@@ -153,7 +154,8 @@ public class BoardController {
                 case UP, KP_UP, W -> up(index);
                 case LEFT, KP_LEFT, A -> left();
                 case RIGHT, KP_RIGHT, D-> right();
-
+                case DELETE, BACK_SPACE -> selectedTask.deleteOnKey();
+                case ENTER -> showCtrl.showEditTask(selectedTask.getTask(), selectedList);
             }
         }
     }
