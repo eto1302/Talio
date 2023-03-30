@@ -128,10 +128,9 @@ public class ShowCtrl implements IShowCtrl {
      * Shows the window with options for adding a task in a list.
      *
      * @param controller   the list's controller
-     * @param primaryStage the primary stage of our scenes.
      * @param list
      */
-    public void showAddTask(ListShapeCtrl controller, Stage primaryStage, commons.List list){
+    public void showAddTask(ListShapeCtrl controller, commons.List list){
         var addTask = FXML.load(AddTaskController.class, "client",
                 "scenes", "AddTask.fxml");
         Scene addTaskScene = new Scene(addTask.getValue());
@@ -193,7 +192,7 @@ public class ShowCtrl implements IShowCtrl {
 
     public void showBoard(){
         primaryStage.setTitle("Board");
-        boardController.setup(primaryStage);
+        boardController.setup();
         primaryStage.setScene(this.board);
     }
 
@@ -202,7 +201,7 @@ public class ShowCtrl implements IShowCtrl {
      * First sets up the scene to the list's information
      * @param list the list that contains the info
      */
-    public void showEditList(commons.List list, Stage primaryStage){
+    public void showEditList(commons.List list){
         var editList = FXML.load(EditListController.class,
                 "client", "scenes", "EditList.fxml");
         editList.getKey().setup(list, primaryStage);
@@ -219,8 +218,7 @@ public class ShowCtrl implements IShowCtrl {
      */
     public void editList(commons.List list) {
         ListShapeCtrl controller = listControllers.get(list.getId());
-        Scene updated = controller.getSceneUpdated(list);
-        primaryStage.setScene(updated);
+        controller.updateScene(list);
     }
 
     /**
@@ -243,13 +241,10 @@ public class ShowCtrl implements IShowCtrl {
      */
     public ListShapeCtrl addList(commons.List list) {
         var listShape = FXML.load(ListShapeCtrl.class, "client", "scenes", "List.fxml");
-        Scene initializeList = new Scene(listShape.getValue());
         ListShapeCtrl listShapeCtrl = listShape.getKey();
 
-        listShapeCtrl.set(list, primaryStage);
-        Scene listScene = listShapeCtrl.getSceneUpdated(list);
-        Scene scene = boardController.putList(listScene);
-        primaryStage.setScene(scene);
+        listShapeCtrl.updateScene(list);
+        boardController.putList(listShape.getValue());
         listControllers.put(list.getId(), listShapeCtrl);
         return listShapeCtrl;
     }
@@ -261,14 +256,12 @@ public class ShowCtrl implements IShowCtrl {
      */
     public void addTask(Task task, commons.List list) {
         var taskShape = FXML.load(TaskShape.class, "client", "scenes", "Task.fxml");
-        Scene taskScene = new Scene(taskShape.getValue());
         TaskShape taskShapeCtrl = taskShape.getKey();
         ListShapeCtrl listShapeCtrl = listControllers.get(list.getId());
 
-        taskShapeCtrl.set(task, primaryStage, listShapeCtrl);
-        Scene updated = taskShapeCtrl.getSceneUpdated(task);
-        Scene scene = listShapeCtrl.addTask(updated, task);
-        primaryStage.setScene(scene);
+        taskShapeCtrl.set(task, listShapeCtrl);
+        taskShapeCtrl.updateScene(task);
+        listShapeCtrl.addTask(taskShape.getValue(), task);
     }
 
     /**

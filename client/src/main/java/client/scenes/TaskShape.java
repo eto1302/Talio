@@ -9,16 +9,14 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Label;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -32,7 +30,6 @@ public class TaskShape {
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
     private ListShapeCtrl controller;
     private commons.Task task;
-    private Stage primaryStage;
 
     @Inject
     public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils){
@@ -63,14 +60,12 @@ public class TaskShape {
     /**
      * Sets the content of the task accordingly.
      * @param task the task whose information will be displayed
-     * @return the new scene updated
      */
-    public Scene getSceneUpdated(Task task){
+    public void updateScene(Task task){
         this.task = task;
         title.setText(task.getTitle());
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
-        return grid.getScene();
     }
 
     /**
@@ -91,9 +86,8 @@ public class TaskShape {
 //     * @param id the id of the task
 //     * @param list the task's list
      */
-    public void set(Task task, Stage primaryStage, ListShapeCtrl listShapeCtrl){
+    public void set(Task task, ListShapeCtrl listShapeCtrl){
         this.task = task;
-        this.primaryStage = primaryStage;
         this.controller = listShapeCtrl;
         if (task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
