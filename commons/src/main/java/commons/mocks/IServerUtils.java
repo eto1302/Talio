@@ -27,5 +27,7 @@ public interface IServerUtils {
 
     IdResponseModel deleteColor(int boardID, int colorId);
 
-    IdResponseModel addColor(Color color, int boardID);
+    IdResponseModel addColor(Color color);
+
+    IdResponseModel setColorToBoard(Color color, int boardID);
 }

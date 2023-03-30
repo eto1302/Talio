@@ -34,7 +34,7 @@ public class ColorPicker {
     }
 
     public void save(){
-
+        showCtrl.cancel();
     }
 
     public void reset(){
@@ -69,6 +69,7 @@ public class ColorPicker {
     }
 
     public void showAddTaskColor() {
+        this.showCtrl.cancel();
         this.showCtrl.showAddTagColor();
     }
 }

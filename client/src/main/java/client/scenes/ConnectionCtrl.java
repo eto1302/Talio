@@ -39,12 +39,12 @@ public class ConnectionCtrl {
         if (serverUtils.getBoard(1)==null){
             Color boardColor = Color.create("#000000", "#FFFFFF");
             Color fontColor = Color.create("#000000", "#FFFFFF");
-            boardColor.setId(1);
-            fontColor.setId(2);
+            serverUtils.addColor(boardColor);
+            serverUtils.addColor(fontColor);
             Board board = Board.create("Default", null,
-                    new HashSet<>(), 0,0, new ArrayList<>());
+                    new HashSet<>(), 1,2, new ArrayList<>());
             serverUtils.addBoard(board);
-            serverUtils.addColor(boardColor, 1);
+            serverUtils.setColorToBoard(boardColor, 1);
         }
         if(userData.getCurrentBoard() == null)
             userData.openBoard(1);

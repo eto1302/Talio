@@ -27,8 +27,9 @@ public class ColorAdded extends BoardUpdate {
 
     @Override
     public IdResponseModel sendToServer(IServerUtils server) {
-        IdResponseModel id = server.addColor(color, super.getBoardID());
+        IdResponseModel id = server.addColor(color);
         color.setId(id.getId());
+        server.setColorToBoard(color,  super.getBoardID());
         return id;
     }
 

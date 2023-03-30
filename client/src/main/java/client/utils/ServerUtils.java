@@ -108,11 +108,23 @@ public class ServerUtils implements IServerUtils {
     }
 
     @Override
-    public IdResponseModel addColor(Color color, int boardId) {
+    public IdResponseModel addColor(Color color) {
         try {
             HttpEntity<commons.Color> req = new HttpEntity<Color>(color);
             IdResponseModel id = client.postForObject(
-                    url+"color/add/"+boardId, req, IdResponseModel.class);
+                    url+"color/add", req, IdResponseModel.class);
+            return id;
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
+        }
+    }
+
+    @Override
+    public IdResponseModel setColorToBoard(Color color, int boardId) {
+        try {
+            HttpEntity<commons.Color> req = new HttpEntity<Color>(color);
+            IdResponseModel id = client.postForObject(
+                    url+"color/add/"+color.getId()+"/"+boardId, req, IdResponseModel.class);
             return id;
         } catch (Exception e) {
             return new IdResponseModel(-1, "Oops, failed to connect to server...");

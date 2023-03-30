@@ -3,7 +3,6 @@ package commons;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
@@ -28,12 +27,11 @@ public class Color {
     private boolean isDefault;
 
     @Column(name = "b_id")
-    @NotNull
     private int boardId;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="boardId", nullable=false)
+    @JoinColumn(name="boardId")
     private Board board;
 
     public boolean isDefault() {

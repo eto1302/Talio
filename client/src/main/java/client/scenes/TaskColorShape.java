@@ -43,10 +43,6 @@ public class TaskColorShape {
         this.fontTaskColor.setStyle(
                 "-fx-background-color: " + color.getFontColor() + ";");
         if(color.isDefault()) this.setDefaultButton.setVisible(false);
-        var a = this.gridPane.getScene();
-        var b = this.fontTaskColor.getScene();
-        var c = this.backgroundTaskColor.getScene();
-        var d = this.setDefaultButton.getScene();
         return this.gridPane.getScene();
     }
 

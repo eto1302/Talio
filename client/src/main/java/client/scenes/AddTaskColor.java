@@ -26,14 +26,16 @@ public class AddTaskColor {
         Color color = Color.create(colorToHex(backgroundColor.getValue()),
                 colorToHex(fontColor.getValue()));
 
-        IdResponseModel model = userData.updateBoard(new ColorAdded(1, color));
+        IdResponseModel model = userData.updateBoard(new ColorAdded(
+                this.userData.getCurrentBoard().getId(), color));
+        userData.openBoard(this.userData.getCurrentBoard().getId());
         if (model.getId() == -1) {
             showCtrl.showError(model.getErrorMessage());
             showCtrl.cancel();
             return;
         }
-
-        cancel();
+        showCtrl.cancel();
+        showCtrl.showColorPicker();
     }
 
     public void cancel(){
