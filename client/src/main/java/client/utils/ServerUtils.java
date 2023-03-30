@@ -131,6 +131,25 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
+    @Override
+    public IdResponseModel editColor(int colorId, ColorEditModel model) {
+        try {
+            HttpEntity<ColorEditModel> req = new HttpEntity<ColorEditModel>(model);
+            ResponseEntity<IdResponseModel> response = client.postForEntity(
+                    url+"color/edit/"+colorId, req,
+                    IdResponseModel.class
+            );
+
+            if (colorId != response.getBody().getId())
+                return new IdResponseModel(-1, "list doesn't match");
+
+            return response.getBody();
+
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
+        }
+    }
+
     /**
      * Returns the board with the corresponding invite key
      * @param inviteKey the invite-key og the board

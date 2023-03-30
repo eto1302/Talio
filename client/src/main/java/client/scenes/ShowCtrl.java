@@ -400,7 +400,6 @@ public class ShowCtrl implements IShowCtrl {
 
     }
 
-
     public void showColorPicker() {
         secondaryStage = new Stage();
         secondaryStage.setTitle("Color Picker");

@@ -49,6 +49,7 @@ public class ColorService {
             Color color = colorRepository.getById(colorId);
             color.setBackgroundColor(model.getBackgroundColor());
             color.setFontColor(model.getFontColor());
+            color.setDefault(model.isDefault());
             colorRepository.save(color);
             return new IdResponseModel(colorId, null);
         } catch (Exception e) {

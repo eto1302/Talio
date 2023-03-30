@@ -4,7 +4,20 @@ public class ColorEditModel {
     private String backgroundColor;
     private String fontColor;
 
-    public ColorEditModel() {
+    private boolean isDefault;
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
+    }
+
+    public ColorEditModel(String backgroundColor, String fontColor, boolean isDefault) {
+        this.backgroundColor = backgroundColor;
+        this.fontColor = fontColor;
+        this.isDefault = isDefault;
     }
 
     public String getBackgroundColor() {

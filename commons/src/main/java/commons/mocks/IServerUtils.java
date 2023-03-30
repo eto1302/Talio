@@ -4,6 +4,7 @@ import commons.Color;
 import commons.List;
 import commons.Task;
 import commons.models.BoardEditModel;
+import commons.models.ColorEditModel;
 import commons.models.IdResponseModel;
 import commons.models.ListEditModel;
 
@@ -30,4 +31,6 @@ public interface IServerUtils {
     IdResponseModel addColor(Color color);
 
     IdResponseModel setColorToBoard(Color color, int boardID);
+
+    IdResponseModel editColor(int colorId, ColorEditModel edit);
 }
