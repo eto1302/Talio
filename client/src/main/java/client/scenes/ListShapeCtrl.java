@@ -21,6 +21,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ListShapeCtrl {
 
@@ -41,12 +43,15 @@ public class ListShapeCtrl {
     private final UserData userData;
     private List list;
 
+    private Map<Integer, TaskShape> taskControllers;
+
 
     @Inject
     public ListShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl = showCtrl;
         this.serverUtils = serverUtils;
         this.userData = userData;
+        this.taskControllers = new HashMap<>();
     }
 
     public void refreshList(){
@@ -115,8 +120,21 @@ public class ListShapeCtrl {
      * Adds the task inside the box with tasks
      * @param root the grid representing the task UI
      */
-    public void addTask(Parent root, Task task){
+    public void addTask(Parent root, Task task, TaskShape controller) {
         tasksBox.getChildren().add(root);
+        taskControllers.put(task.getId(), controller);
+    }
+
+    /**
+     * Removes the task from the list
+     * @param taskId the ID of the task to remove
+     */
+    public void removeTask(int taskId) {
+        TaskShape controller = taskControllers.get(taskId);
+        if(controller != null) {
+            controller.delete();
+            taskControllers.remove(taskId);
+        }
     }
 
     /**

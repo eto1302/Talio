@@ -1,9 +1,11 @@
 package client.scenes;
 
+import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Task;
 import commons.models.TaskEditModel;
+import commons.sync.TaskDeleted;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
@@ -30,21 +32,23 @@ public class TaskShape {
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
     private ListShapeCtrl controller;
     private commons.Task task;
+    private UserData userData;
 
     @Inject
-    public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils){
-        this.showCtrl=showCtrl;
-        server=serverUtils;
+    public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
+        this.showCtrl = showCtrl;
+        this.server = serverUtils;
+        this.userData = userData;
     }
 
-    public void setTaskUpdated(){
+    public void setTaskUpdated() {
         task=server.getTask(task.getId());
     }
 
     /**
      * On double-click, this will show the window containing the overview (details of the task)
      */
-    public void doubleClick (){
+    public void doubleClick () {
         grid.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -69,15 +73,20 @@ public class TaskShape {
     }
 
     /**
-     * deletes the task
+     * Adds the delete event to the controller
      */
-    public void delete(){
-        deleteX.setOnMouseClicked(event -> {
-            VBox parent = (VBox) grid.getParent();
-            parent.getChildren().remove(grid);
-            server.removeTask(task.getId(), task.getListID());
-        });
+    public void deleteEvent() {
+        deleteX.setOnMouseClicked(event -> userData.updateBoard(new TaskDeleted(userData
+                .getCurrentBoard().getId(), task.getId(), task.getListID())));
+    }
 
+    /**
+     * Deletes the task
+     */
+    public void delete() {
+        VBox parent = (VBox) grid.getParent();
+        parent.getChildren().remove(grid);
+        server.removeTask(task.getId(), task.getListID());
     }
 
     /**
