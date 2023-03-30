@@ -2,8 +2,11 @@ package client.scenes.tasks;
 
 import client.scenes.ShowCtrl;
 import client.scenes.lists.ListShapeCtrl;
+import client.scenes.tags.TagMarkerShapeController;
+import client.scenes.tags.TagOverviewController;
 import client.utils.ServerUtils;
 import commons.List;
+import commons.Tag;
 import commons.Task;
 import commons.models.TaskEditModel;
 import javafx.beans.property.ObjectProperty;
@@ -70,11 +73,20 @@ public class TaskShape {
      * @return the new scene updated
      */
     public Scene getSceneUpdated(Task task){
+        addTagMarkers(task);
         this.task = task;
         title.setText(task.getTitle());
         if (task.getDescription()==null)
             plusSign.setVisible(false);
         return grid.getScene();
+    }
+
+    private void addTagMarkers(Task task){
+        TagMarkerShapeController markerController = new TagMarkerShapeController();
+        for(Tag t: task.getTags()){
+            Node root = markerController.getSceneUpdated(t).getRoot();
+            tagMarkerContainer.getChildren().add(root);
+        }
     }
 
     /**
@@ -99,6 +111,7 @@ public class TaskShape {
         this.task = task;
         this.primaryStage = primaryStage;
         this.controller = listShapeCtrl;
+        addTagMarkers(task);
         if (task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
 
@@ -234,8 +247,4 @@ public class TaskShape {
             Collections.rotate(orderedTasks.subList(targetIndex, sourceIndex+1), 1);
         }
     }
-
-
-
-
 }

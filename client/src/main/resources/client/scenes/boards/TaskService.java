@@ -1,4 +1,4 @@
-package server.Services;
+package client.scenes.boards;
 
 import commons.models.IdResponseModel;
 import commons.models.TaskEditModel;

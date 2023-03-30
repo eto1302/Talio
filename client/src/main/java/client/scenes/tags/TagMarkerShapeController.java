@@ -3,6 +3,7 @@ package client.scenes.tags;
 import client.scenes.ShowCtrl;
 import client.utils.ServerUtils;
 import commons.Tag;
+import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -14,7 +15,9 @@ import javax.inject.Inject;
 
 public class TagMarkerShapeController {
 
+    @Inject
     private ShowCtrl showCtrl;
+    @Inject
     private ServerUtils serverUtils;
 
     @FXML
@@ -22,11 +25,15 @@ public class TagMarkerShapeController {
     @FXML
     private Circle markerCircle;
 
-    @Inject
-    public TagMarkerShapeController(ShowCtrl showCtrl, ServerUtils serverUtils) {
-        this.showCtrl = showCtrl;
-        this.serverUtils = serverUtils;
+    public TagMarkerShapeController() {
+
     }
+
+    //    @Inject
+//    public TagMarkerShapeController(ShowCtrl showCtrl, ServerUtils serverUtils) {
+//        this.showCtrl = showCtrl;
+//        this.serverUtils = serverUtils;
+//    }
 
     public Scene getSceneUpdated(Tag tag){
         Color markerColor = Color.web(tag.getColor());
@@ -34,10 +41,6 @@ public class TagMarkerShapeController {
         //TODO: Make background of marker transparent
 
         return tagMarkerContainer.getScene();
-    }
-
-    public void addTagMarkerToTask(){
-
     }
 
     public void removeTagMarker(){

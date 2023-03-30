@@ -55,4 +55,5 @@ public class TagController {
         var idx = random.nextInt((int) tagService.count());
         return ResponseEntity.ok(tags.get(idx));
     }
+
 }
