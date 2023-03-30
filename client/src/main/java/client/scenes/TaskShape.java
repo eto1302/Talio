@@ -51,7 +51,7 @@ public class TaskShape {
      * On double-click, this will show the window containing the overview (details of the task)
      */
     public void doubleClick (){
-        TaskShape selectedTask = controller.findSelectedTask();
+        TaskShape selectedTask = controller.getBoardController().find();
         if (selectedTask==null) {
             selected = true;
             grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +

@@ -154,7 +154,6 @@ public class BoardController {
     public void movement(KeyEvent event){
         if (selectedTask==null)
             find();
-        System.out.println(event.getCode().getName());
 
         KeyCode key = event.getCode();
         if (selectedTask!=null) {
@@ -226,7 +225,7 @@ public class BoardController {
         }
         else{
             selectedList = listControllers.get(index+1);
-            updateScrollPane(index+1);
+            updateScrollPane(index);
         }
         selectedList.updateScrollPane(0);
 
@@ -235,15 +234,16 @@ public class BoardController {
         selectedTask.setStatus(true);
     }
 
-    private void find(){
+    public TaskShape find(){
         for (ListShapeCtrl ctrl :listControllers) {
             TaskShape selected = ctrl.findSelectedTask();
             if (selected != null) {
                 selectedList = ctrl;
                 selectedTask = selected;
-                return;
+                return selected;
             }
         }
+        return null;
     }
 
     private void updateScrollPane(int index){
