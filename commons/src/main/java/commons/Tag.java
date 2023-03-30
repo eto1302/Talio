@@ -25,7 +25,6 @@ public class Tag {
     private Task task;
 
     @Column
-    @NotNull
     private int taskID;
 
     @JsonBackReference
@@ -34,7 +33,6 @@ public class Tag {
     private Board board;
 
     @Column
-    @NotNull
     private int boardID;
 
 
