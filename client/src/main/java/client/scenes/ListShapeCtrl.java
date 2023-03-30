@@ -10,19 +10,16 @@ import commons.models.TaskEditModel;
 import commons.sync.ListDeleted;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
+import javafx.geometry.Bounds;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
 
 public class ListShapeCtrl {
 
@@ -32,8 +29,7 @@ public class ListShapeCtrl {
     private MenuItem editList, deleteList;
     @FXML
     private ScrollPane scrollPane;
-    @FXML
-    private Button addTask;
+
     @FXML
     private Label listTitle;
     @FXML
@@ -43,19 +39,24 @@ public class ListShapeCtrl {
     private final UserData userData;
     private List list;
 
-    private Map<Integer, TaskShape> taskControllers;
-
+    private final LinkedList<TaskShape> taskControllers;
 
     @Inject
     public ListShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl = showCtrl;
         this.serverUtils = serverUtils;
         this.userData = userData;
-        this.taskControllers = new HashMap<>();
+        this.taskControllers = new LinkedList<>();
     }
 
     public void refreshList(){
         showCtrl.refreshBoardCtrl();
+    }
+
+    public void updateScrollPane(int index){
+        Bounds bounds = scrollPane.getViewportBounds();
+        scrollPane.setVvalue(tasksBox.getChildren().get(index).getLayoutY() *
+                (1/(tasksBox.getHeight()-bounds.getHeight())));
     }
 
     /**
@@ -93,7 +94,7 @@ public class ListShapeCtrl {
      * @param list our list
      */
     public void updateScene(List list) {
-        this.list=list;
+        this.list = list;
 
         listGrid.setOnDragOver(this::dragOver);
         listGrid.setOnDragDropped(this::dragDrop);
@@ -120,9 +121,9 @@ public class ListShapeCtrl {
      * Adds the task inside the box with tasks
      * @param root the grid representing the task UI
      */
-    public void addTask(Parent root, Task task, TaskShape controller) {
+    public void addTask(Parent root, TaskShape controller) {
         tasksBox.getChildren().add(root);
-        taskControllers.put(task.getId(), controller);
+        taskControllers.addLast(controller);
     }
 
     /**
@@ -130,11 +131,16 @@ public class ListShapeCtrl {
      * @param taskId the ID of the task to remove
      */
     public void removeTask(int taskId) {
-        TaskShape controller = taskControllers.get(taskId);
+        TaskShape controller = taskControllers.stream().filter(e ->
+                e.getTask().getId() == taskId).findFirst().orElse(null);
         if(controller != null) {
             controller.delete();
-            taskControllers.remove(taskId);
+            taskControllers.remove(controller);
         }
+    }
+
+    public LinkedList<TaskShape> getTaskControllers() {
+        return taskControllers;
     }
 
     /**
@@ -201,6 +207,14 @@ public class ListShapeCtrl {
                     taskIndex.getDescription(), i, previousList);
             serverUtils.editTask(taskIndex.getId(), model);
         }
+    }
+
+
+    public TaskShape findSelectedTask(){
+        for (TaskShape controller: taskControllers)
+            if (controller.isSelected())
+                return controller;
+        return null;
     }
 
 }
