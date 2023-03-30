@@ -83,6 +83,25 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
+    @Override
+    public IdResponseModel editBoard(int boardId, BoardEditModel edit) {
+        try {
+            HttpEntity<BoardEditModel> req = new HttpEntity<BoardEditModel>(edit);
+            ResponseEntity<IdResponseModel> response = client.postForEntity(
+                    url+"board/edit/"+boardId, req,
+                    IdResponseModel.class
+            );
+
+            if (boardId != response.getBody().getId())
+                return new IdResponseModel(-1, "Board doesn't match");
+
+            return response.getBody();
+
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
+        }
+    }
+
     /**
      * Returns the board with the corresponding invite key
      * @param inviteKey the invite-key og the board
@@ -578,5 +597,25 @@ public class ServerUtils implements IServerUtils {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    /**
+     * Gets the subtasks from a task ordered by their index
+     * @param taskID the id of the associated task
+     * @return the list of ordered subtasks
+     */
+    public java.util.List<Subtask> getSubtasksOrdered(int taskID){
+        ResponseEntity<java.util.List<Subtask>> response = client.exchange(
+                url+"subtask/getOrdered/" + taskID,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>(){} );
+
+        if (response.getStatusCode().is2xxSuccessful())
+            return response.getBody();
+        else if (response.getStatusCode().equals(HttpStatus.BAD_REQUEST))
+            throw new NoSuchElementException("No such task id");
+
+        throw new RuntimeException("Something went wrong");
     }
 }

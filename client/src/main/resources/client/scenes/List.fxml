@@ -40,7 +40,7 @@
             <MenuButton mnemonicParsing="false" text="Edit">
               <items>
                 <MenuItem fx:id="editList" mnemonicParsing="false" onAction="#editList" text="Edit list" />
-                <MenuItem fx:id="deleteList" mnemonicParsing="false" onAction="#deleteList" text="Delete " />
+                <MenuItem fx:id="deleteList" mnemonicParsing="false" onAction="#initiateDeleteList" text="Delete " />
               </items>
             </MenuButton>
             <Button fx:id="addTask" mnemonicParsing="false" onAction="#showAddTask" prefHeight="26.0" prefWidth="33.0" text="+" />

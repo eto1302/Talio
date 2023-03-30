@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
@@ -41,6 +42,8 @@ public class BoardShape {
     private Button copyButton;
     private ShowCtrl showCtrl;
     private ServerUtils server;
+    @Inject 
+    private UserData userData;
     @Inject
     public BoardShape (ShowCtrl showCtrl, ServerUtils serverUtils){
         this.showCtrl=showCtrl;
@@ -67,7 +70,14 @@ public class BoardShape {
     }
 
     public void enter(){
-        System.out.println(getId());
+        this.userData.openBoard(id);
+        this.showCtrl.showBoard();
+    }
+
+    public void leave(){
+        this.userData.leaveBoard(id);
+        this.userData.saveToDisk();
+        this.showCtrl.showYourBoards();
     }
 
     /**

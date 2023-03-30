@@ -15,6 +15,8 @@ public class TaskEditModel {
         this.index=index;
     }
 
+    public TaskEditModel() {}
+
     public String getTitle() {
         return title;
     }

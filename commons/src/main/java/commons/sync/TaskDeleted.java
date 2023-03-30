@@ -22,4 +22,5 @@ public class TaskDeleted extends BoardUpdate{
     public void apply(IUserData data) {
         //TODO
     }
+
 }
