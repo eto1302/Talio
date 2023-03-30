@@ -20,10 +20,7 @@ import com.google.inject.Inject;
 
 import commons.*;
 import commons.mocks.IServerUtils;
-import commons.models.IdResponseModel;
-import commons.models.ListEditModel;
-import commons.models.TaskEditModel;
-import commons.models.SubtaskEditModel;
+import commons.models.*;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -242,6 +239,12 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
+    /**
+     * Adds a task to a list.
+     * @param task The task to be added.
+     * @param listID The id of the list to be added to.
+     * @return ID of the task, or -1 if it fails.
+     */
     public IdResponseModel addTask(commons.Task task, int listID){
         try{
             HttpEntity<commons.Task> req = new HttpEntity<>(task);
@@ -254,6 +257,12 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
+    /**
+     * Removes a task from a list.
+     * @param taskID The id of the task to be removed.
+     * @param listID The id of the list to be removed from.
+     * @return ID of the task, or -1 if it fails.
+     */
     public IdResponseModel removeTask(int taskID, int listID){
         try{
             ResponseEntity<IdResponseModel> response = client.getForEntity(
@@ -266,6 +275,12 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
+    /**
+     * Edits a task according to a model.
+     * @param taskID The id of the task to be edited.
+     * @param model The model associated with the changes to be made.
+     * @return ID of the tas, or -1 if it fails.
+     */
     public IdResponseModel editTask(int taskID, commons.models.TaskEditModel model){
         try {
             HttpEntity<TaskEditModel> req = new HttpEntity<>(model);
@@ -279,6 +294,11 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
+    /**
+     * Returns a task by its ID.
+     * @param id The id of the task.
+     * @return The task associated with the id, or null if it fails.
+     */
     public commons.Task getTask(int id) {
         try {
             ResponseEntity<commons.Task> response = client.getForEntity(
@@ -323,6 +343,11 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
+    /**
+     * Gets all the tasks associated with a list.
+     * @param listID The id of the list the tasks are associated with.
+     * @return A list containing all the tasks associated with the list.
+     */
     public java.util.List<commons.Task> getTaskByList(int listID) {
         try {
             ResponseEntity<java.util.List<commons.Task>> response = client.exchange(
@@ -430,5 +455,128 @@ public class ServerUtils implements IServerUtils {
             throw new NoSuchElementException("No such task id");
 
         throw new RuntimeException("Something went wrong");
+    }
+
+    public IdResponseModel addTagToTask(Tag tag, int taskID){
+        try{
+            HttpEntity<Tag> req = new HttpEntity<>(tag);
+            IdResponseModel id = client.postForObject(
+                url + "tag/addToTask/" + taskID, req, IdResponseModel.class);
+            return id;
+        }
+        catch(Exception e){
+            return new IdResponseModel(-1, "Oops, failed to connect to the server...");
+        }
+    }
+
+    public IdResponseModel addTagToBoard(Tag tag, int boardID){
+        try{
+            HttpEntity<Tag> req = new HttpEntity<>(tag);
+            IdResponseModel id = client.postForObject(
+                url + "tag/addToBoard/" + boardID, req, IdResponseModel.class);
+            return id;
+        }
+        catch(Exception e){
+            return new IdResponseModel(-1, "Oops, failed to connect to the server...");
+        }
+    }
+
+    public IdResponseModel editTag(int tagID, TagEditModel model){
+        try{
+            HttpEntity<TagEditModel> req = new HttpEntity<>(model);
+            ResponseEntity<IdResponseModel> response = client.postForEntity(
+                url + "tag/edit/" + tagID, req, IdResponseModel.class);
+            return response.getBody();
+        }
+        catch (Exception e){
+            return new IdResponseModel(-1, "Oops, failed to connect to the server...");
+        }
+    }
+
+    public IdResponseModel removeTag(int tagID){
+        try{
+            ResponseEntity<IdResponseModel> response = client.getForEntity(
+                url + "/tag/remove/" + tagID, IdResponseModel.class);
+            return response.getBody();
+        }
+        catch(Exception e){
+                return new IdResponseModel(-1, "Oops, failed to connect to the server...");
+        }
+    }
+
+    /**
+     * Returns a tag by its ID.
+     * @param id The id of the tag.
+     * @return The tag associated with the id, or null if it fails.
+     */
+    public Tag getTag(int id){
+        try{
+            ResponseEntity<Tag> response = client.getForEntity(
+                url + "/tag/get/" + id, Tag.class);
+            return response.getBody();
+        }
+        catch (Exception e){
+            return null;
+        }
+    }
+
+    /**
+     * Gets all the tags associated with a task.
+     * @param taskID The id of the task the tags are associated with.
+     * @return A list containing all the tags associated with the task.
+     */
+    public java.util.List<Tag> getTagByTask(int taskID) {
+        try {
+            ResponseEntity<java.util.List<commons.Tag>> response = client.exchange(
+                url+"task/getByTask/" + taskID, HttpMethod.GET, null,
+                new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
+            );
+
+            // return the tag if the request succeeded
+            if (response.getStatusCode().is2xxSuccessful()) {
+                java.util.List<commons.Tag> tags = response.getBody();
+                return tags;
+            }
+
+            // task id doesn't exist
+            if(response.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
+                throw new NoSuchElementException("There is no such list");
+            }
+
+            throw new RuntimeException("something went wrong...");
+
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    /**
+     * Gets all the tags associated with a board.
+     * @param boardID The id of the board the tags are associated with.
+     * @return A list containing all the tags associated with the board.
+     */
+    public java.util.List<Tag> getTagByBoard(int boardID) {
+        try {
+            ResponseEntity<java.util.List<commons.Tag>> response = client.exchange(
+                url+"task/getByTask/" + boardID, HttpMethod.GET, null,
+                new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
+            );
+
+            // return the tag if the request succeeded
+            if (response.getStatusCode().is2xxSuccessful()) {
+                java.util.List<commons.Tag> tags = response.getBody();
+                return tags;
+            }
+
+            // board id doesn't exist
+            if(response.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
+                throw new NoSuchElementException("There is no such list");
+            }
+
+            throw new RuntimeException("something went wrong...");
+
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }

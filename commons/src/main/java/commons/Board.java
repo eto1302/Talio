@@ -40,6 +40,10 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private Set<List> lists;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board")
+    private java.util.List<Tag> tags;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tagId", referencedColumnName = "id")
     private Tag tag;
@@ -60,6 +64,7 @@ public class Board {
         board.lists = lists;
         board.fontColor = fontColor;
         board.backgroundColor = backgroundColor;
+        board.tags = new ArrayList<>();
         return board;
     }
 
@@ -104,6 +109,13 @@ public class Board {
     public Set<List> getLists() {
         return lists;
     }
+
+    /**
+     * Returns the list of tags associated with the board.
+     *
+     * @return The list of tags associated with the board.
+     */
+    public java.util.List<Tag> getTags() { return tags; }
 
     /**
      * Sets the name of the board.

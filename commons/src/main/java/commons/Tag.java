@@ -23,6 +23,11 @@ public class Tag {
     @JoinColumn(name="taskId")
     private Task task;
 
+    @JsonBackReference
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name = "boardId")
+    private Board board;
+
 
     /**
      * Creates a new tag object with the given name and color.
@@ -42,6 +47,42 @@ public class Tag {
      * Creates a new Tag object.
      */
     public Tag(){}
+
+    /**
+     * Returns the task associated with the tag.
+     *
+     * @return The task associated with the tag.
+     */
+    public Task getTask() {
+        return task;
+    }
+
+    /**
+     * Sets the task associated with the tag.
+     *
+     * @param task The task associated with the tag.
+     */
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
+    /**
+     * Returns the board associated with the tag.
+     *
+     * @return The board associated with the tag.
+     */
+    public Board getBoard() {
+        return board;
+    }
+
+    /**
+     * Sets the board associated with the tag.
+     *
+     * @param board The board associated with the tag.
+     */
+    public void setBoard(Board board) {
+        this.board = board;
+    }
 
     /**
      * Returns the id of the tag.
