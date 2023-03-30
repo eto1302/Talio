@@ -6,6 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+
+import javax.inject.Inject;
 
 public class TaskColorShape {
     @FXML
@@ -14,12 +17,16 @@ public class TaskColorShape {
     private Label backgroundTaskColor;
     @FXML
     private Label fontTaskColor;
-
     @FXML
+    private GridPane gridPane;
+    @Inject
     private UserData userData;
-    @FXML
+    @Inject
     private ShowCtrl showCtrl;
     private Color color;
+
+    public TaskColorShape(){
+    }
 
     public void delete() {
         //this.userData.deleteColor(color);
@@ -36,7 +43,11 @@ public class TaskColorShape {
         this.fontTaskColor.setStyle(
                 "-fx-background-color: " + color.getFontColor() + ";");
         if(color.isDefault()) this.setDefaultButton.setVisible(false);
-        return this.backgroundTaskColor.getScene();
+        var a = this.gridPane.getScene();
+        var b = this.fontTaskColor.getScene();
+        var c = this.backgroundTaskColor.getScene();
+        var d = this.setDefaultButton.getScene();
+        return this.gridPane.getScene();
     }
 
     public void setDefault() {

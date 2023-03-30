@@ -30,9 +30,14 @@ public class ColorController {
         }
     }
 
-    @PostMapping("/add/{boardId}")
-    public IdResponseModel create(@RequestBody Color color, @PathVariable int boardId) {
-        return colorService.saveColor(color, boardId);
+    @PostMapping("/add")
+    public IdResponseModel create(@RequestBody Color color) {
+        return colorService.saveColor(color);
+    }
+
+    @PostMapping("/add/{colorId}/{boardId}")
+    public IdResponseModel setToBoard(@PathVariable int colorId, @PathVariable int boardId) {
+        return colorService.setToBoard(colorId, boardId);
     }
 
     @GetMapping("/findAll")

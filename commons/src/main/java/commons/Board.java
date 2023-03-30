@@ -1,9 +1,9 @@
 package commons;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.*;
 
@@ -39,12 +39,20 @@ public class Board {
     @JoinColumn(name = "boardColorId", referencedColumnName = "id")
     private Color boardColor;
 
+    @Column(name = "bc_id")
+    @NotNull
+    private int boardColorId;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "listColorId", referencedColumnName = "id")
     private Color listColor;
 
-    @JsonBackReference
-    @OneToMany()
+    @Column(name = "lc_id")
+    @NotNull
+    private int listColorId;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board")
     private java.util.List<Color> taskColors;
 
     /**
@@ -56,14 +64,14 @@ public class Board {
      * @return A new Board object with the given name, password, and set of lists.
      */
     public static Board create(String name, String password, Set<List> lists,
-                               Color boardColor, Color listColor,
+                               int boardColorId, int listColorId,
                                java.util.List<Color> taskColors) {
         Board board = new Board();
         board.name = name;
         board.password = password;
         board.lists = lists;
-        board.boardColor = boardColor;
-        board.listColor = listColor;
+        board.boardColorId = boardColorId;
+        board.listColorId = listColorId;
         board.taskColors = taskColors;
         return board;
     }

@@ -237,6 +237,7 @@ public class ShowCtrl implements IShowCtrl {
      */
     public ListShapeCtrl addList(commons.List list) {
         var listShape = FXML.load(ListShapeCtrl.class, "client", "scenes", "List.fxml");
+        Scene initializeList = new Scene(listShape.getValue());
         ListShapeCtrl listShapeCtrl = listShape.getKey();
 
         listShapeCtrl.set(list, primaryStage);
@@ -256,12 +257,13 @@ public class ShowCtrl implements IShowCtrl {
     public TaskColorShape addTaskColor(Color color) {
         var taskColorShape = FXML.load(
                 TaskColorShape.class, "client", "scenes", "TaskColorShape.fxml");
+        Scene initializeTaskColor = new Scene(taskColorShape.getValue());
         TaskColorShape taskColorShapeController = taskColorShape.getKey();
 
         taskColorShapeController.set(color);
-        Scene taskScene = taskColorShapeController.getSceneUpdated(color);
-        Scene scene = colorPickerController.putColor(taskScene);
-        primaryStage.setScene(scene);
+        Scene taskColorScene = taskColorShapeController.getSceneUpdated(color);
+        Scene scene = colorPickerController.putColor(taskColorScene);
+        secondaryStage.setScene(scene);
         return taskColorShapeController;
     }
 

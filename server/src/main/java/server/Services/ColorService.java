@@ -17,10 +17,8 @@ public class ColorService {
         this.boardRepository = boardRepository;
     }
 
-    public IdResponseModel saveColor(Color color, int boardId) {
+    public IdResponseModel saveColor(Color color) {
         try {
-            Board board = boardRepository.getById(boardId);
-            board.getTaskColors().add(color);
             colorRepository.save(color);
             return new IdResponseModel(color.getId(), null);
         } catch (Exception e) {
@@ -53,6 +51,20 @@ public class ColorService {
             color.setFontColor(model.getFontColor());
             colorRepository.save(color);
             return new IdResponseModel(colorId, null);
+        } catch (Exception e) {
+            return new IdResponseModel(-1, e.getMessage());
+        }
+    }
+
+    public IdResponseModel setToBoard(int colorId, int boardId){
+        try {
+            Board board = boardRepository.getById(boardId);
+            Color color = colorRepository.getById(colorId);
+            board.getTaskColors().add(color);
+            color.setBoard(board);
+            color.setBoardId(boardId);
+            colorRepository.save(color);
+            return new IdResponseModel(color.getId(), null);
         } catch (Exception e) {
             return new IdResponseModel(-1, e.getMessage());
         }

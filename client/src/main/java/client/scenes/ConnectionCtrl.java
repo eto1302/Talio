@@ -42,10 +42,9 @@ public class ConnectionCtrl {
             boardColor.setId(1);
             fontColor.setId(2);
             Board board = Board.create("Default", null,
-                    new HashSet<>(), null, null, new ArrayList<>());
+                    new HashSet<>(), 0,0, new ArrayList<>());
             serverUtils.addBoard(board);
             serverUtils.addColor(boardColor, 1);
-            serverUtils.addColor(fontColor, 1);
         }
         if(userData.getCurrentBoard() == null)
             userData.openBoard(1);

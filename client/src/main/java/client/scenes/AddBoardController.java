@@ -45,8 +45,7 @@ public class AddBoardController {
      */
     public void addBoard(){
         Board board = Board.create(nameField.getText(), null, new HashSet<>(),
-                commons.Color.create("#000000", "#FFFFFF"),
-                commons.Color.create("#000000", "#FFFFFF"), new ArrayList<>());
+                1,1, new ArrayList<>());
         String inviteKey = generateInviteKey();
         board.setInviteKey(inviteKey);
 
@@ -80,8 +79,7 @@ public class AddBoardController {
      */
     private Board getBoard() {
         return Board.create(nameField.getText(), null, new HashSet<>(),
-                commons.Color.create("#000000", "#FFFFFF"),
-                commons.Color.create("#000000", "#FFFFFF"), new ArrayList<>());
+                1,1, new ArrayList<>());
     }
 
     /**

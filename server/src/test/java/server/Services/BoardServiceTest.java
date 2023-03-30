@@ -1,7 +1,6 @@
 package server.Services;
 
 import commons.Board;
-import commons.Color;
 import commons.models.IdResponseModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +24,7 @@ public class BoardServiceTest {
     private transient BoardService boardService = new BoardService(mockBoardRepository);
 
     private transient Board board = Board.create("name", "pwd",
-            null,
-            Color.create("#000000", "#FFFFFF"),
-            Color.create("#000000", "#FFFFFF"), new ArrayList<>());
+            null,1, 1, new ArrayList<>());
 
     @Test
     void saveBoard() {

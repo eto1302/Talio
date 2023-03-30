@@ -23,7 +23,9 @@ class BoardTest {
         listColor = Color.create("#000000", "#111111");
 
         board = Board.create("Board1", "password123", lists,
-                boardColor, listColor, new ArrayList<>());
+                0, 0, new ArrayList<>());
+        board.setBoardColor(boardColor);
+        board.setListColor(listColor);
     }
 
     @Test
@@ -50,13 +52,12 @@ class BoardTest {
         expectedBoard.setPassword("password123");
         expectedBoard.setLists(expectedLists);
 
-
-        Color boardColor1 = Color.create("#000000", "#FFFFFF");
-        Color listColor1 = Color.create("#000000", "#111111");
         Board actualBoard = Board.create("Board1", "password123", expectedLists,
-                boardColor1, listColor1, new ArrayList<>());
-        expectedBoard.setBoardColor(boardColor1);
-        expectedBoard.setListColor(listColor1);
+                0, 0, new ArrayList<>());
+        actualBoard.setBoardColor(boardColor);
+        actualBoard.setListColor(listColor);
+        expectedBoard.setBoardColor(boardColor);
+        expectedBoard.setListColor(listColor);
 
         assertEquals(expectedBoard, actualBoard);
     }
@@ -123,7 +124,7 @@ class BoardTest {
     @Test
     void testNotEquals() {
         Board board2 = Board.create("board2", "password2",
-                new HashSet<>(), boardColor, listColor, new ArrayList<>());
+                new HashSet<>(), 0, 0, new ArrayList<>());
         assertNotEquals(board, board2);
     }
 

@@ -1,6 +1,9 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
@@ -23,6 +26,15 @@ public class Color {
 
     @Column(name = "isDefault")
     private boolean isDefault;
+
+    @Column(name = "b_id")
+    @NotNull
+    private int boardId;
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="boardId", nullable=false)
+    private Board board;
 
     public boolean isDefault() {
         return isDefault;
@@ -66,18 +78,36 @@ public class Color {
         this.backgroundColor = backgroundColor;
     }
 
+    public int getBoardId() {
+        return boardId;
+    }
+
+    public void setBoardId(int boardId) {
+        this.boardId = boardId;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Color)) return false;
         Color color = (Color) o;
-        return id == color.id && Objects.equals(fontColor, color.fontColor)
-                && Objects.equals(backgroundColor, color.backgroundColor);
+        return id == color.id && isDefault == color.isDefault && boardId == color.boardId &&
+                Objects.equals(fontColor, color.fontColor) &&
+                Objects.equals(backgroundColor, color.backgroundColor) &&
+                Objects.equals(board, color.board);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fontColor, backgroundColor);
+        return Objects.hash(id, fontColor, backgroundColor, isDefault, boardId, board);
     }
 
     @Override

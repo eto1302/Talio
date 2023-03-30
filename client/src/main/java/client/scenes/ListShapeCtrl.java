@@ -63,7 +63,8 @@ public class ListShapeCtrl {
         Color backgroundColor= Color.web(list.getBoard().getListColor().getBackgroundColor());
         Color fontColor= Color.web(list.getBoard().getListColor().getFontColor());
 
-        listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
+        listGrid.setBackground(new Background(
+                new BackgroundFill(backgroundColor, null, null)));
         listTitle.setTextFill(fontColor);
         return listGrid.getScene();
     }
