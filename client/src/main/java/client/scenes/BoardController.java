@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -34,7 +35,8 @@ public class BoardController {
     private Label boardLabel;
     @FXML
     private HBox listBox;
-
+    @FXML
+    private GridPane boardBox;
     private final ShowCtrl showCtrl;
     private ServerUtils server;
     private Stage primaryStage;
@@ -62,9 +64,12 @@ public class BoardController {
      *  TODO: the board and get rid of the button in the future.
      */
     public void refresh() {
-        this.boardLabel.setText(this.userData.getCurrentBoard().getName());
+        Board board = this.userData.getCurrentBoard();
+        this.boardLabel.setText(board.getName());
         this.boardLabel.setTextFill(Color.web(
-                this.userData.getCurrentBoard().getBoardColor().getFontColor()));
+                board.getBoardColor().getFontColor()));
+        this.boardBox.setStyle("-fx-background-color: " +
+                board.getBoardColor().getBackgroundColor() + "; -fx-padding: 5px;");
         listBox.getChildren().clear();
         listBox.getChildren();
         Set<commons.List> lists;
