@@ -9,6 +9,8 @@ public class TagEditModel {
         this.color = color;
     }
 
+    public TagEditModel(){}
+
     public String getName() {
         return name;
     }
