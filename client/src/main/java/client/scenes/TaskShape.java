@@ -17,7 +17,6 @@ import javafx.scene.layout.*;
 
 import javax.inject.Inject;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +31,8 @@ public class TaskShape {
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
     private ListShapeCtrl controller;
     private commons.Task task;
-    private Stage primaryStage;
+    private boolean selected;
+    private String style;
 
     @Inject
     public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils){
@@ -48,7 +48,15 @@ public class TaskShape {
      * On double-click, this will show the window containing the overview (details of the task)
      */
     public void doubleClick (){
-        grid.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        TaskShape selectedTask = controller.findSelectedTask();
+        if (selectedTask==null) {
+            selected = true;
+            grid.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(14,43,111,1), 10, 0, 0, 0)");
+        }
+        else{
+            selected=false;
+        }
+        grid.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
@@ -58,6 +66,22 @@ public class TaskShape {
                     }
             }
         });
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setStatus(boolean selected){
+        this.selected=selected;
+        if (selected)
+            grid.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(14,43,111,1), 10, 0, 0, 0)");
+        else grid.setStyle(style);
     }
 
     /**
@@ -91,19 +115,24 @@ public class TaskShape {
 //     * @param id the id of the task
 //     * @param list the task's list
      */
-    public void set(Task task, Stage primaryStage, ListShapeCtrl listShapeCtrl){
+    public void set(Task task, ListShapeCtrl listShapeCtrl){
         this.task = task;
-        this.primaryStage = primaryStage;
         this.controller = listShapeCtrl;
         if (task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
+        this.style=grid.getStyle();
 
         grid.setOnDragDetected(this::dragDetected);
         grid.setOnDragOver(this::dragOver);
         grid.setOnDragDropped(this::dragDrop);
         grid.setOnDragDone(this::dragDone);
+
         grid.setOnMousePressed(event-> grid.setOpacity(0.4));
         grid.setOnMouseReleased(event-> grid.setOpacity(1));
+        grid.setOnMouseExited(event-> {
+            selected=false;
+            grid.setStyle(style);
+        });
     }
 
     /**
