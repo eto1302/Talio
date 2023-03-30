@@ -105,6 +105,8 @@ public class BoardController {
         showCtrl.showAdmin();
     }
 
+    public void showTagOverview() {showCtrl.showTagOverview(userData.getCurrentBoard());}
+
     /**
      * Puts the root of the scene (the grid representing the list) inside the board
      * @param scene ,whose root we are looking to add to our board

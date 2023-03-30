@@ -35,6 +35,11 @@ public class TagOverviewController {
     }
 
     public void setup(Board board){
+        //TODO: get all tags for a board when possible
+        List<Tag> tags = board.getTags();
+    }
+
+    public void showAddTag(){
 
     }
 }

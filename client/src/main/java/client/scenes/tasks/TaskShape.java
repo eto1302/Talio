@@ -82,6 +82,9 @@ public class TaskShape {
     }
 
     private void addTagMarkers(Task task){
+        if(task.getTags() == null || task.getTags().isEmpty()){
+            return;
+        }
         TagMarkerShapeController markerController = new TagMarkerShapeController();
         for(Tag t: task.getTags()){
             Node root = markerController.getSceneUpdated(t).getRoot();

@@ -11,6 +11,7 @@ import client.scenes.subtasks.AddSubTaskController;
 import client.scenes.subtasks.EditSubTaskController;
 import client.scenes.subtasks.SubTaskShapeCtrl;
 import client.scenes.tags.AddTagController;
+import client.scenes.tags.TagOverviewController;
 import client.scenes.tasks.AddTaskController;
 import client.scenes.tasks.EditTaskController;
 import client.scenes.tasks.TaskOverview;
@@ -43,7 +44,7 @@ public class ShowCtrl implements IShowCtrl {
 
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, board, taskOverview, connection,
-            addBoard, editTask, errorScene, admin, editBoard;
+            addBoard, editTask, errorScene, admin, editBoard, tagOverview;
     private AddListController addListCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
@@ -55,6 +56,8 @@ public class ShowCtrl implements IShowCtrl {
     private ErrorController errorController;
     private AdminController adminController;
     private EditBoardController editBoardController;
+
+    private TagOverviewController tagOverviewController;
     private Map<Integer, ListShapeCtrl> listControllers;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
@@ -79,6 +82,8 @@ public class ShowCtrl implements IShowCtrl {
         adminController = (AdminController) loader.get(8).getKey();
         editBoard = new Scene((Parent) loader.get(9).getValue());
         editBoardController = (EditBoardController) loader.get(9).getKey();
+        tagOverview = new Scene((Parent) loader.get(10).getValue());
+        tagOverviewController = (TagOverviewController) loader.get(10).getKey();
 
         listControllers = new HashMap<>();
 
@@ -379,5 +384,13 @@ public class ShowCtrl implements IShowCtrl {
     }
     public void refreshBoardCtrl() {
         boardController.refresh();
+    }
+
+    public void showTagOverview(Board board){
+        assert board != null;
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Tag overview");
+        secondaryStage.setScene(this.tagOverview);
+
     }
 }
