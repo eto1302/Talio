@@ -16,11 +16,6 @@
 package client;
 
 import client.scenes.*;
-import client.scenes.boards.AddBoardController;
-import client.scenes.boards.BoardController;
-import client.scenes.boards.EditBoardController;
-import client.scenes.lists.AddListController;
-import client.scenes.tags.TagOverviewController;
 import client.user.UserData;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -64,6 +59,7 @@ public class Main extends Application {
         var admin = FXML.load(AdminController.class, "client", "scenes", "Admin.fxml");
         var editBoard = FXML.load(EditBoardController.class, "client", "scenes", "EditBoard.fxml");
         var tagOverview = FXML.load(TagOverviewController.class, "client", "scenes", "TagOverview.fxml")
+        var help = FXML.load(HelpCtrl.class, "client", "scenes", "Help.fxml");
 
         loader.add(home);
         loader.add(addList);
@@ -76,5 +72,7 @@ public class Main extends Application {
         loader.add(admin);
         loader.add(editBoard);
         loader.add(tagOverview);
+        loader.add(help);
+
     }
 }

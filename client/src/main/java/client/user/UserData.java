@@ -263,7 +263,7 @@ public class UserData implements IUserData {
                 String line = "b\\" +
                         boardEntry.getKey() +
                         "\\" +
-                        boardEntry.getValue();
+                        boardEntry.getValue() + "\n";
                 bw.write(line);
             }
 

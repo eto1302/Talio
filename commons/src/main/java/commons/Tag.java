@@ -23,6 +23,17 @@ public class Tag {
     @JoinColumn(name="taskId")
     private Task task;
 
+    @Column
+    private int taskID;
+
+    @JsonBackReference
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name = "boardId")
+    private Board board;
+
+    @Column
+    private int boardID;
+
 
     /**
      * Creates a new tag object with the given name and color.
@@ -42,6 +53,42 @@ public class Tag {
      * Creates a new Tag object.
      */
     public Tag(){}
+
+    /**
+     * Returns the task associated with the tag.
+     *
+     * @return The task associated with the tag.
+     */
+    public Task getTask() {
+        return task;
+    }
+
+    /**
+     * Sets the task associated with the tag.
+     *
+     * @param task The task associated with the tag.
+     */
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
+    /**
+     * Returns the board associated with the tag.
+     *
+     * @return The board associated with the tag.
+     */
+    public Board getBoard() {
+        return board;
+    }
+
+    /**
+     * Sets the board associated with the tag.
+     *
+     * @param board The board associated with the tag.
+     */
+    public void setBoard(Board board) {
+        this.board = board;
+    }
 
     /**
      * Returns the id of the tag.
@@ -91,6 +138,38 @@ public class Tag {
      */
     public void setColor(String color) {
         this.color = color;
+    }
+
+    /**
+     * Returns the ID of the task associated with the tag.
+     * @return The id of the task associated with the tag.
+     */
+    public int getTaskID() {
+        return taskID;
+    }
+
+    /**
+     * Sets the ID of the task associated with the tag.
+     * @param taskID The id of the task associated with the tag.
+     */
+    public void setTaskID(int taskID) {
+        this.taskID = taskID;
+    }
+
+    /**
+     * Returns the ID of the board associated with the tag.
+     * @return The id of the board associated with the tag.
+     */
+    public int getBoardID() {
+        return boardID;
+    }
+
+    /**
+     * Sets the ID of the board associated with the tag.
+     * @param boardID The id of the board associated with the tag.
+     */
+    public void setBoardID(int boardID) {
+        this.boardID = boardID;
     }
 
     /**

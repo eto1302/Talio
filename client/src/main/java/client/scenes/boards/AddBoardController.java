@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
 
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class AddBoardController {
@@ -49,7 +49,7 @@ public class AddBoardController {
      * Converts the user data into a board and sends it to the server
      */
     public void addBoard(){
-        Board board = Board.create(nameField.getText(), null, new HashSet<>(),
+        Board board = Board.create(nameField.getText(), null, new LinkedList<>(),
                 colorToHex(fontColor.getValue()), colorToHex(backgroundColor.getValue()));
         String inviteKey = generateInviteKey();
         board.setInviteKey(inviteKey);
@@ -83,7 +83,7 @@ public class AddBoardController {
      * @return board, the user created
      */
     private Board getBoard() {
-        return Board.create(nameField.getText(), null, new HashSet<>(),
+        return Board.create(nameField.getText(), null, new LinkedList<>(),
                 colorToHex(fontColor.getValue()), colorToHex(backgroundColor.getValue()));
     }
 

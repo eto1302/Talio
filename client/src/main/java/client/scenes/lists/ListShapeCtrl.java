@@ -73,11 +73,6 @@ public class ListShapeCtrl {
         showCtrl.refreshBoardCtrl();
     }
 
-    public Scene putTask(Scene scene){
-        tasksBox.getChildren().add(scene.getRoot());
-        return tasksBox.getScene();
-    }
-
     /**
      * deletes the list from the board
      */
@@ -138,7 +133,6 @@ public class ListShapeCtrl {
     public Scene addTask(Scene taskScene, Task task){
         Node root = taskScene.getRoot();
         tasksBox.getChildren().add(root);
-        task.setIndex(tasksBox.getChildren().indexOf(root));
         return tasksBox.getScene();
     }
 

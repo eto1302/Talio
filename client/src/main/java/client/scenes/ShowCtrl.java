@@ -1,21 +1,5 @@
 package client.scenes;
 
-import client.scenes.boards.AddBoardController;
-import client.scenes.boards.BoardController;
-import client.scenes.boards.BoardShape;
-import client.scenes.boards.EditBoardController;
-import client.scenes.lists.AddListController;
-import client.scenes.lists.EditListController;
-import client.scenes.lists.ListShapeCtrl;
-import client.scenes.subtasks.AddSubTaskController;
-import client.scenes.subtasks.EditSubTaskController;
-import client.scenes.subtasks.SubTaskShapeCtrl;
-import client.scenes.tags.AddTagController;
-import client.scenes.tags.TagOverviewController;
-import client.scenes.tasks.AddTaskController;
-import client.scenes.tasks.EditTaskController;
-import client.scenes.tasks.TaskOverview;
-import client.scenes.tasks.TaskShape;
 import commons.Board;
 import commons.Subtask;
 import commons.Tag;
@@ -44,7 +28,7 @@ public class ShowCtrl implements IShowCtrl {
 
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, board, taskOverview, connection,
-            addBoard, editTask, errorScene, admin, editBoard, tagOverview;
+            addBoard, editTask, errorScene, admin, editBoard, tagOverview, help;
     private AddListController addListCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
@@ -56,6 +40,7 @@ public class ShowCtrl implements IShowCtrl {
     private ErrorController errorController;
     private AdminController adminController;
     private EditBoardController editBoardController;
+    private HelpCtrl helpCtrl;
 
     private TagOverviewController tagOverviewController;
     private Map<Integer, ListShapeCtrl> listControllers;
@@ -84,6 +69,8 @@ public class ShowCtrl implements IShowCtrl {
         editBoardController = (EditBoardController) loader.get(9).getKey();
         tagOverview = new Scene((Parent) loader.get(10).getValue());
         tagOverviewController = (TagOverviewController) loader.get(10).getKey();
+        help = new Scene((Parent) loader.get(10).getValue());
+        helpCtrl = (HelpCtrl) loader.get(10).getKey();
 
         listControllers = new HashMap<>();
 
@@ -393,4 +380,24 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.setScene(this.tagOverview);
 
     }
+
+    public void refreshList(int listID) {
+        ListShapeCtrl ctrl = listControllers.get(listID);
+        if(ctrl != null)
+            ctrl.refreshList();
+    }
+
+    public void showHelpMenu(){
+        popUpStage=new Stage();
+        help.setOnKeyReleased(event->{
+            if (event.getCode()==KeyCode.Q)
+                closePopUp();
+        });
+        popUpStage.setScene(help);
+        popUpStage.setTitle("Help menu - Shortcuts");
+        popUpStage.setResizable(false);
+
+        popUpStage.show();
+    }
+
 }

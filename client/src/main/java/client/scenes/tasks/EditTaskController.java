@@ -1,7 +1,8 @@
-package client.scenes.tasks;
+package client.scenes;
 
 import client.scenes.ShowCtrl;
 import client.scenes.lists.ListShapeCtrl;
+import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Subtask;

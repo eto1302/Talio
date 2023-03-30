@@ -55,7 +55,7 @@ public class TaskShape {
      * On double-click, this will show the window containing the overview (details of the task)
      */
     public void doubleClick (){
-        grid.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        grid.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
@@ -76,7 +76,7 @@ public class TaskShape {
         addTagMarkers(task);
         this.task = task;
         title.setText(task.getTitle());
-        if (task.getDescription()==null)
+        if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
         return grid.getScene();
     }
@@ -121,6 +121,7 @@ public class TaskShape {
         grid.setOnDragDetected(this::dragDetected);
         grid.setOnDragOver(this::dragOver);
         grid.setOnDragDropped(this::dragDrop);
+        grid.setOnDragDone(this::dragDone);
         grid.setOnMousePressed(event-> grid.setOpacity(0.4));
         grid.setOnMouseReleased(event-> grid.setOpacity(1));
     }
@@ -169,6 +170,7 @@ public class TaskShape {
     private void dragDrop(DragEvent event){
         Dragboard dragboard = event.getDragboard();
         Object source = event.getGestureSource();
+        boolean done=false;
 
         String identify = dragboard.getString();
         int taskId = Integer.parseInt(identify.split("\\+")[0].trim());
@@ -178,7 +180,7 @@ public class TaskShape {
         Task previousTask = server.getTask(taskId);
         List currentlist = server.getList(task.getListID());
 
-        if (previousListId==task.getListID()){
+        if (dragboard.hasString() && previousListId==task.getListID()){
             VBox parent = (VBox) grid.getParent();
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
             ArrayList<Task> orderedTasks=
@@ -190,8 +192,9 @@ public class TaskShape {
 
             parent.getChildren().clear();
             parent.getChildren().addAll(children);
+            done=true;
         }
-        else{
+        else if (dragboard.hasString() && previousListId!=task.getListID()){
             List previousList = server.getList(previousListId);
             previousList.getTasks().remove(previousTask);
             VBox parent = (VBox) grid.getParent();
@@ -206,10 +209,21 @@ public class TaskShape {
             currentlist.getTasks().add(previousTask);
             java.util.List<Task> previousListTasks = server.getTasksOrdered(previousListId);
             reorderTasks(previousListTasks, previousList);
+            done=true;
         }
         ((GridPane) source).setOpacity(1);
 
-        event.setDropCompleted(true);
+        event.setDropCompleted(done);
+        event.consume();
+    }
+
+    /**
+     * Makes the task's opacity back to normal even if the drag was unsuccessful
+     * @param event the drag event
+     */
+    private void dragDone(DragEvent event){
+        Object source = event.getGestureSource();
+        ((GridPane) source).setOpacity(1);
         event.consume();
     }
 

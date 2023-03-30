@@ -38,11 +38,15 @@ public class Board {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "board")
-    private Set<List> lists;
+    private java.util.List<List> lists;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board")
+    private java.util.List<Tag> tags;
+
+    @OneToMany
     @JoinColumn(name = "tagId", referencedColumnName = "id")
-    private Tag tag;
+    private java.util.List<Tag> tag;
 
     /**
      * Creates a new Board object with the given name, password, and set of lists.
@@ -52,7 +56,7 @@ public class Board {
      * @param lists    The set of lists associated with the board.
      * @return A new Board object with the given name, password, and set of lists.
      */
-    public static Board create(String name, String password, Set<List> lists,
+    public static Board create(String name, String password, java.util.List<List> lists,
                                String fontColor, String backgroundColor) {
         Board board = new Board();
         board.name = name;
@@ -60,6 +64,7 @@ public class Board {
         board.lists = lists;
         board.fontColor = fontColor;
         board.backgroundColor = backgroundColor;
+        board.tags = new ArrayList<>();
         return board;
     }
 
@@ -101,9 +106,16 @@ public class Board {
      *
      * @return The set of lists associated with the board.
      */
-    public Set<List> getLists() {
+    public java.util.List<List> getLists() {
         return lists;
     }
+
+    /**
+     * Returns the list of tags associated with the board.
+     *
+     * @return The list of tags associated with the board.
+     */
+    public java.util.List<Tag> getTags() { return tags; }
 
     /**
      * Sets the name of the board.
@@ -128,7 +140,7 @@ public class Board {
      *
      * @param lists The new lists of the board.
      */
-    public void setLists(Set<List> lists) {
+    public void setLists(java.util.List<List> lists) {
         this.lists = lists;
     }
 
