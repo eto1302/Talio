@@ -8,8 +8,29 @@ public class TaskDeleted extends BoardUpdate{
     private int taskID;
     private int listID;
 
-    public TaskDeleted(int taskID, int listID){
+    public TaskDeleted(int boardID, int taskID, int listID) {
+        super(boardID);
         this.taskID = taskID;
+        this.listID = listID;
+    }
+
+    public TaskDeleted() {
+        super();
+    }
+
+    public int getTaskID() {
+        return taskID;
+    }
+
+    public void setTaskID(int taskID) {
+        this.taskID = taskID;
+    }
+
+    public int getListID() {
+        return listID;
+    }
+
+    public void setListID(int listID) {
         this.listID = listID;
     }
 
@@ -20,7 +41,12 @@ public class TaskDeleted extends BoardUpdate{
 
     @Override
     public void apply(IUserData data) {
-        //TODO
+        commons.List list = data.getCurrentBoard().getLists().stream()
+                .filter(e -> e.getId() == listID).findFirst().orElse(null);
+        commons.Task task = list.getTasks().stream().filter(e ->
+                e.getId() == taskID).findFirst().orElse(null);
+        list.getTasks().remove(task);
+        data.getShowCtrl().deleteTask(task);
     }
 
 }

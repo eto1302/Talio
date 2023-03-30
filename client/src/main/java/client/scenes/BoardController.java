@@ -7,13 +7,12 @@ import commons.Task;
 import commons.models.IdResponseModel;
 import commons.sync.BoardDeleted;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -36,7 +35,6 @@ public class BoardController {
 
     private final ShowCtrl showCtrl;
     private ServerUtils server;
-    private Stage primaryStage;
 
     @Inject
     private UserData userData;
@@ -48,8 +46,7 @@ public class BoardController {
     }
 
 
-    public void setup(Stage primaryStage) {
-        this.primaryStage=primaryStage;
+    public void setup() {
         refresh();
     }
 
@@ -107,12 +104,10 @@ public class BoardController {
 
     /**
      * Puts the root of the scene (the grid representing the list) inside the board
-     * @param scene ,whose root we are looking to add to our board
-     * @return the updated scene of the board
+     * @param root the root we are looking to add to our board
      */
-    public Scene putList(Scene scene){
-        listBox.getChildren().add(scene.getRoot());
-        return boardLabel.getScene();
+    public void putList(Parent root) {
+        listBox.getChildren().add(root);
     }
 
     public void setServer() {

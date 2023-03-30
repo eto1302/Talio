@@ -1,24 +1,24 @@
 package client.scenes;
 
+import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Task;
 import commons.models.TaskEditModel;
+import commons.sync.TaskDeleted;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Label;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -32,22 +32,23 @@ public class TaskShape {
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
     private ListShapeCtrl controller;
     private commons.Task task;
-    private Stage primaryStage;
+    private UserData userData;
 
     @Inject
-    public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils){
-        this.showCtrl=showCtrl;
-        server=serverUtils;
+    public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
+        this.showCtrl = showCtrl;
+        this.server = serverUtils;
+        this.userData = userData;
     }
 
-    public void setTaskUpdated(){
+    public void setTaskUpdated() {
         task=server.getTask(task.getId());
     }
 
     /**
      * On double-click, this will show the window containing the overview (details of the task)
      */
-    public void doubleClick (){
+    public void doubleClick () {
         grid.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -63,26 +64,29 @@ public class TaskShape {
     /**
      * Sets the content of the task accordingly.
      * @param task the task whose information will be displayed
-     * @return the new scene updated
      */
-    public Scene getSceneUpdated(Task task){
+    public void updateScene(Task task){
         this.task = task;
         title.setText(task.getTitle());
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
-        return grid.getScene();
     }
 
     /**
-     * deletes the task
+     * Adds the delete event to the controller
      */
-    public void delete(){
-        deleteX.setOnMouseClicked(event -> {
-            VBox parent = (VBox) grid.getParent();
-            parent.getChildren().remove(grid);
-            server.removeTask(task.getId(), task.getListID());
-        });
+    public void deleteEvent() {
+        deleteX.setOnMouseClicked(event -> userData.updateBoard(new TaskDeleted(userData
+                .getCurrentBoard().getId(), task.getId(), task.getListID())));
+    }
 
+    /**
+     * Deletes the task
+     */
+    public void delete() {
+        VBox parent = (VBox) grid.getParent();
+        parent.getChildren().remove(grid);
+        server.removeTask(task.getId(), task.getListID());
     }
 
     /**
@@ -91,9 +95,8 @@ public class TaskShape {
 //     * @param id the id of the task
 //     * @param list the task's list
      */
-    public void set(Task task, Stage primaryStage, ListShapeCtrl listShapeCtrl){
+    public void set(Task task, ListShapeCtrl listShapeCtrl){
         this.task = task;
-        this.primaryStage = primaryStage;
         this.controller = listShapeCtrl;
         if (task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
