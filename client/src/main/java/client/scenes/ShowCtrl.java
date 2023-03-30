@@ -378,11 +378,11 @@ public class ShowCtrl implements IShowCtrl {
         adminController.setup();
     }
 
-    public void showEditBoard(BoardController controller) {
+    public void showEditBoard() {
         secondaryStage = new Stage();
         secondaryStage.setTitle("Edit Board");
         secondaryStage.setScene(this.editBoard);
-        editBoardController.setup(controller);
+        editBoardController.setup();
         secondaryStage.show();
     }
     public void refreshBoardCtrl() {
@@ -398,6 +398,11 @@ public class ShowCtrl implements IShowCtrl {
 
     public void deleteTaskColor(Color color) {
 
+    }
+
+    @Override
+    public void editColor(Color color) {
+        this.boardController.refresh();
     }
 
     public void showColorPicker() {

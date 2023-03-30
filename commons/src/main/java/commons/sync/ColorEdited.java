@@ -1,5 +1,6 @@
 package commons.sync;
 
+import commons.Color;
 import commons.mocks.IServerUtils;
 import commons.mocks.IUserData;
 import commons.models.ColorEditModel;
@@ -43,12 +44,21 @@ public class ColorEdited extends BoardUpdate {
 
     @Override
     public void apply(IUserData data) {
-        commons.Color color = data.getCurrentBoard().getTaskColors().stream()
-                .filter(e -> e.getId() == colorId).findFirst().orElse(null);
+        Color color;
+        if(data.getCurrentBoard().getBoardColor().getId() == colorId){
+            color = data.getCurrentBoard().getBoardColor();
+        }
+        else if(data.getCurrentBoard().getListColor().getId() == colorId){
+            color = data.getCurrentBoard().getListColor();
+        }
+        else{
+            color = data.getCurrentBoard().getTaskColors().stream()
+                    .filter(e -> e.getId() == colorId).findFirst().orElse(null);
+        }
         color.setFontColor(edit.getFontColor());
         color.setBackgroundColor(edit.getBackgroundColor());
         color.setDefault(edit.isDefault());
-        //data.getShowCtrl().editColor(color);
+        data.getShowCtrl().editColor(color);
     }
 
 }

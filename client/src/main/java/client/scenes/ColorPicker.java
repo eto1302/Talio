@@ -2,6 +2,9 @@ package client.scenes;
 
 import client.user.UserData;
 import commons.Board;
+import commons.models.ColorEditModel;
+import commons.models.IdResponseModel;
+import commons.sync.ColorEdited;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -34,7 +37,37 @@ public class ColorPicker {
     }
 
     public void save(){
+        Board board = this.userData.getCurrentBoard();
+        commons.Color boardColor = commons.Color.create(
+                colorToHex(boardFont.getValue()), colorToHex(boardBackground.getValue()));
+        commons.Color listColor = commons.Color.create(
+                colorToHex(listFont.getValue()), colorToHex(listBackground.getValue()));
+
+        ColorEditModel boardColorEdit = new ColorEditModel(
+                boardColor.getBackgroundColor(), boardColor.getFontColor(), false);
+        ColorEditModel listColorEdit = new ColorEditModel(
+                listColor.getBackgroundColor(), listColor.getFontColor(), false);
+
+
+        IdResponseModel boardModel = userData.updateBoard(new ColorEdited(
+                board.getId(), board.getBoardColor().getId(), boardColorEdit));
+        if (boardModel.getId() == -1) {
+            showCtrl.showError(boardModel.getErrorMessage());
+            showCtrl.cancel();
+            return;
+        }
+
+        IdResponseModel listModel = userData.updateBoard(new ColorEdited(
+                board.getId(), board.getListColor().getId(), listColorEdit));
+        if (listModel.getId() == -1) {
+            showCtrl.showError(listModel.getErrorMessage());
+            showCtrl.cancel();
+            return;
+        }
+
+        this.userData.openBoard(board.getId());
         showCtrl.cancel();
+        showCtrl.showEditBoard();
     }
 
     public void reset(){
@@ -71,5 +104,18 @@ public class ColorPicker {
     public void showAddTaskColor() {
         this.showCtrl.cancel();
         this.showCtrl.showAddTagColor();
+    }
+
+    /**
+     * Returns a hexadecimal string representation of javafx.scene.paint.Color.
+     * @param color the color to be transformed
+     * @return string representation of the color.
+     */
+    private String colorToHex(javafx.scene.paint.Color color){
+        String hexString = String.format("#%02X%02X%02X",
+                (int)(color.getRed() * 255),
+                (int)(color.getGreen() * 255),
+                (int)(color.getBlue() * 255));
+        return hexString;
     }
 }

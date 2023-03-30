@@ -7,6 +7,9 @@ public class BoardEditModel {
         this.name = name;
     }
 
+    public BoardEditModel() {
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -14,7 +17,6 @@ public class BoardEditModel {
     public String getName() {
         return name;
     }
-
     @Override
     public String toString() {
         return "BoardEditModel{" +

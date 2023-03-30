@@ -72,7 +72,7 @@ public class BoardController {
         return boardService.verifyAdminPassword(password);
     }
     @PostMapping("/edit/{boardId}")
-    public IdResponseModel editList(@PathVariable int boardId, @RequestBody BoardEditModel model) {
+    public IdResponseModel editBoard(@PathVariable int boardId, @RequestBody BoardEditModel model) {
         return boardService.editBoard(boardId, model);
     }
 }

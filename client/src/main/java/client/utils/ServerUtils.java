@@ -88,9 +88,7 @@ public class ServerUtils implements IServerUtils {
         try {
             HttpEntity<BoardEditModel> req = new HttpEntity<BoardEditModel>(edit);
             ResponseEntity<IdResponseModel> response = client.postForEntity(
-                    url+"board/edit/"+boardId, req,
-                    IdResponseModel.class
-            );
+                    url+"board/edit/"+boardId, req, IdResponseModel.class);
 
             if (boardId != response.getBody().getId())
                 return new IdResponseModel(-1, "Board doesn't match");

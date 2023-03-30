@@ -54,13 +54,13 @@ public class EditBoardController {
         return hexString;
     }
 
-    public void setup(BoardController controller){
-        this.boardController=controller;
+    public void setup(){
         Board currentBoard = this.userData.getCurrentBoard();
         this.newTitle.setText(currentBoard.getName());
     }
 
     public void showColorPicker() {
+        showCtrl.cancel();
         showCtrl.showColorPicker();
     }
 }

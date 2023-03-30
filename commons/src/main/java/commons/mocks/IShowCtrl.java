@@ -20,5 +20,7 @@ public interface IShowCtrl {
 
     void deleteTaskColor(Color color);
 
+    void editColor(Color color);
+
 //    void addTask(Task task);
 }

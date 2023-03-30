@@ -91,7 +91,6 @@ public class BoardController {
                 showCtrl.addTask(task, list);
             }
         }
-
     }
 
     public void showYourBoards(){
@@ -127,7 +126,7 @@ public class BoardController {
     }
 
 
-    public void showEditBoard() { showCtrl.showEditBoard(this);}
+    public void showEditBoard() { showCtrl.showEditBoard();}
 
     public void delete() {
         Board board = this.userData.getCurrentBoard();
