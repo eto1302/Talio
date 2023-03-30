@@ -3,6 +3,7 @@ package client.scenes;
 
 import client.user.UserData;
 import client.utils.ServerUtils;
+import commons.Board;
 import commons.List;
 import commons.models.IdResponseModel;
 import commons.sync.ListDeleted;
@@ -60,8 +61,9 @@ public class ListShapeCtrl {
      */
     public Scene getSceneUpdated(commons.List list){
         listTitle.setText(list.getName());
-        Color backgroundColor= Color.web(list.getBoard().getListColor().getBackgroundColor());
-        Color fontColor= Color.web(list.getBoard().getListColor().getFontColor());
+        Board board = this.userData.getCurrentBoard();
+        Color backgroundColor= Color.web(board.getListColor().getBackgroundColor());
+        Color fontColor= Color.web(board.getListColor().getFontColor());
 
         listGrid.setBackground(new Background(
                 new BackgroundFill(backgroundColor, null, null)));
