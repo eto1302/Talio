@@ -3,6 +3,7 @@ package commons;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -23,10 +24,18 @@ public class Tag {
     @JoinColumn(name="taskId")
     private Task task;
 
+    @Column
+    @NotNull
+    private int taskID;
+
     @JsonBackReference
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "boardId")
     private Board board;
+
+    @Column
+    @NotNull
+    private int boardID;
 
 
     /**
@@ -132,6 +141,38 @@ public class Tag {
      */
     public void setColor(String color) {
         this.color = color;
+    }
+
+    /**
+     * Returns the ID of the task associated with the tag.
+     * @return The id of the task associated with the tag.
+     */
+    public int getTaskID() {
+        return taskID;
+    }
+
+    /**
+     * Sets the ID of the task associated with the tag.
+     * @param taskID The id of the task associated with the tag.
+     */
+    public void setTaskID(int taskID) {
+        this.taskID = taskID;
+    }
+
+    /**
+     * Returns the ID of the board associated with the tag.
+     * @return The id of the board associated with the tag.
+     */
+    public int getBoardID() {
+        return boardID;
+    }
+
+    /**
+     * Sets the ID of the board associated with the tag.
+     * @param boardID The id of the board associated with the tag.
+     */
+    public void setBoardID(int boardID) {
+        this.boardID = boardID;
     }
 
     /**

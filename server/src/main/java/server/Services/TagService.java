@@ -54,6 +54,8 @@ public class TagService {
             Task task = taskRepository.getTaskById(taskID);
             task.getTags().add(tag);
             tag.setTask(task);
+            tag.setTaskID(taskID);
+            tag.setBoardID(-1);
             tagRepository.save(tag);
             return new IdResponseModel(tag.getId(), null);
         }
@@ -67,6 +69,8 @@ public class TagService {
             Board board = boardRepository.getBoardByID(boardID);
             board.getTags().add(tag);
             tag.setBoard(board);
+            tag.setBoardID(boardID);
+            tag.setTaskID(-1);
             tagRepository.save(tag);
             return new IdResponseModel(tag.getId(), null);
         }
@@ -78,16 +82,14 @@ public class TagService {
     public IdResponseModel removeTag(int tagID){
         try{
             Tag tag = tagRepository.getTagById(tagID);
-            Task task = tag.getTask();
-            if(task != null){
-                int taskID = task.getId();
-                task = taskRepository.getTaskById(taskID);
+            if(tag.getTaskID() != -1){
+                Task task = taskRepository.getTaskById(tag.getTaskID());
+                task.getTags().remove(tag);
                 tagRepository.delete(tag);
                 return new IdResponseModel(tagID, null);
             }
             else{
-                int boardID = tag.getBoard().getId();
-                Board board = boardRepository.getBoardByID(boardID);
+                Board board = boardRepository.getBoardByID(tag.getBoardID());
                 board.getTags().remove(tag);
                 tagRepository.delete(tag);
                 return new IdResponseModel(tagID, null);

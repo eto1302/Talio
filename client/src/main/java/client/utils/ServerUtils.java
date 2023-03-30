@@ -500,7 +500,7 @@ public class ServerUtils implements IServerUtils {
             return response.getBody();
         }
         catch(Exception e){
-                return new IdResponseModel(-1, "Oops, failed to connect to the server...");
+            return new IdResponseModel(-1, "Oops, failed to connect to the server...");
         }
     }
 
