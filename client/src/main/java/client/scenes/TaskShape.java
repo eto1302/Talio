@@ -1,23 +1,24 @@
 package client.scenes;
 
+import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Task;
 import commons.models.TaskEditModel;
+import commons.sync.TaskDeleted;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Label;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
-import javafx.scene.control.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -31,16 +32,18 @@ public class TaskShape {
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
     private ListShapeCtrl controller;
     private commons.Task task;
+    private UserData userData;
     private boolean selected;
     private String style;
 
     @Inject
-    public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils){
-        this.showCtrl=showCtrl;
-        server=serverUtils;
+    public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
+        this.showCtrl = showCtrl;
+        this.server = serverUtils;
+        this.userData = userData;
     }
 
-    public void setTaskUpdated(){
+    public void setTaskUpdated() {
         task=server.getTask(task.getId());
     }
 
@@ -51,7 +54,8 @@ public class TaskShape {
         TaskShape selectedTask = controller.findSelectedTask();
         if (selectedTask==null) {
             selected = true;
-            grid.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(14,43,111,1), 10, 0, 0, 0)");
+            grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
+                    "-fx-border-width: 3px");
         }
         else{
             selected=false;
@@ -80,40 +84,45 @@ public class TaskShape {
     public void setStatus(boolean selected){
         this.selected=selected;
         if (selected)
-            grid.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(14,43,111,1), 10, 0, 0, 0)");
+            grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
+                    "-fx-border-width: 3px");
         else grid.setStyle(style);
     }
 
     /**
      * Sets the content of the task accordingly.
      * @param task the task whose information will be displayed
-     * @return the new scene updated
      */
-    public Scene getSceneUpdated(Task task){
+    public void updateScene(Task task){
         this.task = task;
         title.setText(task.getTitle());
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
-        return grid.getScene();
     }
 
     /**
-     * deletes the task
+     * Adds the delete event to the controller
      */
-    public void delete(){
-        deleteX.setOnMouseClicked(event -> {
-            VBox parent = (VBox) grid.getParent();
-            parent.getChildren().remove(grid);
-            server.removeTask(task.getId(), task.getListID());
-            controller.getTaskControllers().remove(this);
-        });
-
+    public void delete() {
+        VBox parent = (VBox) grid.getParent();
+        parent.getChildren().remove(grid);
+        server.removeTask(task.getId(), task.getListID());
+        controller.getTaskControllers().remove(this);
     }
+
+    public void deleteEvent() {
+        deleteX.setOnMouseClicked(event -> userData.updateBoard(new TaskDeleted(userData
+                .getCurrentBoard().getId(), task.getId(), task.getListID())));
+    }
+
+
+
 
     public void deleteOnKey(){
         VBox parent = (VBox) grid.getParent();
         parent.getChildren().remove(grid);
-        server.removeTask(task.getId(), task.getListID());
+        userData.updateBoard(new TaskDeleted(userData
+                .getCurrentBoard().getId(), task.getId(), task.getListID()));
         controller.getTaskControllers().remove(this);
     }
     /**

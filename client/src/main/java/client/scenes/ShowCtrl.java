@@ -17,9 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static client.utils.Constants.FXML;
 
@@ -41,7 +39,6 @@ public class ShowCtrl implements IShowCtrl {
     private AdminController adminController;
     private EditBoardController editBoardController;
     private HelpCtrl helpCtrl;
-    private Map<Integer, ListShapeCtrl> listControllers;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
         this.primaryStage = primaryStage;
@@ -68,7 +65,6 @@ public class ShowCtrl implements IShowCtrl {
         help = new Scene((Parent) loader.get(10).getValue());
         helpCtrl = (HelpCtrl) loader.get(10).getKey();
 
-        listControllers = new HashMap<>();
         setUpKeys();
 
         showConnection();
@@ -212,9 +208,8 @@ public class ShowCtrl implements IShowCtrl {
      * @param list the updated list
      */
     public void editList(commons.List list) {
-        ListShapeCtrl controller = listControllers.get(list.getId());
-        Scene updated = controller.getSceneUpdated(list);
-        primaryStage.setScene(updated);
+        ListShapeCtrl controller = getListController(list.getId());
+        controller.updateScene(list);
     }
 
     /**
@@ -222,9 +217,9 @@ public class ShowCtrl implements IShowCtrl {
      * @param list the list to delete
      */
     public void deleteList(commons.List list) {
-        ListShapeCtrl controller = listControllers.get(list.getId());
+        ListShapeCtrl controller = getListController(list.getId());
         if(controller != null) {
-            listControllers.remove(list.getId());
+            boardController.deleteList(controller);
             controller.deleteList();
         }
     }
@@ -237,16 +232,10 @@ public class ShowCtrl implements IShowCtrl {
      */
     public ListShapeCtrl addList(commons.List list) {
         var listShape = FXML.load(ListShapeCtrl.class, "client", "scenes", "List.fxml");
-        Scene initializeList = new Scene(listShape.getValue());
         ListShapeCtrl listShapeCtrl = listShape.getKey();
 
-        listShapeCtrl.set(list);
-        Scene listScene = listShapeCtrl.getSceneUpdated(list);
-        Scene scene = boardController.putList(listScene);
-        boardController.addListCtrl(listShapeCtrl);
-
-        primaryStage.setScene(scene);
-        listControllers.put(list.getId(), listShapeCtrl);
+        listShapeCtrl.updateScene(list);
+        boardController.putList(listShape.getValue(), listShapeCtrl);
         return listShapeCtrl;
     }
 
@@ -257,14 +246,18 @@ public class ShowCtrl implements IShowCtrl {
      */
     public void addTask(Task task, commons.List list) {
         var taskShape = FXML.load(TaskShape.class, "client", "scenes", "Task.fxml");
-        Scene taskScene = new Scene(taskShape.getValue());
         TaskShape taskShapeCtrl = taskShape.getKey();
-        ListShapeCtrl listShapeCtrl = listControllers.get(list.getId());
+        ListShapeCtrl listShapeCtrl = getListController(list.getId());
 
         taskShapeCtrl.set(task, listShapeCtrl);
-        Scene updated = taskShapeCtrl.getSceneUpdated(task);
-        Scene scene = listShapeCtrl.addTask(updated, taskShapeCtrl);
-        primaryStage.setScene(scene);
+        taskShapeCtrl.updateScene(task);
+        listShapeCtrl.addTask(taskShape.getValue(), taskShapeCtrl);
+    }
+
+    public void deleteTask(Task task) {
+        ListShapeCtrl listShapeCtrl = getListController(task.getListID());
+        if(listShapeCtrl != null)
+            listShapeCtrl.removeTask(task.getId());
     }
 
     /**
@@ -380,7 +373,7 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     public void refreshList(int listID) {
-        ListShapeCtrl ctrl = listControllers.get(listID);
+        ListShapeCtrl ctrl = getListController(listID);
         if(ctrl != null)
             ctrl.refreshList();
     }
@@ -396,6 +389,12 @@ public class ShowCtrl implements IShowCtrl {
         popUpStage.setResizable(false);
 
         popUpStage.show();
+    }
+
+    private ListShapeCtrl getListController(int listId) {
+        ListShapeCtrl controller = boardController.getListControllers().stream()
+                .filter(e -> e.getList().getId() == listId).findFirst().orElse(null);
+        return controller;
     }
 
 }

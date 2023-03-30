@@ -4,14 +4,13 @@ package client.scenes;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
-import commons.models.IdResponseModel;
-import commons.sync.ListDeleted;
 import commons.Task;
+import commons.models.IdResponseModel;
 import commons.models.TaskEditModel;
+import commons.sync.ListDeleted;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.geometry.Bounds;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -39,30 +38,15 @@ public class ListShapeCtrl {
     private final ServerUtils serverUtils;
     private final UserData userData;
     private List list;
-    private LinkedList<TaskShape> taskControllers;
 
+    private final LinkedList<TaskShape> taskControllers;
 
     @Inject
     public ListShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl = showCtrl;
         this.serverUtils = serverUtils;
         this.userData = userData;
-    }
-
-    /**
-     * Updates the list's visual (sets the title and the colors of it)
-     * based on the list object that is passed on
-     * @param list the list with the necessary attributes
-     * @return the updated scene after modifications
-     */
-    public Scene getSceneUpdated(commons.List list){
-        listTitle.setText(list.getName());
-        Color backgroundColor= Color.web(list.getBackgroundColor());
-        Color fontColor= Color.web(list.getFontColor());
-
-        listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
-        listTitle.setTextFill(fontColor);
-        return listGrid.getScene();
+        this.taskControllers = new LinkedList<>();
     }
 
     public void refreshList(){
@@ -105,15 +89,22 @@ public class ListShapeCtrl {
     }
 
     /**
-     * sets information
+     * sets list and updates the list's visual (sets the title
+     * and the colors of it) based on the list object that is passed on
      * @param list our list
      */
-    public void set(List list){
-        this.list=list;
-        taskControllers=new LinkedList<>();
+    public void updateScene(List list) {
+        this.list = list;
 
         listGrid.setOnDragOver(this::dragOver);
         listGrid.setOnDragDropped(this::dragDrop);
+
+        listTitle.setText(list.getName());
+        Color backgroundColor= Color.web(list.getBackgroundColor());
+        Color fontColor= Color.web(list.getFontColor());
+
+        listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
+        listTitle.setTextFill(fontColor);
     }
     public List getList(){
         return list;
@@ -128,15 +119,24 @@ public class ListShapeCtrl {
 
     /**
      * Adds the task inside the box with tasks
-     * @param taskScene the scene containing the grid representing
-     * @return the updated scene
+     * @param root the grid representing the task UI
      */
-    public Scene addTask(Scene taskScene, TaskShape controller){
-        taskControllers.addLast(controller);
-
-        Node root = taskScene.getRoot();
+    public void addTask(Parent root, TaskShape controller) {
         tasksBox.getChildren().add(root);
-        return tasksBox.getScene();
+        taskControllers.addLast(controller);
+    }
+
+    /**
+     * Removes the task from the list
+     * @param taskId the ID of the task to remove
+     */
+    public void removeTask(int taskId) {
+        TaskShape controller = taskControllers.stream().filter(e ->
+                e.getTask().getId() == taskId).findFirst().orElse(null);
+        if(controller != null) {
+            controller.delete();
+            taskControllers.remove(controller);
+        }
     }
 
     public LinkedList<TaskShape> getTaskControllers() {

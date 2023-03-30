@@ -7,8 +7,8 @@ import commons.Task;
 import commons.models.IdResponseModel;
 import commons.sync.BoardDeleted;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.geometry.Bounds;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
@@ -20,7 +20,6 @@ import javafx.scene.paint.Color;
 import javax.inject.Inject;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 public class BoardController {
     @FXML
@@ -55,9 +54,6 @@ public class BoardController {
         refresh();
     }
 
-    public void addListCtrl(ListShapeCtrl ctrl){
-        listControllers.addLast(ctrl);
-    }
     /**
      *  Send a request to the server and fetch all lists stored in the default board with id 1 (for
      *  single board mode).
@@ -69,7 +65,10 @@ public class BoardController {
         this.boardLabel.setTextFill(Color.web(this.userData.getCurrentBoard().getFontColor()));
         listBox.getChildren().clear();
         listBox.getChildren();
-        Set<commons.List> lists;
+        listControllers.clear();
+
+        List<commons.List> lists;
+        java.util.List<commons.Task> tasks;
 
         try {
             userData.refresh();
@@ -108,14 +107,25 @@ public class BoardController {
         showCtrl.showAdmin();
     }
 
+    public LinkedList<ListShapeCtrl> getListControllers() {
+        return listControllers;
+    }
+
     /**
      * Puts the root of the scene (the grid representing the list) inside the board
-     * @param scene ,whose root we are looking to add to our board
-     * @return the updated scene of the board
+     * @param root the root we are looking to add to our board
      */
-    public Scene putList(Scene scene){
-        listBox.getChildren().add(scene.getRoot());
-        return boardLabel.getScene();
+    public void putList(Parent root, ListShapeCtrl ctrl) {
+        listBox.getChildren().add(root);
+        listControllers.addLast(ctrl);
+    }
+
+    /**
+     * Deletes a list shape controller from the controller list
+     * @param ctrl the controller to delete
+     */
+    public void deleteList(ListShapeCtrl ctrl) {
+        listControllers.remove(ctrl);
     }
 
     public void setServer() {
