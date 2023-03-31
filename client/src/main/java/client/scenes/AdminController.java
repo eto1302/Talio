@@ -1,11 +1,10 @@
 package client.scenes;
 
-import client.user.UserData;
+
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 import commons.models.IdResponseModel;
-import commons.sync.BoardDeleted;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,20 +32,12 @@ public class AdminController {
     private TableColumn<Board, String> id, name, pwd;
 
     @Inject
-    private UserData userData;
-
-    @Inject
     public AdminController (ShowCtrl showCtrl, ServerUtils server){
         this.showCtrl=showCtrl;
         this.server = server;
     }
 
-    public void setup(){
-        userData.subscribeToAdmin();
-
-        Board[] boards = server.getAllBoards();
-        ObservableList<Board> boardsList = FXCollections.observableArrayList(boards);
-
+    public void setup() {
         // set up the table
         id.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getId()+""));
@@ -55,8 +46,46 @@ public class AdminController {
         pwd.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getPassword()));
 
-        FilteredList<Board> filteredData = new FilteredList<>(boardsList, p -> true);
+        // allow multiple selection
+        table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
+        // select all the text when the user clicks on the search bar
+        // to make it easier for the user to type in words
+        search.setOnMouseClicked(event -> search.selectAll());
+
+        // display all the boards from the server
+        Board[] boards = server.getAllBoards();
+        refresh(boards);
+
+        // start the thread that will pull for updates using long-polling
+        pullBoardsUpdated();
+    }
+
+    // start the thread that will pull for updates using long-polling
+    public void pullBoardsUpdated() {
+        new Thread(() -> {
+            try {
+
+                // server will return the boards when there is an update
+                // or null when the timeout is reached
+                Board[] boardsUpdated = server.getBoardsUpdated();
+                if (boardsUpdated != null) {
+                    refresh(boardsUpdated);
+                }
+
+                // start the thread again if the server responded or on timeout
+                pullBoardsUpdated();
+
+            } catch (Exception e) {
+                showCtrl.showError(e.getMessage());
+            }
+        }).start();
+    }
+
+    // update UI with the new boards
+    public void refresh(Board[] boards){
+        ObservableList<Board> boardsList = FXCollections.observableArrayList(boards);
+        FilteredList<Board> filteredData = new FilteredList<>(boardsList, p -> true);
         // set the filter Predicate whenever the filter changes
         // (when user search for boards using the search bar)
         search.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -64,8 +93,6 @@ public class AdminController {
         });
 
         table.setItems(filteredData);
-        table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        search.setOnMouseClicked(event -> search.selectAll());
     }
 
 
@@ -93,15 +120,22 @@ public class AdminController {
 
     public void delete(){
         List<Board> boards = table.getSelectionModel().getSelectedItems();
-        for(Board board : boards){
-            BoardDeleted boardDeleted = new BoardDeleted(board.getId());
-            IdResponseModel model = userData.deleteBoard(boardDeleted);
+
+        if (boards.size() == 0) {
+            showCtrl.showError("Please select at least one board to delete.");
+            return;
+        }
+
+        for(int boardId : boards.stream().map(Board::getId).toArray(Integer[]::new)){
+            IdResponseModel model = server.deleteBoard(boardId);
 
             if (model.getId() == -1) {
                 showCtrl.showError(model.getErrorMessage());
                 return;
             }
         }
+
+        refresh(server.getAllBoards());
     }
 
     public boolean verifyAdmin(String password){

@@ -3,10 +3,16 @@ package server.Services;
 import commons.Board;
 import commons.models.IdResponseModel;
 import commons.models.ListEditModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import server.database.BoardRepository;
+
 @Service
 public class BoardService {
+
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
     private BoardRepository boardRepository;
     private String adminPassword;
     public BoardService(BoardRepository boardRepository){
@@ -45,7 +51,6 @@ public class BoardService {
         return password.equals(adminPassword);
     }
 
-
     public Board getBoardById(int id){
         return boardRepository.getBoardByID(id);
     }
@@ -74,5 +79,10 @@ public class BoardService {
         } catch (Exception e) {
             return new IdResponseModel(-1, e.getMessage());
         }
+    }
+
+    public void fireBoardUpdateEvent() {
+        BoardsUpdatedEvent boardsUpdatedEvent = new BoardsUpdatedEvent(this, null);
+        applicationEventPublisher.publishEvent(boardsUpdatedEvent);
     }
 }

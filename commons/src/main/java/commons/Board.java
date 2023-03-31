@@ -1,6 +1,7 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -13,13 +14,16 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "integer")
+    @JsonView(BoardSummary.class)
     private int id;
 
     @Column(name = "name")
+    @JsonView(BoardSummary.class)
     @Size(max = 20)
     private String name;
 
     @Column(name = "password")
+    @JsonView(BoardSummary.class)
     @Size(max = 20)
     private String password;
 

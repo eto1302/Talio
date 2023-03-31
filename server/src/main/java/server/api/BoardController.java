@@ -1,11 +1,15 @@
 package server.api;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import commons.Board;
+import commons.BoardSummary;
 import commons.models.IdResponseModel;
 import commons.models.ListEditModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
 import server.Services.BoardService;
+import server.Services.BoardsUpdatedListener;
 
 import java.util.List;
 
@@ -14,9 +18,11 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final BoardsUpdatedListener boardsUpdatedListener;
 
-    public BoardController(BoardService boardService) {
+    public BoardController(BoardService boardService, BoardsUpdatedListener boardsUpdatedListener) {
         this.boardService = boardService;
+        this.boardsUpdatedListener = boardsUpdatedListener;
     }
 
     /**
@@ -25,7 +31,6 @@ public class BoardController {
      * @return the board or a bad request if there is no such board.
      */
     @GetMapping("/find/{id}")
-    @ResponseBody
     public ResponseEntity<Board> getBoardByID(@PathVariable int id) {
         try {
             Board board = boardService.getBoardById(id);
@@ -43,10 +48,33 @@ public class BoardController {
      */
     @PostMapping("/create")
     public IdResponseModel create(@RequestBody Board board) {
-        return boardService.saveBoard(board);
+        IdResponseModel response = boardService.saveBoard(board);
+        boardService.fireBoardUpdateEvent();
+        return response;
+    }
+
+    /**
+     *  This method used long polling to get the updated boards.
+     *  Created an initial deferred result and add it to the listener,
+     *  when the boardList is updated, the listener will fire the event and
+     *  set the result of the deferred result and return it to the client.
+     *
+     *  The annotation @JsonView(BoardSummary.class) is used to filter the fields,
+     *  only the fields with the annotation @JsonView(BoardSummary.class) will be returned,
+     *  as not all the fields are needed to be displayed in the admin scene.
+     *
+     * @return the updated boardList.
+     */
+    @GetMapping("/findAllUpdated")
+    @JsonView(BoardSummary.class)
+    public DeferredResult<List<Board>> getBoardsUpdated() {
+        DeferredResult<List<Board>> deferredResult = new DeferredResult<>();
+        boardsUpdatedListener.addDeferredResult(deferredResult);
+        return deferredResult;
     }
 
     @GetMapping("/findAll")
+    @JsonView(BoardSummary.class)
     public List<Board> getAllBoards() {
         return boardService.getAllBoards();
     }
@@ -64,7 +92,9 @@ public class BoardController {
     }
     @GetMapping("/delete/{id}")
     public IdResponseModel deleteBoard(@PathVariable int id) {
-        return boardService.deleteBoard(id);
+        IdResponseModel response = boardService.deleteBoard(id);
+        boardService.fireBoardUpdateEvent();
+        return response;
     }
 
     @GetMapping("/verify/{password}")
@@ -73,6 +103,8 @@ public class BoardController {
     }
     @PostMapping("/edit/{boardId}")
     public IdResponseModel editList(@PathVariable int boardId, @RequestBody ListEditModel model) {
-        return boardService.editBoard(boardId, model);
+        IdResponseModel response = boardService.editBoard(boardId, model);
+        boardService.fireBoardUpdateEvent();
+        return response;
     }
 }
