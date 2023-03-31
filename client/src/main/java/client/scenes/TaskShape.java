@@ -21,7 +21,6 @@ import javafx.scene.layout.VBox;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 
 public class TaskShape {
     @FXML
@@ -221,7 +220,6 @@ public class TaskShape {
                     (ArrayList<Task>) server.getTasksOrdered(task.getListID());
 
             rearrange(source, parent, children, orderedTasks);
-
             reorderTasks(orderedTasks, currentlist);
 
             parent.getChildren().clear();
@@ -245,7 +243,6 @@ public class TaskShape {
             reorderTasks(previousListTasks, previousList);
             done=true;
         }
-
         if (done)
             controller.getBoardController().refresh();
         ((GridPane) source).setOpacity(1);
