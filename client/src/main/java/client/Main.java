@@ -58,6 +58,7 @@ public class Main extends Application {
         var error=FXML.load(ErrorController.class, "client", "scenes", "Error.fxml");
         var admin = FXML.load(AdminController.class, "client", "scenes", "Admin.fxml");
         var editBoard = FXML.load(EditBoardController.class, "client", "scenes", "EditBoard.fxml");
+        var help = FXML.load(HelpCtrl.class, "client", "scenes", "Help.fxml");
 
         loader.add(home);
         loader.add(addList);
@@ -69,6 +70,7 @@ public class Main extends Application {
         loader.add(error);
         loader.add(admin);
         loader.add(editBoard);
+        loader.add(help);
 
     }
 }

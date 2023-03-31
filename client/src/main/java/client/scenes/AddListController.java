@@ -49,10 +49,11 @@ public class AddListController {
         String backgroundColor = colorToHex(this.backgroundColor.getValue());
         String fontColor = colorToHex(this.fontColor.getValue());
 
-        List list = List.create(nameField.getText(),
-                backgroundColor, fontColor, 1, new ArrayList<Task>());
+        List list = List.create(nameField.getText(), backgroundColor, fontColor,
+                userData.getCurrentBoard().getId(), new ArrayList<Task>());
 
-        IdResponseModel model = userData.updateBoard(new ListAdded(1, list));
+        IdResponseModel model = userData.updateBoard(new
+                ListAdded(userData.getCurrentBoard().getId(), list));
         if (model.getId() == -1) {
             showCtrl.showError(model.getErrorMessage());
             showCtrl.cancel();
