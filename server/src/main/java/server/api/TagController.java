@@ -92,9 +92,8 @@ public class TagController {
     @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<Object> getTagById(@PathVariable int id) {
-        var sth = tagService.findAll();
         Tag tag = tagService.getTagById(id);
-        if (id < 0 || (tagService.getTagById(id) == null)) {
+        if (id < 0 || (tag == null)) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(tagService.getTagById(id));

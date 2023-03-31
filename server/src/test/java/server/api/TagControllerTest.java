@@ -72,6 +72,7 @@ public class TagControllerTest {
         controller.add(testTag);
 
         var actual = controller.getTagById(tagRepo.getTags().get(0).getId()).getBody();
+
         assertEquals(testTag, actual);
     }
 

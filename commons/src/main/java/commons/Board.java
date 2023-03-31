@@ -44,10 +44,6 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private java.util.List<Tag> tags;
 
-    @OneToMany
-    @JoinColumn(name = "tagId", referencedColumnName = "id")
-    private java.util.List<Tag> tag;
-
     /**
      * Creates a new Board object with the given name, password, and set of lists.
      *
@@ -57,14 +53,14 @@ public class Board {
      * @return A new Board object with the given name, password, and set of lists.
      */
     public static Board create(String name, String password, java.util.List<List> lists,
-                               String fontColor, String backgroundColor) {
+                               String fontColor, String backgroundColor, java.util.List<Tag> tags) {
         Board board = new Board();
         board.name = name;
         board.password = password;
         board.lists = lists;
         board.fontColor = fontColor;
         board.backgroundColor = backgroundColor;
-        board.tags = new ArrayList<>();
+        board.tags = tags;
         return board;
     }
 
@@ -234,7 +230,6 @@ public class Board {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", tag=" + tag +
                 ", fontColor=" + fontColor +
                 ", backgroundColor=" + backgroundColor +
                 '}';

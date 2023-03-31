@@ -28,7 +28,7 @@ public class TagService {
 
 
     public Tag getTagById(int id) {
-        return this.tagRepository.getTagById(id);
+        return this.tagRepository.getById(id);
     }
 
     public java.util.List<Tag> getAllTagsByTask(int taskID) throws NoSuchElementException {
@@ -51,7 +51,7 @@ public class TagService {
             task.getTags().add(tag);
             tag.setTask(task);
             tag.setTaskID(taskID);
-            tag.setBoardID(-1);
+            tag.setBoardId(-1);
             tagRepository.save(tag);
             return new IdResponseModel(tag.getId(), null);
         }
@@ -65,7 +65,6 @@ public class TagService {
             Board board = boardRepository.getBoardByID(boardID);
             board.getTags().add(tag);
             tag.setBoard(board);
-            tag.setBoardID(boardID);
             tag.setTaskID(-1);
             tagRepository.save(tag);
             return new IdResponseModel(tag.getId(), null);
@@ -77,7 +76,7 @@ public class TagService {
 
     public IdResponseModel removeTag(int tagID){
         try{
-            Tag tag = tagRepository.getTagById(tagID);
+            Tag tag = tagRepository.getById(tagID);
             if(tag.getTaskID() != -1){
                 Task task = taskRepository.getTaskById(tag.getTaskID());
                 task.getTags().remove(tag);
@@ -85,7 +84,7 @@ public class TagService {
                 return new IdResponseModel(tagID, null);
             }
             else{
-                Board board = boardRepository.getBoardByID(tag.getBoardID());
+                Board board = boardRepository.getBoardByID(tag.getBoardId());
                 board.getTags().remove(tag);
                 tagRepository.delete(tag);
                 return new IdResponseModel(tagID, null);
@@ -98,7 +97,7 @@ public class TagService {
 
     public IdResponseModel editTag(int tagID, TagEditModel model){
         try{
-            Tag tag = tagRepository.getTagById(tagID);
+            Tag tag = tagRepository.getById(tagID);
             tag.setName(model.getName());
             tag.setColor(model.getColor());
             tagRepository.save(tag);
