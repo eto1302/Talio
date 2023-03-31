@@ -6,6 +6,7 @@ import commons.Board;
 import commons.Task;
 import commons.models.IdResponseModel;
 import commons.sync.BoardDeleted;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.geometry.Bounds;
@@ -50,6 +51,7 @@ public class BoardController {
     public void setup() {
         listControllers=new LinkedList<>();
         grid.requestFocus();
+        filtering();
         grid.getScene().setOnKeyPressed(this::movement);
         refresh();
     }
@@ -257,6 +259,13 @@ public class BoardController {
                 (1/(listBox.getWidth()-bounds.getWidth())));
     }
 
-
+    private void filtering(){
+        scrollPane.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                movement(event);
+            }
+        });
+    }
 
 }

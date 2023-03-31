@@ -37,7 +37,7 @@ public class Board {
     private String backgroundColor;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private java.util.List<List> lists;
 
     @OneToMany
