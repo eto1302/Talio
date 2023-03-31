@@ -4,7 +4,6 @@ import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Subtask;
-import commons.Tag;
 import commons.Task;
 import commons.models.IdResponseModel;
 import commons.models.TaskEditModel;
@@ -48,15 +47,12 @@ public class EditTaskController {
     }
 
     public Scene refresh(){
-        java.util.List<Subtask> subtasks = task.getSubtasks();
-        for(Subtask subtask: subtasks){
-            showCtrl.addSubTask(subtask, this);
-        }
-        java.util.List<Tag> tags = task.getTags();
-        for(Tag tag: tags){
-            showCtrl.addTag(tag, this);
-        }
-
+        java.util.List<Subtask> subtasks = server.getSubtasksOrdered(task.getId());
+//        for (Subtask subtask: subtasks)
+//            showCtrl.addSubTask(subtask, this);
+//        java.util.List<Tag> tags = server.getTagsByTask(task.getId());
+//        for (Tag tag: tags)
+//            showCtrl.addTag(tag, this);
         return title.getScene();
     }
 

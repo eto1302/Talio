@@ -1,6 +1,7 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,13 +14,16 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "integer")
+    @JsonView(BoardSummary.class)
     private int id;
 
     @Column(name = "name")
+    @JsonView(BoardSummary.class)
     @Size(max = 20)
     private String name;
 
     @Column(name = "password")
+    @JsonView(BoardSummary.class)
     @Size(max = 20)
     private String password;
 
@@ -28,12 +32,12 @@ public class Board {
     private String inviteKey;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "board")
-    private Set<List> lists;
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    private java.util.List<List> lists;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tagId", referencedColumnName = "id")
-    private Tag tag;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board")
+    private java.util.List<Tag> tags;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "boardColorId", referencedColumnName = "id")
@@ -73,6 +77,7 @@ public class Board {
         board.boardColorId = boardColorId;
         board.listColorId = listColorId;
         board.taskColors = taskColors;
+        board.tags = tags;
         return board;
     }
 
@@ -114,9 +119,16 @@ public class Board {
      *
      * @return The set of lists associated with the board.
      */
-    public Set<List> getLists() {
+    public java.util.List<List> getLists() {
         return lists;
     }
+
+    /**
+     * Returns the list of tags associated with the board.
+     *
+     * @return The list of tags associated with the board.
+     */
+    public java.util.List<Tag> getTags() { return tags; }
 
     /**
      * Sets the name of the board.
@@ -141,7 +153,7 @@ public class Board {
      *
      * @param lists The new lists of the board.
      */
-    public void setLists(Set<List> lists) {
+    public void setLists(java.util.List<List> lists) {
         this.lists = lists;
     }
 

@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 import javax.inject.Inject;
 
@@ -21,7 +20,6 @@ public class EditListController {
     private Button cancel, edit;
 
     private ShowCtrl showCtrl;
-    private Stage primaryStage;
     private List list;
     private ServerUtils server;
     private UserData userData;
@@ -41,9 +39,8 @@ public class EditListController {
     /**
      * Sets the values of the fields according to our list's information
      * @param list the list to be edited
-     * @param primaryStage of the window we clicked to this scene from.
      */
-    public void setup(List list, Stage primaryStage){
+    public void setup(List list){
         this.list = list;
         this.primaryStage = primaryStage;
         newTitle.setText(list.getName());

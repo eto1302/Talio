@@ -15,6 +15,8 @@ import java.util.function.Function;
 
 public class TestTagRepository implements TagRepository {
 
+    public Tag getTagById(int id){return null;}
+
 
     public List<Tag> getTags() {
         return tags;

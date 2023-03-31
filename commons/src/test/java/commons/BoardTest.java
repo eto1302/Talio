@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,12 +17,11 @@ class BoardTest {
 
     @BeforeEach
     void setUp() {
-        Set<List> lists = new HashSet<>();
+        java.util.List<List> lists = new LinkedList<>();
         List list1 = new List();
         lists.add(list1);
         boardColor = Color.create("#000000", "#FFFFFF");
         listColor = Color.create("#000000", "#111111");
-
         board = Board.create("Board1", "password123", lists,
                 0, 0, new ArrayList<>());
         board.setBoardColor(boardColor);
@@ -30,7 +30,7 @@ class BoardTest {
 
     @Test
     void setLists() {
-        Set<List> newLists = new HashSet<>();
+        java.util.List<List> newLists = new LinkedList<>();
         List list1 = new List();
         newLists.add(list1);
 
@@ -41,7 +41,7 @@ class BoardTest {
 
     @Test
     void create() {
-        Set<List> expectedLists = new HashSet<>();
+        java.util.List<List> expectedLists = new LinkedList<>();
         List list1 = new List();
         List list2 = new List();
         expectedLists.add(list1);
@@ -79,11 +79,9 @@ class BoardTest {
 
     @Test
     void getLists() {
-        Set<List> expectedLists = new HashSet<>();
+        java.util.List<List> expectedLists = new LinkedList<>();
         List list1 = new List();
-        List list2 = new List();
         expectedLists.add(list1);
-        expectedLists.add(list2);
 
         assertEquals(expectedLists, board.getLists());
     }
@@ -105,7 +103,7 @@ class BoardTest {
         board1.setName("Board1");
         board1.setPassword("password123");
 
-        Set<List> lists = new HashSet<>();
+        java.util.List<List> lists = new LinkedList<>();
         List list1 = new List();
         List list2 = new List();
         lists.add(list1);
@@ -124,7 +122,7 @@ class BoardTest {
     @Test
     void testNotEquals() {
         Board board2 = Board.create("board2", "password2",
-                new HashSet<>(), 0, 0, new ArrayList<>());
+                new LinkedList<>(), 0, 0, new ArrayList<>());
         assertNotEquals(board, board2);
     }
 
@@ -134,7 +132,7 @@ class BoardTest {
         board1.setName("Board1");
         board1.setPassword("password123");
 
-        Set<List> lists = new HashSet<>();
+        java.util.List<List> lists = new LinkedList<>();
         List list1 = new List();
         List list2 = new List();
         lists.add(list1);
