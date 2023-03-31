@@ -60,7 +60,7 @@ public class Main extends Application {
         var editBoard = FXML.load(EditBoardController.class, "client", "scenes", "EditBoard.fxml");
         var colorPicker = FXML.load(ColorPicker.class, "client", "scenes", "ColorPicker.fxml");
         var addTaskColor = FXML.load(AddTaskColor.class, "client", "scenes", "AddTaskColor.fxml");
-
+        //random text so I can commit this
         loader.add(home);
         loader.add(addList);
         loader.add(yourBoards);
