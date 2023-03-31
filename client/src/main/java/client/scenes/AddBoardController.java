@@ -45,8 +45,8 @@ public class AddBoardController {
      * Converts the user data into a board and sends it to the server
      */
     public void addBoard(){
-        Board board = Board.create(nameField.getText(), null, new HashSet<>(),
-                1,1, new ArrayList<>());
+        Board board = Board.create(nameField.getText(), null, new ArrayList<>(),
+                1,1, new ArrayList<>(), new ArrayList<>());
         String inviteKey = generateInviteKey();
         board.setInviteKey(inviteKey);
 
@@ -79,8 +79,8 @@ public class AddBoardController {
      * @return board, the user created
      */
     private Board getBoard() {
-        return Board.create(nameField.getText(), null, new HashSet<>(),
-                1,1, new ArrayList<>());
+        return Board.create(nameField.getText(), null, new ArrayList<>(),
+                1,1, new ArrayList<>(), new ArrayList<>());
     }
 
     /**

@@ -43,7 +43,7 @@ public class ConnectionCtrl {
             serverUtils.addColor(boardColor);
             serverUtils.addColor(fontColor);
             Board board = Board.create("Default", null,
-                    new HashSet<>(), 1,2, new ArrayList<>());
+                    new ArrayList<>(), 1,2, new ArrayList<>(), new ArrayList<>());
             serverUtils.addBoard(board);
             serverUtils.setColorToBoard(boardColor, 1);
         }

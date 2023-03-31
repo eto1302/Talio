@@ -42,7 +42,6 @@ public class EditListController {
      */
     public void setup(List list){
         this.list = list;
-        this.primaryStage = primaryStage;
         newTitle.setText(list.getName());
     }
 

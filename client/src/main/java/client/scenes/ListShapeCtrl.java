@@ -40,7 +40,7 @@ public class ListShapeCtrl {
     private final UserData userData;
     private List list;
 
-    private final LinkedList<TaskShape> taskControllers;
+    private LinkedList<TaskShape> taskControllers;
     private BoardController boardController;
 
     @Inject
@@ -121,8 +121,8 @@ public class ListShapeCtrl {
         listGrid.setOnDragDropped(this::dragDrop);
 
         listTitle.setText(list.getName());
-        Color backgroundColor= Color.web(list.getBackgroundColor());
-        Color fontColor= Color.web(list.getFontColor());
+        Color backgroundColor= Color.web(list.getBoard().getListColor().getBackgroundColor());
+        Color fontColor= Color.web(list.getBoard().getListColor().getFontColor());
 
         listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
         listTitle.setTextFill(fontColor);
