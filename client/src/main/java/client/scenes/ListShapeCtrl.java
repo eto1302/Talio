@@ -192,6 +192,7 @@ public class ListShapeCtrl {
             reorderTasks(previousListId);
 
             done = true;
+            boardController.refresh();
         }
         ((GridPane) source).setOpacity(1);
 

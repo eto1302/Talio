@@ -246,6 +246,11 @@ public class BoardController {
         return null;
     }
 
+    public void reset(){
+        selectedList=null;
+        selectedTask=null;
+    }
+
     private void updateScrollPane(int index){
         Bounds bounds = scrollPane.getViewportBounds();
         scrollPane.setHvalue(listBox.getChildren().get(index).getLayoutX() *

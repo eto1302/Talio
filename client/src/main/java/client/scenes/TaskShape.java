@@ -21,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 
 public class TaskShape {
     @FXML
@@ -79,6 +80,14 @@ public class TaskShape {
 
     public Task getTask() {
         return task;
+    }
+
+    public ListShapeCtrl getController() {
+        return controller;
+    }
+
+    public void setController(ListShapeCtrl controller) {
+        this.controller = controller;
     }
 
     public void setStatus(boolean selected){
@@ -146,6 +155,7 @@ public class TaskShape {
         grid.setOnMousePressed(event-> grid.setOpacity(0.4));
         grid.setOnMouseReleased(event-> grid.setOpacity(1));
         grid.setOnMouseExited(event-> {
+            controller.getBoardController().reset();
             selected=false;
             grid.setStyle(style);
         });
@@ -162,9 +172,8 @@ public class TaskShape {
         SnapshotParameters snapshotParams = new SnapshotParameters();
         WritableImage image = grid.snapshot(snapshotParams, null);
         Task task1 =server.getTask(task.getId());
-        if (dragboard.hasString())
-            clipboardContent.putString(task.getId()+"+"+ task1.getListID());
-        else clipboardContent.putString(task.getId()+"+"+ task1.getListID());
+
+        clipboardContent.putString(task.getId()+"+"+ task1.getListID());
 
         drag.set(grid);
         dragboard.setDragView(image, event.getX(), event.getY());
@@ -236,6 +245,9 @@ public class TaskShape {
             reorderTasks(previousListTasks, previousList);
             done=true;
         }
+
+        if (done)
+            controller.getBoardController().refresh();
         ((GridPane) source).setOpacity(1);
 
         event.setDropCompleted(done);
@@ -290,6 +302,9 @@ public class TaskShape {
         }
     }
 
+    public void orderWithKeyEvent(){
+
+    }
 
 
 
