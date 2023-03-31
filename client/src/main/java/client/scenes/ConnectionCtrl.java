@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javax.inject.Inject;
 import javafx.scene.control.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class ConnectionCtrl {
@@ -36,7 +37,7 @@ public class ConnectionCtrl {
         serverUtils.setUrl(serverURL.getText());
         if (serverUtils.getBoard(1)==null){
             Board board = Board.create("Default", null, new LinkedList<>(),
-                    "#000000","#D3D3D3");
+                    "#000000","#D3D3D3", new ArrayList<>());
             serverUtils.addBoard(board);
         }
         if(userData.getCurrentBoard() == null)
