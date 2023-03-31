@@ -39,6 +39,9 @@ public class Task {
     @JsonManagedReference
     private java.util.List<Tag> tags;
 
+    @Column(name = "colorId")
+    private int colorId;
+
     /**
      * Creates a new task with the specified description and title.
      * @param description the description of the task
@@ -170,6 +173,14 @@ public class Task {
      */
     public void setTags(java.util.List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public int getColorId() {
+        return colorId;
+    }
+
+    public void setColorId(int colorId) {
+        this.colorId = colorId;
     }
 
     /**

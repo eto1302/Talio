@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
@@ -41,6 +42,8 @@ public class BoardShape {
     private Button copyButton;
     private ShowCtrl showCtrl;
     private ServerUtils server;
+    @Inject 
+    private UserData userData;
     @Inject
     public BoardShape (ShowCtrl showCtrl, ServerUtils serverUtils){
         this.showCtrl=showCtrl;
@@ -55,8 +58,8 @@ public class BoardShape {
      */
     public Scene getSceneUpdated(Board board){
         nameLabel.setText(board.getName());
-        String rgbBackground = board.getBackgroundColor();
-        String rgbFont = board.getFontColor();
+        String rgbBackground = board.getBoardColor().getBackgroundColor();
+        String rgbFont = board.getBoardColor().getFontColor();
         Color backgroundColor = Color.web(rgbBackground);
         Color fontColor = Color.web(rgbFont);
 
@@ -67,7 +70,14 @@ public class BoardShape {
     }
 
     public void enter(){
-        System.out.println(getId());
+        this.userData.openBoard(id);
+        this.showCtrl.showBoard();
+    }
+
+    public void leave(){
+        this.userData.leaveBoard(id);
+        this.userData.saveToDisk();
+        this.showCtrl.showYourBoards();
     }
 
     /**

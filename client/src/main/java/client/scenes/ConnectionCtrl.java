@@ -3,11 +3,13 @@ package client.scenes;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
+import commons.Color;
 import javafx.fxml.FXML;
 
 import javax.inject.Inject;
 import javafx.scene.control.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ConnectionCtrl {
@@ -35,9 +37,14 @@ public class ConnectionCtrl {
     public void join(){
         serverUtils.setUrl(serverURL.getText());
         if (serverUtils.getBoard(1)==null){
-            Board board = Board.create("Default", null, new HashSet<>(),
-                    "#000000","#D3D3D3");
+            Color boardColor = Color.create("#000000", "#FFFFFF");
+            Color fontColor = Color.create("#000000", "#FFFFFF");
+            serverUtils.addColor(boardColor);
+            serverUtils.addColor(fontColor);
+            Board board = Board.create("Default", null,
+                    new HashSet<>(), 1,2, new ArrayList<>());
             serverUtils.addBoard(board);
+            serverUtils.setColorToBoard(boardColor, 1);
         }
         if(userData.getCurrentBoard() == null)
             userData.openBoard(1);

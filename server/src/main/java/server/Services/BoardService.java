@@ -1,6 +1,7 @@
 package server.Services;
 
 import commons.Board;
+import commons.models.BoardEditModel;
 import commons.models.IdResponseModel;
 import org.springframework.stereotype.Service;
 import server.database.BoardRepository;
@@ -60,5 +61,16 @@ public class BoardService {
      */
     public Board getBoardByInviteKey(String inviteKey){
         return boardRepository.getBoardByInviteKey(inviteKey);
+    }
+
+    public IdResponseModel editBoard(int boardId, BoardEditModel model) {
+        try {
+            Board board = boardRepository.getBoardByID(boardId);
+            board.setName(model.getName());
+            boardRepository.save(board);
+            return new IdResponseModel(boardId, null);
+        } catch (Exception e) {
+            return new IdResponseModel(-1, e.getMessage());
+        }
     }
 }

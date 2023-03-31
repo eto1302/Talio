@@ -20,10 +20,7 @@ import com.google.inject.Inject;
 
 import commons.*;
 import commons.mocks.IServerUtils;
-import commons.models.IdResponseModel;
-import commons.models.ListEditModel;
-import commons.models.TaskEditModel;
-import commons.models.SubtaskEditModel;
+import commons.models.*;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -81,6 +78,71 @@ public class ServerUtils implements IServerUtils {
             ResponseEntity<IdResponseModel> response =
                     client.getForEntity(url+"board/delete/"+id, IdResponseModel.class);
             return response.getBody();
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
+        }
+    }
+
+    @Override
+    public IdResponseModel editBoard(int boardId, BoardEditModel edit) {
+        try {
+            HttpEntity<BoardEditModel> req = new HttpEntity<BoardEditModel>(edit);
+            ResponseEntity<IdResponseModel> response = client.postForEntity(
+                    url+"board/edit/"+boardId, req, IdResponseModel.class);
+
+            if (boardId != response.getBody().getId())
+                return new IdResponseModel(-1, "Board doesn't match");
+
+            return response.getBody();
+
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
+        }
+    }
+
+    @Override
+    public IdResponseModel deleteColor(int boardID, int colorId) {
+        return null;
+    }
+
+    @Override
+    public IdResponseModel addColor(Color color) {
+        try {
+            HttpEntity<commons.Color> req = new HttpEntity<Color>(color);
+            IdResponseModel id = client.postForObject(
+                    url+"color/add", req, IdResponseModel.class);
+            return id;
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
+        }
+    }
+
+    @Override
+    public IdResponseModel setColorToBoard(Color color, int boardId) {
+        try {
+            HttpEntity<commons.Color> req = new HttpEntity<Color>(color);
+            IdResponseModel id = client.postForObject(
+                    url+"color/add/"+color.getId()+"/"+boardId, req, IdResponseModel.class);
+            return id;
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
+        }
+    }
+
+    @Override
+    public IdResponseModel editColor(int colorId, ColorEditModel model) {
+        try {
+            HttpEntity<ColorEditModel> req = new HttpEntity<ColorEditModel>(model);
+            ResponseEntity<IdResponseModel> response = client.postForEntity(
+                    url+"color/edit/"+colorId, req,
+                    IdResponseModel.class
+            );
+
+            if (colorId != response.getBody().getId())
+                return new IdResponseModel(-1, "list doesn't match");
+
+            return response.getBody();
+
         } catch (Exception e) {
             return new IdResponseModel(-1, "Oops, failed to connect to server...");
         }

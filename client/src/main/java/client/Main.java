@@ -15,24 +15,22 @@
  */
 package client;
 
-import static com.google.inject.Guice.createInjector;
+import client.scenes.*;
+import client.user.UserData;
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import client.scenes.*;
-import client.user.UserData;
-import com.google.inject.Injector;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.util.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static client.utils.Constants.FXML;
+import static client.utils.Constants.INJECTOR;
 
 public class Main extends Application {
-
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
-
 
     public static void main(String[] args) throws URISyntaxException, IOException {
         launch();
@@ -41,7 +39,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         var userData = INJECTOR.getInstance(UserData.class);
-        userData.initialize(new File("%userprofile%\\applicationData.txt"));
+        userData.initialize(new File(System.getProperty("user.dir") + "\\talioData.txt"));
 
         var showCtrl = INJECTOR.getInstance(ShowCtrl.class);
         List<Pair> loader = new ArrayList<>();
@@ -59,6 +57,9 @@ public class Main extends Application {
         var addBoard=FXML.load(AddBoardController.class, "client", "scenes", "AddBoard.fxml");
         var error=FXML.load(ErrorController.class, "client", "scenes", "Error.fxml");
         var admin = FXML.load(AdminController.class, "client", "scenes", "Admin.fxml");
+        var editBoard = FXML.load(EditBoardController.class, "client", "scenes", "EditBoard.fxml");
+        var colorPicker = FXML.load(ColorPicker.class, "client", "scenes", "ColorPicker.fxml");
+        var addTaskColor = FXML.load(AddTaskColor.class, "client", "scenes", "AddTaskColor.fxml");
 
         loader.add(home);
         loader.add(addList);
@@ -69,6 +70,8 @@ public class Main extends Application {
         loader.add(addBoard);
         loader.add(error);
         loader.add(admin);
-
+        loader.add(editBoard);
+        loader.add(colorPicker);
+        loader.add(addTaskColor);
     }
 }

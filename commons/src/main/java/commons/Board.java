@@ -3,7 +3,7 @@ package commons;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.*;
 
@@ -27,15 +27,6 @@ public class Board {
     @Size(max=20)
     private String inviteKey;
 
-    @Column(name = "fontColor")
-    // regular expression that matches a valid color string in the format "#RRGGBB" or "#AARRGGBB"
-    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$")
-    private String fontColor;
-
-    @Column(name = "backgroundColor")
-    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$")
-    private String backgroundColor;
-
     @JsonManagedReference
     @OneToMany(mappedBy = "board")
     private Set<List> lists;
@@ -43,6 +34,26 @@ public class Board {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tagId", referencedColumnName = "id")
     private Tag tag;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "boardColorId", referencedColumnName = "id")
+    private Color boardColor;
+
+    @Column(name = "bc_id")
+    @NotNull
+    private int boardColorId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "listColorId", referencedColumnName = "id")
+    private Color listColor;
+
+    @Column(name = "lc_id")
+    @NotNull
+    private int listColorId;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board")
+    private java.util.List<Color> taskColors;
 
     /**
      * Creates a new Board object with the given name, password, and set of lists.
@@ -53,13 +64,15 @@ public class Board {
      * @return A new Board object with the given name, password, and set of lists.
      */
     public static Board create(String name, String password, Set<List> lists,
-                               String fontColor, String backgroundColor) {
+                               int boardColorId, int listColorId,
+                               java.util.List<Color> taskColors) {
         Board board = new Board();
         board.name = name;
         board.password = password;
         board.lists = lists;
-        board.fontColor = fontColor;
-        board.backgroundColor = backgroundColor;
+        board.boardColorId = boardColorId;
+        board.listColorId = listColorId;
+        board.taskColors = taskColors;
         return board;
     }
 
@@ -133,38 +146,6 @@ public class Board {
     }
 
     /**
-     * Gets the font color of the board
-     * @return the font color of the board
-     */
-    public String getFontColor() {
-        return fontColor;
-    }
-
-    /**
-     * Sets the font color of the board
-     * @param fontColor to be set
-     */
-    public void setFontColor(String fontColor) {
-        this.fontColor = fontColor;
-    }
-
-    /**
-     * Gets the background color of the board
-     * @return the background color of the board
-     */
-    public String getBackgroundColor() {
-        return backgroundColor;
-    }
-
-    /**
-     * Sets the background color
-     * @param backgroundColor to be set
-     */
-    public void setBackgroundColor(String backgroundColor) {
-        this.backgroundColor = backgroundColor;
-    }
-
-    /**
      * Gets the invite key of the board
      * @return the invite key
      */
@@ -178,6 +159,30 @@ public class Board {
      */
     public void setInviteKey(String inviteKey) {
         this.inviteKey = inviteKey;
+    }
+
+    public Color getBoardColor() {
+        return boardColor;
+    }
+
+    public void setBoardColor(Color boardColor) {
+        this.boardColor = boardColor;
+    }
+
+    public Color getListColor() {
+        return listColor;
+    }
+
+    public void setListColor(Color listColor) {
+        this.listColor = listColor;
+    }
+
+    public java.util.List<Color> getTaskColors() {
+        return taskColors;
+    }
+
+    public void setTaskColors(java.util.List<Color> taskColors) {
+        this.taskColors = taskColors;
     }
 
     /**
@@ -195,8 +200,8 @@ public class Board {
         Board board = (Board) o;
         return getId() == board.getId() && Objects.equals(getName(), board.getName()) &&
                 Objects.equals(getPassword(), board.getPassword()) &&
-                Objects.equals(getFontColor(), board.getFontColor()) &&
-                Objects.equals(getBackgroundColor(), board.getBackgroundColor());
+                Objects.equals(getBoardColor(), board.getBoardColor()) &&
+                Objects.equals(getListColor(), board.getListColor());
     }
 
     /**
@@ -206,8 +211,7 @@ public class Board {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getPassword(),
-                getFontColor(), getBackgroundColor());
+        return Objects.hash(getId(), getName(), getPassword(), getBoardColor(), getListColor());
     }
 
     /**
@@ -222,9 +226,12 @@ public class Board {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
+                ", inviteKey='" + inviteKey + '\'' +
+                ", lists=" + lists +
                 ", tag=" + tag +
-                ", fontColor=" + fontColor +
-                ", backgroundColor=" + backgroundColor +
+                ", boardColor=" + boardColor +
+                ", listColor=" + listColor +
+                ", taskColors=" + taskColors +
                 '}';
     }
 }

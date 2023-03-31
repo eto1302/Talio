@@ -1,8 +1,12 @@
 package client.scenes;
 
 
+import client.user.UserData;
 import client.utils.ServerUtils;
+import commons.Board;
 import commons.List;
+import commons.models.IdResponseModel;
+import commons.sync.ListDeleted;
 import commons.Task;
 import commons.models.TaskEditModel;
 import javafx.fxml.FXML;
@@ -35,17 +39,18 @@ public class ListShapeCtrl {
     private Label listTitle;
     @FXML
     private GridPane listGrid;
-    private ShowCtrl showCtrl;
-    private ServerUtils serverUtils;
+    private final ShowCtrl showCtrl;
+    private final ServerUtils serverUtils;
+    private final UserData userData;
     private List list;
     private Stage primaryStage;
-    private BoardController boardController;
 
 
     @Inject
-    public ListShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils){
-        this.showCtrl=showCtrl;
-        this.serverUtils=serverUtils;
+    public ListShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
+        this.showCtrl = showCtrl;
+        this.serverUtils = serverUtils;
+        this.userData = userData;
     }
 
     /**
@@ -56,16 +61,18 @@ public class ListShapeCtrl {
      */
     public Scene getSceneUpdated(commons.List list){
         listTitle.setText(list.getName());
-        Color backgroundColor= Color.web(list.getBackgroundColor());
-        Color fontColor= Color.web(list.getFontColor());
+        Board board = this.userData.getCurrentBoard();
+        Color backgroundColor= Color.web(board.getListColor().getBackgroundColor());
+        Color fontColor= Color.web(board.getListColor().getFontColor());
 
-        listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
+        listGrid.setBackground(new Background(
+                new BackgroundFill(backgroundColor, null, null)));
         listTitle.setTextFill(fontColor);
         return listGrid.getScene();
     }
 
     public void refreshList(){
-        boardController.refresh();
+        showCtrl.refreshBoardCtrl();
     }
 
     public Scene putTask(Scene scene){
@@ -74,12 +81,21 @@ public class ListShapeCtrl {
     }
 
     /**
-     *deletes the list from the board
+     * deletes the list from the board
      */
-    public void deleteList(){
-        serverUtils.deleteList(list.getBoardId(), list.getId());
+    public void deleteList() {
         HBox parent = (HBox) listGrid.getParent();
         parent.getChildren().remove(listGrid);
+    }
+
+    /**
+     * sends a message for board deletion, invoked from FXML
+     */
+    public void initiateDeleteList() {
+        IdResponseModel response = userData.updateBoard(new
+                ListDeleted(list.getBoardId(), list.getId()));
+        if (response.getId() == -1)
+            showCtrl.showError(response.getErrorMessage());
     }
 
     /**
@@ -90,7 +106,7 @@ public class ListShapeCtrl {
             showCtrl.showError("Failed to get the list...");
             return;
         }
-        showCtrl.showEditList(list, this, primaryStage);
+        showCtrl.showEditList(list, primaryStage);
     }
 
     /**
@@ -194,7 +210,4 @@ public class ListShapeCtrl {
         }
     }
 
-    public void setBoard(BoardController boardController) {
-        this.boardController = boardController;
-    }
 }

@@ -5,12 +5,12 @@ import client.utils.ServerUtils;
 import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -24,10 +24,6 @@ public class AddBoardController {
     private Button addButton;
     @FXML
     private TextField nameField;
-    @FXML
-    private ColorPicker backgroundColor;
-    @FXML
-    private ColorPicker fontColor;
 
     @Inject
     public AddBoardController (ShowCtrl showCtrl, ServerUtils server){
@@ -49,7 +45,7 @@ public class AddBoardController {
      */
     public void addBoard(){
         Board board = Board.create(nameField.getText(), null, new HashSet<>(),
-                colorToHex(fontColor.getValue()), colorToHex(backgroundColor.getValue()));
+                1,1, new ArrayList<>());
         String inviteKey = generateInviteKey();
         board.setInviteKey(inviteKey);
 
@@ -83,7 +79,7 @@ public class AddBoardController {
      */
     private Board getBoard() {
         return Board.create(nameField.getText(), null, new HashSet<>(),
-                colorToHex(fontColor.getValue()), colorToHex(backgroundColor.getValue()));
+                1,1, new ArrayList<>());
     }
 
     /**
@@ -107,7 +103,7 @@ public class AddBoardController {
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
         for (int i=0; i<15; i++){
-            int randomInt = random.nextInt(0, 26);
+            int randomInt = random.nextInt(26);
             char letter = (char) (randomInt +'a');
             sb.append(letter);
         }

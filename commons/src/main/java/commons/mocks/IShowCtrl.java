@@ -1,12 +1,26 @@
 package commons.mocks;
 
-import commons.List;
+import commons.*;
 
 public interface IShowCtrl {
 
-    void addList(List list);
+    Object addList(List list);
+
+    void editList(List list);
+
+    void deleteList(List list);
+
+    void addTask(Task task, List list);
 
     void refreshAdminBoards();
+
+    void refreshList(int listID);
+
+    Object addTaskColor(Color color);
+
+    void deleteTaskColor(Color color);
+
+    void editColor(Color color);
 
 //    void addTask(Task task);
 }

@@ -19,8 +19,6 @@ public class AddListController {
     @FXML
     private TextField nameField;
     @FXML
-    private ColorPicker backgroundColor, fontColor;
-    @FXML
     private Button cancelButton;
     @FXML
     private Button addButton;
@@ -46,11 +44,8 @@ public class AddListController {
      * Creates a list based on user input
      */
     public void addList() {
-        String backgroundColor = colorToHex(this.backgroundColor.getValue());
-        String fontColor = colorToHex(this.fontColor.getValue());
 
-        List list = List.create(nameField.getText(),
-                backgroundColor, fontColor, 1, new ArrayList<Task>());
+        List list = List.create(nameField.getText(),1, new ArrayList<Task>());
 
         IdResponseModel model = userData.updateBoard(new ListAdded(1, list));
         if (model.getId() == -1) {
@@ -64,8 +59,6 @@ public class AddListController {
 
     public void reset() {
         nameField.clear();
-        backgroundColor.setValue(Color.WHITE);
-        fontColor.setValue(Color.BLACK);
     }
 
     /**

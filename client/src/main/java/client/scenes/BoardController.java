@@ -2,13 +2,18 @@ package client.scenes;
 
 import client.user.UserData;
 import client.utils.ServerUtils;
+import commons.Board;
 import commons.Task;
+import commons.models.IdResponseModel;
+import commons.sync.BoardDeleted;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
@@ -30,7 +35,8 @@ public class BoardController {
     private Label boardLabel;
     @FXML
     private HBox listBox;
-
+    @FXML
+    private GridPane boardBox;
     private final ShowCtrl showCtrl;
     private ServerUtils server;
     private Stage primaryStage;
@@ -58,6 +64,12 @@ public class BoardController {
      *  TODO: the board and get rid of the button in the future.
      */
     public void refresh() {
+        Board board = this.userData.getCurrentBoard();
+        this.boardLabel.setText(board.getName());
+        this.boardLabel.setTextFill(Color.web(
+                board.getBoardColor().getFontColor()));
+        this.boardBox.setStyle("-fx-background-color: " +
+                board.getBoardColor().getBackgroundColor() + "; -fx-padding: 5px;");
         listBox.getChildren().clear();
         listBox.getChildren();
         Set<commons.List> lists;
@@ -72,14 +84,13 @@ public class BoardController {
         lists = userData.getCurrentBoard().getLists();
 
         for (commons.List list : lists) {
-            ListShapeCtrl listShapeCtrl = showCtrl.addAndReturnList(list);
-            listShapeCtrl.setBoard(this);
+            showCtrl.addList(list);
+            
             List<Task> orderedTasks = server.getTasksOrdered(list.getId());
             for(Task task: orderedTasks){
-                showCtrl.addTask(task, listShapeCtrl, primaryStage);
+                showCtrl.addTask(task, list);
             }
         }
-
     }
 
     public void showYourBoards(){
@@ -115,4 +126,21 @@ public class BoardController {
     }
 
 
+    public void showEditBoard() { showCtrl.showEditBoard();}
+
+    public void delete() {
+        Board board = this.userData.getCurrentBoard();
+        this.userData.leaveBoard(board.getId());
+        this.userData.saveToDisk();
+        BoardDeleted boardDeleted = new BoardDeleted(board.getId());
+
+        IdResponseModel model = userData.deleteBoard(boardDeleted);
+
+        if (model.getId() == -1) {
+            showCtrl.showError(model.getErrorMessage());
+        }
+        else{
+            showCtrl.showYourBoards();
+        }
+    }
 }
