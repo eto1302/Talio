@@ -24,7 +24,7 @@ public class AddTagController {
     private TextField textField;
     @FXML
     private ColorPicker colorPicker;
-    private EditTaskController controller;
+    private TaskOverview controller;
     private Stage primaryStage;
     private commons.Task task;
 

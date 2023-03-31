@@ -8,21 +8,21 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="237.0" prefWidth="324.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EditSubTaskController">
+<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EditSubTaskController">
     <children>
-        <Text layoutX="84.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit a Sub-task" wrappingWidth="179.74334716796875">
+        <Text layoutX="110.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit a Sub-task" wrappingWidth="179.74334716796875">
             <font>
                 <Font size="26.0" />
             </font>
         </Text>
-        <Line endX="133.0999755859375" endY="-7.62939453125E-6" layoutX="192.0" layoutY="68.0" startX="-192.00003051757812" startY="-7.62939453125E-6" />
-        <Label layoutX="61.0" layoutY="77.0" text="Sub-task description:">
+        <Line endX="195.19998168945312" endY="-1.1444091796875E-5" layoutX="192.0" layoutY="68.0" startX="-179.99996948242188" startY="-1.1444091796875E-5" />
+        <Label layoutX="100.0" layoutY="87.0" text="Sub-task description:">
             <font>
                 <Font size="16.0" />
             </font>
         </Label>
-        <Button layoutX="84.0" layoutY="204.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
-        <Button layoutX="191.0" layoutY="203.0" mnemonicParsing="false" onAction="#editSubTask" prefHeight="26.0" prefWidth="51.0" text="Save" />
-        <TextArea fx:id="description" layoutX="61.0" layoutY="103.0" prefHeight="96.0" prefWidth="200.0" />
+        <Button layoutX="129.0" layoutY="235.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+        <Button layoutX="229.0" layoutY="234.0" mnemonicParsing="false" onAction="#editSubTask" prefHeight="26.0" prefWidth="51.0" text="Save" />
+        <TextArea fx:id="description" layoutX="100.0" layoutY="120.0" prefHeight="96.0" prefWidth="200.0" />
     </children>
 </AnchorPane>

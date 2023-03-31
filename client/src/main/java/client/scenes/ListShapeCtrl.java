@@ -4,22 +4,25 @@ package client.scenes;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
-import commons.Task;
 import commons.models.IdResponseModel;
-import commons.models.TaskEditModel;
 import commons.sync.ListDeleted;
+import commons.Task;
+import commons.models.TaskEditModel;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.geometry.Bounds;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.*;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import javax.inject.Inject;
-import java.util.LinkedList;
 
 public class ListShapeCtrl {
 
@@ -29,7 +32,8 @@ public class ListShapeCtrl {
     private MenuItem editList, deleteList;
     @FXML
     private ScrollPane scrollPane;
-
+    @FXML
+    private Button addTask;
     @FXML
     private Label listTitle;
     @FXML
@@ -38,26 +42,39 @@ public class ListShapeCtrl {
     private final ServerUtils serverUtils;
     private final UserData userData;
     private List list;
+    private Stage primaryStage;
 
-    private final LinkedList<TaskShape> taskControllers;
-    private BoardController boardController;
 
     @Inject
     public ListShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl = showCtrl;
         this.serverUtils = serverUtils;
         this.userData = userData;
-        this.taskControllers = new LinkedList<>();
+    }
+
+    /**
+     * Updates the list's visual (sets the title and the colors of it)
+     * based on the list object that is passed on
+     * @param list the list with the necessary attributes
+     * @return the updated scene after modifications
+     */
+    public Scene getSceneUpdated(commons.List list){
+        listTitle.setText(list.getName());
+        Color backgroundColor= Color.web(list.getBackgroundColor());
+        Color fontColor= Color.web(list.getFontColor());
+
+        listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
+        listTitle.setTextFill(fontColor);
+        return listGrid.getScene();
     }
 
     public void refreshList(){
         showCtrl.refreshBoardCtrl();
     }
 
-    public void updateScrollPane(int index){
-        Bounds bounds = scrollPane.getViewportBounds();
-        scrollPane.setVvalue(tasksBox.getChildren().get(index).getLayoutY() *
-                (1/(tasksBox.getHeight()-bounds.getHeight())));
+    public Scene putTask(Scene scene){
+        tasksBox.getChildren().add(scene.getRoot());
+        return tasksBox.getScene();
     }
 
     /**
@@ -86,67 +103,42 @@ public class ListShapeCtrl {
             showCtrl.showError("Failed to get the list...");
             return;
         }
-        showCtrl.showEditList(list);
+        showCtrl.showEditList(list, primaryStage);
     }
 
     /**
-     * sets list and updates the list's visual (sets the title
-     * and the colors of it) based on the list object that is passed on
+     * sets information
      * @param list our list
+     * @param primaryStage of the scene we are in
      */
-    public void updateScene(List list, BoardController boardController) {
-        this.list = list;
-        this.boardController = boardController;
+    public void set(List list, Stage primaryStage){
+        this.list=list;
+        this.primaryStage=primaryStage;
 
         listGrid.setOnDragOver(this::dragOver);
         listGrid.setOnDragDropped(this::dragDrop);
-
-        listTitle.setText(list.getName());
-        Color backgroundColor= Color.web(list.getBackgroundColor());
-        Color fontColor= Color.web(list.getFontColor());
-
-        listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
-        listTitle.setTextFill(fontColor);
     }
     public List getList(){
         return list;
-    }
-
-    public BoardController getBoardController() {
-        return boardController;
     }
 
     /**
      * shows the add task window
      */
     public void showAddTask(){
-        showCtrl.showAddTask(this, list);
+        showCtrl.showAddTask(this, primaryStage, list);
     }
 
     /**
      * Adds the task inside the box with tasks
-     * @param root the grid representing the task UI
+     * @param taskScene the scene containing the grid representing
+     * @return the updated scene
      */
-    public void addTask(Parent root, TaskShape controller) {
+    public Scene addTask(Scene taskScene, Task task){
+        Node root = taskScene.getRoot();
         tasksBox.getChildren().add(root);
-        taskControllers.addLast(controller);
-    }
-
-    /**
-     * Removes the task from the list
-     * @param taskId the ID of the task to remove
-     */
-    public void removeTask(int taskId) {
-        TaskShape controller = taskControllers.stream().filter(e ->
-                e.getTask().getId() == taskId).findFirst().orElse(null);
-        if(controller != null) {
-            controller.delete();
-            taskControllers.remove(controller);
-        }
-    }
-
-    public LinkedList<TaskShape> getTaskControllers() {
-        return taskControllers;
+        task.setIndex(tasksBox.getChildren().indexOf(root));
+        return tasksBox.getScene();
     }
 
     /**
@@ -192,7 +184,6 @@ public class ListShapeCtrl {
             reorderTasks(previousListId);
 
             done = true;
-            boardController.refresh();
         }
         ((GridPane) source).setOpacity(1);
 
@@ -214,14 +205,6 @@ public class ListShapeCtrl {
                     taskIndex.getDescription(), i, previousList);
             serverUtils.editTask(taskIndex.getId(), model);
         }
-    }
-
-
-    public TaskShape findSelectedTask(){
-        for (TaskShape controller: taskControllers)
-            if (controller.isSelected())
-                return controller;
-        return null;
     }
 
 }

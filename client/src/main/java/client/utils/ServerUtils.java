@@ -447,24 +447,4 @@ public class ServerUtils implements IServerUtils {
 
         throw new RuntimeException("Something went wrong");
     }
-
-    /**
-     * Gets the subtasks from a task ordered by their index
-     * @param taskID the id of the associated task
-     * @return the list of ordered subtasks
-     */
-    public java.util.List<Subtask> getSubtasksOrdered(int taskID){
-        ResponseEntity<java.util.List<Subtask>> response = client.exchange(
-                url+"subtask/getOrdered/" + taskID,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>(){} );
-
-        if (response.getStatusCode().is2xxSuccessful())
-            return response.getBody();
-        else if (response.getStatusCode().equals(HttpStatus.BAD_REQUEST))
-            throw new NoSuchElementException("No such task id");
-
-        throw new RuntimeException("Something went wrong");
-    }
 }
