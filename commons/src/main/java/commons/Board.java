@@ -67,9 +67,9 @@ public class Board {
      * @param lists    The set of lists associated with the board.
      * @return A new Board object with the given name, password, and set of lists.
      */
-    public static Board create(String name, String password, Set<List> lists,
+    public static Board create(String name, String password, java.util.List<List> lists,
                                int boardColorId, int listColorId,
-                               java.util.List<Color> taskColors) {
+                               java.util.List<Color> taskColors, java.util.List<Tag> tags) {
         Board board = new Board();
         board.name = name;
         board.password = password;
@@ -238,12 +238,8 @@ public class Board {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", inviteKey='" + inviteKey + '\'' +
-                ", lists=" + lists +
-                ", tag=" + tag +
                 ", boardColor=" + boardColor +
                 ", listColor=" + listColor +
-                ", taskColors=" + taskColors +
                 '}';
     }
 }
