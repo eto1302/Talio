@@ -174,7 +174,7 @@
                 </HBox>
             </content>
         </ScrollPane>
-      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 25px;" GridPane.rowIndex="2">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 25px;" GridPane.rowIndex="2">
          <children>
             <Label opacity="0.5" style="-fx-label-padding: 10px;" text="Press &quot;?&quot; for help menu" />
             <Button fx:id="addListButton" mnemonicParsing="false" onAction="#showAddList" prefHeight="26.0" prefWidth="72.0" text="Add List" />

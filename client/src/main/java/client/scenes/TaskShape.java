@@ -51,10 +51,11 @@ public class TaskShape {
      * On double-click, this will show the window containing the overview (details of the task)
      */
     public void doubleClick (){
-        TaskShape selectedTask = controller.findSelectedTask();
+        TaskShape selectedTask = controller.getBoardController().find();
         if (selectedTask==null) {
             selected = true;
-            grid.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(14,43,111,1), 10, 0, 0, 0)");
+            grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
+                    "-fx-border-width: 3px");
         }
         else{
             selected=false;
@@ -80,10 +81,19 @@ public class TaskShape {
         return task;
     }
 
+    public ListShapeCtrl getController() {
+        return controller;
+    }
+
+    public void setController(ListShapeCtrl controller) {
+        this.controller = controller;
+    }
+
     public void setStatus(boolean selected){
         this.selected=selected;
         if (selected)
-            grid.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(14,43,111,1), 10, 0, 0, 0)");
+            grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
+                    "-fx-border-width: 3px");
         else grid.setStyle(style);
     }
 
@@ -101,20 +111,28 @@ public class TaskShape {
     /**
      * Adds the delete event to the controller
      */
+    public void delete() {
+        VBox parent = (VBox) grid.getParent();
+        parent.getChildren().remove(grid);
+        server.removeTask(task.getId(), task.getListID());
+        controller.getTaskControllers().remove(this);
+    }
+
     public void deleteEvent() {
         deleteX.setOnMouseClicked(event -> userData.updateBoard(new TaskDeleted(userData
                 .getCurrentBoard().getId(), task.getId(), task.getListID())));
     }
 
-    /**
-     * Deletes the task
-     */
-    public void delete() {
+
+
+
+    public void deleteOnKey(){
         VBox parent = (VBox) grid.getParent();
         parent.getChildren().remove(grid);
-        server.removeTask(task.getId(), task.getListID());
+        userData.updateBoard(new TaskDeleted(userData
+                .getCurrentBoard().getId(), task.getId(), task.getListID()));
+        controller.getTaskControllers().remove(this);
     }
-
     /**
      * Sets the information of the list and task. Sets the methods for the dragging and dropping
      * for the ordering tasks feature
@@ -136,6 +154,7 @@ public class TaskShape {
         grid.setOnMousePressed(event-> grid.setOpacity(0.4));
         grid.setOnMouseReleased(event-> grid.setOpacity(1));
         grid.setOnMouseExited(event-> {
+            controller.getBoardController().reset();
             selected=false;
             grid.setStyle(style);
         });
@@ -152,9 +171,8 @@ public class TaskShape {
         SnapshotParameters snapshotParams = new SnapshotParameters();
         WritableImage image = grid.snapshot(snapshotParams, null);
         Task task1 =server.getTask(task.getId());
-        if (dragboard.hasString())
-            clipboardContent.putString(task.getId()+"+"+ task1.getListID());
-        else clipboardContent.putString(task.getId()+"+"+ task1.getListID());
+
+        clipboardContent.putString(task.getId()+"+"+ task1.getListID());
 
         drag.set(grid);
         dragboard.setDragView(image, event.getX(), event.getY());
@@ -202,7 +220,6 @@ public class TaskShape {
                     (ArrayList<Task>) server.getTasksOrdered(task.getListID());
 
             rearrange(source, parent, children, orderedTasks);
-
             reorderTasks(orderedTasks, currentlist);
 
             parent.getChildren().clear();
@@ -226,6 +243,8 @@ public class TaskShape {
             reorderTasks(previousListTasks, previousList);
             done=true;
         }
+        if (done)
+            controller.getBoardController().refresh();
         ((GridPane) source).setOpacity(1);
 
         event.setDropCompleted(done);
@@ -280,6 +299,9 @@ public class TaskShape {
         }
     }
 
+    public void orderWithKeyEvent(){
+
+    }
 
 
 

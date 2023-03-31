@@ -40,6 +40,7 @@ public class ListShapeCtrl {
     private List list;
 
     private final LinkedList<TaskShape> taskControllers;
+    private BoardController boardController;
 
     @Inject
     public ListShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
@@ -93,8 +94,9 @@ public class ListShapeCtrl {
      * and the colors of it) based on the list object that is passed on
      * @param list our list
      */
-    public void updateScene(List list) {
+    public void updateScene(List list, BoardController boardController) {
         this.list = list;
+        this.boardController = boardController;
 
         listGrid.setOnDragOver(this::dragOver);
         listGrid.setOnDragDropped(this::dragDrop);
@@ -108,6 +110,10 @@ public class ListShapeCtrl {
     }
     public List getList(){
         return list;
+    }
+
+    public BoardController getBoardController() {
+        return boardController;
     }
 
     /**
@@ -186,6 +192,7 @@ public class ListShapeCtrl {
             reorderTasks(previousListId);
 
             done = true;
+            boardController.refresh();
         }
         ((GridPane) source).setOpacity(1);
 

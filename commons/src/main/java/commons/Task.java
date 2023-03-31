@@ -31,11 +31,11 @@ public class Task {
     @JoinColumn(name="listId", nullable=false)
     private List list;
 
-    @OneToMany (mappedBy = "task")
+    @OneToMany (mappedBy = "task", cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private java.util.List<Subtask> subtasks;
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", cascade = CascadeType.REMOVE)
     private java.util.List<Tag> tags;
 
     /**

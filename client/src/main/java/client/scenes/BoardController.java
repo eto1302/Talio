@@ -6,6 +6,7 @@ import commons.Board;
 import commons.Task;
 import commons.models.IdResponseModel;
 import commons.sync.BoardDeleted;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.geometry.Bounds;
@@ -50,6 +51,7 @@ public class BoardController {
     public void setup() {
         listControllers=new LinkedList<>();
         grid.requestFocus();
+        filtering();
         grid.getScene().setOnKeyPressed(this::movement);
         refresh();
     }
@@ -163,7 +165,8 @@ public class BoardController {
                 case UP, KP_UP, W -> up(index);
                 case LEFT, KP_LEFT, A -> left();
                 case RIGHT, KP_RIGHT, D-> right();
-
+                case DELETE, BACK_SPACE -> selectedTask.deleteOnKey();
+                case ENTER -> showCtrl.showEditTask(selectedTask.getTask(), selectedList);
             }
         }
     }
@@ -224,7 +227,7 @@ public class BoardController {
         }
         else{
             selectedList = listControllers.get(index+1);
-            updateScrollPane(index+1);
+            updateScrollPane(index);
         }
         selectedList.updateScrollPane(0);
 
@@ -233,15 +236,21 @@ public class BoardController {
         selectedTask.setStatus(true);
     }
 
-    private void find(){
+    public TaskShape find(){
         for (ListShapeCtrl ctrl :listControllers) {
             TaskShape selected = ctrl.findSelectedTask();
             if (selected != null) {
                 selectedList = ctrl;
                 selectedTask = selected;
-                return;
+                return selected;
             }
         }
+        return null;
+    }
+
+    public void reset(){
+        selectedList=null;
+        selectedTask=null;
     }
 
     private void updateScrollPane(int index){
@@ -250,6 +259,13 @@ public class BoardController {
                 (1/(listBox.getWidth()-bounds.getWidth())));
     }
 
-
+    private void filtering(){
+        scrollPane.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                movement(event);
+            }
+        });
+    }
 
 }

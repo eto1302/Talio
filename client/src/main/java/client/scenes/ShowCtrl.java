@@ -209,7 +209,7 @@ public class ShowCtrl implements IShowCtrl {
      */
     public void editList(commons.List list) {
         ListShapeCtrl controller = getListController(list.getId());
-        controller.updateScene(list);
+        controller.updateScene(list, boardController);
     }
 
     /**
@@ -234,7 +234,7 @@ public class ShowCtrl implements IShowCtrl {
         var listShape = FXML.load(ListShapeCtrl.class, "client", "scenes", "List.fxml");
         ListShapeCtrl listShapeCtrl = listShape.getKey();
 
-        listShapeCtrl.updateScene(list);
+        listShapeCtrl.updateScene(list, boardController);
         boardController.putList(listShape.getValue(), listShapeCtrl);
         return listShapeCtrl;
     }
@@ -292,6 +292,11 @@ public class ShowCtrl implements IShowCtrl {
         editTaskController = editTaskPair.getKey();
         editTask = new Scene((Parent) editTaskPair.getValue());
         editTask.setOnKeyReleased(this::keyRelease);
+
+        editTask.setOnKeyPressed(event -> {
+            if (event.getCode()==KeyCode.ESCAPE)
+                cancel();
+        });
 
         Scene updated = editTaskController.setup(task, listShapeCtrl);
         secondaryStage = new Stage();
