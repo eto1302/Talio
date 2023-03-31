@@ -23,7 +23,7 @@ public class BoardServiceTest {
 
     private transient Board board = Board.create("name", "pwd",
             null,
-            "#F00000", "#F00000"
+            "#F00000", "#F00000", null
             );
 
     @Test

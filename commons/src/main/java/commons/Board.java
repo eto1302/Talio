@@ -1,6 +1,7 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -13,13 +14,16 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "integer")
+    @JsonView(BoardSummary.class)
     private int id;
 
     @Column(name = "name")
+    @JsonView(BoardSummary.class)
     @Size(max = 20)
     private String name;
 
     @Column(name = "password")
+    @JsonView(BoardSummary.class)
     @Size(max = 20)
     private String password;
 
@@ -40,9 +44,9 @@ public class Board {
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private java.util.List<List> lists;
 
-    @OneToMany
-    @JoinColumn(name = "tagId", referencedColumnName = "id")
-    private java.util.List<Tag> tag;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board")
+    private java.util.List<Tag> tags;
 
     /**
      * Creates a new Board object with the given name, password, and set of lists.
@@ -53,13 +57,14 @@ public class Board {
      * @return A new Board object with the given name, password, and set of lists.
      */
     public static Board create(String name, String password, java.util.List<List> lists,
-                               String fontColor, String backgroundColor) {
+                               String fontColor, String backgroundColor, java.util.List<Tag> tags) {
         Board board = new Board();
         board.name = name;
         board.password = password;
         board.lists = lists;
         board.fontColor = fontColor;
         board.backgroundColor = backgroundColor;
+        board.tags = tags;
         return board;
     }
 
@@ -104,6 +109,13 @@ public class Board {
     public java.util.List<List> getLists() {
         return lists;
     }
+
+    /**
+     * Returns the list of tags associated with the board.
+     *
+     * @return The list of tags associated with the board.
+     */
+    public java.util.List<Tag> getTags() { return tags; }
 
     /**
      * Sets the name of the board.
@@ -222,7 +234,6 @@ public class Board {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", tag=" + tag +
                 ", fontColor=" + fontColor +
                 ", backgroundColor=" + backgroundColor +
                 '}';

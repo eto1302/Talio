@@ -3,6 +3,7 @@ package commons;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +17,8 @@ class BoardTest {
         List list1 = new List();
         lists.add(list1);
 
-        board = Board.create("Board1", "password123", lists, "#000000", "#FFFFFF");
+        board = Board.create("Board1", "password123",
+            lists, "#000000", "#FFFFFF", new ArrayList<>());
     }
 
     @Test
@@ -46,7 +48,7 @@ class BoardTest {
         expectedBoard.setBackgroundColor("#FFFFFF");
 
         Board actualBoard = Board.create("Board1", "password123", expectedLists,
-                "#000000", "#FFFFFF");
+                "#000000", "#FFFFFF", new ArrayList<>());
 
         assertEquals(expectedBoard, actualBoard);
     }
@@ -123,7 +125,7 @@ class BoardTest {
     @Test
     void testNotEquals() {
         Board board2 = Board.create("board2", "password2",
-                new LinkedList<>(), "#000000", "#FFFFFF");
+                new LinkedList<>(), "#000000", "#FFFFFF", new ArrayList<>());
         assertNotEquals(board, board2);
     }
 
@@ -152,7 +154,7 @@ class BoardTest {
     @Test
     void testToString() {
         String expectedString = "Board{id=0, name='Board1', password='password123'," +
-                " tag=null, fontColor=#000000," +
+                " fontColor=#000000," +
                 " backgroundColor=#FFFFFF}";
 
         assertEquals(expectedString, board.toString());
