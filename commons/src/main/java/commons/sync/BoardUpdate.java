@@ -20,7 +20,6 @@ import commons.models.IdResponseModel;
     @JsonSubTypes.Type(value = BoardEdited.class, name = "boardEdited"),
     @JsonSubTypes.Type(value = TaskAdded.class, name = "taskAdded"),
     @JsonSubTypes.Type(value = TaskEdited.class, name = "taskEdited"),
-    @JsonSubTypes.Type(value = TaskDeleted.class, name = "taskDeleted"),
     @JsonSubTypes.Type(value = BoardDeleted.class, name = "boardDeleted")
 })
 public abstract class BoardUpdate implements Message {

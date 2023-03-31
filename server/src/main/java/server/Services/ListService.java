@@ -9,6 +9,7 @@ import server.database.BoardRepository;
 import server.database.ListRepositoy;
 
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 
 @Service
@@ -31,7 +32,7 @@ public class ListService {
         return listRepositoy.findAll();
     }
 
-    public java.util.List<List> getAllListByBoard(int boardId) throws NoSuchElementException {
+    public Set<List> getAllListByBoard(int boardId) throws NoSuchElementException {
         if(!boardRepository.existsById(boardId)) throw new NoSuchElementException();
         return boardRepository.getBoardByID(boardId).getLists();
     }

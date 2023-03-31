@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="grid" alignment="CENTER" minHeight="400.0" prefHeight="434.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardController">
+<GridPane alignment="CENTER" minHeight="400.0" prefHeight="434.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardController">
     <columnConstraints>
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
@@ -49,7 +49,7 @@
                 </MenuButton>
             </children>
         </GridPane>
-        <ScrollPane fx:id="scrollPane" fitToHeight="true" minHeight="200.0" GridPane.rowIndex="1">
+        <ScrollPane fitToHeight="true" minHeight="200.0" GridPane.rowIndex="1">
             <content>
                 <HBox fx:id="listBox" prefHeight="312.0" style="-fx-padding: 7px; -fx-spacing: 7px;">
                     <children>
@@ -174,9 +174,8 @@
                 </HBox>
             </content>
         </ScrollPane>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 25px;" GridPane.rowIndex="2">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
          <children>
-            <Label opacity="0.5" style="-fx-label-padding: 10px;" text="Press &quot;?&quot; for help menu" />
             <Button fx:id="addListButton" mnemonicParsing="false" onAction="#showAddList" prefHeight="26.0" prefWidth="72.0" text="Add List" />
             <Button fx:id="editBoardButton" mnemonicParsing="false" onAction="#showEditBoard" prefHeight="26.0" prefWidth="72.0" text="Edit Board">
                <HBox.margin>

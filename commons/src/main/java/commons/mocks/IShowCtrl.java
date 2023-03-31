@@ -12,8 +12,6 @@ public interface IShowCtrl {
 
     void addTask(Task task, List list);
 
-    void deleteTask(Task task);
-
     void refreshAdminBoards();
 
     void refreshList(int listID);

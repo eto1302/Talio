@@ -7,35 +7,37 @@ import commons.Task;
 import commons.models.IdResponseModel;
 import commons.sync.BoardDeleted;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.geometry.Bounds;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import javax.inject.Inject;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class BoardController {
     @FXML
-    private GridPane grid;
+    private MenuButton menu;
+    @FXML
+    private MenuItem joinBoard;
+    @FXML
+    private MenuItem addBoard;
+    @FXML
+    private MenuItem yourBoards;
+    @FXML
+    private MenuItem personalize;
     @FXML
     private Label boardLabel;
     @FXML
     private HBox listBox;
-    @FXML
-    private ScrollPane scrollPane;
 
     private final ShowCtrl showCtrl;
     private ServerUtils server;
-    private LinkedList<ListShapeCtrl> listControllers;
-    private ListShapeCtrl selectedList=null;
-    private TaskShape selectedTask=null;
+    private Stage primaryStage;
 
     @Inject
     private UserData userData;
@@ -47,12 +49,11 @@ public class BoardController {
     }
 
 
-    public void setup() {
-        listControllers=new LinkedList<>();
-        grid.requestFocus();
-        grid.getScene().setOnKeyPressed(this::movement);
+    public void setup(Stage primaryStage) {
+        this.primaryStage=primaryStage;
         refresh();
     }
+
 
     /**
      *  Send a request to the server and fetch all lists stored in the default board with id 1 (for
@@ -65,9 +66,7 @@ public class BoardController {
         this.boardLabel.setTextFill(Color.web(this.userData.getCurrentBoard().getFontColor()));
         listBox.getChildren().clear();
         listBox.getChildren();
-        listControllers.clear();
-
-        List<commons.List> lists;
+        Set<commons.List> lists;
         java.util.List<commons.Task> tasks;
 
         try {
@@ -107,25 +106,14 @@ public class BoardController {
         showCtrl.showAdmin();
     }
 
-    public LinkedList<ListShapeCtrl> getListControllers() {
-        return listControllers;
-    }
-
     /**
      * Puts the root of the scene (the grid representing the list) inside the board
-     * @param root the root we are looking to add to our board
+     * @param scene ,whose root we are looking to add to our board
+     * @return the updated scene of the board
      */
-    public void putList(Parent root, ListShapeCtrl ctrl) {
-        listBox.getChildren().add(root);
-        listControllers.addLast(ctrl);
-    }
-
-    /**
-     * Deletes a list shape controller from the controller list
-     * @param ctrl the controller to delete
-     */
-    public void deleteList(ListShapeCtrl ctrl) {
-        listControllers.remove(ctrl);
+    public Scene putList(Scene scene){
+        listBox.getChildren().add(scene.getRoot());
+        return boardLabel.getScene();
     }
 
     public void setServer() {
@@ -150,113 +138,4 @@ public class BoardController {
             showCtrl.showYourBoards();
         }
     }
-
-    public void movement(KeyEvent event){
-        if (selectedTask==null)
-            find();
-
-        KeyCode key = event.getCode();
-        if (selectedTask!=null) {
-            int index = selectedList.getTaskControllers().indexOf(selectedTask);
-            switch (key){
-                case DOWN, KP_DOWN, S -> down(index);
-                case UP, KP_UP, W -> up(index);
-                case LEFT, KP_LEFT, A -> left();
-                case RIGHT, KP_RIGHT, D-> right();
-                case DELETE, BACK_SPACE -> selectedTask.deleteOnKey();
-                case ENTER -> showCtrl.showEditTask(selectedTask.getTask(), selectedList);
-            }
-        }
-    }
-
-    private void down(int index){
-        selectedTask.setStatus(false);
-
-        if (index + 1 == selectedList.getTaskControllers().size()) {
-            selectedTask=selectedList.getTaskControllers().get(0);
-            selectedList.updateScrollPane(0);
-        } else {
-            selectedTask=selectedList.getTaskControllers().get(index+1);
-            selectedList.updateScrollPane(index+1);
-        }
-        selectedTask.setStatus(true);
-    }
-
-    private void up(int index){
-        selectedTask.setStatus(false);
-
-        if (index==0){
-            int size =selectedList.getTaskControllers().size();
-            selectedTask=selectedList.getTaskControllers().get(size-1);
-            selectedList.updateScrollPane(size-1);
-        }
-        else{
-            selectedTask = selectedList.getTaskControllers().get(index-1);
-            selectedList.updateScrollPane(index-1);
-        }
-        selectedTask.setStatus(true);
-    }
-
-    private void left(){
-        int index = listControllers.indexOf(selectedList);
-
-        if (index==0){
-            int size = listControllers.size();
-            selectedList = listControllers.get(size - 1);
-            updateScrollPane(size-1);
-        }
-        else{
-            selectedList = listControllers.get(index-1);
-            updateScrollPane(index-1);
-        }
-        selectedList.updateScrollPane(0);
-
-        selectedTask.setStatus(false);
-        selectedTask = selectedList.getTaskControllers().get(0);
-        selectedTask.setStatus(true);
-    }
-
-    private void right(){
-        int index = listControllers.indexOf(selectedList);
-
-        if (index+1==listControllers.size()){
-            selectedList = listControllers.get(0);
-            updateScrollPane(0);
-        }
-        else{
-            selectedList = listControllers.get(index+1);
-            updateScrollPane(index);
-        }
-        selectedList.updateScrollPane(0);
-
-        selectedTask.setStatus(false);
-        selectedTask = selectedList.getTaskControllers().get(0);
-        selectedTask.setStatus(true);
-    }
-
-    public TaskShape find(){
-        for (ListShapeCtrl ctrl :listControllers) {
-            TaskShape selected = ctrl.findSelectedTask();
-            if (selected != null) {
-                selectedList = ctrl;
-                selectedTask = selected;
-                return selected;
-            }
-        }
-        return null;
-    }
-
-    public void reset(){
-        selectedList=null;
-        selectedTask=null;
-    }
-
-    private void updateScrollPane(int index){
-        Bounds bounds = scrollPane.getViewportBounds();
-        scrollPane.setHvalue(listBox.getChildren().get(index).getLayoutX() *
-                (1/(listBox.getWidth()-bounds.getWidth())));
-    }
-
-
-
 }
