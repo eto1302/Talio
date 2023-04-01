@@ -4,7 +4,6 @@ import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Task;
-import commons.models.IdResponseModel;
 import commons.models.TaskEditModel;
 import commons.sync.TaskDeleted;
 import javafx.beans.property.ObjectProperty;
@@ -112,7 +111,7 @@ public class TaskShape {
     /**
      * Adds the delete event to the controller
      */
-       public void delete() {
+    public void delete() {
         VBox parent = (VBox) grid.getParent();
         parent.getChildren().remove(grid);
         server.removeTask(task.getId(), task.getListID());
