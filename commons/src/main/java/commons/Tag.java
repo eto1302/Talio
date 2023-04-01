@@ -1,6 +1,7 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -15,24 +16,25 @@ public class Tag {
     @Column(name = "name", columnDefinition = "varchar(255)")
     private String name;
 
-    @Column(name = "color", columnDefinition = "varchar(7) default '#000000'")
-    private String color;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "colorId", referencedColumnName = "id")
+    private Color color;
 
     @JsonBackReference("taskTagReference")
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="taskId")
     private Task task;
 
-    @Column(name = "t_Id")
+    @Column(name="t_id")
     private int taskID;
+    @Column(name = "b_id")
+    private int boardId;
 
-    @JsonBackReference("boardTagReference")
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "boardId")
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="boardId")
     private Board board;
 
-    @Column(name = "b_Id")
-    private int boardID;
 
 
     /**
@@ -42,7 +44,7 @@ public class Tag {
      * @param color    The color of the tag.
      * @return A new Board object with the given name, password, and set of lists.
      */
-    public static Tag create(String name, String color) {
+    public static Tag create(String name, Color color) {
         Tag tag = new Tag();
         tag.name = name;
         tag.color = color;
@@ -128,7 +130,7 @@ public class Tag {
      * Returns the color of the tag
      * @return the color of the tag
      */
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -136,7 +138,7 @@ public class Tag {
      * Sets the color of the tag
      * @param color to be set
      */
-    public void setColor(String color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
@@ -160,16 +162,16 @@ public class Tag {
      * Returns the ID of the board associated with the tag.
      * @return The id of the board associated with the tag.
      */
-    public int getBoardID() {
-        return boardID;
+    public int getBoardId() {
+        return boardId;
     }
 
     /**
      * Sets the ID of the board associated with the tag.
      * @param boardID The id of the board associated with the tag.
      */
-    public void setBoardID(int boardID) {
-        this.boardID = boardID;
+    public void setBoardId(int boardID) {
+        this.boardId = boardID;
     }
 
     /**

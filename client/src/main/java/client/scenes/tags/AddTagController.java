@@ -51,7 +51,7 @@ public class AddTagController {
     }
 
     public void addTag() {
-        String tagColor = colorToHex(this.colorPicker.getValue());
+        commons.Color color = commons.Color.create("#0000000", "#FFFFFF");
         String tagName = this.textField.getText();
         Tag tag = Tag.create(tagName, tagColor);
         Board current = userData.getCurrentBoard();

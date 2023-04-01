@@ -37,9 +37,7 @@ public class EditBoardController {
     public void edit() {
         this.userData.updateBoard(
                 new BoardEdited(this.userData.getCurrentBoard().getId(),
-                        new BoardEditModel(newTitle.getText(),
-                                colorToHex(newBackground.getValue()),
-                                colorToHex(newFont.getValue()))));
+                        new BoardEditModel(newTitle.getText())));
         cancel();
         this.userData.openBoard(this.userData.getCurrentBoard().getId());
         showCtrl.showBoard();
@@ -58,11 +56,13 @@ public class EditBoardController {
         return hexString;
     }
 
-    public void setup(BoardController controller){
-        this.boardController=controller;
+    public void setup(){
         Board currentBoard = this.userData.getCurrentBoard();
         this.newTitle.setText(currentBoard.getName());
-        this.newFont.setValue(Color.web(currentBoard.getFontColor()));
-        this.newBackground.setValue(Color.web(currentBoard.getBackgroundColor()));
+    }
+
+    public void showColorPicker() {
+        showCtrl.cancel();
+        showCtrl.showColorPicker();
     }
 }

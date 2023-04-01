@@ -3,20 +3,31 @@ package commons;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
     private Board board;
+    private Color boardColor;
+    private Color listColor;
 
     @BeforeEach
     void setUp() {
         java.util.List<List> lists = new LinkedList<>();
         List list1 = new List();
         lists.add(list1);
+        boardColor = Color.create("#000000", "#FFFFFF");
+        listColor = Color.create("#000000", "#111111");
+        java.util.List<Color> colors = new ArrayList<>();
+        colors.add(boardColor);
+        colors.add(listColor);
 
-        board = Board.create("Board1", "password123", lists, "#000000", "#FFFFFF");
+        board = Board.create("Board1", "password123", lists,
+                colors, new ArrayList<>());
+        board.setBoardColor(boardColor);
+        board.setListColor(listColor);
     }
 
     @Test
@@ -42,11 +53,13 @@ class BoardTest {
         expectedBoard.setName("Board1");
         expectedBoard.setPassword("password123");
         expectedBoard.setLists(expectedLists);
-        expectedBoard.setFontColor("#000000");
-        expectedBoard.setBackgroundColor("#FFFFFF");
+
+        java.util.List<Color> colors = new ArrayList<>();
+        colors.add(boardColor);
+        colors.add(listColor);
 
         Board actualBoard = Board.create("Board1", "password123", expectedLists,
-                "#000000", "#FFFFFF");
+                colors, new ArrayList<>());
 
         assertEquals(expectedBoard, actualBoard);
     }
@@ -86,18 +99,6 @@ class BoardTest {
         board.setPassword("newpassword");
         assertEquals("newpassword", board.getPassword());
     }
-
-    @Test
-    void setFontColor(){
-        board.setFontColor("#FFFFFF");
-        assertEquals("#FFFFFF", board.getFontColor());
-    }
-
-    @Test
-    void setBackgroundColor(){
-        board.setBackgroundColor("#000000");
-        assertEquals("#000000", board.getBackgroundColor());
-    }
     @Test
     void testEquals() {
         Board board1 = new Board();
@@ -111,8 +112,10 @@ class BoardTest {
         lists.add(list2);
 
         board1.setLists(lists);
-        board1.setFontColor("#000000");
-        board1.setBackgroundColor("#FFFFFF");
+        java.util.List<Color> colors = new ArrayList<>();
+        colors.add(boardColor);
+        colors.add(listColor);
+        board1.setColors(colors);
 
         assertEquals(board, board1);
 
@@ -123,7 +126,7 @@ class BoardTest {
     @Test
     void testNotEquals() {
         Board board2 = Board.create("board2", "password2",
-                new LinkedList<>(), "#000000", "#FFFFFF");
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         assertNotEquals(board, board2);
     }
 
@@ -139,9 +142,12 @@ class BoardTest {
         lists.add(list1);
         lists.add(list2);
 
+        java.util.List<Color> colors = new ArrayList<>();
+        colors.add(boardColor);
+        colors.add(listColor);
+
         board1.setLists(lists);
-        board1.setFontColor("#000000");
-        board1.setBackgroundColor("#FFFFFF");
+        board1.setColors(colors);
 
         assertEquals(board.hashCode(), board1.hashCode());
 
@@ -151,9 +157,8 @@ class BoardTest {
 
     @Test
     void testToString() {
-        String expectedString = "Board{id=0, name='Board1', password='password123'," +
-                " tag=null, fontColor=#000000," +
-                " backgroundColor=#FFFFFF}";
+        String expectedString = "Board{id=0, name='Board1', password='password123', " +
+                "inviteKey='null'}";
 
         assertEquals(expectedString, board.toString());
     }

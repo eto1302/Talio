@@ -6,13 +6,13 @@ import client.utils.ServerUtils;
 import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class AddBoardController {
@@ -25,10 +25,6 @@ public class AddBoardController {
     private Button addButton;
     @FXML
     private TextField nameField;
-    @FXML
-    private ColorPicker backgroundColor;
-    @FXML
-    private ColorPicker fontColor;
 
     @Inject
     public AddBoardController (ShowCtrl showCtrl, ServerUtils server){
@@ -49,13 +45,41 @@ public class AddBoardController {
      * Converts the user data into a board and sends it to the server
      */
     public void addBoard(){
-        Board board = Board.create(nameField.getText(), null, new LinkedList<>(),
-                colorToHex(fontColor.getValue()), colorToHex(backgroundColor.getValue()));
+        commons.Color boardColor = commons.
+                Color.create("#000000", "#FFFFFF");
+        commons.Color listColor = commons.
+                Color.create("#000000", "#FFFFFF");
+
+        IdResponseModel boardColorResponse = server.addColor(boardColor);
+        IdResponseModel listColorResponse = server.addColor(listColor);
+        boardColor.setId(server.addColor(boardColor).getId());
+        listColor.setId(server.addColor(listColor).getId());
+        List<commons.Color> colors = new ArrayList<>();
+        colors.add(boardColor);
+        colors.add(listColor);
+
+        // if creation fails or client cannot connect to the server, it will return -1
+        if (boardColorResponse.getId() == -1) {
+            // show the error popup
+            showCtrl.showError(boardColorResponse.getErrorMessage());
+            showCtrl.cancel();
+            return;
+        }
+        // if creation fails or client cannot connect to the server, it will return -1
+        if (listColorResponse.getId() == -1) {
+            // show the error popup
+            showCtrl.showError(listColorResponse.getErrorMessage());
+            showCtrl.cancel();
+            return;
+        }
+        Board board = Board.create(nameField.getText(), null,
+                new ArrayList<>(), colors, new ArrayList<>());
         String inviteKey = generateInviteKey();
         board.setInviteKey(inviteKey);
 
         IdResponseModel response = server.addBoard(board);
-
+        server.setColorToBoard(boardColor, response.getId());
+        server.setColorToBoard(listColor, response.getId());
         // if creation fails or client cannot connect to the server, it will return -1
         if (response.getId() == -1) {
             // show the error popup
@@ -63,8 +87,8 @@ public class AddBoardController {
             showCtrl.cancel();
             return;
         }
-        Board boardUpdated = server.getBoard(response.getId());
 
+        Board boardUpdated = server.getBoard(response.getId());
         showCtrl.addBoard(boardUpdated);
         showCtrl.cancel();
         clearFields();
@@ -83,8 +107,8 @@ public class AddBoardController {
      * @return board, the user created
      */
     private Board getBoard() {
-        return Board.create(nameField.getText(), null, new LinkedList<>(),
-                colorToHex(fontColor.getValue()), colorToHex(backgroundColor.getValue()));
+        return Board.create(nameField.getText(), null,
+                new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     }
 
     /**

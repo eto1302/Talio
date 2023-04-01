@@ -27,7 +27,6 @@ public class BoardDeleted extends BoardUpdate {
 
     @Override
     public void apply(IUserData data) {
-        data.getShowCtrl().refreshAdminBoards();
     }
 
 

@@ -63,8 +63,10 @@ public class Main extends Application {
         var error=FXML.load(ErrorController.class, "client", "scenes", "Error.fxml");
         var admin = FXML.load(AdminController.class, "client", "scenes", "Admin.fxml");
         var editBoard = FXML.load(EditBoardController.class, "client", "scenes", "EditBoard.fxml");
-        var tagOverview = FXML.load(TagOverviewController.class, "client", "scenes", "TagOverview.fxml");
         var help = FXML.load(HelpCtrl.class, "client", "scenes", "Help.fxml");
+        var tagOverview = FXML.load(TagOverviewController.class, "client", "scenes", "TagOverview.fxml");
+        var colorPicker = FXML.load(ColorPicker.class, "client", "scenes", "ColorPicker.fxml");
+        var addTaskColor = FXML.load(AddTaskColor.class, "client", "scenes", "AddTaskColor.fxml");
 
         loader.add(home);
         loader.add(addList);
@@ -76,8 +78,9 @@ public class Main extends Application {
         loader.add(error);
         loader.add(admin);
         loader.add(editBoard);
-        loader.add(tagOverview);
         loader.add(help);
-
+        loader.add(tagOverview);
+        loader.add(colorPicker);
+        loader.add(addTaskColor);
     }
 }
