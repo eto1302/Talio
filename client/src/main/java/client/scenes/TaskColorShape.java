@@ -34,6 +34,12 @@ public class TaskColorShape {
     }
 
     public void delete() {
+        if(this.color.getIsDefault()){
+            showCtrl.showError("Cannot delete default color pattern!");
+            showCtrl.cancel();
+            showCtrl.showColorPicker();
+            return;
+        }
         this.userData.deleteColor(
                 new ColorDeleted(this.userData.getCurrentBoard().getId(), color.getId()));
         this.userData.openBoard(this.userData.getCurrentBoard().getId());

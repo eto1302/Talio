@@ -66,7 +66,6 @@ public class ListShapeCtrl {
         listGrid.setBackground(new Background(
                 new BackgroundFill(backgroundColor, null, null)));
         listTitle.setTextFill(fontColor);
-        this.taskControllers = new LinkedList<>();
         return listGrid.getScene();
     }
 
@@ -117,6 +116,7 @@ public class ListShapeCtrl {
     public void updateScene(List list, BoardController boardController) {
         this.list = list;
         this.boardController = boardController;
+        this.taskControllers = new LinkedList<>();
         Board board = serverUtils.getBoard(list.getBoardId());
 
         listGrid.setOnDragOver(this::dragOver);

@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.user.UserData;
 import client.utils.ServerUtils;
+import commons.Color;
 import commons.List;
 import commons.Task;
 import commons.models.TaskEditModel;
@@ -104,6 +105,10 @@ public class TaskShape {
     public void updateScene(Task task){
         this.task = task;
         title.setText(task.getTitle());
+        Color taskColor = this.server.getColor(task.getColorId());
+        title.setTextFill(javafx.scene.paint.Color.web(taskColor.getFontColor()));
+        grid.setStyle("-fx-padding: 2px; -fx-border-color: gray; " +
+                "-fx-background-color: " + taskColor.getBackgroundColor() +";");
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
     }

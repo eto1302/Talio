@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.user.UserData;
 import client.utils.ServerUtils;
+import commons.Color;
 import commons.List;
 import commons.Subtask;
 import commons.Task;
@@ -13,6 +14,7 @@ import javafx.scene.control.TextField;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class AddTaskController {
 
@@ -42,8 +44,11 @@ public class AddTaskController {
     public void addTask() {
         String title = this.title.getText();
         String description = this.descriptionField.getText();
+        int colorId = this.userData.getCurrentBoard().getColors()
+                .stream().filter(Color::getIsDefault).findFirst().get().getId();
         task.setTitle(title);
         task.setDescription(description);
+        task.setColorId(colorId);
         java.util.List<Task> tasks = server.getTaskByList(list.getId());
         task.setIndex(tasks.size());
 
@@ -54,7 +59,7 @@ public class AddTaskController {
             showCtrl.cancel();
             return;
         }
-
+        showCtrl.showBoard();
         showCtrl.cancel();
     }
 
