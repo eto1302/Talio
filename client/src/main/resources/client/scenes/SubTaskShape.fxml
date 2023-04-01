@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="grid" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="380.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="client.scenes.SubTaskShapeCtrl">
+<GridPane fx:id="grid" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SubTaskShapeCtrl">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="380.0" minWidth="10.0" prefWidth="359.99998779296874" />
-    <ColumnConstraints hgrow="NEVER" minWidth="0.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="380.0" minWidth="10.0" prefWidth="328.60003662109375" />
+    <ColumnConstraints hgrow="NEVER" maxWidth="58.99998779296874" minWidth="0.0" prefWidth="20.59996337890624" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <CheckBox fx:id="textField" mnemonicParsing="false" onAction="#changeSelected" prefHeight="18.0" text="CheckBox" wrapText="true" />
-      <Hyperlink contentDisplay="CENTER" onAction="#remove" text="X" textFill="#130404" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+      <CheckBox fx:id="textField" mnemonicParsing="false" onAction="#changeSelected" text="Subtask" wrapText="true">
+         <padding>
+            <Insets left="5.0" />
+         </padding></CheckBox>
+      <Hyperlink contentDisplay="CENTER" onAction="#remove" text="X" textAlignment="RIGHT" textFill="#130404" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+         <GridPane.margin>
+            <Insets right="5.0" />
+         </GridPane.margin></Hyperlink>
    </children>
 </GridPane>

@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.Subtask;
+import commons.models.IdResponseModel;
 import commons.models.SubtaskEditModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -66,7 +67,14 @@ public class SubTaskShapeCtrl {
     }
 
     public void remove(){
-        //TODO
+        IdResponseModel model = serverUtils.deleteSubtask(subtask.getTaskID(), subtask.getId());
+        if(model.getId() == -1){
+            showCtrl.showError(model.getErrorMessage());
+        }
+        else{
+            VBox parent = (VBox) grid.getParent();
+            parent.getChildren().remove(grid);
+        }
     }
 
     /**

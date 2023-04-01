@@ -12,7 +12,6 @@ import commons.sync.ListDeleted;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.geometry.Bounds;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -118,6 +117,7 @@ public class ListShapeCtrl {
         this.boardController = boardController;
         this.taskControllers = new LinkedList<>();
         Board board = serverUtils.getBoard(list.getBoardId());
+        taskControllers = new LinkedList<>();
 
         listGrid.setOnDragOver(this::dragOver);
         listGrid.setOnDragDropped(this::dragDrop);
