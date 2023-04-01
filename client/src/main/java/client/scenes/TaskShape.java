@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
@@ -35,6 +36,7 @@ public class TaskShape {
     private UserData userData;
     private boolean selected;
     private String style;
+    private TextField text;
 
     @Inject
     public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
@@ -299,7 +301,7 @@ public class TaskShape {
         }
     }
 
-    public void orderWithKeyEventUp(int index, String direction){
+    public void orderWithKeyEvent(int index, String direction){
         VBox parent = (VBox) grid.getParent();
         ArrayList<Node> children = new ArrayList<>(parent.getChildren());
         ArrayList<Task> orderedTasks =
@@ -323,5 +325,26 @@ public class TaskShape {
     }
 
 
+    public void editOnKey() {
+        int index = ((VBox) grid.getParent()).getChildren().indexOf(grid);
+        TaskEditModel model = new TaskEditModel(text.getText(), task.getDescription(),
+                index, controller.getList());
+        task.setTitle(model.getTitle());
+        server.editTask(task.getId(), model);
 
+        title.setGraphic(null);
+        title.setText(model.getTitle());
+    }
+
+    public void makeEditable() {
+        text = new TextField();
+        text.setPrefWidth(80);
+
+        text.setText(task.getTitle());
+        title.setGraphic(text);
+        title.setText("");
+
+        text.end();
+        text.requestFocus();
+    }
 }

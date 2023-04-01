@@ -39,6 +39,7 @@ public class BoardController {
     private LinkedList<ListShapeCtrl> listControllers;
     private ListShapeCtrl selectedList=null;
     private TaskShape selectedTask=null;
+    private boolean editable = false;
 
     @Inject
     private UserData userData;
@@ -162,32 +163,27 @@ public class BoardController {
             find();
 
         KeyCode key = event.getCode();
-        if (selectedTask!=null && !event.isShiftDown()) {
+        if (selectedTask!=null && !event.isShiftDown() && !editable) {
             int index = selectedList.getTaskControllers().indexOf(selectedTask);
-            switch (key){
-                case DOWN, KP_DOWN, S -> down(index);
-                case UP, KP_UP, W -> up(index);
-                case LEFT, KP_LEFT, A -> left();
-                case RIGHT, KP_RIGHT, D-> right();
-                case DELETE, BACK_SPACE -> selectedTask.deleteOnKey();
-                case ENTER -> showCtrl.showEditTask(selectedTask.getTask(), selectedList);
-            }
+            switchCase(key, index);
         }
-        else if (selectedTask!=null){
+
+        else if (selectedTask!=null && !editable){
             int index = selectedList.getTaskControllers().indexOf(selectedTask);
             TaskShape copy = selectedTask;
 
             switch (key){
                 case DOWN, KP_DOWN, S -> {
-                    selectedTask.orderWithKeyEventUp(index, "down");
+                    selectedTask.orderWithKeyEvent(index, "down");
                     if (index!=selectedList.getTaskControllers().size()-1) {
                         selectedTask = selectedList.getTaskControllers().get(index + 1);
                         selectedList.updateScrollPane(index+1);
                     } else selectedTask=copy;
                     selectedTask.setStatus(true);
                 }
+
                 case UP, KP_UP, W-> {
-                    selectedTask.orderWithKeyEventUp(index, "up");
+                    selectedTask.orderWithKeyEvent(index, "up");
                     if (index!=0) {
                         selectedTask = selectedList.getTaskControllers().get(index - 1);
                         selectedList.updateScrollPane(index);
@@ -197,7 +193,39 @@ public class BoardController {
                 }
             }
         }
+
+        else if (editable)
+            if (key==KeyCode.ENTER) {
+                editable=false;
+                selectedTask.editOnKey();
+                grid.requestFocus();
+            }
     }
+
+
+    private void switchCase(KeyCode key, int index){
+        switch (key){
+            case DOWN, KP_DOWN, S -> down(index);
+            case UP, KP_UP, W -> up(index);
+            case LEFT, KP_LEFT, A -> left();
+            case RIGHT, KP_RIGHT, D-> right();
+            case DELETE, BACK_SPACE -> selectedTask.deleteOnKey();
+            case ENTER -> showCtrl.showEditTask(selectedTask.getTask(), selectedList);
+            case E -> {
+                editable=true;
+                selectedTask.makeEditable();
+            }
+            case C -> {
+                //show color preset
+            }
+            case T -> {
+                //show tag
+            }
+        }
+    }
+
+
+
 
     private void down(int index){
         selectedTask.setStatus(false);
