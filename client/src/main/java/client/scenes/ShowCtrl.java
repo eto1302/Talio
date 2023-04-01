@@ -26,7 +26,7 @@ public class ShowCtrl implements IShowCtrl {
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, board, taskOverview, connection,
             addBoard, editTask, errorScene, admin, editBoard, colorPicker,
-            addTaskColor, help;
+            addTaskColor, help, taskColorPicker;
     private AddListController addListCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
@@ -38,6 +38,8 @@ public class ShowCtrl implements IShowCtrl {
     private AdminController adminController;
     private EditBoardController editBoardController;
     private ColorPicker colorPickerController;
+
+    private TaskColorPicker taskColorPickerController;
     private AddTaskColor addTaskColorController;
     private Map<Integer, ListShapeCtrl> listControllers;
     private HelpCtrl helpCtrl;
@@ -70,6 +72,8 @@ public class ShowCtrl implements IShowCtrl {
         addTaskColorController = (AddTaskColor) loader.get(11).getKey();
         help = new Scene((Parent) loader.get(12).getValue());
         helpCtrl = (HelpCtrl) loader.get(12).getKey();
+        taskColorPicker = new Scene((Parent) loader.get(13).getValue());
+        taskColorPickerController = (TaskColorPicker) loader.get(13).getKey();
 
         setUpKeys();
 
@@ -265,6 +269,25 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     /**
+     * Adds the taskColor to the ColorPicker and updates the scene
+     *
+     * @param color the color object whose attributes specify the visual of the shape
+     * @return the new TaskColorShape shape controller
+     */
+    public SelectTaskColorController addSelectTaskColor(Color color, Task task) {
+        var selectTaskColorShape = FXML.load(
+                SelectTaskColorController.class, "client", "scenes", "SelectTaskColorShape.fxml");
+        Scene initializeTaskColor = new Scene(selectTaskColorShape.getValue());
+        SelectTaskColorController selectTaskColorController = selectTaskColorShape.getKey();
+
+        selectTaskColorController.set(color, task);
+        Scene taskColorScene = selectTaskColorController.getSceneUpdated(color);
+        Scene scene = taskColorPickerController.putColor(taskColorScene);
+        secondaryStage.setScene(scene);
+        return selectTaskColorController;
+    }
+
+    /**
      * Adds a task to the list.
      * @param task the task with the info
      * @param list the list to add the task to
@@ -417,6 +440,14 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.setTitle("Color Picker");
         secondaryStage.setScene(this.colorPicker);
         this.colorPickerController.setup();
+        secondaryStage.show();
+    }
+
+    public void showTaskColorPicker(Task task) {
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Task Color Picker");
+        secondaryStage.setScene(this.taskColorPicker);
+        this.taskColorPickerController.setup(task);
         secondaryStage.show();
     }
 

@@ -65,7 +65,7 @@ public class TaskShape {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
-                    if (event.getClickCount()==2) {
+                    if (event.getClickCount()==1) {
                         setTaskUpdated();
                         showCtrl.showEditTask(task, controller);
                     }
@@ -209,15 +209,12 @@ public class TaskShape {
         Dragboard dragboard = event.getDragboard();
         Object source = event.getGestureSource();
         boolean done=false;
-
         String identify = dragboard.getString();
         int taskId = Integer.parseInt(identify.split("\\+")[0].trim());
         int previousListId = Integer.parseInt(identify.split("\\+")[1].trim());
-
         task =server.getTask(task.getId());
         Task previousTask = server.getTask(taskId);
         List currentlist = server.getList(task.getListID());
-
         if (dragboard.hasString() && previousListId==task.getListID()){
             VBox parent = (VBox) grid.getParent();
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
@@ -240,7 +237,8 @@ public class TaskShape {
             int newIndex= parent.getChildren().indexOf((GridPane) source);
 
             TaskEditModel model = new TaskEditModel(previousTask.getTitle(),
-                    previousTask.getDescription(), newIndex, currentlist);
+                    previousTask.getDescription(), newIndex, currentlist,
+                    previousTask.getColorId());
             server.editTask(taskId, model);
 
             currentlist.getTasks().add(previousTask);
@@ -275,7 +273,7 @@ public class TaskShape {
         for (int i=0; i<tasksToReorder.size(); i++){
             Task taskIndex = tasksToReorder.get(i);
             TaskEditModel model = new TaskEditModel(taskIndex.getTitle(),
-                    taskIndex.getDescription(), i, list);
+                    taskIndex.getDescription(), i, list, taskIndex.getColorId());
             server.editTask(taskIndex.getId(), model);
         }
     }

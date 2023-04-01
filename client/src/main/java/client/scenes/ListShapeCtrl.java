@@ -206,7 +206,7 @@ public class ListShapeCtrl {
             int newIndex= tasksBox.getChildren().indexOf((GridPane) source);
 
             TaskEditModel model = new TaskEditModel(task.getTitle(),
-                    task.getDescription(), newIndex, list);
+                    task.getDescription(), newIndex, list, task.getColorId());
             serverUtils.editTask(taskId, model);
 
             list.getTasks().add(task);
@@ -232,7 +232,7 @@ public class ListShapeCtrl {
         for (int i=0; i<tasksToReorder.size(); i++){
             Task taskIndex = tasksToReorder.get(i);
             TaskEditModel model = new TaskEditModel(taskIndex.getTitle(),
-                    taskIndex.getDescription(), i, previousList);
+                    taskIndex.getDescription(), i, previousList, taskIndex.getColorId());
             serverUtils.editTask(taskIndex.getId(), model);
         }
     }
