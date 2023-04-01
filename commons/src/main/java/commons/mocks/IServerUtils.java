@@ -1,10 +1,12 @@
 package commons.mocks;
 
 import commons.List;
+import commons.Subtask;
 import commons.Task;
 import commons.models.BoardEditModel;
 import commons.models.IdResponseModel;
 import commons.models.ListEditModel;
+import commons.models.SubtaskEditModel;
 
 public interface IServerUtils {
 
@@ -23,4 +25,10 @@ public interface IServerUtils {
     IdResponseModel deleteBoard(int boardID);
 
     IdResponseModel editBoard(int boardId, BoardEditModel edit);
+
+    IdResponseModel addSubtask(Subtask subtask, int taskID);
+
+    IdResponseModel deleteSubtask(int taskID, int subtaskID);
+
+    IdResponseModel editSubtask(int subtaskID, SubtaskEditModel model);
 }

@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Task;
+import commons.models.IdResponseModel;
 import commons.models.TaskEditModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -48,7 +49,7 @@ public class TaskShape {
      * On double-click, this will show the window containing the overview (details of the task)
      */
     public void doubleClick (){
-        grid.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        grid.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
@@ -78,9 +79,14 @@ public class TaskShape {
      */
     public void delete(){
         deleteX.setOnMouseClicked(event -> {
-            VBox parent = (VBox) grid.getParent();
-            parent.getChildren().remove(grid);
-            server.removeTask(task.getId(), task.getListID());
+            IdResponseModel model = server.removeTask(task.getId(), task.getListID());
+            if(model.getId() == -1){
+                showCtrl.showError(model.getErrorMessage());
+            }
+            else{
+                VBox parent = (VBox) grid.getParent();
+                parent.getChildren().remove(grid);
+            }
         });
 
     }
