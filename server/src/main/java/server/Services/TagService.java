@@ -99,7 +99,7 @@ public class TagService {
         try{
             Tag tag = tagRepository.getById(tagID);
             tag.setName(model.getName());
-            tag.setColor(model.getColor());
+            //tag.setColor(model.getColor());
             tagRepository.save(tag);
             return new IdResponseModel(tagID, null);
         }

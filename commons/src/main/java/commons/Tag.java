@@ -16,8 +16,9 @@ public class Tag {
     @Column(name = "name", columnDefinition = "varchar(255)")
     private String name;
 
-    @Column(name = "color", columnDefinition = "varchar(7) default '#000000'")
-    private String color;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "colorId", referencedColumnName = "id")
+    private Color color;
 
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="taskId")
@@ -43,7 +44,7 @@ public class Tag {
      * @param color    The color of the tag.
      * @return A new Board object with the given name, password, and set of lists.
      */
-    public static Tag create(String name, String color) {
+    public static Tag create(String name, Color color) {
         Tag tag = new Tag();
         tag.name = name;
         tag.color = color;
@@ -129,7 +130,7 @@ public class Tag {
      * Returns the color of the tag
      * @return the color of the tag
      */
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -137,7 +138,7 @@ public class Tag {
      * Sets the color of the tag
      * @param color to be set
      */
-    public void setColor(String color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 

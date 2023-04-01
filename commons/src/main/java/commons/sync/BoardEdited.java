@@ -31,8 +31,6 @@ public class BoardEdited extends BoardUpdate {
     @Override
     public void apply(IUserData data) {
         data.getCurrentBoard().setName(edit.getName());
-        data.getCurrentBoard().setFontColor(edit.getFontColor());
-        data.getCurrentBoard().setBackgroundColor(edit.getBackgroundColor());
     }
 
 }

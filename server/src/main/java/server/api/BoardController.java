@@ -2,9 +2,9 @@ package server.api;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import commons.Board;
+import commons.models.BoardEditModel;
 import commons.BoardSummary;
 import commons.models.IdResponseModel;
-import commons.models.ListEditModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
@@ -102,7 +102,7 @@ public class BoardController {
         return boardService.verifyAdminPassword(password);
     }
     @PostMapping("/edit/{boardId}")
-    public IdResponseModel editList(@PathVariable int boardId, @RequestBody ListEditModel model) {
+    public IdResponseModel editBoard(@PathVariable int boardId, @RequestBody BoardEditModel model) {
         IdResponseModel response = boardService.editBoard(boardId, model);
         boardService.fireBoardUpdateEvent();
         return response;

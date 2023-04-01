@@ -1,9 +1,6 @@
 package client.scenes;
 
-import commons.Board;
-import commons.Subtask;
-import commons.Tag;
-import commons.Task;
+import commons.*;
 import commons.mocks.IShowCtrl;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -18,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import java.util.List;
+import java.util.Map;
 
 import static client.utils.Constants.FXML;
 
@@ -26,8 +24,9 @@ public class ShowCtrl implements IShowCtrl {
     private Stage primaryStage, secondaryStage, popUpStage;
 
     private HomeController homeCtrl;
-    private Scene home, addList, yourBoards, search, board, connection,
-            addBoard, editTask, errorScene, admin, editBoard, help;
+    private Scene home, addList, yourBoards, search, board, taskOverview, connection,
+            addBoard, editTask, errorScene, admin, editBoard, colorPicker,
+            addTaskColor, help;
     private AddListController addListCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
@@ -38,6 +37,9 @@ public class ShowCtrl implements IShowCtrl {
     private ErrorController errorController;
     private AdminController adminController;
     private EditBoardController editBoardController;
+    private ColorPicker colorPickerController;
+    private AddTaskColor addTaskColorController;
+    private Map<Integer, ListShapeCtrl> listControllers;
     private HelpCtrl helpCtrl;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
@@ -62,8 +64,12 @@ public class ShowCtrl implements IShowCtrl {
         adminController = (AdminController) loader.get(8).getKey();
         editBoard = new Scene((Parent) loader.get(9).getValue());
         editBoardController = (EditBoardController) loader.get(9).getKey();
-        help = new Scene((Parent) loader.get(10).getValue());
-        helpCtrl = (HelpCtrl) loader.get(10).getKey();
+        colorPicker = new Scene((Parent) loader.get(10).getValue());
+        colorPickerController = (ColorPicker) loader.get(10).getKey();
+        addTaskColor = new Scene((Parent) loader.get(11).getValue());
+        addTaskColorController = (AddTaskColor) loader.get(11).getKey();
+        help = new Scene((Parent) loader.get(12).getValue());
+        helpCtrl = (HelpCtrl) loader.get(12).getKey();
 
         setUpKeys();
 
@@ -240,6 +246,25 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     /**
+     * Adds the taskColor to the ColorPicker and updates the scene
+     *
+     * @param color the color object whose attributes specify the visual of the shape
+     * @return the new TaskColorShape shape controller
+     */
+    public TaskColorShape addTaskColor(Color color) {
+        var taskColorShape = FXML.load(
+                TaskColorShape.class, "client", "scenes", "TaskColorShape.fxml");
+        Scene initializeTaskColor = new Scene(taskColorShape.getValue());
+        TaskColorShape taskColorShapeController = taskColorShape.getKey();
+
+        taskColorShapeController.set(color);
+        Scene taskColorScene = taskColorShapeController.getSceneUpdated(color);
+        Scene scene = colorPickerController.putColor(taskColorScene);
+        secondaryStage.setScene(scene);
+        return taskColorShapeController;
+    }
+
+    /**
      * Adds a task to the list.
      * @param task the task with the info
      * @param list the list to add the task to
@@ -361,11 +386,11 @@ public class ShowCtrl implements IShowCtrl {
         adminController.setup();
     }
 
-    public void showEditBoard(BoardController controller) {
+    public void showEditBoard() {
         secondaryStage = new Stage();
         secondaryStage.setTitle("Edit Board");
         secondaryStage.setScene(this.editBoard);
-        editBoardController.setup(controller);
+        editBoardController.setup();
         secondaryStage.show();
     }
     public void refreshBoardCtrl() {
@@ -378,6 +403,29 @@ public class ShowCtrl implements IShowCtrl {
             ctrl.refreshList();
     }
 
+    public void deleteTaskColor(Color color) {
+
+    }
+
+    @Override
+    public void editColor(Color color) {
+        this.boardController.refresh();
+    }
+
+    public void showColorPicker() {
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Color Picker");
+        secondaryStage.setScene(this.colorPicker);
+        this.colorPickerController.setup();
+        secondaryStage.show();
+    }
+
+    public void showAddTagColor() {
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("AddTagColor");
+        secondaryStage.setScene(this.addTaskColor);
+        secondaryStage.show();
+    }
     public void showHelpMenu(){
         popUpStage=new Stage();
         help.setOnKeyReleased(event->{

@@ -87,8 +87,6 @@ public class ListService {
         try {
             List list = listRepositoy.getListByID(listId);
             list.setName(model.getName());
-            list.setBackgroundColor(model.getBackgroundColor());
-            list.setFontColor(model.getFontColor());
             listRepositoy.save(list);
             return new IdResponseModel(listId, null);
         } catch (Exception e) {
