@@ -112,20 +112,12 @@ public class TaskShape {
     /**
      * Adds the delete event to the controller
      */
-    public void delete(){
-        deleteX.setOnMouseClicked(event -> {
-            IdResponseModel model = server.removeTask(task.getId(), task.getListID());
-            if(model.getId() == -1){
-                showCtrl.showError(model.getErrorMessage());
-            }
-            else{
-                VBox parent = (VBox) grid.getParent();
-                parent.getChildren().remove(grid);
-                controller.getTaskControllers().remove(this);
-            }
-        });
+       public void delete() {
+        VBox parent = (VBox) grid.getParent();
+        parent.getChildren().remove(grid);
+        server.removeTask(task.getId(), task.getListID());
+        controller.getTaskControllers().remove(this);
     }
-
 
     public void deleteEvent() {
         deleteX.setOnMouseClicked(event -> userData.updateBoard(new TaskDeleted(userData
