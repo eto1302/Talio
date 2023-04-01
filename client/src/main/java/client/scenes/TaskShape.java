@@ -112,7 +112,6 @@ public class TaskShape {
     /**
      * Adds the delete event to the controller
      */
-<<<<<<< client/src/main/java/client/scenes/TaskShape.java
     public void delete(){
         deleteX.setOnMouseClicked(event -> {
             IdResponseModel model = server.removeTask(task.getId(), task.getListID());
@@ -122,16 +121,11 @@ public class TaskShape {
             else{
                 VBox parent = (VBox) grid.getParent();
                 parent.getChildren().remove(grid);
+                controller.getTaskControllers().remove(this);
             }
         });
-=======
-    public void delete() {
-        VBox parent = (VBox) grid.getParent();
-        parent.getChildren().remove(grid);
-        server.removeTask(task.getId(), task.getListID());
-        controller.getTaskControllers().remove(this);
     }
->>>>>>> client/src/main/java/client/scenes/TaskShape.java
+
 
     public void deleteEvent() {
         deleteX.setOnMouseClicked(event -> userData.updateBoard(new TaskDeleted(userData
