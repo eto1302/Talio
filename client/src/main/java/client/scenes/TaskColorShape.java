@@ -37,7 +37,6 @@ public class TaskColorShape {
         if(this.color.getIsDefault()){
             showCtrl.showError("Cannot delete default color pattern!");
             showCtrl.cancel();
-            showCtrl.showColorPicker();
             return;
         }
         this.userData.deleteColor(
