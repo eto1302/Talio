@@ -24,7 +24,7 @@ public class AddTagController {
     private TextField textField;
     @FXML
     private ColorPicker colorPicker;
-    private TaskOverview controller;
+    private EditTaskController controller;
     private Stage primaryStage;
     private commons.Task task;
 
@@ -38,9 +38,9 @@ public class AddTagController {
     }
 
     public void addTag() {
-        String tagColor = colorToHex(this.colorPicker.getValue());
+        commons.Color color = commons.Color.create("#0000000", "#FFFFFF");
         String tagName = this.textField.getText();
-        Tag tag = Tag.create(tagName, tagColor);
+        Tag tag = Tag.create(tagName, color);
         showCtrl.addTag(tag, controller, primaryStage);
     }
 

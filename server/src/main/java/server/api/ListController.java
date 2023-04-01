@@ -8,7 +8,6 @@ import server.Services.ListService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/list")
@@ -32,9 +31,9 @@ public class ListController {
     }
 
     @GetMapping("/getByBoard/{id}")
-    public ResponseEntity<Set<commons.List>> getByBoard(@PathVariable int id) {
+    public ResponseEntity<java.util.List<commons.List>> getByBoard(@PathVariable int id) {
         try {
-            Set<commons.List> lists = listService.getAllListByBoard(id);
+            java.util.List<commons.List> lists = listService.getAllListByBoard(id);
             return ResponseEntity.ok().body(lists);
         } catch (NoSuchElementException e) {
             return ResponseEntity.badRequest().body(null);

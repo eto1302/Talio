@@ -8,9 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class TagTest {
 
     private Tag testTag;
+    private Color color;
     @BeforeEach
     void setUp() {
-        testTag = Tag.create("testTag", "#000000");
+        color = Color.create("#000000", "#FFFFFF");
+        testTag = Tag.create("testTag", color);
     }
 
     @Test
@@ -18,7 +20,7 @@ class TagTest {
         Tag expected = new Tag();
         expected.setId(0);
         expected.setName("testTag");
-        expected.setColor("#000000");
+        expected.setColor(color);
         assertEquals(expected, testTag);
     }
 
@@ -35,24 +37,24 @@ class TagTest {
 
     @Test
     void getColor() {
-        assertEquals("#000000", testTag.getColor());
+        assertEquals(color, testTag.getColor());
     }
 
     @Test
     void setColor() {
-        testTag.setColor("#ffffff");
-        assertEquals("#ffffff", testTag.getColor());
+        testTag.setColor(Color.create("#FFFFFF", "#111111"));
+        assertEquals(Color.create("#FFFFFF", "#111111"), testTag.getColor());
     }
 
     @Test
     void testEquals() {
-        Tag newTag = Tag.create("testTag", "#000000");
+        Tag newTag = Tag.create("testTag", color);
         assertEquals(newTag, testTag);
     }
 
     @Test
     void testNotEquals() {
-        Tag newTag = Tag.create("testTag1", "#000000");
+        Tag newTag = Tag.create("testTag1", color);
         assertNotEquals(newTag, testTag);
     }
 
@@ -63,17 +65,14 @@ class TagTest {
 
     @Test
     void testWrongHashCode() {
-        Tag newTag = Tag.create("testTag1", "#000000");
+        Tag newTag = Tag.create("testTag1", color);
         assertNotEquals(newTag.hashCode(), testTag.hashCode());
     }
 
     @Test
     void testToString() {
-        String stringRepresentation = "Tag{" +
-                "id=" + testTag.getId() +
-                ", name='" + "testTag" + '\'' +
-                ", color='" + "#000000" + '\'' +
-                '}';
+        String stringRepresentation = "Tag{id=0, name='testTag', " +
+                "color='Color{id=0, fontColor='#000000', backgroundColor='#FFFFFF'}'}";
         assertEquals(stringRepresentation, testTag.toString());
     }
 }

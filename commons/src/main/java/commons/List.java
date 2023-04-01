@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
@@ -21,19 +20,11 @@ public class List {
     @Size(max = 20)
     private String name;
 
-    @Column(name="background")
-    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$")
-    private String backgroundColor;
-
-    @Column(name="font")
-    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$")
-    private String fontColor;
-
     @Column(name = "b_id")
     @NotNull
     private int boardId;
 
-    @OneToMany(mappedBy = "list")
+    @OneToMany(mappedBy = "list", cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private java.util.List<Task> tasks;
 
@@ -43,13 +34,10 @@ public class List {
     private Board board;
 
 
-    public static List create(String name, String backgroundColor,
-                              String fontColor, int boardId, java.util.List<Task> tasks) {
+    public static List create(String name, int boardId, java.util.List<Task> tasks) {
         List list = new List();
         list.name = name;
-        list.backgroundColor=backgroundColor;
         list.boardId = boardId;
-        list.fontColor=fontColor;
         list.tasks=tasks;
         return list;
     }
@@ -125,22 +113,6 @@ public class List {
         this.tasks = tasks;
     }
 
-    public String getBackgroundColor() {
-        return backgroundColor;
-    }
-
-    public String getFontColor() {
-        return fontColor;
-    }
-
-    public void setBackgroundColor(String backgroundColor) {
-        this.backgroundColor = backgroundColor;
-    }
-
-    public void setFontColor(String fontColor) {
-        this.fontColor = fontColor;
-    }
-
     /**
      * Determines if the list is equal to the specified object
      * @param o the object to compare to
@@ -153,8 +125,6 @@ public class List {
         List list = (List) o;
         return id == list.id && boardId == list.boardId
                 && Objects.equals(name, list.name)
-                && Objects.equals(backgroundColor, list.backgroundColor)
-                && Objects.equals(fontColor, list.fontColor)
                 && Objects.equals(tasks, list.tasks)
                 && Objects.equals(board, list.board);
     }
@@ -165,8 +135,7 @@ public class List {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getTasks(), getBoard(),
-                getBackgroundColor(), getFontColor());
+        return Objects.hash(getId(), getName(), getTasks(), getBoard());
     }
 
     /**
@@ -177,9 +146,8 @@ public class List {
     public String toString() {
         return "List{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", backgroundColor='" + backgroundColor + '\'' +
-                ", fontColor='" + fontColor + '\'' +
-                ", boardId=" + boardId;
+                ", name='" + name +
+                "', boardId=" + boardId +
+                '}';
     }
 }

@@ -1,9 +1,9 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.*;
 
@@ -13,13 +13,16 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "integer")
+    @JsonView(BoardSummary.class)
     private int id;
 
     @Column(name = "name")
+    @JsonView(BoardSummary.class)
     @Size(max = 20)
     private String name;
 
     @Column(name = "password")
+    @JsonView(BoardSummary.class)
     @Size(max = 20)
     private String password;
 
@@ -27,22 +30,17 @@ public class Board {
     @Size(max=20)
     private String inviteKey;
 
-    @Column(name = "fontColor")
-    // regular expression that matches a valid color string in the format "#RRGGBB" or "#AARRGGBB"
-    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$")
-    private String fontColor;
-
-    @Column(name = "backgroundColor")
-    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$")
-    private String backgroundColor;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    private java.util.List<List> lists;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "board")
-    private Set<List> lists;
+    private java.util.List<Tag> tags;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tagId", referencedColumnName = "id")
-    private Tag tag;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board")
+    private java.util.List<Color> colors;
 
     /**
      * Creates a new Board object with the given name, password, and set of lists.
@@ -52,14 +50,14 @@ public class Board {
      * @param lists    The set of lists associated with the board.
      * @return A new Board object with the given name, password, and set of lists.
      */
-    public static Board create(String name, String password, Set<List> lists,
-                               String fontColor, String backgroundColor) {
+    public static Board create(String name, String password, java.util.List<List> lists,
+                               java.util.List<Color> colors, java.util.List<Tag> tags) {
         Board board = new Board();
         board.name = name;
         board.password = password;
         board.lists = lists;
-        board.fontColor = fontColor;
-        board.backgroundColor = backgroundColor;
+        board.colors = colors;
+        board.tags = tags;
         return board;
     }
 
@@ -101,9 +99,16 @@ public class Board {
      *
      * @return The set of lists associated with the board.
      */
-    public Set<List> getLists() {
+    public java.util.List<List> getLists() {
         return lists;
     }
+
+    /**
+     * Returns the list of tags associated with the board.
+     *
+     * @return The list of tags associated with the board.
+     */
+    public java.util.List<Tag> getTags() { return tags; }
 
     /**
      * Sets the name of the board.
@@ -128,40 +133,8 @@ public class Board {
      *
      * @param lists The new lists of the board.
      */
-    public void setLists(Set<List> lists) {
+    public void setLists(java.util.List<List> lists) {
         this.lists = lists;
-    }
-
-    /**
-     * Gets the font color of the board
-     * @return the font color of the board
-     */
-    public String getFontColor() {
-        return fontColor;
-    }
-
-    /**
-     * Sets the font color of the board
-     * @param fontColor to be set
-     */
-    public void setFontColor(String fontColor) {
-        this.fontColor = fontColor;
-    }
-
-    /**
-     * Gets the background color of the board
-     * @return the background color of the board
-     */
-    public String getBackgroundColor() {
-        return backgroundColor;
-    }
-
-    /**
-     * Sets the background color
-     * @param backgroundColor to be set
-     */
-    public void setBackgroundColor(String backgroundColor) {
-        this.backgroundColor = backgroundColor;
     }
 
     /**
@@ -180,6 +153,14 @@ public class Board {
         this.inviteKey = inviteKey;
     }
 
+    public java.util.List<Color> getColors() {
+        return colors;
+    }
+
+    public void setColors(java.util.List<Color> colors) {
+        this.colors = colors;
+    }
+
     /**
      * Returns true if the given object is equal to this board.
      * <p>
@@ -194,9 +175,7 @@ public class Board {
         if (o == null || getClass() != o.getClass()) return false;
         Board board = (Board) o;
         return getId() == board.getId() && Objects.equals(getName(), board.getName()) &&
-                Objects.equals(getPassword(), board.getPassword()) &&
-                Objects.equals(getFontColor(), board.getFontColor()) &&
-                Objects.equals(getBackgroundColor(), board.getBackgroundColor());
+                Objects.equals(getPassword(), board.getPassword());
     }
 
     /**
@@ -206,8 +185,7 @@ public class Board {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getPassword(),
-                getFontColor(), getBackgroundColor());
+        return Objects.hash(getId(), getName(), getPassword());
     }
 
     /**
@@ -222,9 +200,23 @@ public class Board {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", tag=" + tag +
-                ", fontColor=" + fontColor +
-                ", backgroundColor=" + backgroundColor +
+                ", inviteKey='" + inviteKey + '\'' +
                 '}';
+    }
+
+    public Color getBoardColor() {
+        return this.colors.get(0);
+    }
+
+    public Color getListColor() {
+        return this.colors.get(1);
+    }
+
+    public void setBoardColor(Color color){
+        this.colors.set(0, color);
+    }
+
+    public void setListColor(Color color){
+        this.colors.set(1, color);
     }
 }

@@ -12,9 +12,17 @@ public interface IShowCtrl {
 
     void addTask(Task task, List list);
 
+    void deleteTask(Task task);
+
     void refreshAdminBoards();
 
     void refreshList(int listID);
+
+    Object addTaskColor(Color color);
+
+    void deleteTaskColor(Color color);
+
+    void editColor(Color color);
 
 //    void addTask(Task task);
 }
