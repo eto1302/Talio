@@ -299,8 +299,27 @@ public class TaskShape {
         }
     }
 
-    public void orderWithKeyEvent(){
+    public void orderWithKeyEventUp(int index, String direction){
+        VBox parent = (VBox) grid.getParent();
+        ArrayList<Node> children = new ArrayList<>(parent.getChildren());
+        ArrayList<Task> orderedTasks =
+                (ArrayList<Task>) server.getTasksOrdered(task.getListID());
+        var controllers = controller.getTaskControllers();
+        List list = server.getList(task.getListID());
 
+        if (direction.equals("up") && index!=0){
+            Collections.rotate(children.subList(index-1, index+1), 1);
+            Collections.rotate(controllers.subList(index-1, index+1), 1);
+            Collections.rotate(orderedTasks.subList(index-1, index+1), 1);
+        }
+        if (direction.equals("down") && index!=children.size()-1){
+            Collections.rotate(children.subList(index, index+2), 1);
+            Collections.rotate(controllers.subList(index, index+2), 1);
+            Collections.rotate(orderedTasks.subList(index, index+2), 1);
+        }
+        reorderTasks(orderedTasks, list);
+        parent.getChildren().clear();
+        parent.getChildren().addAll(children);
     }
 
 

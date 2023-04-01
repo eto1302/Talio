@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -70,7 +71,6 @@ public class BoardController {
         listControllers.clear();
 
         List<commons.List> lists;
-        java.util.List<commons.Task> tasks;
 
         try {
             userData.refresh();
@@ -158,7 +158,7 @@ public class BoardController {
             find();
 
         KeyCode key = event.getCode();
-        if (selectedTask!=null) {
+        if (selectedTask!=null && !event.isShiftDown()) {
             int index = selectedList.getTaskControllers().indexOf(selectedTask);
             switch (key){
                 case DOWN, KP_DOWN, S -> down(index);
@@ -167,6 +167,30 @@ public class BoardController {
                 case RIGHT, KP_RIGHT, D-> right();
                 case DELETE, BACK_SPACE -> selectedTask.deleteOnKey();
                 case ENTER -> showCtrl.showEditTask(selectedTask.getTask(), selectedList);
+            }
+        }
+        else if (selectedTask!=null){
+            int index = selectedList.getTaskControllers().indexOf(selectedTask);
+            TaskShape copy = selectedTask;
+
+            switch (key){
+                case DOWN, KP_DOWN, S -> {
+                    selectedTask.orderWithKeyEventUp(index, "down");
+                    if (index!=selectedList.getTaskControllers().size()-1) {
+                        selectedTask = selectedList.getTaskControllers().get(index + 1);
+                        selectedList.updateScrollPane(index+1);
+                    } else selectedTask=copy;
+                    selectedTask.setStatus(true);
+                }
+                case UP, KP_UP, W-> {
+                    selectedTask.orderWithKeyEventUp(index, "up");
+                    if (index!=0) {
+                        selectedTask = selectedList.getTaskControllers().get(index - 1);
+                        selectedList.updateScrollPane(index);
+                    }
+                    else selectedTask=copy;
+                    selectedTask.setStatus(true);
+                }
             }
         }
     }
@@ -249,7 +273,6 @@ public class BoardController {
     }
 
     public void reset(){
-        selectedList=null;
         selectedTask=null;
     }
 
@@ -263,7 +286,11 @@ public class BoardController {
         scrollPane.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                movement(event);
+                List<KeyCode> arrows = Arrays.asList(KeyCode.DOWN, KeyCode.KP_DOWN, KeyCode.UP,
+                        KeyCode.KP_UP, KeyCode.LEFT, KeyCode.KP_LEFT,
+                        KeyCode.RIGHT, KeyCode.KP_RIGHT);
+                if (arrows.contains(event.getCode()) && !event.isShiftDown())
+                     movement(event);
             }
         });
     }
