@@ -182,6 +182,10 @@ public class Task {
         this.colorId = colorId;
     }
 
+    public Board getBoard(){
+        return this.list.getBoard();
+    }
+
     /**
      * Determines if the task is equal to the specified object
      * @param o the object to compare to

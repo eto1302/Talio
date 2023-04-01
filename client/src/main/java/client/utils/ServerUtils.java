@@ -116,8 +116,16 @@ public class ServerUtils implements IServerUtils {
     }
 
     @Override
-    public IdResponseModel deleteColor(int boardID, int colorId) {
-        return null;
+    public IdResponseModel deleteColor(int boardId, int colorId) {
+        try {
+            ResponseEntity<IdResponseModel> response = client.getForEntity(
+                    url+"color/delete/"+boardId+"/"+colorId,
+                    IdResponseModel.class
+            );
+            return response.getBody();
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
+        }
     }
 
     @Override

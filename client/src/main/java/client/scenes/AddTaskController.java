@@ -26,7 +26,6 @@ public class AddTaskController {
     private TextArea descriptionField;
     private List list;
 
-
     @Inject
     private UserData userData;
 

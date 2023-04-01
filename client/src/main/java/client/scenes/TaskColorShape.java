@@ -4,6 +4,7 @@ import client.user.UserData;
 import commons.Color;
 import commons.models.ColorEditModel;
 import commons.models.IdResponseModel;
+import commons.sync.ColorDeleted;
 import commons.sync.ColorEdited;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -33,10 +34,12 @@ public class TaskColorShape {
     }
 
     public void delete() {
-        //this.userData.deleteColor(color);
+        this.userData.deleteColor(
+                new ColorDeleted(this.userData.getCurrentBoard().getId(), color.getId()));
+        this.userData.openBoard(this.userData.getCurrentBoard().getId());
+        this.showCtrl.cancel();
         this.showCtrl.showColorPicker();
     }
-
     public void set(Color color){
         this.color = color;
     }
@@ -53,7 +56,14 @@ public class TaskColorShape {
 
     public void setDefault() {
         Optional<Color> currentDefault = this.userData.getCurrentBoard().getColors()
-                .stream().filter(x -> x.getIsDefault()).findFirst();
+                .stream().filter(Color::getIsDefault).findFirst();
+        if(currentDefault.isEmpty()){
+            Color toBeDefault = this.userData.getCurrentBoard().getColors().get(2);
+            ColorEditModel edit = new ColorEditModel(color.getBackgroundColor(),
+                    color.getFontColor(), true);
+            userData.updateBoard(new ColorEdited(this.userData.getCurrentBoard().getId(),
+                    color.getId(), edit));
+        }
         ColorEditModel editCurrentDefault = new ColorEditModel(
                 currentDefault.get().getBackgroundColor(),
                 currentDefault.get().getFontColor(), false);
