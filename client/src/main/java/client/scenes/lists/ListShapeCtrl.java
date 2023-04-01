@@ -2,6 +2,8 @@ package client.scenes.lists;
 
 
 import client.scenes.ShowCtrl;
+import client.scenes.boards.BoardController;
+import client.scenes.tasks.TaskShape;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
@@ -243,6 +245,15 @@ public class ListShapeCtrl {
         for (TaskShape controller: taskControllers)
             if (controller.isSelected())
                 return controller;
+        return null;
+    }
+
+    public TaskShape findTask(Task task){
+        for(TaskShape c: taskControllers){
+            if(c.getTask() == task){
+                return c;
+            }
+        }
         return null;
     }
 

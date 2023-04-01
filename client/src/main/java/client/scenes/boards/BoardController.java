@@ -1,6 +1,8 @@
 package client.scenes.boards;
 
-import client.scenes.ShowCtrl;
+import client.scenes.*;
+import client.scenes.lists.ListShapeCtrl;
+import client.scenes.tasks.TaskShape;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;

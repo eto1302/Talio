@@ -106,4 +106,16 @@ public class EditTaskController {
         listShapeCtrl.refreshList();
         showCtrl.cancel();
     }
+
+    public ListShapeCtrl getListShapeCtrl() {
+        return listShapeCtrl;
+    }
+
+    public void setListShapeCtrl(ListShapeCtrl listShapeCtrl) {
+        this.listShapeCtrl = listShapeCtrl;
+    }
+
+    public Task getTask() {
+        return task;
+    }
 }

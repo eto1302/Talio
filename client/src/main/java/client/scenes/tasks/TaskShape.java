@@ -16,11 +16,13 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
@@ -115,18 +117,19 @@ public class TaskShape {
     public void updateScene(Task task){
         this.task = task;
         title.setText(task.getTitle());
+        addTagMarkers(task);
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
     }
 
     private void addTagMarkers(Task task){
+        tagMarkerContainer.getChildren().remove(0, tagMarkerContainer.getChildren().size());
         if(task.getTags() == null || task.getTags().isEmpty()){
             return;
         }
-        TagMarkerShapeController markerController = new TagMarkerShapeController();
-        for(Tag t: task.getTags()){
-            Node root = markerController.getSceneUpdated(t).getRoot();
-            tagMarkerContainer.getChildren().add(root);
+        for (Tag t: task.getTags()){
+            Scene scene = showCtrl.getTagMarker(t, this);
+            tagMarkerContainer.getChildren().add(scene.getRoot());
         }
     }
 

@@ -1,5 +1,11 @@
 package client.scenes;
 
+import client.scenes.boards.*;
+import client.scenes.lists.*;
+import client.scenes.subtasks.*;
+import client.scenes.tags.*;
+import client.scenes.tasks.*;
+import client.scenes.*;
 import commons.*;
 import commons.mocks.IShowCtrl;
 import javafx.geometry.Pos;
@@ -65,10 +71,10 @@ public class ShowCtrl implements IShowCtrl {
         adminController = (AdminController) loader.get(8).getKey();
         editBoard = new Scene((Parent) loader.get(9).getValue());
         editBoardController = (EditBoardController) loader.get(9).getKey();
-        tagOverview = new Scene((Parent) loader.get(10).getValue());
-        tagOverviewController = (TagOverviewController) loader.get(10).getKey();
-        help = new Scene((Parent) loader.get(11).getValue());
-        helpCtrl = (HelpCtrl) loader.get(11).getKey();
+        tagOverview = new Scene((Parent) loader.get(11).getValue());
+        tagOverviewController = (TagOverviewController) loader.get(11).getKey();
+        help = new Scene((Parent) loader.get(10).getValue());
+        helpCtrl = (HelpCtrl) loader.get(10).getKey();
         colorPicker = new Scene((Parent) loader.get(12).getValue());
         colorPickerController = (ColorPicker) loader.get(12).getKey();
         addTaskColor = new Scene((Parent) loader.get(13).getValue());
@@ -310,7 +316,7 @@ public class ShowCtrl implements IShowCtrl {
                 cancel();
         });
 
-        Scene updated = editTaskController.setup(task, listShapeCtrl);
+        Scene updated = editTaskController.setup(task, listShapeCtrl, primaryStage);
         secondaryStage = new Stage();
         secondaryStage.setScene(editTask);
         secondaryStage.setTitle("Edit a task");
@@ -345,7 +351,13 @@ public class ShowCtrl implements IShowCtrl {
 
     public void addTagToTask(Tag tag, EditTaskController controller){
         //add the tag to the task serverside
-        //message update that applies the new tagmarkers
+
+        //applying tag markers
+        Task task = controller.getTask();
+        task.getTags().add(tag);
+        TaskShape taskController = controller.getListShapeCtrl().findTask(task);
+        taskController.updateScene(task);
+
         controller.putTag(getTagScene(tag));
     }
 
@@ -364,6 +376,15 @@ public class ShowCtrl implements IShowCtrl {
         tagShapeController.setTaskController(c);
         Scene tagScene = tagShapeController.getSceneUpdated(tag);
         return tagScene;
+    }
+
+    public Scene getTagMarker(Tag tag, TaskShape taskController) {
+        var markerPair = FXML.load(TagMarkerShapeController.class, "client", "scenes", "TagMarkerShape.fxml");
+        Scene initializeTagMarker = new Scene(markerPair.getValue());
+        TagMarkerShapeController controller = markerPair.getKey();
+        controller.setTaskcontroller(taskController);
+        Scene markerScene = controller.getSceneUpdated(tag);
+        return markerScene;
     }
 
     // show a popup for the user to enter the admin password,
@@ -433,6 +454,11 @@ public class ShowCtrl implements IShowCtrl {
         ListShapeCtrl ctrl = getListController(listID);
         if(ctrl != null)
             ctrl.refreshList();
+    }
+
+    @Override
+    public Object addTaskColor(Color color) {
+        return null;
     }
 
     public void deleteTaskColor(Color color) {

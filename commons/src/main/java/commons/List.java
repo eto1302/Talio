@@ -1,6 +1,7 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -25,7 +26,7 @@ public class List {
     private int boardId;
 
     @OneToMany(mappedBy = "list", cascade = CascadeType.REMOVE)
-    @JsonManagedReference
+    @JsonIgnore
     private java.util.List<Task> tasks;
 
     @JsonBackReference

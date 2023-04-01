@@ -20,9 +20,9 @@ public class Tag {
     @JoinColumn(name = "colorId", referencedColumnName = "id")
     private Color color;
 
-    @JsonBackReference("taskTagReference")
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="taskId")
+    @JsonIgnore
     private Task task;
 
     @Column(name="t_id")

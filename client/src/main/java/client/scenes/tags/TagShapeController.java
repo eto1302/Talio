@@ -50,7 +50,7 @@ public class TagShapeController<T> {
     public Scene getSceneUpdated(Tag tag){
         this.tag = tag;
         tagText.setText(tag.getName());
-        Color backgroundColor = Color.web(tag.getColor());
+        Color backgroundColor = Color.web(tag.getColor().getBackgroundColor());
         //if the color is dark enough, change text to white
 //        if(backgroundColor.getBrightness() < 0.7){
 //            tagText.setStyle("-fx-text-inner-color: white;");;

@@ -212,4 +212,12 @@ public class Board {
     public void setListColor(Color color){
         this.colors.set(1, color);
     }
+
+    public java.util.List<Color> getColors(){
+        return colors;
+    }
+
+    public void setColors(java.util.List<Color> colors) {
+        this.colors = colors;
+    }
 }

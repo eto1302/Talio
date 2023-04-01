@@ -1,6 +1,7 @@
 package client.scenes.tags;
 
 import client.scenes.ShowCtrl;
+import client.scenes.tasks.TaskShape;
 import client.utils.ServerUtils;
 import commons.Tag;
 import commons.Task;
@@ -25,8 +26,14 @@ public class TagMarkerShapeController {
     @FXML
     private Circle markerCircle;
 
+    private TaskShape Taskcontroller;
+
     public TagMarkerShapeController() {
 
+    }
+
+    public void setTaskcontroller(TaskShape taskcontroller) {
+        Taskcontroller = taskcontroller;
     }
 
     //    @Inject
@@ -36,11 +43,11 @@ public class TagMarkerShapeController {
 //    }
 
     public Scene getSceneUpdated(Tag tag){
-        Color markerColor = Color.web(tag.getColor());
+        Color markerColor = Color.web(tag.getColor().getBackgroundColor());
         markerCircle.setFill(markerColor);
-        //TODO: Make background of marker transparent
+        //TODO: Make background of marker transparent (???)
 
-        return tagMarkerContainer.getScene();
+        return markerCircle.getScene();
     }
 
     public void removeTagMarker(){
