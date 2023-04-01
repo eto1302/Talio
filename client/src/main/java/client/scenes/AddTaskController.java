@@ -14,7 +14,6 @@ import javafx.scene.control.TextField;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class AddTaskController {
 
