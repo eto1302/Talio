@@ -1,25 +1,25 @@
 package client.scenes;
 
+import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Task;
 import commons.models.IdResponseModel;
 import commons.models.TaskEditModel;
+import commons.sync.TaskDeleted;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Label;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -33,15 +33,18 @@ public class TaskShape {
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
     private ListShapeCtrl controller;
     private commons.Task task;
-    private Stage primaryStage;
+    private UserData userData;
+    private boolean selected;
+    private String style;
 
     @Inject
-    public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils){
-        this.showCtrl=showCtrl;
-        server=serverUtils;
+    public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
+        this.showCtrl = showCtrl;
+        this.server = serverUtils;
+        this.userData = userData;
     }
 
-    public void setTaskUpdated(){
+    public void setTaskUpdated() {
         task=server.getTask(task.getId());
     }
 
@@ -49,6 +52,15 @@ public class TaskShape {
      * On double-click, this will show the window containing the overview (details of the task)
      */
     public void doubleClick (){
+        TaskShape selectedTask = controller.getBoardController().find();
+        if (selectedTask==null) {
+            selected = true;
+            grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
+                    "-fx-border-width: 3px");
+        }
+        else{
+            selected=false;
+        }
         grid.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -61,22 +73,46 @@ public class TaskShape {
         });
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+
+    public Task getTask() {
+        return task;
+    }
+
+    public ListShapeCtrl getController() {
+        return controller;
+    }
+
+    public void setController(ListShapeCtrl controller) {
+        this.controller = controller;
+    }
+
+    public void setStatus(boolean selected){
+        this.selected=selected;
+        if (selected)
+            grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
+                    "-fx-border-width: 3px");
+        else grid.setStyle(style);
+    }
+
     /**
      * Sets the content of the task accordingly.
      * @param task the task whose information will be displayed
-     * @return the new scene updated
      */
-    public Scene getSceneUpdated(Task task){
+    public void updateScene(Task task){
         this.task = task;
         title.setText(task.getTitle());
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
-        return grid.getScene();
     }
 
     /**
-     * deletes the task
+     * Adds the delete event to the controller
      */
+<<<<<<< client/src/main/java/client/scenes/TaskShape.java
     public void delete(){
         deleteX.setOnMouseClicked(event -> {
             IdResponseModel model = server.removeTask(task.getId(), task.getListID());
@@ -88,28 +124,55 @@ public class TaskShape {
                 parent.getChildren().remove(grid);
             }
         });
+=======
+    public void delete() {
+        VBox parent = (VBox) grid.getParent();
+        parent.getChildren().remove(grid);
+        server.removeTask(task.getId(), task.getListID());
+        controller.getTaskControllers().remove(this);
+    }
+>>>>>>> client/src/main/java/client/scenes/TaskShape.java
 
+    public void deleteEvent() {
+        deleteX.setOnMouseClicked(event -> userData.updateBoard(new TaskDeleted(userData
+                .getCurrentBoard().getId(), task.getId(), task.getListID())));
     }
 
+
+
+
+    public void deleteOnKey(){
+        VBox parent = (VBox) grid.getParent();
+        parent.getChildren().remove(grid);
+        userData.updateBoard(new TaskDeleted(userData
+                .getCurrentBoard().getId(), task.getId(), task.getListID()));
+        controller.getTaskControllers().remove(this);
+    }
     /**
      * Sets the information of the list and task. Sets the methods for the dragging and dropping
      * for the ordering tasks feature
 //     * @param id the id of the task
 //     * @param list the task's list
      */
-    public void set(Task task, Stage primaryStage, ListShapeCtrl listShapeCtrl){
+    public void set(Task task, ListShapeCtrl listShapeCtrl){
         this.task = task;
-        this.primaryStage = primaryStage;
         this.controller = listShapeCtrl;
         if (task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
+        this.style=grid.getStyle();
 
         grid.setOnDragDetected(this::dragDetected);
         grid.setOnDragOver(this::dragOver);
         grid.setOnDragDropped(this::dragDrop);
         grid.setOnDragDone(this::dragDone);
+
         grid.setOnMousePressed(event-> grid.setOpacity(0.4));
         grid.setOnMouseReleased(event-> grid.setOpacity(1));
+        grid.setOnMouseExited(event-> {
+            controller.getBoardController().reset();
+            selected=false;
+            grid.setStyle(style);
+        });
     }
 
     /**
@@ -123,9 +186,8 @@ public class TaskShape {
         SnapshotParameters snapshotParams = new SnapshotParameters();
         WritableImage image = grid.snapshot(snapshotParams, null);
         Task task1 =server.getTask(task.getId());
-        if (dragboard.hasString())
-            clipboardContent.putString(task.getId()+"+"+ task1.getListID());
-        else clipboardContent.putString(task.getId()+"+"+ task1.getListID());
+
+        clipboardContent.putString(task.getId()+"+"+ task1.getListID());
 
         drag.set(grid);
         dragboard.setDragView(image, event.getX(), event.getY());
@@ -173,7 +235,6 @@ public class TaskShape {
                     (ArrayList<Task>) server.getTasksOrdered(task.getListID());
 
             rearrange(source, parent, children, orderedTasks);
-
             reorderTasks(orderedTasks, currentlist);
 
             parent.getChildren().clear();
@@ -197,6 +258,8 @@ public class TaskShape {
             reorderTasks(previousListTasks, previousList);
             done=true;
         }
+        if (done)
+            controller.getBoardController().refresh();
         ((GridPane) source).setOpacity(1);
 
         event.setDropCompleted(done);
@@ -251,6 +314,9 @@ public class TaskShape {
         }
     }
 
+    public void orderWithKeyEvent(){
+
+    }
 
 
 

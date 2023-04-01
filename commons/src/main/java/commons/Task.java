@@ -31,12 +31,15 @@ public class Task {
     @JoinColumn(name="listId", nullable=false)
     private List list;
 
-    @OneToMany (mappedBy = "task")
+    @OneToMany (mappedBy = "task", cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private java.util.List<Subtask> subtasks;
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", cascade = CascadeType.REMOVE)
     private java.util.List<Tag> tags;
+
+    @Column(name = "colorId")
+    private int colorId;
 
     /**
      * Creates a new task with the specified description and title.
@@ -169,6 +172,14 @@ public class Task {
      */
     public void setTags(java.util.List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public int getColorId() {
+        return colorId;
+    }
+
+    public void setColorId(int colorId) {
+        this.colorId = colorId;
     }
 
     /**
