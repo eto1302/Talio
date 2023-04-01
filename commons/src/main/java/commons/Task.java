@@ -36,7 +36,7 @@ public class Task {
     private java.util.List<Subtask> subtasks;
 
     @OneToMany(mappedBy = "task")
-    @JsonManagedReference
+    @JsonManagedReference("taskTagReference")
     private java.util.List<Tag> tags;
 
     /**

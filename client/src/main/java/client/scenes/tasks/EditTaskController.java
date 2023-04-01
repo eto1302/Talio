@@ -1,4 +1,4 @@
-package client.scenes;
+package client.scenes.tasks;
 
 import client.scenes.ShowCtrl;
 import client.scenes.lists.ListShapeCtrl;
@@ -44,6 +44,11 @@ public class EditTaskController {
         this.descriptionField.setText(task.getDescription());
         this.listShapeCtrl = listShapeCtrl;
         this.primaryStage = primaryStage;
+        if(task.getTags() != null && !task.getTags().isEmpty()){
+            for(Tag t: task.getTags()){
+                putTag(showCtrl.getTagScene(t));
+            }
+        }
         return refresh();
     }
 
@@ -54,7 +59,7 @@ public class EditTaskController {
         }
         java.util.List<Tag> tags = task.getTags();
         for(Tag tag: tags){
-            showCtrl.addTag(tag, this);
+            showCtrl.addTagToTask(tag, this);
         }
 
         return title.getScene();
@@ -74,8 +79,8 @@ public class EditTaskController {
         showCtrl.cancel();
     }
 
-    public void showAddTag() {
-        showCtrl.showAddTag(task);
+    public void showAddTagToTask() {
+        showCtrl.showAddTagToTask(this);
     }
 
     public void showAddSubTask(){

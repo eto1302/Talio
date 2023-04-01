@@ -1,5 +1,23 @@
 package client.scenes;
 
+import client.scenes.subtasks.SubTaskShapeCtrl;
+import client.scenes.boards.AddBoardController;
+import client.scenes.boards.BoardController;
+import client.scenes.boards.BoardShape;
+import client.scenes.boards.EditBoardController;
+import client.scenes.lists.AddListController;
+import client.scenes.lists.EditListController;
+import client.scenes.lists.ListShapeCtrl;
+import client.scenes.subtasks.AddSubTaskController;
+import client.scenes.subtasks.EditSubTaskController;
+import client.scenes.tags.AddTagController;
+import client.scenes.tags.AddTagToTaskController;
+import client.scenes.tags.TagOverviewController;
+import client.scenes.tags.TagShapeController;
+import client.scenes.tasks.AddTaskController;
+import client.scenes.tasks.EditTaskController;
+import client.scenes.tasks.TaskShape;
+import client.user.UserData;
 import commons.Board;
 import commons.Subtask;
 import commons.Tag;
@@ -33,7 +51,6 @@ public class ShowCtrl implements IShowCtrl {
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
     private BoardController boardController;
-    private TaskOverview taskOverviewCtrl;
     private ConnectionCtrl connectionCtrl;
     private AddBoardController addBoardController;
     private EditTaskController editTaskController;
@@ -69,8 +86,8 @@ public class ShowCtrl implements IShowCtrl {
         editBoardController = (EditBoardController) loader.get(9).getKey();
         tagOverview = new Scene((Parent) loader.get(10).getValue());
         tagOverviewController = (TagOverviewController) loader.get(10).getKey();
-        help = new Scene((Parent) loader.get(10).getValue());
-        helpCtrl = (HelpCtrl) loader.get(10).getKey();
+        help = new Scene((Parent) loader.get(11).getValue());
+        helpCtrl = (HelpCtrl) loader.get(11).getKey();
 
         listControllers = new HashMap<>();
 
@@ -121,7 +138,7 @@ public class ShowCtrl implements IShowCtrl {
         var addTask = FXML.load(AddTaskController.class, "client",
                 "scenes", "AddTask.fxml");
         Scene addTaskScene = new Scene(addTask.getValue());
-        addTask.getKey().setup(controller, primaryStage, list);
+        addTask.getKey().setup(controller, list);
         secondaryStage = new Stage();
         secondaryStage.setScene(addTaskScene);
         secondaryStage.setTitle("Add a task");
@@ -139,12 +156,11 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.show();
     }
 
-    public void showAddTag(Task task){
+    public void showAddTag(){
         popUpStage = new Stage();
         var addTagPair = FXML.load(AddTagController.class,
                 "client", "scenes", "AddTag.fxml");
         Scene addTagScene = new Scene(addTagPair.getValue());
-        addTagPair.getKey().setup(task);
         popUpStage.setScene(addTagScene);
         popUpStage.setTitle("Add a tag");
         popUpStage.show();
@@ -184,16 +200,6 @@ public class ShowCtrl implements IShowCtrl {
      * Shows the details of the task. First sets the information in the window according to
      * the task.
      */
-    public void showTaskOverview(Task task, ListShapeCtrl listShapeCtrl) {
-        secondaryStage=new Stage();
-        var taskOverview = FXML.load(TaskOverview.class, "client",
-                "scenes", "TaskOverview.fxml");
-        Scene initialize = new Scene(taskOverview.getValue());
-        Scene updated = taskOverview.getKey().setup(task, listShapeCtrl);
-        secondaryStage.setScene(updated);
-        secondaryStage.setTitle("See your task details");
-        secondaryStage.show();
-    }
 
     /**
      * Shows the window with options for the editing the list.
@@ -264,7 +270,7 @@ public class ShowCtrl implements IShowCtrl {
 
         taskShapeCtrl.set(task, primaryStage, listShapeCtrl);
         Scene updated = taskShapeCtrl.getSceneUpdated(task);
-        Scene scene = listShapeCtrl.putTask(updated);
+        Scene scene = listShapeCtrl.addTask(updated);
         primaryStage.setScene(scene);
     }
 
@@ -292,8 +298,6 @@ public class ShowCtrl implements IShowCtrl {
         popUpStage.close();
     }
 
-    public void addTag(Tag tag, TaskOverview controller, Stage primaryStage) {
-    }
 
     public void showEditTask(Task task, ListShapeCtrl listShapeCtrl) {
         var editTaskPair = FXML.load(EditTaskController.class, "client", "scenes", "EditTask.fxml");
@@ -315,9 +319,44 @@ public class ShowCtrl implements IShowCtrl {
         editTaskController.putSubtask(subTaskScene);
     }
 
-    public void addTag(Tag tag, EditTaskController editTaskController) {
-        Scene tagScene = null;
-        editTaskController.putTag(tagScene);
+    public void addTag(Tag tag) {
+        tagOverviewController.putTag(getTagScene(tag));
+    }
+
+    public void showAddTagToTask(EditTaskController c){
+        popUpStage = new Stage();
+        var tagToTaskPair = FXML.load(AddTagToTaskController.class, "client", "scenes", "AddTagToTask.fxml");
+        AddTagToTaskController controller = tagToTaskPair.getKey();
+        controller.setController(c);
+        Scene addTagToTask = new Scene((Parent) tagToTaskPair.getValue());
+        controller.setup();
+
+        popUpStage.setScene(addTagToTask);
+        popUpStage.setTitle("Add tag to task");
+        popUpStage.show();
+    }
+
+    public void addTagToTask(Tag tag, EditTaskController controller){
+        //add the tag to the task serverside
+        //message update that applies the new tagmarkers
+        controller.putTag(getTagScene(tag));
+    }
+
+    public Scene getTagScene(Tag tag){
+        var tagPair = FXML.load(TagShapeController.class, "client", "scenes", "TagShape.fxml");
+        Scene initializeTagShape = new Scene(tagPair.getValue());
+        TagShapeController tagShapeController = tagPair.getKey();
+        Scene tagScene = tagShapeController.getSceneUpdated(tag);
+        return tagScene;
+    }
+
+    public Scene getTagSceneTask(Tag tag, EditTaskController c){
+        var tagPair = FXML.load(TagShapeController.class, "client", "scenes", "TagShape.fxml");
+        Scene initializeTagShape = new Scene(tagPair.getValue());
+        TagShapeController tagShapeController = tagPair.getKey();
+        tagShapeController.setTaskController(c);
+        Scene tagScene = tagShapeController.getSceneUpdated(tag);
+        return tagScene;
     }
 
     // show a popup for the user to enter the admin password,
@@ -378,8 +417,10 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage = new Stage();
         secondaryStage.setTitle("Tag overview");
         secondaryStage.setScene(this.tagOverview);
-
+        tagOverviewController.setup(board);
+        secondaryStage.show();
     }
+
 
     public void refreshList(int listID) {
         ListShapeCtrl ctrl = listControllers.get(listID);

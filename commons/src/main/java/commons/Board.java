@@ -36,17 +36,17 @@ public class Board {
     @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$")
     private String backgroundColor;
 
-    @JsonManagedReference
+    @JsonManagedReference()
     @OneToMany(mappedBy = "board")
     private java.util.List<List> lists;
 
-    @JsonManagedReference
+    @JsonManagedReference("boardTagReference")
     @OneToMany(mappedBy = "board")
     private java.util.List<Tag> tags;
 
-    @OneToMany
-    @JoinColumn(name = "tagId", referencedColumnName = "id")
-    private java.util.List<Tag> tag;
+//    @OneToMany
+//    @JoinColumn(name = "tagId", referencedColumnName = "id")
+//    private java.util.List<Tag> tag;
 
     /**
      * Creates a new Board object with the given name, password, and set of lists.
@@ -234,7 +234,7 @@ public class Board {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", tag=" + tag +
+                ", tag=" + tags +
                 ", fontColor=" + fontColor +
                 ", backgroundColor=" + backgroundColor +
                 '}';

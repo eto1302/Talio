@@ -182,12 +182,7 @@
                   <Insets left="30.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#delete" prefHeight="26.0" prefWidth="72.0" text="Delete">
-               <HBox.margin>
-                  <Insets left="30.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="tagOverviewButton" mnemonicParsing="false" onAction="#showTagOverview" text="Tags">
+            <Button fx:id="tagsButton" mnemonicParsing="false" onAction="#showTagOverview" prefHeight="26.0" prefWidth="72.0" text="Tags">
                <HBox.margin>
                   <Insets left="30.0" />
                </HBox.margin>

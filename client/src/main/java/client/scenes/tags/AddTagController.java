@@ -1,7 +1,10 @@
 package client.scenes.tags;
 
-import client.scenes.ShowCtrl;
-import client.scenes.tasks.TaskOverview;
+import client.scenes.*;
+import client.scenes.tasks.EditTaskController;
+import client.user.UserData;
+import client.utils.ServerUtils;
+import commons.Board;
 import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,6 +19,10 @@ import javax.inject.Inject;
 public class AddTagController {
 
     private final ShowCtrl showCtrl;
+    @Inject
+    private UserData userData;
+
+    private ServerUtils serverUtils;
 
     @FXML
     private Button cancelButton;
@@ -29,21 +36,30 @@ public class AddTagController {
     private EditTaskController controller;
     private Stage primaryStage;
     private commons.Task task;
+    private Board board;
 
     @Inject
-    public AddTagController(ShowCtrl showCtrl){
+    public AddTagController(ShowCtrl showCtrl, ServerUtils serverUtils) {
         this.showCtrl=showCtrl;
+        this.serverUtils = serverUtils;
     }
+
 
     public void setup(Task task) {
         this.task = task;
+        this.board = userData.getCurrentBoard();
     }
 
     public void addTag() {
         String tagColor = colorToHex(this.colorPicker.getValue());
         String tagName = this.textField.getText();
         Tag tag = Tag.create(tagName, tagColor);
-        showCtrl.addTag(tag, controller, primaryStage);
+        Board current = userData.getCurrentBoard();
+        current.getTags().add(tag);
+
+        serverUtils.addTagToBoard(tag, current.getId());
+        showCtrl.addTag(tag);
+        cancel();
     }
 
     public void cancel(){

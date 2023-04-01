@@ -18,20 +18,20 @@ public class Tag {
     @Column(name = "color", columnDefinition = "varchar(7) default '#000000'")
     private String color;
 
-    @JsonBackReference
+    @JsonBackReference("taskTagReference")
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="taskId")
     private Task task;
 
-    @Column
+    @Column(name = "t_Id")
     private int taskID;
 
-    @JsonBackReference
+    @JsonBackReference("boardTagReference")
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "boardId")
     private Board board;
 
-    @Column
+    @Column(name = "b_Id")
     private int boardID;
 
 

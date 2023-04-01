@@ -130,7 +130,7 @@ public class ListShapeCtrl {
      * @param taskScene the scene containing the grid representing
      * @return the updated scene
      */
-    public Scene addTask(Scene taskScene, Task task){
+    public Scene addTask(Scene taskScene){
         Node root = taskScene.getRoot();
         tasksBox.getChildren().add(root);
         return tasksBox.getScene();

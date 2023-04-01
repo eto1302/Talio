@@ -87,7 +87,7 @@
                         <VBox fx:id="tagBox" prefHeight="101.0" prefWidth="159.0" style="-fx-padding: 5px; -fx-spacing: 3px;" />
                     </content>
                 </ScrollPane>
-                <Button mnemonicParsing="false" onAction="#showAddTag" text="Add tags" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                <Button mnemonicParsing="false" onAction="#showAddTagToTask" text="Add tags" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                     <GridPane.margin>
                         <Insets />
                     </GridPane.margin></Button>

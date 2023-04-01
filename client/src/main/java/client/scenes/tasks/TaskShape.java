@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 public class TaskShape {
     @FXML
@@ -55,7 +56,7 @@ public class TaskShape {
      * On double-click, this will show the window containing the overview (details of the task)
      */
     public void doubleClick (){
-        grid.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        grid.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
@@ -65,6 +66,16 @@ public class TaskShape {
                     }
             }
         });
+//        grid.setOnMouseEntered(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                if (event.getButton().equals(MouseButton.PRIMARY))
+//                    if (event.getClickCount()==2) {
+//                        setTaskUpdated();
+//                        showCtrl.showEditTask(task, controller);
+//                    }
+//            }
+//        });
     }
 
     /**
