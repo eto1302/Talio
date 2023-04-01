@@ -11,7 +11,6 @@ import javafx.scene.paint.Color;
 import javax.inject.Inject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -72,7 +71,8 @@ public class AddBoardController {
             showCtrl.cancel();
             return;
         }
-        Board board = Board.create(nameField.getText(), null, new HashSet<>(), colors);
+        Board board = Board.create(nameField.getText(), null,
+                new ArrayList<>(), colors, new ArrayList<>());
         String inviteKey = generateInviteKey();
         board.setInviteKey(inviteKey);
 
@@ -106,7 +106,8 @@ public class AddBoardController {
      * @return board, the user created
      */
     private Board getBoard() {
-        return Board.create(nameField.getText(), null, new HashSet<>(),new ArrayList<>());
+        return Board.create(nameField.getText(), null,
+                new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
     }
 
     /**

@@ -5,25 +5,23 @@ import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
 import commons.List;
-import commons.models.IdResponseModel;
-import commons.sync.ListDeleted;
 import commons.Task;
+import commons.models.IdResponseModel;
 import commons.models.TaskEditModel;
+import commons.sync.ListDeleted;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.geometry.Bounds;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 import javax.inject.Inject;
+import java.util.LinkedList;
 
 public class ListShapeCtrl {
 
@@ -33,8 +31,7 @@ public class ListShapeCtrl {
     private MenuItem editList, deleteList;
     @FXML
     private ScrollPane scrollPane;
-    @FXML
-    private Button addTask;
+
     @FXML
     private Label listTitle;
     @FXML
@@ -43,8 +40,9 @@ public class ListShapeCtrl {
     private final ServerUtils serverUtils;
     private final UserData userData;
     private List list;
-    private Stage primaryStage;
 
+    private LinkedList<TaskShape> taskControllers;
+    private BoardController boardController;
 
     @Inject
     public ListShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
@@ -68,6 +66,7 @@ public class ListShapeCtrl {
         listGrid.setBackground(new Background(
                 new BackgroundFill(backgroundColor, null, null)));
         listTitle.setTextFill(fontColor);
+        this.taskControllers = new LinkedList<>();
         return listGrid.getScene();
     }
 
@@ -75,9 +74,10 @@ public class ListShapeCtrl {
         showCtrl.refreshBoardCtrl();
     }
 
-    public Scene putTask(Scene scene){
-        tasksBox.getChildren().add(scene.getRoot());
-        return tasksBox.getScene();
+    public void updateScrollPane(int index){
+        Bounds bounds = scrollPane.getViewportBounds();
+        scrollPane.setVvalue(tasksBox.getChildren().get(index).getLayoutY() *
+                (1/(tasksBox.getHeight()-bounds.getHeight())));
     }
 
     /**
@@ -106,42 +106,68 @@ public class ListShapeCtrl {
             showCtrl.showError("Failed to get the list...");
             return;
         }
-        showCtrl.showEditList(list, primaryStage);
+        showCtrl.showEditList(list);
     }
 
     /**
-     * sets information
+     * sets list and updates the list's visual (sets the title
+     * and the colors of it) based on the list object that is passed on
      * @param list our list
-     * @param primaryStage of the scene we are in
      */
-    public void set(List list, Stage primaryStage){
-        this.list=list;
-        this.primaryStage=primaryStage;
+    public void updateScene(List list, BoardController boardController) {
+        this.list = list;
+        this.boardController = boardController;
+        Board board = serverUtils.getBoard(list.getBoardId());
 
         listGrid.setOnDragOver(this::dragOver);
         listGrid.setOnDragDropped(this::dragDrop);
+
+        listTitle.setText(list.getName());
+        Color backgroundColor= Color.web(board.getListColor().getBackgroundColor());
+        Color fontColor= Color.web(board.getListColor().getFontColor());
+
+        listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
+        listTitle.setTextFill(fontColor);
     }
     public List getList(){
         return list;
+    }
+
+    public BoardController getBoardController() {
+        return boardController;
     }
 
     /**
      * shows the add task window
      */
     public void showAddTask(){
-        showCtrl.showAddTask(this, primaryStage, list);
+        showCtrl.showAddTask(this, list);
     }
 
     /**
      * Adds the task inside the box with tasks
-     * @param taskScene the scene containing the grid representing
-     * @return the updated scene
+     * @param root the grid representing the task UI
      */
-    public Scene addTask(Scene taskScene, Task task){
-        Node root = taskScene.getRoot();
+    public void addTask(Parent root, TaskShape controller) {
         tasksBox.getChildren().add(root);
-        task.setIndex(tasksBox.getChildren().indexOf(root));
-        return tasksBox.getScene();
+        taskControllers.addLast(controller);
+    }
+
+    /**
+     * Removes the task from the list
+     * @param taskId the ID of the task to remove
+     */
+    public void removeTask(int taskId) {
+        TaskShape controller = taskControllers.stream().filter(e ->
+                e.getTask().getId() == taskId).findFirst().orElse(null);
+        if(controller != null) {
+            controller.delete();
+            taskControllers.remove(controller);
+        }
+    }
+
+    public LinkedList<TaskShape> getTaskControllers() {
+        return taskControllers;
     }
 
     /**
@@ -187,6 +213,7 @@ public class ListShapeCtrl {
             reorderTasks(previousListId);
 
             done = true;
+            boardController.refresh();
         }
         ((GridPane) source).setOpacity(1);
 
@@ -208,6 +235,14 @@ public class ListShapeCtrl {
                     taskIndex.getDescription(), i, previousList);
             serverUtils.editTask(taskIndex.getId(), model);
         }
+    }
+
+
+    public TaskShape findSelectedTask(){
+        for (TaskShape controller: taskControllers)
+            if (controller.isSelected())
+                return controller;
+        return null;
     }
 
 }

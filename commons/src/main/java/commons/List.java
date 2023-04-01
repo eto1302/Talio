@@ -24,7 +24,7 @@ public class List {
     @NotNull
     private int boardId;
 
-    @OneToMany(mappedBy = "list")
+    @OneToMany(mappedBy = "list", cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private java.util.List<Task> tasks;
 

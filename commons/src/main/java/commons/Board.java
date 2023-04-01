@@ -1,6 +1,7 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -12,13 +13,16 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "integer")
+    @JsonView(BoardSummary.class)
     private int id;
 
     @Column(name = "name")
+    @JsonView(BoardSummary.class)
     @Size(max = 20)
     private String name;
 
     @Column(name = "password")
+    @JsonView(BoardSummary.class)
     @Size(max = 20)
     private String password;
 
@@ -27,12 +31,12 @@ public class Board {
     private String inviteKey;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "board")
-    private Set<List> lists;
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    private java.util.List<List> lists;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tagId", referencedColumnName = "id")
-    private Tag tag;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board")
+    private java.util.List<Tag> tags;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "board")
@@ -46,13 +50,14 @@ public class Board {
      * @param lists    The set of lists associated with the board.
      * @return A new Board object with the given name, password, and set of lists.
      */
-    public static Board create(String name, String password, Set<List> lists,
-                               java.util.List<Color> colors) {
+    public static Board create(String name, String password, java.util.List<List> lists,
+                               java.util.List<Color> colors, java.util.List<Tag> tags) {
         Board board = new Board();
         board.name = name;
         board.password = password;
         board.lists = lists;
         board.colors = colors;
+        board.tags = tags;
         return board;
     }
 
@@ -94,9 +99,16 @@ public class Board {
      *
      * @return The set of lists associated with the board.
      */
-    public Set<List> getLists() {
+    public java.util.List<List> getLists() {
         return lists;
     }
+
+    /**
+     * Returns the list of tags associated with the board.
+     *
+     * @return The list of tags associated with the board.
+     */
+    public java.util.List<Tag> getTags() { return tags; }
 
     /**
      * Sets the name of the board.
@@ -121,7 +133,7 @@ public class Board {
      *
      * @param lists The new lists of the board.
      */
-    public void setLists(Set<List> lists) {
+    public void setLists(java.util.List<List> lists) {
         this.lists = lists;
     }
 
@@ -189,8 +201,6 @@ public class Board {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", inviteKey='" + inviteKey + '\'' +
-                ", lists=" + lists +
-                ", tag=" + tag +
                 '}';
     }
 

@@ -24,7 +24,7 @@ public class BoardServiceTest {
     private transient BoardService boardService = new BoardService(mockBoardRepository);
 
     private transient Board board = Board.create("name", "pwd",
-            null, new ArrayList<>());
+            null, new ArrayList<>(), new ArrayList<>());
 
     @Test
     void saveBoard() {

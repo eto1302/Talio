@@ -39,7 +39,8 @@ public class BoardControllerTest {
     private transient Board board = Board.create("name", "pwd",
             null, new ArrayList<>(
                     Arrays.asList(Color.create("#000000", "#FFFFFF"),
-                            Color.create("#000000", "#FFFFFF"))));
+                            Color.create("#000000", "#FFFFFF"))),
+            new ArrayList<>());
 
 
     @Test

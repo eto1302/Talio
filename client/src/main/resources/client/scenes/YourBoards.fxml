@@ -52,5 +52,6 @@
             <VBox fx:id="boardList" prefHeight="352.0" prefWidth="692.0" style="-fx-padding: 5px; -fx-spacing: 3px;" />
          </content>
       </ScrollPane>
+      <Label opacity="0.5" style="-fx-label-padding: 10px;" text="Press &quot;?&quot; for help menu" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
     </children>
 </GridPane>
