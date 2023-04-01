@@ -1,6 +1,7 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -8,6 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "Colors")
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Color {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,11 +36,11 @@ public class Color {
     @JoinColumn(name="boardId")
     private Board board;
 
-    public boolean isDefault() {
+    public boolean getIsDefault() {
         return isDefault;
     }
 
-    public void setDefault(boolean aDefault) {
+    public void setIsDefault(boolean aDefault) {
         isDefault = aDefault;
     }
 
@@ -91,7 +93,6 @@ public class Color {
     public void setBoard(Board board) {
         this.board = board;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

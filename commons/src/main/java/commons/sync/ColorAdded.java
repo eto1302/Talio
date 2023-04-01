@@ -35,7 +35,7 @@ public class ColorAdded extends BoardUpdate {
 
     @Override
     public void apply(IUserData data) {
-        data.getCurrentBoard().getTaskColors().add(color);
+        data.getCurrentBoard().getColors().add(color);
         data.getShowCtrl().addTaskColor(color);
     }
 

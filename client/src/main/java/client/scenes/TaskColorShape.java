@@ -46,14 +46,14 @@ public class TaskColorShape {
                 "-fx-background-color: " + color.getBackgroundColor() + ";");
         this.fontTaskColor.setStyle(
                 "-fx-background-color: " + color.getFontColor() + ";");
-        if(color.isDefault()) this.setDefaultButton.setVisible(false);
+        if(color.getIsDefault()) this.setDefaultButton.setVisible(false);
         else this.setDefaultButton.setVisible(true);
         return this.gridPane.getScene();
     }
 
     public void setDefault() {
-        Optional<Color> currentDefault = this.userData.getCurrentBoard().getTaskColors()
-                .stream().filter(x -> x.isDefault()).findFirst();
+        Optional<Color> currentDefault = this.userData.getCurrentBoard().getColors()
+                .stream().filter(x -> x.getIsDefault()).findFirst();
         ColorEditModel editCurrentDefault = new ColorEditModel(
                 currentDefault.get().getBackgroundColor(),
                 currentDefault.get().getFontColor(), false);

@@ -73,6 +73,21 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
+    /**
+     * Get the color by id.
+     * @param id the id of the color
+     * @return the color or null if there is exception.
+     */
+    public Color getColor(int id) {
+        try {
+            ResponseEntity<Color> response =
+                    client.getForEntity(url+"color/find/"+id, Color.class);
+            return response.getBody();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public IdResponseModel deleteBoard(int id) {
         try {
             ResponseEntity<IdResponseModel> response =

@@ -45,6 +45,8 @@ public class ColorEdited extends BoardUpdate {
     @Override
     public void apply(IUserData data) {
         Color color;
+        Color boardColor = data.getCurrentBoard().getColors().get(0);
+        Color listColor = data.getCurrentBoard().getColors().get(1);
         if(data.getCurrentBoard().getBoardColor().getId() == colorId){
             color = data.getCurrentBoard().getBoardColor();
         }
@@ -52,12 +54,12 @@ public class ColorEdited extends BoardUpdate {
             color = data.getCurrentBoard().getListColor();
         }
         else{
-            color = data.getCurrentBoard().getTaskColors().stream()
+            color = data.getCurrentBoard().getColors().stream()
                     .filter(e -> e.getId() == colorId).findFirst().orElse(null);
         }
         color.setFontColor(edit.getFontColor());
         color.setBackgroundColor(edit.getBackgroundColor());
-        color.setDefault(edit.isDefault());
+        color.setIsDefault(edit.isDefault());
         data.getShowCtrl().editColor(color);
     }
 

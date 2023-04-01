@@ -79,9 +79,10 @@ public class ColorPicker {
 
     public void fillTaskColors(){
         this.taskColorList.getChildren().removeAll(this.taskColorList.getChildren());
-        List<commons.Color> colors = this.userData.getCurrentBoard().getTaskColors();
+        List<commons.Color> colors = this.userData.getCurrentBoard().getColors();
         if(colors == null) return;
-        for(commons.Color color : colors){
+        for(int i = 2; i < colors.size(); ++i){
+            commons.Color color = colors.get(i);
             showCtrl.addTaskColor(color);
         }
     }

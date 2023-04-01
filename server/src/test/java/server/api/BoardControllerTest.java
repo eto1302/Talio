@@ -2,6 +2,7 @@ package server.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Board;
+import commons.Color;
 import commons.models.IdResponseModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import server.database.BoardRepository;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -35,7 +37,9 @@ public class BoardControllerTest {
     private transient BoardRepository mockBoardRepo;
 
     private transient Board board = Board.create("name", "pwd",
-            null, 1, 1, new ArrayList<>());
+            null, new ArrayList<>(
+                    Arrays.asList(Color.create("#000000", "#FFFFFF"),
+                            Color.create("#000000", "#FFFFFF"))));
 
 
     @Test

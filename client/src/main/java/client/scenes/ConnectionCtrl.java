@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class ConnectionCtrl {
 
@@ -38,13 +39,17 @@ public class ConnectionCtrl {
         serverUtils.setUrl(serverURL.getText());
         if (serverUtils.getBoard(1)==null){
             Color boardColor = Color.create("#000000", "#FFFFFF");
-            Color fontColor = Color.create("#000000", "#FFFFFF");
-            serverUtils.addColor(boardColor);
-            serverUtils.addColor(fontColor);
+            Color listColor = Color.create("#000000", "#FFFFFF");
+            boardColor.setId(serverUtils.addColor(boardColor).getId());
+            listColor.setId(serverUtils.addColor(listColor).getId());
+            List<Color> colors = new ArrayList<>();
+            colors.add(boardColor);
+            colors.add(listColor);
             Board board = Board.create("Default", null,
-                    new HashSet<>(), 1,2, new ArrayList<>());
+                    new HashSet<>(), colors);
             serverUtils.addBoard(board);
             serverUtils.setColorToBoard(boardColor, 1);
+            serverUtils.setColorToBoard(listColor, 1);
         }
         if(userData.getCurrentBoard() == null)
             userData.openBoard(1);

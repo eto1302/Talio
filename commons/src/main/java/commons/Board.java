@@ -3,7 +3,6 @@ package commons;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.*;
 
@@ -35,25 +34,9 @@ public class Board {
     @JoinColumn(name = "tagId", referencedColumnName = "id")
     private Tag tag;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "boardColorId", referencedColumnName = "id")
-    private Color boardColor;
-
-    @Column(name = "bc_id")
-    @NotNull
-    private int boardColorId;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "listColorId", referencedColumnName = "id")
-    private Color listColor;
-
-    @Column(name = "lc_id")
-    @NotNull
-    private int listColorId;
-
     @JsonManagedReference
     @OneToMany(mappedBy = "board")
-    private java.util.List<Color> taskColors;
+    private java.util.List<Color> colors;
 
     /**
      * Creates a new Board object with the given name, password, and set of lists.
@@ -64,15 +47,12 @@ public class Board {
      * @return A new Board object with the given name, password, and set of lists.
      */
     public static Board create(String name, String password, Set<List> lists,
-                               int boardColorId, int listColorId,
-                               java.util.List<Color> taskColors) {
+                               java.util.List<Color> colors) {
         Board board = new Board();
         board.name = name;
         board.password = password;
         board.lists = lists;
-        board.boardColorId = boardColorId;
-        board.listColorId = listColorId;
-        board.taskColors = taskColors;
+        board.colors = colors;
         return board;
     }
 
@@ -161,28 +141,12 @@ public class Board {
         this.inviteKey = inviteKey;
     }
 
-    public Color getBoardColor() {
-        return boardColor;
+    public java.util.List<Color> getColors() {
+        return colors;
     }
 
-    public void setBoardColor(Color boardColor) {
-        this.boardColor = boardColor;
-    }
-
-    public Color getListColor() {
-        return listColor;
-    }
-
-    public void setListColor(Color listColor) {
-        this.listColor = listColor;
-    }
-
-    public java.util.List<Color> getTaskColors() {
-        return taskColors;
-    }
-
-    public void setTaskColors(java.util.List<Color> taskColors) {
-        this.taskColors = taskColors;
+    public void setColors(java.util.List<Color> colors) {
+        this.colors = colors;
     }
 
     /**
@@ -199,9 +163,7 @@ public class Board {
         if (o == null || getClass() != o.getClass()) return false;
         Board board = (Board) o;
         return getId() == board.getId() && Objects.equals(getName(), board.getName()) &&
-                Objects.equals(getPassword(), board.getPassword()) &&
-                Objects.equals(getBoardColor(), board.getBoardColor()) &&
-                Objects.equals(getListColor(), board.getListColor());
+                Objects.equals(getPassword(), board.getPassword());
     }
 
     /**
@@ -211,7 +173,7 @@ public class Board {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getPassword(), getBoardColor(), getListColor());
+        return Objects.hash(getId(), getName(), getPassword());
     }
 
     /**
@@ -229,9 +191,22 @@ public class Board {
                 ", inviteKey='" + inviteKey + '\'' +
                 ", lists=" + lists +
                 ", tag=" + tag +
-                ", boardColor=" + boardColor +
-                ", listColor=" + listColor +
-                ", taskColors=" + taskColors +
                 '}';
+    }
+
+    public Color getBoardColor() {
+        return this.colors.get(0);
+    }
+
+    public Color getListColor() {
+        return this.colors.get(1);
+    }
+
+    public void setBoardColor(Color color){
+        this.colors.set(0, color);
+    }
+
+    public void setListColor(Color color){
+        this.colors.set(1, color);
     }
 }
