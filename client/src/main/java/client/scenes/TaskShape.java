@@ -331,7 +331,7 @@ public class TaskShape {
     public void editOnKey() {
         int index = ((VBox) grid.getParent()).getChildren().indexOf(grid);
         TaskEditModel model = new TaskEditModel(text.getText(), task.getDescription(),
-                index, controller.getList());
+                index, controller.getList(), task.getColorId());
         task.setTitle(model.getTitle());
         server.editTask(task.getId(), model);
 

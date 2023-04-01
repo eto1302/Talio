@@ -12,6 +12,7 @@ import commons.sync.ListDeleted;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.geometry.Bounds;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
