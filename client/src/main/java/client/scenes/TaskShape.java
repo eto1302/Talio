@@ -7,7 +7,6 @@ import commons.List;
 import commons.Task;
 import commons.models.TaskEditModel;
 import commons.sync.TaskDeleted;
-import commons.sync.TaskEdited;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
@@ -107,19 +106,6 @@ public class TaskShape {
         this.task = task;
         title.setText(task.getTitle());
         Color taskColor = this.server.getColor(task.getColorId());
-        if(taskColor == null){
-            int defaultColorId = this.userData.getCurrentBoard().getColors()
-                    .stream().filter(Color::getIsDefault).findFirst().get().getId();
-            this.task.setColorId(defaultColorId);
-
-            List list = this.server.getList(this.task.getListID());
-            TaskEditModel edit = new TaskEditModel(task.getTitle(), task.getDescription(),
-                    task.getIndex(), list, task.getColorId());
-
-            userData.updateBoard(new TaskEdited(list.getBoardId(), list.getId(),
-                    task.getId(), edit));
-            taskColor = server.getColor(defaultColorId);
-        }
         title.setTextFill(javafx.scene.paint.Color.web(taskColor.getFontColor()));
         grid.setStyle("-fx-padding: 2px; -fx-border-color: gray; " +
                 "-fx-background-color: " + taskColor.getBackgroundColor() +";");
