@@ -31,8 +31,9 @@ public class BoardController {
     @FXML
     private HBox listBox;
     @FXML
+    private GridPane boardBox;
+    @FXML
     private ScrollPane scrollPane;
-
     private final ShowCtrl showCtrl;
     private ServerUtils server;
     private LinkedList<ListShapeCtrl> listControllers;
@@ -64,8 +65,12 @@ public class BoardController {
      *  TODO: the board and get rid of the button in the future.
      */
     public void refresh() {
-        this.boardLabel.setText(this.userData.getCurrentBoard().getName());
-        this.boardLabel.setTextFill(Color.web(this.userData.getCurrentBoard().getFontColor()));
+        Board board = this.userData.getCurrentBoard();
+        this.boardLabel.setText(board.getName());
+        this.boardLabel.setTextFill(Color.web(
+                board.getBoardColor().getFontColor()));
+        this.boardBox.setStyle("-fx-background-color: " +
+                board.getBoardColor().getBackgroundColor() + "; -fx-padding: 5px;");
         listBox.getChildren().clear();
         listBox.getChildren();
         listControllers.clear();
@@ -88,7 +93,6 @@ public class BoardController {
                 showCtrl.addTask(task, list);
             }
         }
-
     }
 
     public void showYourBoards(){
@@ -135,7 +139,7 @@ public class BoardController {
     }
 
 
-    public void showEditBoard() { showCtrl.showEditBoard(this);}
+    public void showEditBoard() { showCtrl.showEditBoard();}
 
     public void delete() {
         Board board = this.userData.getCurrentBoard();

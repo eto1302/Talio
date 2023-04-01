@@ -1,6 +1,7 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -15,13 +16,25 @@ public class Tag {
     @Column(name = "name", columnDefinition = "varchar(255)")
     private String name;
 
-    @Column(name = "color", columnDefinition = "varchar(7) default '#000000'")
-    private String color;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "colorId", referencedColumnName = "id")
+    private Color color;
 
-    @JsonBackReference
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="taskId")
+    @JsonIgnore()
     private Task task;
+
+    @Column(name="t_id")
+    private int taskID;
+    @Column(name = "b_id")
+    private int boardId;
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="boardId")
+    private Board board;
+
 
 
     /**
@@ -31,7 +44,7 @@ public class Tag {
      * @param color    The color of the tag.
      * @return A new Board object with the given name, password, and set of lists.
      */
-    public static Tag create(String name, String color) {
+    public static Tag create(String name, Color color) {
         Tag tag = new Tag();
         tag.name = name;
         tag.color = color;
@@ -42,6 +55,42 @@ public class Tag {
      * Creates a new Tag object.
      */
     public Tag(){}
+
+    /**
+     * Returns the task associated with the tag.
+     *
+     * @return The task associated with the tag.
+     */
+    public Task getTask() {
+        return task;
+    }
+
+    /**
+     * Sets the task associated with the tag.
+     *
+     * @param task The task associated with the tag.
+     */
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
+    /**
+     * Returns the board associated with the tag.
+     *
+     * @return The board associated with the tag.
+     */
+    public Board getBoard() {
+        return board;
+    }
+
+    /**
+     * Sets the board associated with the tag.
+     *
+     * @param board The board associated with the tag.
+     */
+    public void setBoard(Board board) {
+        this.board = board;
+    }
 
     /**
      * Returns the id of the tag.
@@ -81,7 +130,7 @@ public class Tag {
      * Returns the color of the tag
      * @return the color of the tag
      */
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -89,8 +138,40 @@ public class Tag {
      * Sets the color of the tag
      * @param color to be set
      */
-    public void setColor(String color) {
+    public void setColor(Color color) {
         this.color = color;
+    }
+
+    /**
+     * Returns the ID of the task associated with the tag.
+     * @return The id of the task associated with the tag.
+     */
+    public int getTaskID() {
+        return taskID;
+    }
+
+    /**
+     * Sets the ID of the task associated with the tag.
+     * @param taskID The id of the task associated with the tag.
+     */
+    public void setTaskID(int taskID) {
+        this.taskID = taskID;
+    }
+
+    /**
+     * Returns the ID of the board associated with the tag.
+     * @return The id of the board associated with the tag.
+     */
+    public int getBoardId() {
+        return boardId;
+    }
+
+    /**
+     * Sets the ID of the board associated with the tag.
+     * @param boardID The id of the board associated with the tag.
+     */
+    public void setBoardId(int boardID) {
+        this.boardId = boardID;
     }
 
     /**

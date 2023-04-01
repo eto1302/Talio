@@ -1,5 +1,6 @@
 package server.api;
 
+import commons.Color;
 import commons.Tag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,13 +18,18 @@ public class TagControllerTest {
     private int nextInt;
     private TagController controller;
     private MyRandom random;
-    private TestTagRepository repo;
+    private TestTagRepository tagRepo;
+    private TestTaskRepository taskRepo;
+    private TestBoardRepository boardRepo;
 
     @BeforeEach
     public void setup() {
         random = new MyRandom();
-        repo = new TestTagRepository();
-        controller = new TagController(new TagService(repo), random);
+        tagRepo = new TestTagRepository();
+        taskRepo = new TestTaskRepository();
+        boardRepo = new TestBoardRepository();
+        controller = new TagController(new TagService(tagRepo, taskRepo, boardRepo));
+        controller.setRandom(random);
     }
 
     @Test
@@ -65,7 +71,9 @@ public class TagControllerTest {
     public void getById(){
         var testTag = getTestTag("test");
         controller.add(testTag);
-        var actual = controller.getTagById(repo.getTags().get(0).getId()).getBody();
+
+        var actual = controller.getTagById(tagRepo.getTags().get(0).getId()).getBody();
+
         assertEquals(testTag, actual);
     }
 
@@ -82,11 +90,11 @@ public class TagControllerTest {
     @Test
     public void databaseIsUsed() {
         controller.add(getTestTag("test"));
-        repo.getCalledMethods().contains("save");
+        tagRepo.getCalledMethods().contains("save");
     }
 
     private static Tag getTestTag(String q) {
-        return Tag.create(q, "#000000");
+        return Tag.create(q, Color.create("#000000", "#FFFFFF"));
     }
 
     @SuppressWarnings("serial")

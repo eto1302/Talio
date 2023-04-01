@@ -18,10 +18,13 @@ import commons.models.IdResponseModel;
     @JsonSubTypes.Type(value = ListDeleted.class, name = "listDeleted"),
     @JsonSubTypes.Type(value = ListEdited.class, name = "listEdited"),
     @JsonSubTypes.Type(value = BoardEdited.class, name = "boardEdited"),
+    @JsonSubTypes.Type(value = BoardDeleted.class, name = "boardDeleted"),
     @JsonSubTypes.Type(value = TaskAdded.class, name = "taskAdded"),
     @JsonSubTypes.Type(value = TaskEdited.class, name = "taskEdited"),
     @JsonSubTypes.Type(value = TaskDeleted.class, name = "taskDeleted"),
-    @JsonSubTypes.Type(value = BoardDeleted.class, name = "boardDeleted")
+    @JsonSubTypes.Type(value = ColorAdded.class, name = "colorAdded"),
+    @JsonSubTypes.Type(value = ColorEdited.class, name = "colorEdited"),
+    @JsonSubTypes.Type(value = ColorDeleted.class, name = "colorDeleted"),
 })
 public abstract class BoardUpdate implements Message {
 

@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import server.database.BoardRepository;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -22,9 +24,7 @@ public class BoardServiceTest {
     private transient BoardService boardService = new BoardService(mockBoardRepository);
 
     private transient Board board = Board.create("name", "pwd",
-            null,
-            "#F00000", "#F00000"
-            );
+            null, new ArrayList<>(), new ArrayList<>());
 
     @Test
     void saveBoard() {

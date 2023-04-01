@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -24,17 +23,5 @@
       <Button fx:id="cancel" layoutX="285.0" layoutY="225.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
       <Button fx:id="edit" layoutX="355.0" layoutY="224.0" mnemonicParsing="false" onAction="#edit" prefHeight="26.0" prefWidth="51.0" text="Edit" />
       <Line endX="100.0" layoutX="210.0" layoutY="50.0" startX="-100.0" />
-      <Label layoutX="88.0" layoutY="134.0" text="Background ">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <ColorPicker fx:id="newBackground" layoutX="211.0" layoutY="135.0" />
-      <ColorPicker fx:id="newFont" layoutX="211.0" layoutY="175.0" />
-      <Label layoutX="88.0" layoutY="174.0" text="Font">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
    </children>
 </AnchorPane>
