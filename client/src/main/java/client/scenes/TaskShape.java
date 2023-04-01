@@ -4,7 +4,6 @@ import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Task;
-import commons.models.IdResponseModel;
 import commons.models.TaskEditModel;
 import commons.sync.TaskDeleted;
 import javafx.beans.property.ObjectProperty;
