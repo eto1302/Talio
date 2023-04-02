@@ -12,14 +12,14 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ColorPicker">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ColorPicker">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="129.0" minHeight="0.0" prefHeight="50.0" valignment="CENTER" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="319.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="319.0" minHeight="0.0" prefHeight="100.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="129.0" minHeight="0.0" prefHeight="54.4" valignment="CENTER" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="319.0" minHeight="10.0" prefHeight="71.79998168945312" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="319.0" minHeight="0.0" prefHeight="75.80001831054688" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="319.0" minHeight="0.0" prefHeight="150.0" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="123.0" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
   </rowConstraints>
@@ -28,7 +28,7 @@
          <font>
             <Font size="25.0" />
          </font></Label>
-      <Button mnemonicParsing="false" onAction="#reset" text="Reset To Default Colors" GridPane.rowIndex="4">
+      <Button mnemonicParsing="false" onAction="#reset" prefHeight="33.0" prefWidth="181.0" styleClass="buttons" text="Reset To Default Colors" GridPane.rowIndex="4">
          <font>
             <Font size="15.0" />
          </font>
@@ -36,7 +36,7 @@
             <Insets left="20.0" />
          </GridPane.margin>
       </Button>
-      <Button mnemonicParsing="false" onAction="#save" text="Save Colors" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+      <Button mnemonicParsing="false" onAction="#save" styleClass="buttons" text="Save Colors" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
          <font>
             <Font size="15.0" />
          </font>
@@ -55,7 +55,7 @@
             <RowConstraints minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Board Colors:">
+            <Label text="Board Colors:" GridPane.rowSpan="2">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
@@ -73,8 +73,8 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <ColorPicker fx:id="boardBackground" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ColorPicker fx:id="boardFont" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <ColorPicker fx:id="boardBackground" styleClass="buttons" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ColorPicker fx:id="boardFont" styleClass="buttons" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <value>
                   <Color />
                </value>
@@ -92,7 +92,7 @@
             <RowConstraints minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Label text="List Colors:">
+            <Label text="List Colors:" GridPane.rowSpan="2">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
@@ -110,8 +110,8 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <ColorPicker fx:id="listBackground" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ColorPicker fx:id="listFont" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <ColorPicker fx:id="listBackground" styleClass="buttons" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ColorPicker fx:id="listFont" styleClass="buttons" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <value>
                   <Color />
                </value>
@@ -143,7 +143,7 @@
                   <VBox fx:id="taskColorList" />
                </content>
             </ScrollPane>
-            <Button mnemonicParsing="false" onAction="#showAddTaskColor" text="Add Task Color">
+            <Button mnemonicParsing="false" onAction="#showAddTaskColor" styleClass="buttons" text="Add Task Color">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
