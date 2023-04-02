@@ -27,7 +27,7 @@ public class TaskShape {
     @FXML
     private GridPane grid;
     @FXML
-    private Label plusSign, title, deleteX, progress;
+    private Label plusSign, title, deleteX, subtaskProgress;
     private ShowCtrl showCtrl;
     private ServerUtils server;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
@@ -112,7 +112,7 @@ public class TaskShape {
                 ++done;
             }
         }
-        progress.setText(done + "/" + subtasks.size());
+        subtaskProgress.setText(done + "/" + subtasks.size());
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
     }
