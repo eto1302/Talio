@@ -3,7 +3,6 @@ package client.scenes;
 import client.Services.ColorService;
 import client.user.UserData;
 import commons.Board;
-import commons.models.ColorEditModel;
 import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
