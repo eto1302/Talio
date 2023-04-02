@@ -1,6 +1,5 @@
 package client.messageClients;
 
-import com.google.inject.Inject;
 import org.springframework.messaging.simp.stomp.StompSession;
 
 /**
@@ -13,18 +12,20 @@ import org.springframework.messaging.simp.stomp.StompSession;
 public class MessageAdmin {
 
     /**
-     * Handler that receives and consumes messages, Injected by guice
+     * Handler that receives and consumes messages
      */
-    @Inject
     private MessageSessionHandler handler;
 
     /**
      * StompSession, used for all interactions with stomp
-     * Injected by guice
      * If you are debugging anything client side for messaging, pay attention to the StompSession
      */
-    @Inject
     private StompSession session;
+
+    public MessageAdmin(StompSession session) {
+        this.session = session;
+        this.handler = new MessageSessionHandler();
+    }
 
     /**
      * Subscribes to a queue using our Handler to process messages from said queue
