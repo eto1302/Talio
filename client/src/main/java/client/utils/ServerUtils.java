@@ -263,11 +263,11 @@ public class ServerUtils implements IServerUtils {
 
     /**
      *
-     * Edit the name, background color and font color of a list.
+     * Edit the name of a list.
      *
      * @param boardId id of the board
      * @param listId id of the list
-     * @param model  name and color information of the modified list
+     * @param model  name information of the modified list
      * @return
      */
     public IdResponseModel editList(int boardId, int listId, ListEditModel model) {

@@ -76,6 +76,8 @@ public class Main extends Application {
                 HelpCtrl.class, "client", "scenes", "Help.fxml");
         var taskColorPicker= FXML.load(
                 TaskColorPicker.class, "client", "scenes", "TaskColorPicker.fxml");
+        var editColor= FXML.load(
+                EditColor.class, "client", "scenes", "EditColor.fxml");
 
         loader.add(home);
         loader.add(addList);
@@ -91,5 +93,6 @@ public class Main extends Application {
         loader.add(addTaskColor);
         loader.add(help);
         loader.add(taskColorPicker);
+        loader.add(editColor);
     }
 }
