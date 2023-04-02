@@ -548,6 +548,7 @@ public class ServerUtils implements IServerUtils {
         throw new RuntimeException("Something went wrong");
     }
 
+    @Override
     public IdResponseModel addTagToTask(Tag tag, int taskID){
         try{
             HttpEntity<Tag> req = new HttpEntity<>(tag);
@@ -560,6 +561,7 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
+    @Override
     public IdResponseModel addTagToBoard(Tag tag, int boardID){
         try{
             HttpEntity<Tag> req = new HttpEntity<>(tag);
@@ -619,7 +621,7 @@ public class ServerUtils implements IServerUtils {
     public java.util.List<Tag> getTagByTask(int taskID) {
         try {
             ResponseEntity<java.util.List<commons.Tag>> response = client.exchange(
-                url+"task/getByTask/" + taskID, HttpMethod.GET, null,
+                url+"tag/getByTask/" + taskID, HttpMethod.GET, null,
                 new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
             );
 
@@ -649,7 +651,7 @@ public class ServerUtils implements IServerUtils {
     public java.util.List<Tag> getTagByBoard(int boardID) {
         try {
             ResponseEntity<java.util.List<commons.Tag>> response = client.exchange(
-                url+"task/getByTask/" + boardID, HttpMethod.GET, null,
+                url+"tag/getByBoard/" + boardID, HttpMethod.GET, null,
                 new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
             );
 

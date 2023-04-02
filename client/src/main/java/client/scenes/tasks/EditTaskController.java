@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 
 public class EditTaskController {
 
@@ -44,24 +45,23 @@ public class EditTaskController {
         this.descriptionField.setText(task.getDescription());
         this.listShapeCtrl = listShapeCtrl;
         this.primaryStage = primaryStage;
-        if(task.getTags() != null && !task.getTags().isEmpty()){
-            for(Tag t: task.getTags()){
-                putTag(showCtrl.getTagScene(t));
-            }
-        }
         return refresh();
     }
 
     public Scene refresh(){
         java.util.List<Subtask> subtasks = task.getSubtasks();
-        for(Subtask subtask: subtasks){
-            showCtrl.addSubTask(subtask, this);
+        if(subtasks != null) {
+            for(Subtask subtask: subtasks){
+                showCtrl.addSubTask(subtask, this);
+            }
         }
-        java.util.List<Tag> tags = task.getTags();
-        for(Tag tag: tags){
-            showCtrl.addTagToTask(tag, this);
+//        java.util.List<Tag> tags = task.getTags();
+        java.util.List<Tag> tags = server.getTagByTask(task.getId());
+        if(tags != null) {
+            for(Tag tag: tags){
+                showCtrl.addTagToTask(tag, task);
+            }
         }
-
         return title.getScene();
     }
 

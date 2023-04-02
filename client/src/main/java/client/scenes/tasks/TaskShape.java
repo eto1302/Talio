@@ -3,8 +3,6 @@ package client.scenes.tasks;
 import client.user.UserData;
 import client.scenes.ShowCtrl;
 import client.scenes.lists.ListShapeCtrl;
-import client.scenes.tags.TagMarkerShapeController;
-import client.scenes.tags.TagOverviewController;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Tag;
@@ -26,12 +24,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 
 public class TaskShape {
     @FXML
@@ -48,6 +43,7 @@ public class TaskShape {
     private UserData userData;
     private boolean selected;
     private String style;
+
 
     @Inject
     public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
@@ -117,17 +113,18 @@ public class TaskShape {
     public void updateScene(Task task){
         this.task = task;
         title.setText(task.getTitle());
-        addTagMarkers(task);
+        refreshTagMarkers(task);
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
     }
 
-    private void addTagMarkers(Task task){
+    public void refreshTagMarkers(Task task){
+        java.util.List<Tag> tags = server.getTagByTask(task.getId());
         tagMarkerContainer.getChildren().remove(0, tagMarkerContainer.getChildren().size());
-        if(task.getTags() == null || task.getTags().isEmpty()){
+        if(tags == null || tags.isEmpty()){
             return;
         }
-        for (Tag t: task.getTags()){
+        for (Tag t: tags){
             Scene scene = showCtrl.getTagMarker(t, this);
             tagMarkerContainer.getChildren().add(scene.getRoot());
         }

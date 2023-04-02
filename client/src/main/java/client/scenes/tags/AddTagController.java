@@ -6,6 +6,7 @@ import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
 import commons.Task;
+import commons.sync.TagCreated;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -51,14 +52,14 @@ public class AddTagController {
     }
 
     public void addTag() {
-        commons.Color color = commons.Color.create("#0000000", "#FFFFFF");
+        String textColor = (colorPicker.getValue().getBrightness() < 0.7) ? "#FFFFFF" : "#000000";
+        String backgroundColor = colorToHex(colorPicker.getValue());
+        commons.Color color = commons.Color.create(textColor, backgroundColor);
         String tagName = this.textField.getText();
         Tag tag = Tag.create(tagName, color);
-        Board current = userData.getCurrentBoard();
-        current.getTags().add(tag);
 
-        serverUtils.addTagToBoard(tag, current.getId());
-        showCtrl.addTag(tag);
+        Board current = userData.getCurrentBoard();
+        userData.updateBoard(new TagCreated(current.getId(), tag, current));
         cancel();
     }
 

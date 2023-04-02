@@ -5,7 +5,6 @@ import client.scenes.lists.*;
 import client.scenes.subtasks.*;
 import client.scenes.tags.*;
 import client.scenes.tasks.*;
-import client.scenes.*;
 import commons.*;
 import commons.mocks.IShowCtrl;
 import javafx.geometry.Pos;
@@ -332,8 +331,28 @@ public class ShowCtrl implements IShowCtrl {
         editTaskController.putSubtask(subTaskScene);
     }
 
+    public void showTagOverview(Board board){
+        assert board != null;
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Tag overview");
+        secondaryStage.setScene(this.tagOverview);
+        tagOverviewController.refresh();
+        secondaryStage.show();
+    }
+
     public void addTag(Tag tag) {
-        tagOverviewController.putTag(getTagScene(tag));
+        tagOverviewController.refresh();
+    }
+
+    public void deleteTag(Tag tag) {
+        tagOverviewController.refresh();
+        editTaskController.refresh();
+        //TODO: add or empty check when changed to list
+        if(tag.getTask() == null){
+            //TODO: change to list impl.
+            TaskShape ts = boardController.findTaskController(tag.getTask());
+            ts.updateScene(tag.getTask());
+        }
     }
 
     public void showAddTagToTask(EditTaskController c){
@@ -342,23 +361,18 @@ public class ShowCtrl implements IShowCtrl {
         AddTagToTaskController controller = tagToTaskPair.getKey();
         controller.setController(c);
         Scene addTagToTask = new Scene((Parent) tagToTaskPair.getValue());
-        controller.setup();
+        controller.refresh();
 
         popUpStage.setScene(addTagToTask);
         popUpStage.setTitle("Add tag to task");
         popUpStage.show();
     }
 
-    public void addTagToTask(Tag tag, EditTaskController controller){
-        //add the tag to the task serverside
-
-        //applying tag markers
-        Task task = controller.getTask();
-        task.getTags().add(tag);
-        TaskShape taskController = controller.getListShapeCtrl().findTask(task);
-        taskController.updateScene(task);
-
-        controller.putTag(getTagScene(tag));
+    @Override
+    public void addTagToTask(Tag tag, Task task){
+        TaskShape taskController = boardController.findTaskController(task);
+        taskController.refreshTagMarkers(task);
+        editTaskController.putTag(getTagScene(tag));
     }
 
     public Scene getTagScene(Tag tag){
@@ -440,14 +454,6 @@ public class ShowCtrl implements IShowCtrl {
         boardController.refresh();
     }
 
-    public void showTagOverview(Board board){
-        assert board != null;
-        secondaryStage = new Stage();
-        secondaryStage.setTitle("Tag overview");
-        secondaryStage.setScene(this.tagOverview);
-        tagOverviewController.setup(board);
-        secondaryStage.show();
-    }
 
 
     public void refreshList(int listID) {
@@ -502,5 +508,7 @@ public class ShowCtrl implements IShowCtrl {
                 .filter(e -> e.getList().getId() == listId).findFirst().orElse(null);
         return controller;
     }
+
+
 
 }

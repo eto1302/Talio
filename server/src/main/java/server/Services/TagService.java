@@ -51,7 +51,8 @@ public class TagService {
             task.getTags().add(tag);
             tag.setTask(task);
             tag.setTaskID(taskID);
-            tag.setBoardId(-1);
+            //TODO: improve this dirty fix
+            tag.setBoard(boardRepository.getBoardByID(tag.getBoardId()));
             tagRepository.save(tag);
             return new IdResponseModel(tag.getId(), null);
         }

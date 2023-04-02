@@ -122,7 +122,10 @@ public class BoardController {
         return listControllers;
     }
 
-    public void showTagOverview() {showCtrl.showTagOverview(userData.getCurrentBoard());}
+    public void showTagOverview() {
+        userData.refresh();
+        showCtrl.showTagOverview(userData.getCurrentBoard());
+    }
 
     /**
      * Puts the root of the scene (the grid representing the list) inside the board
@@ -277,6 +280,14 @@ public class BoardController {
                 movement(event);
             }
         });
+    }
+
+    public TaskShape findTaskController(Task task){
+        for(ListShapeCtrl c: listControllers){
+            TaskShape ts = c.findTask(task);
+            if(ts != null) {return ts;}
+        }
+        return null;
     }
 
 }

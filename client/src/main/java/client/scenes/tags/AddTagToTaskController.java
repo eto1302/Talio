@@ -9,7 +9,6 @@ import commons.Tag;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -35,6 +34,7 @@ public class AddTagToTaskController {
     private VBox tagBox;
 
     private Board board;
+    private List<Tag> tags;
 
     private EditTaskController controller;
 
@@ -48,18 +48,24 @@ public class AddTagToTaskController {
         this.controller = controller;
     }
 
-    public void setup(){
+    public void refresh(){
         this.board = userData.getCurrentBoard();
-        putTags(board.getTags());
+        this.tags = serverUtils.getTagByBoard(board.getId());
+        updateScene();
     }
 
     public void handleKey(){
         //TODO: text inside tags does not render after refreshing list for some reason, fix!
         String searchText = searchBox.getText();
-        List<Tag> matches = board.getTags().stream()
+        tags = board.getTags().stream()
                 .filter(t -> t.getName().contains(searchText))
                 .collect(Collectors.toList());
-        putTags(matches);
+        updateScene();
+    }
+
+    public void updateScene(){
+        filterUsedTags();
+        putTags(tags);
     }
 
     public void putTag(Scene tagScene){
@@ -75,12 +81,19 @@ public class AddTagToTaskController {
         }
         int max = (tags.size() < 5) ? tags.size():5;
         for(int i = 0; i < max; i++){
-            putTag(showCtrl.getTagSceneTask(tags.get(i), controller));
+            Scene ts = showCtrl.getTagSceneTask(tags.get(i), controller);
+            putTag(ts);
         }
     }
 
     public void cleanBox(){
         tagBox.getChildren().remove(0, tagBox.getChildren().size());
     }
+
+    public void filterUsedTags(){
+        List<Tag> used = serverUtils.getTagByTask(controller.getTask().getId());
+        tags.removeAll(used);
+    }
+
     public void cancel() {showCtrl.closePopUp();}
 }

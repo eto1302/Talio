@@ -52,6 +52,7 @@ public class ListShapeCtrl {
         this.showCtrl = showCtrl;
         this.serverUtils = serverUtils;
         this.userData = userData;
+        this.taskControllers = new LinkedList<>();
     }
 
     /**
@@ -69,7 +70,7 @@ public class ListShapeCtrl {
         listGrid.setBackground(new Background(
                 new BackgroundFill(backgroundColor, null, null)));
         listTitle.setTextFill(fontColor);
-        this.taskControllers = new LinkedList<>();
+        if(this.taskControllers == null) {this.taskControllers = new LinkedList<>();}
         return listGrid.getScene();
     }
 
@@ -250,7 +251,7 @@ public class ListShapeCtrl {
 
     public TaskShape findTask(Task task){
         for(TaskShape c: taskControllers){
-            if(c.getTask() == task){
+            if(task.equals(c.getTask())){
                 return c;
             }
         }

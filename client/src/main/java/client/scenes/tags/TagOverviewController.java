@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import org.apache.catalina.User;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -20,6 +19,8 @@ public class TagOverviewController {
 
     private ShowCtrl showCtrl;
     private ServerUtils serverUtils;
+    @Inject
+    private UserData userData;
 
 
     @FXML
@@ -39,36 +40,35 @@ public class TagOverviewController {
         this.serverUtils = serverUtils;
     }
 
-    public void setup(Board board){
+    public void refresh(){
         clear();
-        this.board = board;
-        tags = board.getTags();
+        this.board = userData.getCurrentBoard();
+        this.tags = serverUtils.getTagByBoard(board.getId());
         if(tags == null || tags.isEmpty()){
             return;
         }
-        for (Tag t: tags) {
-
-            Scene scene = showCtrl.getTagScene(t);
-            if(ind%2 == 0){
-                tagBoxLeft.getChildren().add(scene.getRoot());
-            }else {
-                tagBoxRight.getChildren().add(scene.getRoot());
-            }
-            ind++;
-        }
+        putTags(tags);
     }
 
     public void showAddTag(){
         showCtrl.showAddTag();
     }
 
-    public void putTag(Scene tagScene){
-        if(ind%2 == 0){
+    public void putTag(Scene tagScene, int ind) {
+        if (ind % 2 == 0) {
             tagBoxLeft.getChildren().add(tagScene.getRoot());
-        }else {
+        } else {
             tagBoxRight.getChildren().add(tagScene.getRoot());
         }
-        ind++;
+    }
+
+
+    public void putTags(List<Tag> tags){
+        if(tags == null) return;
+        for(int i = 0; i < tags.size(); i++){
+            Scene ts = showCtrl.getTagScene(tags.get(i));
+            putTag(ts, i);
+        }
     }
 
     public void clear(){
