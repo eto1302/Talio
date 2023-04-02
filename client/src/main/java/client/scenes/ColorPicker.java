@@ -38,7 +38,7 @@ public class ColorPicker {
         this.colorService = new ColorService(userData);
     }
 
-    public void save(){
+    public void save() {
         IdResponseModel responseModel = colorService.editColor(
                 -1,
                 boardFont.getValue(), boardBackground.getValue(), false);
@@ -61,6 +61,7 @@ public class ColorPicker {
         showCtrl.cancel();
         showCtrl.showEditBoard();
     }
+
 
     public void reset(){
         this.boardBackground.setValue(Color.web("#FFFFFF"));
