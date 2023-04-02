@@ -30,8 +30,8 @@ public class TagEditModel {
     @Override
     public String toString() {
         return "TagEditModel{" +
-            "name='" + name + '\'' +
-            ", color='" + color + '\'' +
-            '}';
+                "name='" + name + '\'' +
+                ", color='" + color + '\'' +
+                '}';
     }
 }

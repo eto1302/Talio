@@ -88,7 +88,7 @@ public class BoardController {
 
         for (commons.List list : lists) {
             showCtrl.addList(list);
-            
+
             List<Task> orderedTasks = server.getTasksOrdered(list.getId());
             for(Task task: orderedTasks){
                 showCtrl.addTask(task, list);
@@ -173,16 +173,20 @@ public class BoardController {
             TaskShape copy = selectedTask;
 
             switch (key){
-                case DOWN, KP_DOWN, S -> {
+                case DOWN:
+                case KP_DOWN:
+                case S:
                     selectedTask.orderWithKeyEvent(index, "down");
                     if (index!=selectedList.getTaskControllers().size()-1) {
                         selectedTask = selectedList.getTaskControllers().get(index + 1);
                         selectedList.updateScrollPane(index+1);
                     } else selectedTask=copy;
                     selectedTask.setStatus(true);
-                }
+                    break;
 
-                case UP, KP_UP, W-> {
+                case UP:
+                case KP_UP:
+                case W:
                     selectedTask.orderWithKeyEvent(index, "up");
                     if (index!=0) {
                         selectedTask = selectedList.getTaskControllers().get(index - 1);
@@ -190,7 +194,8 @@ public class BoardController {
                     }
                     else selectedTask=copy;
                     selectedTask.setStatus(true);
-                }
+                    break;
+
             }
         }
 
@@ -205,22 +210,43 @@ public class BoardController {
 
     private void switchCase(KeyCode key, int index){
         switch (key){
-            case DOWN, KP_DOWN, S -> down(index);
-            case UP, KP_UP, W -> up(index);
-            case LEFT, KP_LEFT, A -> left();
-            case RIGHT, KP_RIGHT, D-> right();
-            case DELETE, BACK_SPACE -> selectedTask.deleteOnKey();
-            case ENTER -> showCtrl.showEditTask(selectedTask.getTask(), selectedList);
-            case E -> {
+            case DOWN:
+            case KP_DOWN:
+            case S:
+                down(index);
+                break;
+            case UP:
+            case KP_UP:
+            case W:
+                up(index);
+                break;
+            case LEFT:
+            case KP_LEFT:
+            case A:
+                left();
+                break;
+            case RIGHT:
+            case KP_RIGHT:
+            case D:
+                right();
+                break;
+            case DELETE:
+            case BACK_SPACE:
+                selectedTask.deleteOnKey();
+                break;
+            case ENTER:
+                showCtrl.showEditTask(selectedTask.getTask(), selectedList);
+                break;
+            case E:
                 editable=true;
                 selectedTask.makeEditable();
-            }
-            case C -> {
+                break;
+            case C:
                 //show color preset
-            }
-            case T -> {
+                break;
+            case T:
                 //show tag
-            }
+                break;
         }
     }
 
@@ -322,7 +348,7 @@ public class BoardController {
                         KeyCode.KP_UP, KeyCode.LEFT, KeyCode.KP_LEFT,
                         KeyCode.RIGHT, KeyCode.KP_RIGHT);
                 if (arrows.contains(event.getCode()) && !event.isShiftDown())
-                     movement(event);
+                    movement(event);
             }
         });
     }
