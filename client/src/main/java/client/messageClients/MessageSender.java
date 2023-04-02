@@ -1,6 +1,5 @@
 package client.messageClients;
 
-import com.google.inject.Inject;
 import commons.messaging.Messages.Message;
 import org.springframework.messaging.simp.stomp.StompSession;
 
@@ -17,8 +16,11 @@ public class MessageSender {
      * Injected by guice
      * If you are debugging anything client side for messaging, pay attention to the StompSession
      */
-    @Inject
     private StompSession session;
+
+    public MessageSender(StompSession session) {
+        this.session = session;
+    }
 
     /**
      * Send your Message to a queue

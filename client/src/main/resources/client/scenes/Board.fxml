@@ -42,6 +42,7 @@
                         <MenuItem fx:id="yourBoards" mnemonicParsing="false" onAction="#showYourBoards" text="Your boards" />
                         <MenuItem fx:id="personalize" mnemonicParsing="false" text="Personalize" />
                   <MenuItem mnemonicParsing="false" onAction="#showAdmin" text="Admin" />
+                  <MenuItem mnemonicParsing="false" onAction="#setServer" text="Choose server" />
                     </items>
                 </MenuButton>
             <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 3px; -fx-padding: 5px;">

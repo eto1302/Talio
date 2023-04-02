@@ -26,7 +26,7 @@ public class ShowCtrl implements IShowCtrl {
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, board, taskOverview, connection,
             addBoard, editTask, errorScene, admin, editBoard, colorPicker,
-            addTaskColor, help, taskColorPicker;
+            addTaskColor, help, taskColorPicker, editColor;
     private AddListController addListCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
@@ -38,11 +38,11 @@ public class ShowCtrl implements IShowCtrl {
     private AdminController adminController;
     private EditBoardController editBoardController;
     private ColorPicker colorPickerController;
-
     private TaskColorPicker taskColorPickerController;
     private AddTaskColor addTaskColorController;
     private Map<Integer, ListShapeCtrl> listControllers;
     private HelpCtrl helpCtrl;
+    private EditColor editColorController;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
         this.primaryStage = primaryStage;
@@ -74,6 +74,8 @@ public class ShowCtrl implements IShowCtrl {
         helpCtrl = (HelpCtrl) loader.get(12).getKey();
         taskColorPicker = new Scene((Parent) loader.get(13).getValue());
         taskColorPickerController = (TaskColorPicker) loader.get(13).getKey();
+        editColor = new Scene((Parent) loader.get(14).getValue());
+        editColorController = (EditColor) loader.get(14).getKey();
 
         setUpKeys();
 
@@ -466,4 +468,11 @@ public class ShowCtrl implements IShowCtrl {
         return controller;
     }
 
+    public void showEditColor(Color color) {
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Edit Color");
+        secondaryStage.setScene(this.editColor);
+        this.editColorController.setup(color);
+        secondaryStage.show();
+    }
 }
