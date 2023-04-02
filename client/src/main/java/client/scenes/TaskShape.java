@@ -3,6 +3,7 @@ package client.scenes;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
+import commons.Subtask;
 import commons.Task;
 import commons.models.TaskEditModel;
 import commons.sync.TaskDeleted;
@@ -26,7 +27,7 @@ public class TaskShape {
     @FXML
     private GridPane grid;
     @FXML
-    private Label plusSign, title, deleteX;
+    private Label plusSign, title, deleteX, progress;
     private ShowCtrl showCtrl;
     private ServerUtils server;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
@@ -104,6 +105,14 @@ public class TaskShape {
     public void updateScene(Task task){
         this.task = task;
         title.setText(task.getTitle());
+        java.util.List<Subtask> subtasks = task.getSubtasks();
+        int done = 0;
+        for(Subtask subtask: subtasks){
+            if(subtask.isChecked()){
+                ++done;
+            }
+        }
+        progress.setText(done + "/" + subtasks.size());
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
     }
