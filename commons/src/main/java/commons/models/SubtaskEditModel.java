@@ -6,12 +6,10 @@ public class SubtaskEditModel {
 
     private String description;
     private boolean checked;
-    private int index;
 
-    public SubtaskEditModel(String description, boolean checked, int index) {
+    public SubtaskEditModel(String description, boolean checked) {
         this.description = description;
         this.checked = checked;
-        this.index=index;
     }
 
     public String getDescription() {
@@ -30,27 +28,18 @@ public class SubtaskEditModel {
         this.checked = checked;
     }
 
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SubtaskEditModel that = (SubtaskEditModel) o;
         return isChecked() == that.isChecked() &&
-                getIndex() == that.getIndex() &&
                 Objects.equals(getDescription(), that.getDescription());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getDescription(), isChecked(), getIndex());
+        return Objects.hash(getDescription(), isChecked());
     }
 
     @Override
@@ -58,7 +47,6 @@ public class SubtaskEditModel {
         return "SubtaskEditModel{" +
                 "description='" + description + '\'' +
                 ", checked=" + checked +
-                ", index=" + index+
                 '}';
     }
 }

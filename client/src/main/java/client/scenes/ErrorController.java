@@ -2,14 +2,14 @@ package client.scenes;
 
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.text.Text;
 
 public class ErrorController {
 
     private final ShowCtrl showCtrl;
 
     @FXML
-    private Label errorMessage;
+    private Text errorMessage;
 
     @Inject
     public ErrorController(ShowCtrl showCtrl) {

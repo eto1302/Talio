@@ -52,10 +52,6 @@ public class SubtaskService {
         return task.getSubtasks();
     }
 
-    public List<Subtask> getSubtasksOrdered (int taskID){
-        return subtaskRepository.getSubtasksOrdered(taskID);
-    }
-
     /**
      * Adds a subtask to the associated task and in its respective repository
      * @param subtask the subtask to be added
@@ -107,7 +103,6 @@ public class SubtaskService {
             Subtask subtask = subtaskRepository.getSubtaskByID(subtaskID);
             subtask.setChecked(model.isChecked());
             subtask.setDescription(model.getDescription());
-            subtask.setIndex(model.getIndex());
             subtaskRepository.save(subtask);
             return new IdResponseModel(subtaskID, null);
         } catch (Exception e) {

@@ -58,5 +58,4 @@ public class YourBoardsController {
         boardList.getChildren().add(scene.getRoot());
         return boardList.getScene();
     }
-
 }
