@@ -1,10 +1,9 @@
 package client.scenes;
 
+import client.Services.ColorService;
 import client.user.UserData;
 import commons.Board;
-import commons.models.ColorEditModel;
 import commons.models.IdResponseModel;
-import commons.sync.ColorEdited;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -28,44 +27,37 @@ public class ColorPicker {
     private javafx.scene.control.ColorPicker listFont;
     @FXML
     private VBox taskColorList;
-    @Inject
     private UserData userData;
     @Inject
     private ShowCtrl showCtrl;
-    public ColorPicker(){
+    private ColorService colorService;
 
+    @Inject
+    public ColorPicker(UserData userData){
+        this.userData = userData;
+        this.colorService = new ColorService(userData);
     }
 
     public void save(){
-        Board board = this.userData.getCurrentBoard();
-        commons.Color boardColor = commons.Color.create(
-                colorToHex(boardFont.getValue()), colorToHex(boardBackground.getValue()));
-        commons.Color listColor = commons.Color.create(
-                colorToHex(listFont.getValue()), colorToHex(listBackground.getValue()));
+        IdResponseModel responseModel = colorService.editColor(
+                -1,
+                boardFont.getValue(), boardBackground.getValue(), false);
 
-        ColorEditModel boardColorEdit = new ColorEditModel(
-                boardColor.getBackgroundColor(), boardColor.getFontColor(), false);
-        ColorEditModel listColorEdit = new ColorEditModel(
-                listColor.getBackgroundColor(), listColor.getFontColor(), false);
-
-
-        IdResponseModel boardModel = userData.updateBoard(new ColorEdited(
-                board.getId(), board.getBoardColor().getId(), boardColorEdit));
-        if (boardModel.getId() == -1) {
-            showCtrl.showError(boardModel.getErrorMessage());
+        if(responseModel.getId() == -1){
+            showCtrl.showError(responseModel.getErrorMessage());
             showCtrl.cancel();
             return;
         }
 
-        IdResponseModel listModel = userData.updateBoard(new ColorEdited(
-                board.getId(), board.getListColor().getId(), listColorEdit));
-        if (listModel.getId() == -1) {
-            showCtrl.showError(listModel.getErrorMessage());
+        responseModel = colorService.editColor(-2,
+                listFont.getValue(), listBackground.getValue(), false);
+
+        if(responseModel.getId() == -1){
+            showCtrl.showError(responseModel.getErrorMessage());
             showCtrl.cancel();
             return;
         }
 
-        this.userData.openBoard(board.getId());
         showCtrl.cancel();
         showCtrl.showEditBoard();
     }
@@ -78,7 +70,7 @@ public class ColorPicker {
     }
 
     public void fillTaskColors(){
-        this.taskColorList.getChildren().removeAll(this.taskColorList.getChildren());
+        this.taskColorList.getChildren().clear();
         List<commons.Color> colors = this.userData.getCurrentBoard().getColors();
         if(colors == null) return;
         for(int i = 2; i < colors.size(); ++i){
@@ -105,18 +97,5 @@ public class ColorPicker {
     public void showAddTaskColor() {
         this.showCtrl.cancel();
         this.showCtrl.showAddTagColor();
-    }
-
-    /**
-     * Returns a hexadecimal string representation of javafx.scene.paint.Color.
-     * @param color the color to be transformed
-     * @return string representation of the color.
-     */
-    private String colorToHex(javafx.scene.paint.Color color){
-        String hexString = String.format("#%02X%02X%02X",
-                (int)(color.getRed() * 255),
-                (int)(color.getGreen() * 255),
-                (int)(color.getBlue() * 255));
-        return hexString;
     }
 }

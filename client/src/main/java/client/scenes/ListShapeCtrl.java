@@ -118,6 +118,7 @@ public class ListShapeCtrl {
         this.boardController = boardController;
         this.taskControllers = new LinkedList<>();
         Board board = serverUtils.getBoard(list.getBoardId());
+        taskControllers = new LinkedList<>();
 
         listGrid.setOnDragOver(this::dragOver);
         listGrid.setOnDragDropped(this::dragDrop);

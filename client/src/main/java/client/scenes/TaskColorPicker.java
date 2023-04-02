@@ -52,17 +52,4 @@ public class TaskColorPicker {
         taskColorList.getChildren().add(taskScene.getRoot());
         return boardLabel.getScene();
     }
-
-    /**
-     * Returns a hexadecimal string representation of javafx.scene.paint.Color.
-     * @param color the color to be transformed
-     * @return string representation of the color.
-     */
-    private String colorToHex(javafx.scene.paint.Color color){
-        String hexString = String.format("#%02X%02X%02X",
-                (int)(color.getRed() * 255),
-                (int)(color.getGreen() * 255),
-                (int)(color.getBlue() * 255));
-        return hexString;
-    }
 }

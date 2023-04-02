@@ -47,9 +47,11 @@ public class EditTaskController {
     }
 
     public Scene refresh(){
+        subtaskBox.getChildren().clear();
         java.util.List<Subtask> subtasks = server.getSubtasksOrdered(task.getId());
-//        for (Subtask subtask: subtasks)
-//            showCtrl.addSubTask(subtask, this);
+        for (Subtask subtask: subtasks)
+            showCtrl.addSubTask(subtask, this);
+//        tagBox.getChildren().clear();
 //        java.util.List<Tag> tags = server.getTagsByTask(task.getId());
 //        for (Tag tag: tags)
 //            showCtrl.addTag(tag, this);
@@ -75,7 +77,7 @@ public class EditTaskController {
     }
 
     public void showAddSubTask(){
-        showCtrl.showAddSubTask(task);
+        showCtrl.showAddSubTask(this, task);
     }
 
     public void save() {
