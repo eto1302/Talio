@@ -46,16 +46,12 @@ public class UserData implements IUserData {
 
     /**
      * Message sender used for synchronization
-     * Injected by guice
      */
-    @Inject
     private MessageSender messageSender;
 
     /**
      * Message admin used for synchronization
-     * Injected by guice
      */
-    @Inject
     private MessageAdmin messageAdmin;
 
     /**
@@ -89,8 +85,12 @@ public class UserData implements IUserData {
         this.savePath.createNewFile();
         assert !savePath.isDirectory();
         loadFromDisk();
-
         BoardUpdate.setUserData(this);
+    }
+
+    public void setWsConfig(MessageAdmin messageAdmin, MessageSender messageSender) {
+        this.messageAdmin = messageAdmin;
+        this.messageSender = messageSender;
     }
 
     /**
@@ -284,9 +284,5 @@ public class UserData implements IUserData {
             System.out.println("Local file not created!");
         }
 
-    }
-
-    public void subscribeToAdmin() {
-        messageAdmin.subscribe("/topic/admin");
     }
 }
