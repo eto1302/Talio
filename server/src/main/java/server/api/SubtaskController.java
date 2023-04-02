@@ -50,7 +50,7 @@ public class SubtaskController {
         return ResponseEntity.ok(subtasks);
     }
 
-    @PostMapping("/delete/{taskID}/{subtaskID}")
+    @GetMapping("/delete/{taskID}/{subtaskID}")
     public IdResponseModel removeSubtask(@PathVariable int taskID, @PathVariable int subtaskID){
         return subtaskService.removeSubtask(subtaskID, taskID);
     }

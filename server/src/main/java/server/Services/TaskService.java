@@ -72,6 +72,7 @@ public class TaskService {
             task.setList(model.getList());
             task.setListID(model.getList().getId());
             task.setIndex(model.getIndex());
+            task.setColorId(model.getColorId());
             taskRepository.save(task);
             return new IdResponseModel(taskID, null);
         }

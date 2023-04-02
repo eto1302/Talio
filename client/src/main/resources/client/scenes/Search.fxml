@@ -7,9 +7,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="265.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SearchCtrl">
+<AnchorPane prefHeight="265.0" prefWidth="400.0" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SearchCtrl">
    <children>
-      <Button fx:id="searchButton" layoutX="174.0" layoutY="207.0" mnemonicParsing="false" onAction="#search" text="Search" />
+      <Button fx:id="searchButton" layoutX="174.0" layoutY="207.0" mnemonicParsing="false" onAction="#search" styleClass="buttons" text="Search" />
       <TextField fx:id="inviteKeyField" layoutX="83.0" layoutY="131.0" prefHeight="26.0" prefWidth="237.0" />
       <Label layoutX="83.0" layoutY="107.0" text="Invite key:" />
       <Label layoutX="132.0" layoutY="21.0" text="Search for a board!">

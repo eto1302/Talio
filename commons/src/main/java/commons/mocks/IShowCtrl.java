@@ -16,5 +16,11 @@ public interface IShowCtrl {
 
     void refreshList(int listID);
 
+    Object addTaskColor(Color color);
+
+    void deleteTaskColor(Color color);
+
+    void editColor(Color color);
+
 //    void addTask(Task task);
 }

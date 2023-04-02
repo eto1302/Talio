@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 import commons.Board;
 import commons.mocks.IUserData;
 import commons.models.IdResponseModel;
+import commons.sync.ColorDeleted;
 
 import java.io.*;
 import java.util.HashMap;
@@ -45,16 +46,12 @@ public class UserData implements IUserData {
 
     /**
      * Message sender used for synchronization
-     * Injected by guice
      */
-    @Inject
     private MessageSender messageSender;
 
     /**
      * Message admin used for synchronization
-     * Injected by guice
      */
-    @Inject
     private MessageAdmin messageAdmin;
 
     /**
@@ -88,8 +85,12 @@ public class UserData implements IUserData {
         this.savePath.createNewFile();
         assert !savePath.isDirectory();
         loadFromDisk();
-
         BoardUpdate.setUserData(this);
+    }
+
+    public void setWsConfig(MessageAdmin messageAdmin, MessageSender messageSender) {
+        this.messageAdmin = messageAdmin;
+        this.messageSender = messageSender;
     }
 
     /**
@@ -197,6 +198,15 @@ public class UserData implements IUserData {
         return response;
     }
 
+    public IdResponseModel deleteColor(ColorDeleted colorDeleted) {
+        IdResponseModel response = colorDeleted.sendToServer(serverUtils);
+        if (response.getId() == -1)
+            return response;
+
+        messageSender.send(colorDeleted.getSendQueue(), colorDeleted);
+        return response;
+    }
+
     /**
      * @return the stage controller
      */
@@ -275,9 +285,4 @@ public class UserData implements IUserData {
         }
 
     }
-
-    public void subscribeToAdmin() {
-        messageAdmin.subscribe("/topic/admin");
-    }
-
 }

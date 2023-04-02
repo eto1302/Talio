@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.user.UserData;
 import client.utils.ServerUtils;
+import commons.Color;
 import commons.List;
 import commons.Subtask;
 import commons.Task;
@@ -31,7 +32,6 @@ public class AddTaskController {
     private VBox subtaskBox, tagBox;
     private List list;
 
-
     @Inject
     private UserData userData;
 
@@ -48,8 +48,11 @@ public class AddTaskController {
     public void addTask() {
         String title = this.title.getText();
         String description = this.descriptionField.getText();
+        int colorId = this.userData.getCurrentBoard().getColors()
+                .stream().filter(Color::getIsDefault).findFirst().get().getId();
         task.setTitle(title);
         task.setDescription(description);
+        task.setColorId(colorId);
         java.util.List<Task> tasks = server.getTaskByList(list.getId());
         task.setIndex(tasks.size());
 
@@ -60,7 +63,7 @@ public class AddTaskController {
             showCtrl.cancel();
             return;
         }
-
+        showCtrl.showBoard();
         showCtrl.cancel();
     }
 

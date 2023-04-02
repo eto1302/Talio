@@ -1,9 +1,12 @@
 package server.Services;
 
+import commons.Color;
 import commons.Tag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.api.TestBoardRepository;
 import server.api.TestTagRepository;
+import server.api.TestTaskRepository;
 
 import java.util.ArrayList;
 
@@ -11,13 +14,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TagServiceTest {
 
-    private TestTagRepository repo;
+    private TestTagRepository tagRepo;
+    private TestBoardRepository boardRepo;
+    private TestTaskRepository taskRepo;
     private TagService tagService;
 
     @BeforeEach
     void setUp() {
-        this.repo = new TestTagRepository();
-        tagService = new TagService(repo);
+        tagRepo = new TestTagRepository();
+        boardRepo = new TestBoardRepository();
+        taskRepo = new TestTaskRepository();
+        tagService = new TagService(tagRepo, taskRepo, boardRepo);
     }
 
     @Test
@@ -65,6 +72,6 @@ class TagServiceTest {
     }
 
     private static Tag getTestTag(String q) {
-        return Tag.create(q, "#000000");
+        return Tag.create(q, Color.create("#000000", "#FFFFFF"));
     }
 }
