@@ -22,8 +22,6 @@ public class TaskColorShape {
     @FXML
     private GridPane gridPane;
     @Inject
-    private UserData userData;
-    @Inject
     private ShowCtrl showCtrl;
     private Color color;
     private ColorService colorService;
@@ -68,5 +66,9 @@ public class TaskColorShape {
         }
         showCtrl.cancel();
         showCtrl.showColorPicker();
+    }
+
+    public void showEdit(){
+        this.showCtrl.showEditColor(color);
     }
 }
