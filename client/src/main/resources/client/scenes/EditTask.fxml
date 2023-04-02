@@ -55,15 +55,15 @@
                     <font>
                         <Font size="20.0" />
                     </font>
-               <padding>
-                  <Insets right="10.0" />
-               </padding>
+                    <padding>
+                        <Insets right="10.0" />
+                    </padding>
                 </Label>
                 <TextArea fx:id="descriptionField" prefHeight="81.0" prefWidth="503.0" text="No description yet" GridPane.columnSpan="4" GridPane.rowIndex="4" GridPane.rowSpan="2" />
-            <TextField fx:id="title" prefHeight="26.0" prefWidth="421.0" GridPane.columnSpan="4" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets left="80.0" />
-               </GridPane.margin></TextField>
+                <TextField fx:id="title" prefHeight="26.0" prefWidth="421.0" GridPane.columnSpan="4" GridPane.rowIndex="2">
+                    <GridPane.margin>
+                        <Insets left="80.0" />
+                    </GridPane.margin></TextField>
             </children>
         </GridPane>
         <GridPane style="-fx-padding: 15px; -fx-hgap: 5px;" GridPane.rowIndex="2">
@@ -91,23 +91,23 @@
                     <GridPane.margin>
                         <Insets />
                     </GridPane.margin></Button>
-            <Button mnemonicParsing="false" onAction="#showTaskColorPicker" styleClass="buttons" text="Change the color" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets right="50.0" top="10.0" />
-               </GridPane.margin>
-            </Button>
+                <Button mnemonicParsing="false" onAction="#showTaskColorPicker" styleClass="buttons" text="Change the color" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets right="50.0" top="10.0" />
+                    </GridPane.margin>
+                </Button>
             </children>
         </GridPane>
         <Line endX="160.0928955078125" endY="0.5928825736045837" startX="-100.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
-      <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel" styleClass="buttons" text="Cancel" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-         <GridPane.margin>
-            <Insets right="70.0" />
-         </GridPane.margin>
-      </Button>
-          <Button fx:id="save" mnemonicParsing="false" onAction="#save" styleClass="buttons" text="Save" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-              <GridPane.margin>
-                  <Insets right="10.0" />
-              </GridPane.margin>
-      </Button>
+        <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel" styleClass="buttons" text="Cancel" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets right="70.0" />
+            </GridPane.margin>
+        </Button>
+        <Button fx:id="save" mnemonicParsing="false" onAction="#save" styleClass="buttons" text="Save" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets right="10.0" />
+            </GridPane.margin>
+        </Button>
     </children>
 </GridPane>

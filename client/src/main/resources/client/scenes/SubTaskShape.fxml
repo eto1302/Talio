@@ -9,23 +9,23 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <GridPane fx:id="grid" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SubTaskShapeCtrl">
-  <columnConstraints>
-    <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="35.40004692077637" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="380.0" minWidth="10.0" prefWidth="310.5999530792236" />
-    <ColumnConstraints hgrow="NEVER" maxWidth="58.99998779296874" minWidth="0.0" prefWidth="20.59996337890624" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <CheckBox fx:id="checkbox" mnemonicParsing="false" onMouseReleased="#changeSelected" prefHeight="18.0" prefWidth="14.0" wrapText="true">
-         <padding>
-            <Insets left="5.0" />
-         </padding></CheckBox>
-      <Hyperlink alignment="CENTER" contentDisplay="CENTER" onAction="#remove" text="X" textAlignment="RIGHT" textFill="#130404" GridPane.columnIndex="2" GridPane.halignment="LEFT">
-         <GridPane.margin>
-            <Insets right="5.0" />
-         </GridPane.margin></Hyperlink>
-      <Label fx:id="description" prefHeight="18.0" prefWidth="314.0" text="Label" GridPane.columnIndex="1" />
-   </children>
+    <columnConstraints>
+        <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="35.40004692077637" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="380.0" minWidth="10.0" prefWidth="310.5999530792236" />
+        <ColumnConstraints hgrow="NEVER" maxWidth="58.99998779296874" minWidth="0.0" prefWidth="20.59996337890624" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <CheckBox fx:id="checkbox" mnemonicParsing="false" onMouseReleased="#changeSelected" prefHeight="18.0" prefWidth="14.0" wrapText="true">
+            <padding>
+                <Insets left="5.0" />
+            </padding></CheckBox>
+        <Hyperlink alignment="CENTER" contentDisplay="CENTER" onAction="#remove" text="X" textAlignment="RIGHT" textFill="#130404" GridPane.columnIndex="2" GridPane.halignment="LEFT">
+            <GridPane.margin>
+                <Insets right="5.0" />
+            </GridPane.margin></Hyperlink>
+        <Label fx:id="description" prefHeight="18.0" prefWidth="314.0" text="Label" GridPane.columnIndex="1" />
+    </children>
 </GridPane>

@@ -49,6 +49,11 @@ public class SubtaskController {
         List<Subtask> subtasks = subtaskService.getAllSubtasks();
         return ResponseEntity.ok(subtasks);
     }
+    @GetMapping("/getOrdered/{taskId}")
+    @ResponseBody
+    public List<Subtask> getSubtasksOrdered(@PathVariable int taskId){
+        return subtaskService.getSubtasksOrdered(taskId);
+    }
 
     @GetMapping("/delete/{taskID}/{subtaskID}")
     public IdResponseModel removeSubtask(@PathVariable int taskID, @PathVariable int subtaskID){

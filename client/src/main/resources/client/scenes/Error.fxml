@@ -2,15 +2,15 @@
 
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ErrorController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ErrorController">
    <children>
-      <Button fx:id="error_ok" layoutX="252.0" layoutY="141.0" mnemonicParsing="false" onAction="#cancel" text="ok" />
+      <Button fx:id="error_ok" layoutX="223.0" layoutY="140.0" mnemonicParsing="false" onAction="#cancel" text="ok" />
       <Group layoutX="58.0" layoutY="53.0">
          <children>
             <Circle fill="RED" radius="26.0" stroke="#ff0000" strokeType="INSIDE" />
@@ -18,10 +18,10 @@
             <Line endX="-3.200023651123047" endY="-27.200008392333984" layoutX="4.0" layoutY="12.0" rotate="-45.0" startX="-3.200023651123047" startY="3.20001220703125" stroke="WHITE" strokeWidth="6.0" />
          </children>
       </Group>
-      <Text fx:id="errorMessage" layoutX="124.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opps... Something goes wrong...">
+      <Label fx:id="errorMessage" layoutX="117.0" layoutY="42.0" text="Oops...Something goes wrong" wrapText="true">
          <font>
-            <Font size="20.0" />
+            <Font size="16.0" />
          </font>
-      </Text>
+      </Label>
    </children>
 </AnchorPane>
