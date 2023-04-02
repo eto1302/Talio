@@ -40,7 +40,8 @@ public class ColorPicker {
 
     public void save(){
         IdResponseModel responseModel = colorService.editColor(
-                boardFont.getValue(), boardBackground.getValue());
+                -1,
+                boardFont.getValue(), boardBackground.getValue(), false);
 
         if(responseModel.getId() == -1){
             showCtrl.showError(responseModel.getErrorMessage());
@@ -48,8 +49,8 @@ public class ColorPicker {
             return;
         }
 
-        responseModel = colorService.editColor(
-                listFont.getValue(), listBackground.getValue());
+        responseModel = colorService.editColor(-2,
+                listFont.getValue(), listBackground.getValue(), false);
 
         if(responseModel.getId() == -1){
             showCtrl.showError(responseModel.getErrorMessage());
