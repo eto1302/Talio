@@ -43,10 +43,15 @@ public class ColorPicker {
         commons.Color listColor = commons.Color.create(
                 colorToHex(listFont.getValue()), colorToHex(listBackground.getValue()));
 
+        boolean boardDefault = boardColor.getBackgroundColor().equals("#FFFFFF")
+                && boardColor.getFontColor().equals("#000000");
+        boolean listDefault = listColor.getBackgroundColor().equals("#FFFFFF")
+                && listColor.getFontColor().equals("#000000");
+
         ColorEditModel boardColorEdit = new ColorEditModel(
-                boardColor.getBackgroundColor(), boardColor.getFontColor(), false);
+                boardColor.getBackgroundColor(), boardColor.getFontColor(), boardDefault);
         ColorEditModel listColorEdit = new ColorEditModel(
-                listColor.getBackgroundColor(), listColor.getFontColor(), false);
+                listColor.getBackgroundColor(), listColor.getFontColor(), listDefault);
 
 
         IdResponseModel boardModel = userData.updateBoard(new ColorEdited(

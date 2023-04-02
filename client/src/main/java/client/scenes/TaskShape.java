@@ -68,7 +68,7 @@ public class TaskShape {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
-                    if (event.getClickCount()==1) {
+                    if (event.getClickCount()==2) {
                         setTaskUpdated();
                         showCtrl.showEditTask(task, controller);
                     }
