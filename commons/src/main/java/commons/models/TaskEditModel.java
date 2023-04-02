@@ -8,11 +8,14 @@ public class TaskEditModel {
     private List list;
     private int index;
 
-    public TaskEditModel(String title, String description, int index, List list){
+    private int colorId;
+
+    public TaskEditModel(String title, String description, int index, List list, int colorId){
         this.title = title;
         this.description = description;
         this.list=list;
         this.index=index;
+        this.colorId = colorId;
     }
 
     public TaskEditModel() {}
@@ -47,6 +50,14 @@ public class TaskEditModel {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public int getColorId() {
+        return colorId;
+    }
+
+    public void setColorId(int colorId) {
+        this.colorId = colorId;
     }
 
     @Override

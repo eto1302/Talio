@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane id="grid" fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="99.0" prefWidth="178.0" style="-fx-padding: 2px; -fx-border-color: gray;" styleClass="taskGrid"  xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskShape">
+<GridPane id="grid" fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="99.0" prefWidth="178.0" style="-fx-padding: 2px; -fx-border-color: gray; -fx-background-color: FFFFFF;" styleClass="taskGrid" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskShape">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="235.79998779296875" />
     <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="27.800012207031244" />

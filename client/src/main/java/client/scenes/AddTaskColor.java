@@ -25,7 +25,7 @@ public class AddTaskColor {
     public void add() {
         Color color = Color.create(colorToHex(backgroundColor.getValue()),
                 colorToHex(fontColor.getValue()));
-
+        if(this.userData.getCurrentBoard().getColors().size() == 2) color.setIsDefault(true);
         IdResponseModel model = userData.updateBoard(new ColorAdded(
                 this.userData.getCurrentBoard().getId(), color));
         userData.openBoard(this.userData.getCurrentBoard().getId());

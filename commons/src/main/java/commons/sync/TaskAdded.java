@@ -48,6 +48,6 @@ public class TaskAdded extends BoardUpdate {
         commons.List list = data.getCurrentBoard().getLists().stream()
                 .filter(e -> e.getId() == listID).findFirst().orElse(null);
         list.getTasks().add(task);
-        data.getShowCtrl().addTask(task, list);
+        //data.getShowCtrl().addTask(task, list);
     }
 }
