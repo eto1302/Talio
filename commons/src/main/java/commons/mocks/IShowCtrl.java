@@ -28,4 +28,8 @@ public interface IShowCtrl {
     void addTagToTask(Tag tag,Task task);
 
     void addTag(Tag tag);
+
+    void deleteTag(Tag tag);
+
+    void editTag(Tag tag);
 }

@@ -1,10 +1,12 @@
 package commons.models;
 
+import commons.Color;
+
 public class TagEditModel {
     private String name;
-    private String color;
+    private Color color;
 
-    public TagEditModel(String name, String color){
+    public TagEditModel(String name, Color color){
         this.name = name;
         this.color = color;
     }
@@ -19,11 +21,11 @@ public class TagEditModel {
         this.name = name;
     }
 
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
@@ -31,7 +33,7 @@ public class TagEditModel {
     public String toString() {
         return "TagEditModel{" +
             "name='" + name + '\'' +
-            ", color='" + color + '\'' +
+            ", color='" + color.toString() + '\'' +
             '}';
     }
 }

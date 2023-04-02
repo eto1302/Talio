@@ -4,10 +4,7 @@ import commons.Color;
 import commons.List;
 import commons.Tag;
 import commons.Task;
-import commons.models.BoardEditModel;
-import commons.models.ColorEditModel;
-import commons.models.IdResponseModel;
-import commons.models.ListEditModel;
+import commons.models.*;
 
 public interface IServerUtils {
 
@@ -38,4 +35,9 @@ public interface IServerUtils {
     IdResponseModel addTagToTask(Tag tag, int taskId);
 
     IdResponseModel addTagToBoard(Tag tag, int boardId);
+
+    IdResponseModel removeTag(int tagID);
+
+    IdResponseModel editTag(int tagID, TagEditModel model);
 }
+

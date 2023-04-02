@@ -56,6 +56,7 @@ public class EditTaskController {
             }
         }
 //        java.util.List<Tag> tags = task.getTags();
+        cleanTagBox();
         java.util.List<Tag> tags = server.getTagByTask(task.getId());
         if(tags != null) {
             for(Tag tag: tags){
@@ -117,5 +118,9 @@ public class EditTaskController {
 
     public Task getTask() {
         return task;
+    }
+
+    private void cleanTagBox(){
+        tagBox.getChildren().remove(0, tagBox.getChildren().size());
     }
 }

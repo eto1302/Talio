@@ -9,6 +9,7 @@ import commons.Task;
 import commons.models.IdResponseModel;
 import commons.sync.ListAdded;
 import commons.sync.TagAddedToTask;
+import commons.sync.TagDeleted;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -46,11 +47,6 @@ public class TagShapeController<T> {
         taskController = s;
     }
 
-    //    @Inject
-//    public TagShapeController(ShowCtrl showCtrl, ServerUtils serverUtils){
-//        this.showCtrl = showCtrl;
-//        this.serverUtils = serverUtils;
-//    }
 
     public Scene getSceneUpdated(Tag tag){
         this.tag = tag;
@@ -73,7 +69,7 @@ public class TagShapeController<T> {
     }
 
     public void handleDelete(){
-        System.out.println("delete trigger");
+        IdResponseModel id = userData.updateBoard(new TagDeleted(tag.getBoardId(), tag));
     }
 
     public void handleHighlight(){
@@ -99,7 +95,7 @@ public class TagShapeController<T> {
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
                     if (event.getClickCount() == 2) {
-                        System.out.println("edit trigger");
+                        showCtrl.showEditTag(tag);
                         return;
                     } else if (event.getClickCount()==1 && taskController != null) {
                         System.out.println("add trigger");
@@ -121,5 +117,4 @@ public class TagShapeController<T> {
         java.util.List<Tag> tags = serverUtils.getTagByTask(task.getId());
         return tags.contains(tag);
     }
-
 }

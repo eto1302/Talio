@@ -160,17 +160,6 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.show();
     }
 
-    public void showAddTag(){
-        popUpStage = new Stage();
-        var addTagPair = FXML.load(AddTagController.class,
-                "client", "scenes", "AddTag.fxml");
-        Scene addTagScene = new Scene(addTagPair.getValue());
-
-        popUpStage.setScene(addTagScene);
-        popUpStage.setTitle("Add a tag");
-        popUpStage.show();
-    }
-
     public void showAddSubTask(Task task) {
         popUpStage = new Stage();
         var addSubtaskPair = FXML.load(AddSubTaskController.class,
@@ -331,6 +320,30 @@ public class ShowCtrl implements IShowCtrl {
         editTaskController.putSubtask(subTaskScene);
     }
 
+    public void showAddTag(){
+        popUpStage = new Stage();
+        var addTagPair = FXML.load(AddTagController.class,
+                "client", "scenes", "AddTag.fxml");
+        Scene addTagScene = new Scene(addTagPair.getValue());
+
+        popUpStage.setScene(addTagScene);
+        popUpStage.setTitle("Add a tag");
+        popUpStage.show();
+    }
+
+    public void showEditTag(Tag tag){
+        popUpStage = new Stage();
+        var editTagPair = FXML.load(EditTagController.class,
+                "client", "scenes", "EditTag.fxml");
+        Scene editTagScene = new Scene(editTagPair.getValue());
+        EditTagController ctrl = editTagPair.getKey();
+        ctrl.setTag(tag);
+
+        popUpStage.setScene(editTagScene);
+        popUpStage.setTitle("edit a tag");
+        popUpStage.show();
+    }
+
     public void showTagOverview(Board board){
         assert board != null;
         secondaryStage = new Stage();
@@ -345,14 +358,30 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     public void deleteTag(Tag tag) {
+        refreshTags(tag);
+    }
+
+    public void editTag(Tag tag){
+        refreshTags(tag);
+    }
+
+    private void refreshTags(Tag tag){
         tagOverviewController.refresh();
         editTaskController.refresh();
+        refreshAllTasks();
         //TODO: add or empty check when changed to list
-        if(tag.getTask() == null){
-            //TODO: change to list impl.
-            TaskShape ts = boardController.findTaskController(tag.getTask());
-            ts.updateScene(tag.getTask());
-        }
+//        if(tag.getTask() != null){
+//            //TODO: change to list impl.
+//            TaskShape ts = boardController.findTaskController(tag.getTask());
+//            ts.updateScene(tag.getTask());
+//        }
+    }
+
+    private void refreshAllTasks(){
+        //TODO: change to better impl, only way to do this for now since there is no way to get a task from a tag
+        boardController.getListControllers().stream()
+                .flatMap(l -> l.getTaskControllers().stream())
+                .forEach(t -> t.refreshTagMarkers(t.getTask()));
     }
 
     public void showAddTagToTask(EditTaskController c){
