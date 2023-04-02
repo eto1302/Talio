@@ -78,6 +78,10 @@ public class Main extends Application {
                 TaskColorPicker.class, "client", "scenes", "TaskColorPicker.fxml");
         var editColor= FXML.load(
                 EditColor.class, "client", "scenes", "EditColor.fxml");
+        var unlockBoard = FXML.load(
+                UnlockBoardController.class, "client", "scenes", "UnlockBoard.fxml");
+        var lockBoard = FXML.load(
+                LockBoardController.class, "client", "scenes", "LockBoard.fxml");
 
         loader.add(home);
         loader.add(addList);
@@ -94,5 +98,7 @@ public class Main extends Application {
         loader.add(help);
         loader.add(taskColorPicker);
         loader.add(editColor);
+        loader.add(unlockBoard);
+        loader.add(lockBoard);
     }
 }

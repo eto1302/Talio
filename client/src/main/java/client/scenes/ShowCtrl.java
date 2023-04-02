@@ -26,7 +26,7 @@ public class ShowCtrl implements IShowCtrl {
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, board, taskOverview, connection,
             addBoard, editTask, errorScene, admin, editBoard, colorPicker,
-            addTaskColor, help, taskColorPicker, editColor;
+            addTaskColor, help, taskColorPicker, editColor, unlockBoard, lockBoard;
     private AddListController addListCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
@@ -43,6 +43,8 @@ public class ShowCtrl implements IShowCtrl {
     private Map<Integer, ListShapeCtrl> listControllers;
     private HelpCtrl helpCtrl;
     private EditColor editColorController;
+    private UnlockBoardController unlockBoardController;
+    private LockBoardController lockBoardController;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
         this.primaryStage = primaryStage;
@@ -76,6 +78,10 @@ public class ShowCtrl implements IShowCtrl {
         taskColorPickerController = (TaskColorPicker) loader.get(13).getKey();
         editColor = new Scene((Parent) loader.get(14).getValue());
         editColorController = (EditColor) loader.get(14).getKey();
+        unlockBoard = new Scene((Parent) loader.get(15).getValue());
+        unlockBoardController = (UnlockBoardController) loader.get(15).getKey();
+        lockBoard = new Scene((Parent) loader.get(16).getValue());
+        lockBoardController = (LockBoardController) loader.get(16).getKey();
 
         setUpKeys();
 
@@ -420,6 +426,23 @@ public class ShowCtrl implements IShowCtrl {
         editBoardController.setup();
         secondaryStage.show();
     }
+
+    public void showUnlockBoard() {
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Unlock Board");
+        secondaryStage.setScene(this.unlockBoard);
+        secondaryStage.setResizable(false);
+        secondaryStage.show();
+    }
+
+    public void showLockBoard() {
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Lock Board");
+        secondaryStage.setScene(this.lockBoard);
+        secondaryStage.setResizable(false);
+        secondaryStage.show();
+    }
+
     public void refreshBoardCtrl() {
         boardController.refresh();
     }

@@ -8,10 +8,12 @@ import commons.models.IdResponseModel;
 import commons.sync.BoardDeleted;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.geometry.Bounds;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.Lighting;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -32,6 +34,8 @@ public class BoardController {
     private HBox listBox;
     @FXML
     private GridPane boardBox;
+    @FXML
+    private ImageView lockIcon;
     @FXML
     private ScrollPane scrollPane;
     private final ShowCtrl showCtrl;
@@ -139,7 +143,6 @@ public class BoardController {
         showCtrl.showConnection();
     }
 
-
     public void showEditBoard() { showCtrl.showEditBoard();}
 
     public void delete() {
@@ -156,6 +159,18 @@ public class BoardController {
         else{
             showCtrl.showYourBoards();
         }
+    }
+
+    public void lockHoverOn() {
+        ((Lighting) lockIcon.getEffect()).getLight().setColor(Color.valueOf("#FFFFFF"));
+    }
+
+    public void lockHoverOff() {
+        ((Lighting) lockIcon.getEffect()).getLight().setColor(Color.valueOf("#000000"));
+    }
+
+    public void manageLock() {
+        showCtrl.showLockBoard();
     }
 
     public void movement(KeyEvent event){
