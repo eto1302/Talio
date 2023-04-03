@@ -10,7 +10,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="client.scenes.AddTaskColor">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="client.scenes.EditColor">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
@@ -21,7 +21,7 @@
         <RowConstraints maxHeight="166.0" minHeight="10.0" prefHeight="159.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label text="Add Tag Color" GridPane.halignment="CENTER">
+        <Label text="Edit Color" GridPane.halignment="CENTER">
             <font>
                 <Font size="17.0" />
             </font>
@@ -55,6 +55,6 @@
                 <Color />
             </value>
         </ColorPicker>
-        <Button alignment="CENTER" mnemonicParsing="false" onAction="#add" text="Add Tag Color" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <Button alignment="CENTER" mnemonicParsing="false" onAction="#edit" text="Add Tag Color" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
     </children>
 </GridPane>

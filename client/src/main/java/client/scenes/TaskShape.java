@@ -2,11 +2,13 @@ package client.scenes;
 
 import client.user.UserData;
 import client.utils.ServerUtils;
+import commons.Color;
 import commons.List;
 import commons.Subtask;
 import commons.Task;
 import commons.models.TaskEditModel;
 import commons.sync.TaskDeleted;
+import commons.sync.TaskEdited;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
@@ -14,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
@@ -36,6 +39,7 @@ public class TaskShape {
     private UserData userData;
     private boolean selected;
     private String style;
+    private TextField text;
 
     @Inject
     public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
@@ -113,6 +117,23 @@ public class TaskShape {
             }
         }
         subtaskProgress.setText(done + "/" + subtasks.size());
+        Color taskColor = this.server.getColor(task.getColorId());
+        if(taskColor == null){
+            int defaultColorId = this.userData.getCurrentBoard().getColors()
+                    .stream().filter(Color::getIsDefault).findFirst().get().getId();
+            this.task.setColorId(defaultColorId);
+
+            List list = this.server.getList(this.task.getListID());
+            TaskEditModel edit = new TaskEditModel(task.getTitle(), task.getDescription(),
+                    task.getIndex(), list, task.getColorId());
+
+            userData.updateBoard(new TaskEdited(list.getBoardId(), list.getId(),
+                    task.getId(), edit));
+            taskColor = server.getColor(defaultColorId);
+        }
+        title.setTextFill(javafx.scene.paint.Color.web(taskColor.getFontColor()));
+        grid.setStyle("-fx-padding: 2px; -fx-border-color: gray; " +
+                "-fx-background-color: " + taskColor.getBackgroundColor() +";");
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
     }
@@ -145,8 +166,8 @@ public class TaskShape {
     /**
      * Sets the information of the list and task. Sets the methods for the dragging and dropping
      * for the ordering tasks feature
-//     * @param id the id of the task
-//     * @param list the task's list
+     //     * @param id the id of the task
+     //     * @param list the task's list
      */
     public void set(Task task, ListShapeCtrl listShapeCtrl){
         this.task = task;
@@ -213,15 +234,12 @@ public class TaskShape {
         Dragboard dragboard = event.getDragboard();
         Object source = event.getGestureSource();
         boolean done=false;
-
         String identify = dragboard.getString();
         int taskId = Integer.parseInt(identify.split("\\+")[0].trim());
         int previousListId = Integer.parseInt(identify.split("\\+")[1].trim());
-
         task =server.getTask(task.getId());
         Task previousTask = server.getTask(taskId);
         List currentlist = server.getList(task.getListID());
-
         if (dragboard.hasString() && previousListId==task.getListID()){
             VBox parent = (VBox) grid.getParent();
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
@@ -244,7 +262,8 @@ public class TaskShape {
             int newIndex= parent.getChildren().indexOf((GridPane) source);
 
             TaskEditModel model = new TaskEditModel(previousTask.getTitle(),
-                    previousTask.getDescription(), newIndex, currentlist);
+                    previousTask.getDescription(), newIndex, currentlist,
+                    previousTask.getColorId());
             server.editTask(taskId, model);
 
             currentlist.getTasks().add(previousTask);
@@ -279,7 +298,7 @@ public class TaskShape {
         for (int i=0; i<tasksToReorder.size(); i++){
             Task taskIndex = tasksToReorder.get(i);
             TaskEditModel model = new TaskEditModel(taskIndex.getTitle(),
-                    taskIndex.getDescription(), i, list);
+                    taskIndex.getDescription(), i, list, taskIndex.getColorId());
             server.editTask(taskIndex.getId(), model);
         }
     }
@@ -308,10 +327,50 @@ public class TaskShape {
         }
     }
 
-    public void orderWithKeyEvent(){
+    public void orderWithKeyEvent(int index, String direction){
+        VBox parent = (VBox) grid.getParent();
+        ArrayList<Node> children = new ArrayList<>(parent.getChildren());
+        ArrayList<Task> orderedTasks =
+                (ArrayList<Task>) server.getTasksOrdered(task.getListID());
+        var controllers = controller.getTaskControllers();
+        List list = server.getList(task.getListID());
 
+        if (direction.equals("up") && index!=0){
+            Collections.rotate(children.subList(index-1, index+1), 1);
+            Collections.rotate(controllers.subList(index-1, index+1), 1);
+            Collections.rotate(orderedTasks.subList(index-1, index+1), 1);
+        }
+        if (direction.equals("down") && index!=children.size()-1){
+            Collections.rotate(children.subList(index, index+2), 1);
+            Collections.rotate(controllers.subList(index, index+2), 1);
+            Collections.rotate(orderedTasks.subList(index, index+2), 1);
+        }
+        reorderTasks(orderedTasks, list);
+        parent.getChildren().clear();
+        parent.getChildren().addAll(children);
     }
 
 
+    public void editOnKey() {
+        int index = ((VBox) grid.getParent()).getChildren().indexOf(grid);
+        TaskEditModel model = new TaskEditModel(text.getText(), task.getDescription(),
+                index, controller.getList(), task.getColorId());
+        task.setTitle(model.getTitle());
+        server.editTask(task.getId(), model);
 
+        title.setGraphic(null);
+        title.setText(model.getTitle());
+    }
+
+    public void makeEditable() {
+        text = new TextField();
+        text.setPrefWidth(80);
+
+        text.setText(task.getTitle());
+        title.setGraphic(text);
+        title.setText("");
+
+        text.end();
+        text.requestFocus();
+    }
 }

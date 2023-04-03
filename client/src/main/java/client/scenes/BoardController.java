@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class BoardController {
     private LinkedList<ListShapeCtrl> listControllers;
     private ListShapeCtrl selectedList=null;
     private TaskShape selectedTask=null;
+    private boolean editable = false;
 
     @Inject
     private UserData userData;
@@ -75,7 +77,6 @@ public class BoardController {
         listControllers.clear();
 
         List<commons.List> lists;
-        java.util.List<commons.Task> tasks;
 
         try {
             userData.refresh();
@@ -87,7 +88,7 @@ public class BoardController {
 
         for (commons.List list : lists) {
             showCtrl.addList(list);
-            
+
             List<Task> orderedTasks = server.getTasksOrdered(list.getId());
             for(Task task: orderedTasks){
                 showCtrl.addTask(task, list);
@@ -162,18 +163,95 @@ public class BoardController {
             find();
 
         KeyCode key = event.getCode();
-        if (selectedTask!=null) {
+        if (selectedTask!=null && !event.isShiftDown() && !editable) {
             int index = selectedList.getTaskControllers().indexOf(selectedTask);
+            switchCase(key, index);
+        }
+
+        else if (selectedTask!=null && !editable){
+            int index = selectedList.getTaskControllers().indexOf(selectedTask);
+            TaskShape copy = selectedTask;
+
             switch (key){
-                case DOWN, KP_DOWN, S -> down(index);
-                case UP, KP_UP, W -> up(index);
-                case LEFT, KP_LEFT, A -> left();
-                case RIGHT, KP_RIGHT, D-> right();
-                case DELETE, BACK_SPACE -> selectedTask.deleteOnKey();
-                case ENTER -> showCtrl.showEditTask(selectedTask.getTask(), selectedList);
+                case DOWN:
+                case KP_DOWN:
+                case S:
+                    selectedTask.orderWithKeyEvent(index, "down");
+                    if (index!=selectedList.getTaskControllers().size()-1) {
+                        selectedTask = selectedList.getTaskControllers().get(index + 1);
+                        selectedList.updateScrollPane(index+1);
+                    } else selectedTask=copy;
+                    selectedTask.setStatus(true);
+                    break;
+
+                case UP:
+                case KP_UP:
+                case W:
+                    selectedTask.orderWithKeyEvent(index, "up");
+                    if (index!=0) {
+                        selectedTask = selectedList.getTaskControllers().get(index - 1);
+                        selectedList.updateScrollPane(index);
+                    }
+                    else selectedTask=copy;
+                    selectedTask.setStatus(true);
+                    break;
+
             }
         }
+
+        else if (editable)
+            if (key==KeyCode.ENTER) {
+                editable=false;
+                selectedTask.editOnKey();
+                grid.requestFocus();
+            }
     }
+
+
+    private void switchCase(KeyCode key, int index){
+        switch (key){
+            case DOWN:
+            case KP_DOWN:
+            case S:
+                down(index);
+                break;
+            case UP:
+            case KP_UP:
+            case W:
+                up(index);
+                break;
+            case LEFT:
+            case KP_LEFT:
+            case A:
+                left();
+                break;
+            case RIGHT:
+            case KP_RIGHT:
+            case D:
+                right();
+                break;
+            case DELETE:
+            case BACK_SPACE:
+                selectedTask.deleteOnKey();
+                break;
+            case ENTER:
+                showCtrl.showEditTask(selectedTask.getTask(), selectedList);
+                break;
+            case E:
+                editable=true;
+                selectedTask.makeEditable();
+                break;
+            case C:
+                //show color preset
+                break;
+            case T:
+                //show tag
+                break;
+        }
+    }
+
+
+
 
     private void down(int index){
         selectedTask.setStatus(false);
@@ -253,7 +331,6 @@ public class BoardController {
     }
 
     public void reset(){
-        selectedList=null;
         selectedTask=null;
     }
 
@@ -267,7 +344,11 @@ public class BoardController {
         scrollPane.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                movement(event);
+                List<KeyCode> arrows = Arrays.asList(KeyCode.DOWN, KeyCode.KP_DOWN, KeyCode.UP,
+                        KeyCode.KP_UP, KeyCode.LEFT, KeyCode.KP_LEFT,
+                        KeyCode.RIGHT, KeyCode.KP_RIGHT);
+                if (arrows.contains(event.getCode()) && !event.isShiftDown())
+                    movement(event);
             }
         });
     }

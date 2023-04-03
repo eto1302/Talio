@@ -116,8 +116,16 @@ public class ServerUtils implements IServerUtils {
     }
 
     @Override
-    public IdResponseModel deleteColor(int boardID, int colorId) {
-        return null;
+    public IdResponseModel deleteColor(int boardId, int colorId) {
+        try {
+            ResponseEntity<IdResponseModel> response = client.getForEntity(
+                    url+"color/delete/"+boardId+"/"+colorId,
+                    IdResponseModel.class
+            );
+            return response.getBody();
+        } catch (Exception e) {
+            return new IdResponseModel(-1, "Oops, failed to connect to server...");
+        }
     }
 
     @Override
@@ -255,11 +263,11 @@ public class ServerUtils implements IServerUtils {
 
     /**
      *
-     * Edit the name, background color and font color of a list.
+     * Edit the name of a list.
      *
      * @param boardId id of the board
      * @param listId id of the list
-     * @param model  name and color information of the modified list
+     * @param model  name information of the modified list
      * @return
      */
     public IdResponseModel editList(int boardId, int listId, ListEditModel model) {
@@ -340,7 +348,7 @@ public class ServerUtils implements IServerUtils {
         try{
             HttpEntity<commons.Task> req = new HttpEntity<>(task);
             IdResponseModel id = client.postForObject(
-                url + "task/add/" + listID, req, IdResponseModel.class);
+                    url + "task/add/" + listID, req, IdResponseModel.class);
             return id;
         }
         catch(Exception e){
@@ -357,8 +365,8 @@ public class ServerUtils implements IServerUtils {
     public IdResponseModel removeTask(int taskID, int listID){
         try{
             ResponseEntity<IdResponseModel> response = client.getForEntity(
-                url+"task/remove/"+taskID+"/"+listID,
-                IdResponseModel.class);
+                    url+"task/remove/"+taskID+"/"+listID,
+                    IdResponseModel.class);
             return response.getBody();
         }
         catch (Exception e){
@@ -376,7 +384,7 @@ public class ServerUtils implements IServerUtils {
         try {
             HttpEntity<TaskEditModel> req = new HttpEntity<>(model);
             ResponseEntity<IdResponseModel> response = client.postForEntity(
-                url + "task/edit/" + taskID, req, IdResponseModel.class
+                    url + "task/edit/" + taskID, req, IdResponseModel.class
             );
             return response.getBody();
         }
@@ -393,7 +401,7 @@ public class ServerUtils implements IServerUtils {
     public commons.Task getTask(int id) {
         try {
             ResponseEntity<commons.Task> response = client.getForEntity(
-                url + "task/get/" + id, commons.Task.class
+                    url + "task/get/" + id, commons.Task.class
             );
             return response.getBody();
         } catch (Exception e) {
@@ -442,8 +450,8 @@ public class ServerUtils implements IServerUtils {
     public java.util.List<commons.Task> getTaskByList(int listID) {
         try {
             ResponseEntity<java.util.List<commons.Task>> response = client.exchange(
-                url+"task/getByList/" + listID, HttpMethod.GET, null,
-                new ParameterizedTypeReference<java.util.List<commons.Task>>() {}
+                    url+"task/getByList/" + listID, HttpMethod.GET, null,
+                    new ParameterizedTypeReference<java.util.List<commons.Task>>() {}
             );
 
             // return the task if the request succeeded
@@ -541,7 +549,7 @@ public class ServerUtils implements IServerUtils {
                 new ParameterizedTypeReference<>(){} );
 
         if (response.getStatusCode().is2xxSuccessful())
-             return response.getBody();
+            return response.getBody();
         else if (response.getStatusCode().equals(HttpStatus.BAD_REQUEST))
             throw new NoSuchElementException("No such task id");
 
@@ -552,7 +560,7 @@ public class ServerUtils implements IServerUtils {
         try{
             HttpEntity<Tag> req = new HttpEntity<>(tag);
             IdResponseModel id = client.postForObject(
-                url + "tag/addToTask/" + taskID, req, IdResponseModel.class);
+                    url + "tag/addToTask/" + taskID, req, IdResponseModel.class);
             return id;
         }
         catch(Exception e){
@@ -564,7 +572,7 @@ public class ServerUtils implements IServerUtils {
         try{
             HttpEntity<Tag> req = new HttpEntity<>(tag);
             IdResponseModel id = client.postForObject(
-                url + "tag/addToBoard/" + boardID, req, IdResponseModel.class);
+                    url + "tag/addToBoard/" + boardID, req, IdResponseModel.class);
             return id;
         }
         catch(Exception e){
@@ -576,7 +584,7 @@ public class ServerUtils implements IServerUtils {
         try{
             HttpEntity<TagEditModel> req = new HttpEntity<>(model);
             ResponseEntity<IdResponseModel> response = client.postForEntity(
-                url + "tag/edit/" + tagID, req, IdResponseModel.class);
+                    url + "tag/edit/" + tagID, req, IdResponseModel.class);
             return response.getBody();
         }
         catch (Exception e){
@@ -587,7 +595,7 @@ public class ServerUtils implements IServerUtils {
     public IdResponseModel removeTag(int tagID){
         try{
             ResponseEntity<IdResponseModel> response = client.getForEntity(
-                url + "/tag/remove/" + tagID, IdResponseModel.class);
+                    url + "/tag/remove/" + tagID, IdResponseModel.class);
             return response.getBody();
         }
         catch(Exception e){
@@ -603,7 +611,7 @@ public class ServerUtils implements IServerUtils {
     public Tag getTag(int id){
         try{
             ResponseEntity<Tag> response = client.getForEntity(
-                url + "/tag/get/" + id, Tag.class);
+                    url + "/tag/get/" + id, Tag.class);
             return response.getBody();
         }
         catch (Exception e){
@@ -619,8 +627,8 @@ public class ServerUtils implements IServerUtils {
     public java.util.List<Tag> getTagByTask(int taskID) {
         try {
             ResponseEntity<java.util.List<commons.Tag>> response = client.exchange(
-                url+"task/getByTask/" + taskID, HttpMethod.GET, null,
-                new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
+                    url+"task/getByTask/" + taskID, HttpMethod.GET, null,
+                    new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
             );
 
             // return the tag if the request succeeded
@@ -649,8 +657,8 @@ public class ServerUtils implements IServerUtils {
     public java.util.List<Tag> getTagByBoard(int boardID) {
         try {
             ResponseEntity<java.util.List<commons.Tag>> response = client.exchange(
-                url+"task/getByTask/" + boardID, HttpMethod.GET, null,
-                new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
+                    url+"task/getByTask/" + boardID, HttpMethod.GET, null,
+                    new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
             );
 
             // return the tag if the request succeeded

@@ -27,9 +27,12 @@ public class ColorService {
     }
 
 
-    public IdResponseModel deleteColor(int colorId) {
+    public IdResponseModel deleteColor(int boardId, int colorId) {
         try {
-            colorRepository.deleteById(colorId);
+            Board board = boardRepository.getById(boardId);
+            Color color = colorRepository.getById(colorId);
+            board.getColors().remove(color);
+            colorRepository.delete(color);
             return new IdResponseModel(colorId, null);
         } catch (Exception e) {
             return new IdResponseModel(-1, e.getMessage());

@@ -5,7 +5,6 @@ import com.google.inject.Binder;
 import com.google.inject.Module;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
@@ -22,6 +21,8 @@ public class WSClientModule implements Module {
      * "host/ws"
      */
     private String wsUrl = "ws://localhost:8080/ws";
+    private static WebSocketStompClient wsStompClient;
+    private static MessageSessionHandler handler;
 
     @Override
     public void configure(Binder binder) {
@@ -31,7 +32,7 @@ public class WSClientModule implements Module {
          * message converter -> MappingJackson2MessageConverter: converts json to our classes
          * task scheduler -> ThreadPoolTaskScehduler: needed for receipts
          */
-        WebSocketStompClient wsStompClient = new
+        this.wsStompClient = new
                 WebSocketStompClient(new StandardWebSocketClient());
         wsStompClient.setMessageConverter(new
                 MappingJackson2MessageConverter());
@@ -39,27 +40,19 @@ public class WSClientModule implements Module {
         scheduler.afterPropertiesSet();
         wsStompClient.setTaskScheduler(scheduler);
         binder.bind(WebSocketStompClient.class).toInstance(wsStompClient);
+    }
 
-        /**
-         * Binding our custom handler
-         * Also bound to StompSessionHandlerAdapter
-         * which is the default interface for session handlers
-         */
-        MessageSessionHandler handler = new MessageSessionHandler();
-        binder.bind(StompSessionHandlerAdapter.class).toInstance(handler);
-        binder.bind(MessageSessionHandler.class).toInstance(handler);
 
-        /**
-         * Here we:
-         *  Connect to the server and asign our custom handler to the connection
-         *  get the session from the connection (this is the only way to get the session)
-         *  Add receipts to our session
-         *  bind our session instance to StompSession
-         */
+    /**
+     * Connects to the websocket server and returns a StompSession
+     * @param url -> url to connect to
+     * @return StompSession
+     */
+    public static StompSession connect(String url) {
         try {
-            StompSession ss = wsStompClient.connect(wsUrl, handler).get();
+            StompSession ss = wsStompClient.connect(url, new MessageSessionHandler()).get();
             ss.setAutoReceipt(true);
-            binder.bind(StompSession.class).toInstance(ss);
+            return ss;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (ExecutionException e) {

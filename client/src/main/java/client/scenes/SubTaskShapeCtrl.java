@@ -6,17 +6,21 @@ import commons.models.IdResponseModel;
 import commons.models.SubtaskEditModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -24,11 +28,13 @@ public class SubTaskShapeCtrl {
     @FXML
     private GridPane grid;
     @FXML
-    private CheckBox textField;
+    private CheckBox checkbox;
+    @FXML
+    private Label description;
     private ShowCtrl showCtrl;
     private ServerUtils serverUtils;
     private Subtask subtask;
-    private EditTaskController editTaskController;
+    private TextField text;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
 
     @Inject
@@ -37,32 +43,70 @@ public class SubTaskShapeCtrl {
         this.serverUtils = serverUtils;
     }
 
-    public void setup(Subtask subtask, EditTaskController editTaskController){
+    public void setup(Subtask subtask){
         this.subtask = subtask;
-        textField.setText(subtask.getDescription());
-        this.editTaskController = editTaskController;
+        description.setText(subtask.getDescription());
+        checkbox.setSelected(subtask.isChecked());
 
         grid.setOnDragDetected(this::dragDetected);
         grid.setOnDragOver(this::dragOver);
         grid.setOnDragDropped(this::dragDrop);
         grid.setOnDragDone(this::dragCompleted);
+        grid.setOnMouseClicked(this::editSubtask);
+        grid.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode()==KeyCode.ENTER) {
+                    edit();
+                }
+            }
+        });
+    }
 
-        grid.setOnMousePressed(event-> grid.setOpacity(0.4));
-        grid.setOnMouseReleased(event-> grid.setOpacity(1));
+    private void edit(){
+        int index = ((VBox) grid.getParent()).getChildren().indexOf(grid);
+        SubtaskEditModel model = new SubtaskEditModel(text.getText(), subtask.isChecked(), index);
+        subtask.setDescription(model.getDescription());
+        subtask.setChecked(model.isChecked());
+        serverUtils.editSubtask(subtask.getId(), model);
+
+        description.setGraphic(null);
+        description.setText(model.getDescription());
+        description.requestFocus();
+    }
+
+    private void editSubtask(MouseEvent event){
+        if (event.getButton().equals(MouseButton.PRIMARY))
+            if (event.getClickCount()==1) {
+                text = new TextField();
+                text.setPrefWidth(320);
+
+                text.setText(subtask.getDescription());
+                description.setGraphic(text);
+                description.setText("");
+
+                text.end();
+                text.requestFocus();
+            }
     }
 
     public Scene getScene(Subtask subtask){
-        textField.setText(subtask.getDescription());
-        textField.setSelected(subtask.isChecked());
+        description.setText(subtask.getDescription());
+        checkbox.setSelected(subtask.isChecked());
         return grid.getScene();
     }
 
     public void changeSelected(){
+        int index = ((VBox) grid.getParent()).getChildren().indexOf(grid);
         if(subtask.isChecked()){
             subtask.setChecked(false);
+            serverUtils.editSubtask(subtask.getId(),
+                    new SubtaskEditModel(subtask.getDescription(), false, index));
         }
         else{
             subtask.setChecked(true);
+            serverUtils.editSubtask(subtask.getId(),
+                    new SubtaskEditModel(subtask.getDescription(), true, index));
         }
     }
 

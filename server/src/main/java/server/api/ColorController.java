@@ -45,9 +45,9 @@ public class ColorController {
         return colorService.getAllColors();
     }
 
-    @GetMapping("/delete/{id}")
-    public IdResponseModel deleteColor(@PathVariable int id) {
-        return colorService.deleteColor(id);
+    @GetMapping("/delete/{boardId}/{colorId}")
+    public IdResponseModel deleteColor(@PathVariable int boardId, @PathVariable int colorId) {
+        return colorService.deleteColor(boardId, colorId);
     }
 
     @PostMapping("/edit/{colorId}")

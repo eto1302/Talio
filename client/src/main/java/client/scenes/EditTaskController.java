@@ -58,9 +58,9 @@ public class EditTaskController {
         return title.getScene();
     }
 
-    public Scene putSubtask(Scene scene){
+    public void putSubtask(Scene scene, Subtask subtask){
         subtaskBox.getChildren().add(scene.getRoot());
-        return subtaskBox.getScene();
+        task.getSubtasks().add(subtask);
     }
 
     public Scene putTag(Scene scene){
@@ -87,7 +87,8 @@ public class EditTaskController {
         task.setDescription(description);
         List list = server.getList(task.getListID());
 
-        TaskEditModel model = new TaskEditModel(title, description, task.getIndex(), list);
+        TaskEditModel model = new TaskEditModel(title, description, task.getIndex(),
+                list, task.getColorId());
         IdResponseModel response = userData.updateBoard
                 (new TaskEdited(list.getBoardId(), list.getId(), task.getId(), model));
 
@@ -98,5 +99,10 @@ public class EditTaskController {
         }
 
         showCtrl.cancel();
+    }
+
+    public void showTaskColorPicker() {
+        showCtrl.cancel();
+        showCtrl.showTaskColorPicker(task);
     }
 }
