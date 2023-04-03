@@ -4,7 +4,6 @@ import client.scenes.ShowCtrl;
 import client.scenes.tasks.TaskShape;
 import client.utils.ServerUtils;
 import commons.Tag;
-import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;

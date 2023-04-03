@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <GridPane fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="120.0" prefWidth="164.0" style="-fx-padding: 2px; -fx-border-color: gray;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.tasks.TaskShape">
+
   <columnConstraints>
       <ColumnConstraints />
     <ColumnConstraints />
@@ -21,8 +22,8 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label fx:id="plusSign" text="+" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-      <Label opacity="0.39" text="0/1" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      <Label fx:id="plusSign" text="+" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+      <Label fx:id="subtaskProgress" opacity="0.39" text="0/1" GridPane.rowIndex="1" />
       <Label fx:id="deleteX" onMouseEntered="#deleteEvent" text="X" GridPane.columnIndex="3" GridPane.valignment="TOP" />
       <Label fx:id="title" style="-fx-wrap-text: true;" text="Label" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
       <ScrollPane fx:id="markerScroll" minHeight="20.0" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1">

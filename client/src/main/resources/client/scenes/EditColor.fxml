@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="client.scenes.EditColor">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="9.0" prefHeight="120.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="185.0" minHeight="10.0" prefHeight="200.0" valignment="CENTER" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="166.0" minHeight="10.0" prefHeight="200.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="166.0" minHeight="10.0" prefHeight="159.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <Label text="Edit Color" GridPane.halignment="CENTER">
+            <font>
+                <Font size="17.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER" text="Background Color" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+            <font>
+                <Font size="17.0" />
+            </font>
+            <GridPane.margin>
+                <Insets left="50.0" />
+            </GridPane.margin>
+        </Label>
+        <ColorPicker fx:id="backgroundColor" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+            <GridPane.margin>
+                <Insets right="50.0" />
+            </GridPane.margin>
+        </ColorPicker>
+        <Label alignment="CENTER" text="Font Color" GridPane.rowIndex="2">
+            <font>
+                <Font size="17.0" />
+            </font>
+            <GridPane.margin>
+                <Insets left="50.0" />
+            </GridPane.margin>
+        </Label>
+        <ColorPicker fx:id="fontColor" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+            <GridPane.margin>
+                <Insets right="50.0" />
+            </GridPane.margin>
+            <value>
+                <Color />
+            </value>
+        </ColorPicker>
+        <Button alignment="CENTER" mnemonicParsing="false" onAction="#edit" text="Add Tag Color" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+    </children>
+</GridPane>

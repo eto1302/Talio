@@ -65,6 +65,10 @@ public class TagShapeController {
         tagDeleteButton.setTextFill(Color.web(tag.getColor().getFontColor()));
 
         Color backgroundColor = Color.web(tag.getColor().getBackgroundColor());
+        //if the color is dark enough, change text to white
+//        if(backgroundColor.getBrightness() < 0.7){
+//            tagText.setStyle("-fx-text-inner-color: white;");;
+//        }
         tagContainer.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
 
         return tagContainer.getScene();
@@ -133,7 +137,8 @@ public class TagShapeController {
 
                         if(!validateTagBeforeAdd(tag, taskController.getTask())) return;
                         showCtrl.closePopUp();
-                        IdResponseModel model = userData.updateBoard(new TagAddedToTask(tag.getBoardId(), taskController.getTask(), tag));
+                        IdResponseModel model = userData.updateBoard(new TagAddedToTask(
+                            tag.getBoardId(), taskController.getTask(), tag));
                         if (model.getId() == -1) {
                             showCtrl.showError(model.getErrorMessage());
                             showCtrl.cancel();

@@ -43,6 +43,8 @@ public abstract class BoardUpdate implements Message {
 
     private int boardID;
 
+    private boolean consumed;
+
     public BoardUpdate(int boardID) {
         this.boardID = boardID;
     }
@@ -58,6 +60,14 @@ public abstract class BoardUpdate implements Message {
         this.boardID = boardID;
     }
 
+    public boolean isConsumed() {
+        return consumed;
+    }
+
+    public void setConsumed(boolean consumed) {
+        this.consumed = consumed;
+    }
+
     public static IUserData getUserData() {
         return userData;
     }
@@ -68,9 +78,12 @@ public abstract class BoardUpdate implements Message {
 
     @Override
     public void consume() {
-        if(userData != null && userData.getCurrentBoard() != null
-                && userData.getCurrentBoard().getId() == boardID)
-            apply(userData);
+        if(!consumed){
+            if(userData != null && userData.getCurrentBoard() != null
+                    && userData.getCurrentBoard().getId() == boardID)
+                apply(userData);
+            consumed = true;
+        }
     }
 
     public abstract IdResponseModel sendToServer(IServerUtils server);

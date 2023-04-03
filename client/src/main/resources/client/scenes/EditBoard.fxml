@@ -14,15 +14,15 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="newTitle" layoutX="210.0" layoutY="97.0" />
-      <Label layoutX="88.0" layoutY="96.0" text="New Title">
+      <TextField fx:id="newTitle" layoutX="158.0" layoutY="97.0" prefHeight="26.0" prefWidth="215.0" />
+      <Label layoutX="63.0" layoutY="96.0" text="New Title">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="cancel" layoutX="285.0" layoutY="225.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
-      <Button fx:id="edit" layoutX="355.0" layoutY="224.0" mnemonicParsing="false" onAction="#edit" prefHeight="26.0" prefWidth="51.0" text="Edit" />
-      <Line endX="100.0" layoutX="210.0" layoutY="50.0" startX="-100.0" />
-      <Button fx:id="colorButton" layoutX="14.0" layoutY="225.0" mnemonicParsing="false" onAction="#showColorPicker" prefHeight="26.0" prefWidth="75.0" text="Pick Colors" />
+      <Button fx:id="cancel" layoutX="239.0" layoutY="148.0" mnemonicParsing="false" onAction="#cancel" styleClass="buttons" text="Cancel" />
+      <Button fx:id="edit" layoutX="321.0" layoutY="147.0" mnemonicParsing="false" onAction="#edit" prefHeight="26.0" prefWidth="51.0" styleClass="buttons" text="Edit" />
+      <Line endX="159.60000610351562" endY="-7.62939453125E-6" layoutX="210.0" layoutY="50.0" startX="-163.60000610351562" startY="-7.62939453125E-6" />
+      <Button fx:id="colorButton" layoutX="63.0" layoutY="147.0" mnemonicParsing="false" onAction="#showColorPicker" prefHeight="26.0" prefWidth="75.0" styleClass="buttons" text="Pick Colors" />
    </children>
 </AnchorPane>

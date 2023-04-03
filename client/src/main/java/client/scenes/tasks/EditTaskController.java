@@ -2,7 +2,6 @@ package client.scenes.tasks;
 
 import client.scenes.ShowCtrl;
 import client.scenes.lists.ListShapeCtrl;
-import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Subtask;
@@ -17,7 +16,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 
 public class EditTaskController {
 
@@ -49,7 +47,8 @@ public class EditTaskController {
     }
 
     public Scene refresh(){
-        java.util.List<Subtask> subtasks = task.getSubtasks();
+        subtaskBox.getChildren().clear();
+        java.util.List<Subtask> subtasks = server.getSubtasksOrdered(task.getId());
         if(subtasks != null) {
             for(Subtask subtask: subtasks){
                 showCtrl.addSubTask(subtask, this);
@@ -66,9 +65,9 @@ public class EditTaskController {
         return title.getScene();
     }
 
-    public Scene putSubtask(Scene scene){
+    public void putSubtask(Scene scene, Subtask subtask){
         subtaskBox.getChildren().add(scene.getRoot());
-        return subtaskBox.getScene();
+        task.getSubtasks().add(subtask);
     }
 
     public Scene putTag(Scene scene){
@@ -85,7 +84,7 @@ public class EditTaskController {
     }
 
     public void showAddSubTask(){
-        showCtrl.showAddSubTask(task);
+        showCtrl.showAddSubTask(this, task);
     }
 
     public void save() {
@@ -95,7 +94,8 @@ public class EditTaskController {
         task.setDescription(description);
         List list =server.getList(task.getListID());
 
-        TaskEditModel model = new TaskEditModel(title, description, task.getIndex(), list);
+        TaskEditModel model = new TaskEditModel(title, description, task.getIndex(),
+                list, task.getColorId());
         IdResponseModel response = server.editTask(task.getId(), model);
 
         if (response.getId() == -1) {
@@ -106,6 +106,11 @@ public class EditTaskController {
 
         listShapeCtrl.refreshList();
         showCtrl.cancel();
+    }
+
+    public void showTaskColorPicker() {
+        showCtrl.cancel();
+        showCtrl.showTaskColorPicker(task);
     }
 
     public ListShapeCtrl getListShapeCtrl() {
@@ -120,7 +125,7 @@ public class EditTaskController {
         return task;
     }
 
-    private void cleanTagBox(){
+    private void cleanTagBox() {
         tagBox.getChildren().remove(0, tagBox.getChildren().size());
     }
 }

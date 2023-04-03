@@ -16,6 +16,7 @@
 <?import javafx.scene.text.Text?>
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="391.0" prefWidth="594.0" style="-fx-padding: 5px; -fx-vgap: 2px;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.tasks.AddTaskController">
+
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
    </columnConstraints>
@@ -68,12 +69,12 @@
          </children>
       </GridPane>
       <Line endX="160.0928955078125" endY="0.5928825736045837" startX="-100.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
-      <Button mnemonicParsing="false" onAction="#cancel" text="Cancel" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+      <Button mnemonicParsing="false" onAction="#cancel" styleClass="buttons" text="Cancel" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <GridPane.margin>
             <Insets right="70.0" />
          </GridPane.margin>
       </Button>
-      <Button mnemonicParsing="false" onAction="#addTask" text="Add" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+      <Button mnemonicParsing="false" onAction="#addTask" styleClass="buttons" text="Add" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <GridPane.margin>
             <Insets right="15.0" />
          </GridPane.margin>

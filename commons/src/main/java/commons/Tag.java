@@ -20,13 +20,17 @@ public class Tag {
     @JoinColumn(name = "colorId", referencedColumnName = "id")
     private Color color;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name="taskId")
-    @JsonIgnore
-    private Task task;
+    @ManyToMany (cascade = CascadeType.REMOVE)
+    @JoinTable(name = "tag2task", joinColumns = @JoinColumn(name = "tagId"),
+        inverseJoinColumns = @JoinColumn(name = "taskId"))
+    @JsonIgnore()
+    private java.util.List<Task> tasks;
 
-    @Column(name="t_id")
-    private int taskID;
+    @ElementCollection
+    @CollectionTable (name = "list", joinColumns = @JoinColumn(name = "id"))
+    @Column (name = "taskIDs")
+    private java.util.List<Integer> taskIDs;
+
     @Column(name = "b_id")
     private int boardId;
 
@@ -61,17 +65,17 @@ public class Tag {
      *
      * @return The task associated with the tag.
      */
-    public Task getTask() {
-        return task;
+    public java.util.List<Task> getTasks() {
+        return tasks;
     }
 
     /**
-     * Sets the task associated with the tag.
+     * Sets the list of tasks associated with the tag.
      *
-     * @param task The task associated with the tag.
+     * @param tasks The list of tasks associated with the tag.
      */
-    public void setTask(Task task) {
-        this.task = task;
+    public void setTasks(java.util.List<Task> tasks) {
+        this.tasks = tasks;
     }
 
     /**
@@ -146,16 +150,16 @@ public class Tag {
      * Returns the ID of the task associated with the tag.
      * @return The id of the task associated with the tag.
      */
-    public int getTaskID() {
-        return taskID;
+    public java.util.List<Integer> getTaskIDs() {
+        return taskIDs;
     }
 
     /**
      * Sets the ID of the task associated with the tag.
-     * @param taskID The id of the task associated with the tag.
+     * @param taskIDs The id of the task associated with the tag.
      */
-    public void setTaskID(int taskID) {
-        this.taskID = taskID;
+    public void setTaskIDs(java.util.List<Integer> taskIDs) {
+        this.taskIDs = taskIDs;
     }
 
     /**

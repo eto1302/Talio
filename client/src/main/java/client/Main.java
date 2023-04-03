@@ -53,34 +53,53 @@ public class Main extends Application {
     }
 
     public void setup(List<Pair> loader){
-        var home = FXML.load(HomeController.class, "client", "scenes", "Home.fxml");
-        var addList =FXML.load(AddListController.class, "client", "scenes", "AddList.fxml");
-        var yourBoards=FXML.load(YourBoardsController.class, "client", "scenes", "YourBoards.fxml");
-        var search = FXML.load(SearchCtrl.class, "client", "scenes","Search.fxml");
-        var board = FXML.load(BoardController.class, "client", "scenes", "Board.fxml");
-        var connection=FXML.load(ConnectionCtrl.class, "client", "scenes", "Connection.fxml");
-        var addBoard=FXML.load(AddBoardController.class, "client", "scenes", "AddBoard.fxml");
-        var error=FXML.load(ErrorController.class, "client", "scenes", "Error.fxml");
-        var admin = FXML.load(AdminController.class, "client", "scenes", "Admin.fxml");
-        var editBoard = FXML.load(EditBoardController.class, "client", "scenes", "EditBoard.fxml");
-        var help = FXML.load(HelpCtrl.class, "client", "scenes", "Help.fxml");
-        var tagOverview = FXML.load(TagOverviewController.class, "client", "scenes", "TagOverview.fxml");
-        var colorPicker = FXML.load(ColorPicker.class, "client", "scenes", "ColorPicker.fxml");
-        var addTaskColor = FXML.load(AddTaskColor.class, "client", "scenes", "AddTaskColor.fxml");
-
-        loader.add(home);
+        var home = FXML.load(
+                HomeController.class, "client", "scenes", "Home.fxml");
+        var addList =FXML.load(
+                AddListController.class, "client", "scenes", "AddList.fxml");
+        var yourBoards=FXML.load(
+                YourBoardsController.class, "client", "scenes", "YourBoards.fxml");
+        var search = FXML.load(
+                SearchCtrl.class, "client", "scenes","Search.fxml");
+        var board = FXML.load(
+                BoardController.class, "client", "scenes", "Board.fxml");
+        var connection=FXML.load(
+                ConnectionCtrl.class, "client", "scenes", "Connection.fxml");
+        var addBoard=FXML.load(
+                AddBoardController.class, "client", "scenes", "AddBoard.fxml");
+        var error=FXML.load(
+                ErrorController.class, "client", "scenes", "Error.fxml");
+        var admin = FXML.load(
+                AdminController.class, "client", "scenes", "Admin.fxml");
+        var editBoard = FXML.load(
+                EditBoardController.class, "client", "scenes", "EditBoard.fxml");
+        var colorPicker = FXML.load(
+                ColorPicker.class, "client", "scenes", "ColorPicker.fxml");
+        var addTaskColor = FXML.load(
+                AddTaskColor.class, "client", "scenes", "AddTaskColor.fxml");
+        var help = FXML.load(
+                HelpCtrl.class, "client", "scenes", "Help.fxml");
+        var taskColorPicker= FXML.load(
+                TaskColorPicker.class, "client", "scenes", "TaskColorPicker.fxml");
+        var editColor= FXML.load(
+                EditColor.class, "client", "scenes", "EditColor.fxml");
+        var tagOverview = FXML.load(TagOverviewController.class,
+            "client", "scenes", "TagOverview.fxml");
+        loader.add(home);//0
         loader.add(addList);
         loader.add(yourBoards);
         loader.add(search);
         loader.add(board);
-        loader.add(connection);
+        loader.add(connection); //5
         loader.add(addBoard);
         loader.add(error);
         loader.add(admin);
         loader.add(editBoard);
-        loader.add(help);
+        loader.add(help); //10
         loader.add(tagOverview);
         loader.add(colorPicker);
         loader.add(addTaskColor);
+        loader.add(taskColorPicker);
+        loader.add(editColor); //15
     }
 }
