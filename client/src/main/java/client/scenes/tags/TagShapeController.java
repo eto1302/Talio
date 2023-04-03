@@ -76,7 +76,8 @@ public class TagShapeController {
      * ELSE -> deletes the tag
      *
      * Uses boardUpdate to delete/remove the tag and refresh.
-     * See commons.sync.TagRemovedFromTask.apply() and commons.sync.TagDeleted.apply()
+     * See commons.sync.TagRemovedFromTask.apply()
+     * and commons.sync.TagDeleted.apply()
      * for update methods
      *
      * TODO: stop allowing tags to be deleted from addTagToTask search
@@ -84,7 +85,9 @@ public class TagShapeController {
     public void handleDelete(){
         IdResponseModel resp;
         if(inEditTaskOrAddTagToTask()){
-            resp = userData.updateBoard(new TagRemovedFromTask(tag.getBoardId(),tag, taskController.getTask()));
+            resp = userData.updateBoard(
+                new TagRemovedFromTask(tag.getBoardId(),tag, taskController.getTask())
+            );
         }else{
             resp = userData.updateBoard(new TagDeleted(tag.getBoardId(), tag));
         }
@@ -99,18 +102,18 @@ public class TagShapeController {
      *
      */
     public void handleHighlight(){
-          tagContainer.setOnMouseEntered(new EventHandler<MouseEvent>() {
-              @Override
-              public void handle(MouseEvent event) {
-                  tagContainer.setStyle("-fx-border-width: 2px;-fx-border-color: blue");
-              }
-          });
-          tagContainer.setOnMouseExited(new EventHandler<MouseEvent>() {
-              @Override
-              public void handle(MouseEvent event) {
-                  tagContainer.setStyle("-fx-border-width: 0");
-              }
-          });
+        tagContainer.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                tagContainer.setStyle("-fx-border-width: 2px;-fx-border-color: blue");
+            }
+        });
+        tagContainer.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                tagContainer.setStyle("-fx-border-width: 0");
+            }
+        });
     }
 
 
