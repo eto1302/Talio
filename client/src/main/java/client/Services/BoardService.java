@@ -44,8 +44,8 @@ public class BoardService {
             return listColorResponse;
         }
 
-        boardColor.setId(serverUtils.addColor(boardColor).getId());
-        listColor.setId(serverUtils.addColor(listColor).getId());
+        boardColor.setId(boardColorResponse.getId());
+        listColor.setId(listColorResponse.getId());
         List<commons.Color> colors = new ArrayList<>();
         colors.add(boardColor);
         colors.add(listColor);
