@@ -35,7 +35,7 @@ public class ColorController {
         return colorService.saveColor(color);
     }
 
-    @PostMapping("/add/{colorId}/{boardId}")
+    @PutMapping("/add/{colorId}/{boardId}")
     public IdResponseModel setToBoard(@PathVariable int colorId, @PathVariable int boardId) {
         return colorService.setToBoard(colorId, boardId);
     }
@@ -45,12 +45,12 @@ public class ColorController {
         return colorService.getAllColors();
     }
 
-    @GetMapping("/delete/{boardId}/{colorId}")
+    @DeleteMapping("/delete/{boardId}/{colorId}")
     public IdResponseModel deleteColor(@PathVariable int boardId, @PathVariable int colorId) {
         return colorService.deleteColor(boardId, colorId);
     }
 
-    @PostMapping("/edit/{colorId}")
+    @PutMapping("/edit/{colorId}")
     public IdResponseModel editColor(@PathVariable int colorId, @RequestBody ColorEditModel model) {
         return colorService.editColor(colorId, model);
     }

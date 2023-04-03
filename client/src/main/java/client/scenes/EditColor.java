@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.user.Services.ColorService;
+import client.Services.ColorService;
 import client.user.UserData;
 import commons.Color;
 import commons.models.IdResponseModel;

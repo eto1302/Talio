@@ -1,4 +1,4 @@
-package client.user.Services;
+package client.Services;
 
 import client.user.UserData;
 import commons.Board;

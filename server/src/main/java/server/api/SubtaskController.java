@@ -55,7 +55,7 @@ public class SubtaskController {
         return subtaskService.getSubtasksOrdered(taskId);
     }
 
-    @GetMapping("/delete/{taskID}/{subtaskID}")
+    @DeleteMapping("/delete/{taskID}/{subtaskID}")
     public IdResponseModel removeSubtask(@PathVariable int taskID, @PathVariable int subtaskID){
         return subtaskService.removeSubtask(subtaskID, taskID);
     }
@@ -65,7 +65,7 @@ public class SubtaskController {
         return subtaskService.addSubtask(subtask, taskID);
     }
 
-    @PostMapping("/edit/{subtaskID}")
+    @PutMapping("/edit/{subtaskID}")
     public IdResponseModel editSubtask(@PathVariable int subtaskID,
                                        @RequestBody SubtaskEditModel model){
         return subtaskService.editSubtask(subtaskID, model);
