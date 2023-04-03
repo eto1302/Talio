@@ -58,8 +58,7 @@ class TaskControllerTest {
         when(mockService.getTaskById(anyInt())).thenReturn(task1);
 
         ResultActions response = mock.perform(get("/task/get/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(task1)));
+                .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.title", CoreMatchers.is(task1.getTitle())));
@@ -70,8 +69,7 @@ class TaskControllerTest {
         when(mockService.getAllTaskByList(anyInt())).thenReturn(Arrays.asList(task1, task2));
 
         ResultActions response = mock.perform(get("/task/getByList/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(task1)));
+                .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.size()",
@@ -85,8 +83,7 @@ class TaskControllerTest {
         when(mockService.getAllTasks()).thenReturn(Arrays.asList(task1, task2));
 
         ResultActions response = mock.perform(get("/task/findAll")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(task1)));
+                .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.size()",
@@ -127,8 +124,7 @@ class TaskControllerTest {
         when(mockService.removeTask(anyInt(), anyInt())).thenReturn(model);
 
         ResultActions response = mock.perform(delete("/task/remove/1/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(task1)));
+                .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.id", CoreMatchers.is(1)));

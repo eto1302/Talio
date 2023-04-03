@@ -69,8 +69,7 @@ class ListControllerTest {
         when(mockService.getListById(listId)).thenReturn(list);
 
         ResultActions response = mock.perform(get("/list/get/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(list)));
+                .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isOk());
 
@@ -87,8 +86,7 @@ class ListControllerTest {
         when(mockService.getAllListByBoard(boardId)).thenReturn(Arrays.asList(list));
 
         ResultActions response = mock.perform(get("/list/getByBoard/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(list)));
+                .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", CoreMatchers.is(Arrays.asList(list).size())));
@@ -99,8 +97,7 @@ class ListControllerTest {
         when(mockService.getAllLists()).thenReturn(Arrays.asList(list, list2));
 
         ResultActions response = mock.perform(get("/list/findAll")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(list)));
+                .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", CoreMatchers.is(Arrays.asList(list, list2).size())))
@@ -141,8 +138,7 @@ class ListControllerTest {
         when(mockService.getAllListByBoard(anyInt())).thenThrow(NoSuchElementException.class);
 
         ResultActions response = mock.perform(get("/list/getByBoard/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(list)));
+                .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
@@ -151,8 +147,7 @@ class ListControllerTest {
         when(mockService.getListById(anyInt())).thenThrow(NoSuchElementException.class);
 
         ResultActions response = mock.perform(get("/list/get/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(list)));
+                .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
