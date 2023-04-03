@@ -51,13 +51,13 @@ public class ListController {
         return listService.addList(list, boardId);
     }
 
-    @PostMapping("/edit/{boardId}/{listId}")
+    @PutMapping("/edit/{boardId}/{listId}")
     public IdResponseModel editList(@PathVariable int boardId, @PathVariable int listId,
                                     @RequestBody ListEditModel model) {
         return listService.editList(boardId, listId, model);
     }
 
-    @GetMapping("/delete/{boardId}/{listId}")
+    @DeleteMapping("/delete/{boardId}/{listId}")
     public IdResponseModel removeList(@PathVariable int boardId, @PathVariable int listId) {
         return listService.removeList(listId, boardId);
     }
