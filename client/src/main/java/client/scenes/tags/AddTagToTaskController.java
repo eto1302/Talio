@@ -11,6 +11,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -38,6 +40,8 @@ public class AddTagToTaskController {
 
     private EditTaskController controller;
 
+    private String prevSearch = "";
+
     @Inject
     public AddTagToTaskController(ShowCtrl showCtrl, ServerUtils serverUtils) {
         this.showCtrl = showCtrl;
@@ -54,9 +58,11 @@ public class AddTagToTaskController {
         updateScene();
     }
 
-    public void handleKey(){
+    public void handleKey(KeyEvent e){
         //TODO: text inside tags does not render after refreshing list for some reason, fix!
         String searchText = searchBox.getText();
+        if(searchText.equals(prevSearch)) return;
+        prevSearch = searchText;
         tags = board.getTags().stream()
                 .filter(t -> t.getName().contains(searchText))
                 .collect(Collectors.toList());

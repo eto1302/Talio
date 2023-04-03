@@ -10,6 +10,7 @@ import commons.models.IdResponseModel;
 import commons.sync.ListAdded;
 import commons.sync.TagAddedToTask;
 import commons.sync.TagDeleted;
+import commons.sync.TagRemovedFromTask;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -52,24 +53,21 @@ public class TagShapeController<T> {
         this.tag = tag;
         tagText.setText(tag.getName());
         Color backgroundColor = Color.web(tag.getColor().getBackgroundColor());
-        //if the color is dark enough, change text to white
-//        if(backgroundColor.getBrightness() < 0.7){
-//            tagText.setStyle("-fx-text-inner-color: white;");;
-//        }
         tagContainer.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
         return tagContainer.getScene();
     }
 
-    public void cancel(){
-
-    }
-
-    public void removeTag(){
-        //TODO
-    }
-
     public void handleDelete(){
-        IdResponseModel id = userData.updateBoard(new TagDeleted(tag.getBoardId(), tag));
+        IdResponseModel resp;
+        if(inEditTask()){
+            resp = userData.updateBoard(new TagRemovedFromTask(tag.getBoardId(),tag, taskController.getTask()));
+        }else{
+            resp = userData.updateBoard(new TagDeleted(tag.getBoardId(), tag));
+        }
+        if (resp.getId() == -1) {
+            showCtrl.showError(resp.getErrorMessage());
+            showCtrl.cancel();
+        }
     }
 
     public void handleHighlight(){
@@ -96,11 +94,8 @@ public class TagShapeController<T> {
                 if (event.getButton().equals(MouseButton.PRIMARY))
                     if (event.getClickCount() == 2) {
                         showCtrl.showEditTag(tag);
-                        return;
-                    } else if (event.getClickCount()==1 && taskController != null) {
-                        System.out.println("add trigger");
-                        //add the tag to a task if clicked in tagToTask (only place where editTaskController is set)
-                        //+ set the board id since it is 0 since db fucked
+                    } else if (event.getClickCount()==1 && inEditTask()) {
+
                         if(validateTagBeforeAdd(tag, taskController.getTask())) return;
                         showCtrl.closePopUp();
                         IdResponseModel model = userData.updateBoard(new TagAddedToTask(tag.getBoardId(), taskController.getTask(), tag));
@@ -116,5 +111,9 @@ public class TagShapeController<T> {
     private boolean validateTagBeforeAdd(Tag tag, Task task){
         java.util.List<Tag> tags = serverUtils.getTagByTask(task.getId());
         return tags.contains(tag);
+    }
+
+    private boolean inEditTask(){
+        return taskController != null;
     }
 }

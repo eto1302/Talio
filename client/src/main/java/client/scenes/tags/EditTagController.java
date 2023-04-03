@@ -44,6 +44,10 @@ public class EditTagController {
     public void editTag(){
         TagEditModel model = new TagEditModel(textField.getText(), colorPickerToColor());
         IdResponseModel resp = userData.updateBoard(new TagEdited(tag.getBoardId(), tag, model));
+        if (resp.getId() == -1) {
+            showCtrl.showError(resp.getErrorMessage());
+            showCtrl.cancel();
+        }
         showCtrl.closePopUp();
     }
 

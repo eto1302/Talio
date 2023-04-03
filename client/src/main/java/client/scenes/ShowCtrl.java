@@ -377,6 +377,12 @@ public class ShowCtrl implements IShowCtrl {
 //        }
     }
 
+    public void removeTagFromTask(Tag tag, Task task){
+        TaskShape ts = boardController.findTaskController(task);
+        ts.refreshTagMarkers(task);
+        editTaskController.refresh();
+    }
+
     private void refreshAllTasks(){
         //TODO: change to better impl, only way to do this for now since there is no way to get a task from a tag
         boardController.getListControllers().stream()
@@ -401,7 +407,7 @@ public class ShowCtrl implements IShowCtrl {
     public void addTagToTask(Tag tag, Task task){
         TaskShape taskController = boardController.findTaskController(task);
         taskController.refreshTagMarkers(task);
-        editTaskController.putTag(getTagScene(tag));
+        editTaskController.putTag(getTagSceneTask(tag, editTaskController));
     }
 
     public Scene getTagScene(Tag tag){
@@ -539,5 +545,12 @@ public class ShowCtrl implements IShowCtrl {
     }
 
 
+    public Scene getEditTask(){
+        return editTask;
+    }
+
+    public Stage getSecondaryStage(){
+        return secondaryStage;
+    }
 
 }

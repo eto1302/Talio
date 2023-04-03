@@ -6,6 +6,7 @@ import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
 import commons.Task;
+import commons.models.IdResponseModel;
 import commons.sync.TagCreated;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -59,7 +60,11 @@ public class AddTagController {
         Tag tag = Tag.create(tagName, color);
 
         Board current = userData.getCurrentBoard();
-        userData.updateBoard(new TagCreated(current.getId(), tag, current));
+        IdResponseModel resp = userData.updateBoard(new TagCreated(current.getId(), tag, current));
+        if (resp.getId() == -1) {
+            showCtrl.showError(resp.getErrorMessage());
+            showCtrl.cancel();
+        }
         cancel();
     }
 

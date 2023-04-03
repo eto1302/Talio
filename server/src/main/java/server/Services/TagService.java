@@ -100,7 +100,7 @@ public class TagService {
         try{
             Tag tag = tagRepository.getById(tagID);
             tag.setName(model.getName());
-            //tag.setColor(model.getColor());
+            tag.setColor(model.getColor());
             tagRepository.save(tag);
             return new IdResponseModel(tagID, null);
         }
@@ -115,4 +115,21 @@ public class TagService {
 
     public long count() {return tagRepository.count();}
 
+    public IdResponseModel removeFromTask(int tagId, int taskId) {
+        if(!tagRepository.existsById(tagId) || !taskRepository.existsById(taskId)) return null;
+        Tag tag = tagRepository.getById(tagId);
+        Task task = taskRepository.getById(taskId);
+
+        try{
+            tag.setTask(null);
+            tag.setTaskID(-1);
+            task.getTags().remove(tag);
+            tagRepository.save(tag);
+            taskRepository.save(task);
+            return new IdResponseModel(tagId, null);
+        } catch(Exception e){
+            return new IdResponseModel(-1, e.getMessage());
+        }
+
+    }
 }

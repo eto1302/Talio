@@ -19,7 +19,7 @@
     <RowConstraints maxHeight="266.0" minHeight="10.0" prefHeight="266.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <TextField fx:id="searchBox" minWidth="140.0" onKeyTyped="#handleKey" prefWidth="200.0" GridPane.rowIndex="1" />
+      <TextField fx:id="searchBox" minWidth="140.0" onKeyReleased="#handleKey" prefWidth="200.0" GridPane.rowIndex="1" />
       <Label text="Add tag to task" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <font>
             <Font size="20.0" />

@@ -6,6 +6,7 @@ import commons.models.TagEditModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.Services.TagService;
+import server.Services.TaskService;
 
 import java.util.Random;
 
@@ -116,6 +117,13 @@ public class TagController {
         var idx = random.nextInt((int) tagService.count());
         return ResponseEntity.ok(tags.get(idx));
     }
+
+    @DeleteMapping("/removeFromTask/{tagId}/{taskId}")
+    public IdResponseModel removeFromTask(@PathVariable int tagId, @PathVariable int taskId){
+        IdResponseModel resp = tagService.removeFromTask(tagId, taskId);
+        return resp;
+    }
+
 
     public void setRandom(Random random) {
         this.random = random;
