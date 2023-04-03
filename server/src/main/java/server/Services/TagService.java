@@ -49,9 +49,8 @@ public class TagService {
         try{
             Task task = taskRepository.getTaskById(taskID);
             task.getTags().add(tag);
-            tag.setTask(task);
-            tag.setTaskID(taskID);
-            tag.setBoardId(-1);
+            tag.getTasks().add(task);
+            tag.getTaskIDs().add(taskID);
             tagRepository.save(tag);
             return new IdResponseModel(tag.getId(), null);
         }
@@ -65,7 +64,6 @@ public class TagService {
             Board board = boardRepository.getBoardByID(boardID);
             board.getTags().add(tag);
             tag.setBoard(board);
-            tag.setTaskID(-1);
             tagRepository.save(tag);
             return new IdResponseModel(tag.getId(), null);
         }
@@ -74,21 +72,30 @@ public class TagService {
         }
     }
 
-    public IdResponseModel removeTag(int tagID){
+    public IdResponseModel removeFromTask(int tagID, int taskID){
         try{
             Tag tag = tagRepository.getById(tagID);
-            if(tag.getTaskID() != -1){
-                Task task = taskRepository.getTaskById(tag.getTaskID());
-                task.getTags().remove(tag);
+            Task task = taskRepository.getTaskById(taskID);
+            task.getTags().remove(tag);
+            tag.getTasks().remove(task);
+            tag.getTaskIDs().remove(taskID);
+            if(tag.getTasks().size() == 0){
                 tagRepository.delete(tag);
-                return new IdResponseModel(tagID, null);
             }
-            else{
-                Board board = boardRepository.getBoardByID(tag.getBoardId());
-                board.getTags().remove(tag);
-                tagRepository.delete(tag);
-                return new IdResponseModel(tagID, null);
-            }
+            return new IdResponseModel(tagID, null);
+        }
+        catch(Exception e){
+            return new IdResponseModel(-1, e.getMessage());
+        }
+    }
+
+    public IdResponseModel removeFromBoard(int tagID, int boardID){
+        try{
+            Tag tag = tagRepository.getById(tagID);
+            Board board = boardRepository.getBoardByID(boardID);
+            board.getTags().remove(tag);
+            tagRepository.delete(tag);
+            return new IdResponseModel(tagID, null);
         }
         catch(Exception e){
             return new IdResponseModel(-1, e.getMessage());

@@ -592,10 +592,21 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
-    public IdResponseModel removeTag(int tagID){
+    public IdResponseModel removeTagFromBoard(int tagID, int boardID){
         try{
             ResponseEntity<IdResponseModel> response = client.getForEntity(
-                    url + "/tag/remove/" + tagID, IdResponseModel.class);
+                    url + "/tag/removeFromBoard/" + tagID + "/" + boardID, IdResponseModel.class);
+            return response.getBody();
+        }
+        catch(Exception e){
+            return new IdResponseModel(-1, "Oops, failed to connect to the server...");
+        }
+    }
+
+    public IdResponseModel removeTagFromTask(int tagID, int taskID){
+        try{
+            ResponseEntity<IdResponseModel> response = client.getForEntity(
+                url + "/tag/removeFromTask/" + tagID + "/" + taskID, IdResponseModel.class);
             return response.getBody();
         }
         catch(Exception e){

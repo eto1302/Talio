@@ -35,7 +35,9 @@ public class Task {
     @JsonManagedReference
     private java.util.List<Subtask> subtasks;
 
-    @OneToMany(mappedBy = "task", cascade = CascadeType.REMOVE)
+    @ManyToMany (cascade = CascadeType.REMOVE)
+    @JoinTable(name = "tag2task", joinColumns = @JoinColumn(name = "taskId"),
+        inverseJoinColumns = @JoinColumn(name = "tagId"))
     private java.util.List<Tag> tags;
 
     @Column(name = "colorId")

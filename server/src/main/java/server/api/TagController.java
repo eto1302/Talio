@@ -75,9 +75,14 @@ public class TagController {
         return tagService.editTag(id, model);
     }
 
-    @GetMapping("/remove/{id}")
-    public IdResponseModel removeTag(@PathVariable int id){
-        return tagService.removeTag(id);
+    @GetMapping("/removeFromTask/{tagID}/{taskID}")
+    public IdResponseModel removeFromTask(@PathVariable int tagID, @PathVariable int taskID){
+        return tagService.removeFromTask(tagID, taskID);
+    }
+
+    @GetMapping("/removeFromBoard/{tagID}/{boardID}")
+    public IdResponseModel removeFromBoard(@PathVariable int tagID, @PathVariable int boardID){
+        return tagService.removeFromBoard(tagID, boardID);
     }
 
     private static boolean isNullOrEmpty(String s) {

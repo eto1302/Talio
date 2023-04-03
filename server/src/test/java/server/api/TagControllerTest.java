@@ -28,6 +28,7 @@ public class TagControllerTest {
         tagRepo = new TestTagRepository();
         taskRepo = new TestTaskRepository();
         boardRepo = new TestBoardRepository();
+        TestListRepository test = new TestListRepository();
         controller = new TagController(new TagService(tagRepo, taskRepo, boardRepo));
         controller.setRandom(random);
     }
