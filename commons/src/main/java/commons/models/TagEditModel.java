@@ -42,7 +42,8 @@ public class TagEditModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TagEditModel that = (TagEditModel) o;
-        return Objects.equals(getName(), that.getName()) && Objects.equals(getColor(), that.getColor());
+        return Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getColor(), that.getColor());
     }
 
     @Override

@@ -20,10 +20,12 @@ import server.Services.ListService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -39,10 +41,12 @@ class ListControllerTest {
     private transient ListService mockService;
 
     private transient List list = List.create("List 1", 1,
-            new ArrayList<>(Arrays.asList(Task.create("No description", "Task 1", 1, new ArrayList<>()))));
+            new ArrayList<>(Arrays.asList(
+                    Task.create("No description", "Task 1", 1, new ArrayList<>()))));
 
     private transient List list2 = List.create("List 2", 1,
-            new ArrayList<>(Arrays.asList(Task.create("Watching series", "Task 2", 2, new ArrayList<>()))));
+            new ArrayList<>(Arrays.asList(
+                    Task.create("Watching series", "Task 2", 2, new ArrayList<>()))));
 
     @Test
     void testAddList() throws Exception{
@@ -87,7 +91,7 @@ class ListControllerTest {
                 .content(mapper.writeValueAsString(list)));
 
         response.andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(Arrays.asList(list).size())));
+                .andExpect(jsonPath("$.size()", CoreMatchers.is(Arrays.asList(list).size())));
     }
 
     @Test
@@ -99,9 +103,9 @@ class ListControllerTest {
                 .content(mapper.writeValueAsString(list)));
 
         response.andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(Arrays.asList(list, list2).size())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", CoreMatchers.is(list.getName())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].boardId", CoreMatchers.is(list2.getBoardId())));
+                .andExpect(jsonPath("$.size()", CoreMatchers.is(Arrays.asList(list, list2).size())))
+                .andExpect(jsonPath("$[0].name", CoreMatchers.is(list.getName())))
+                .andExpect(jsonPath("$[1].boardId", CoreMatchers.is(list2.getBoardId())));
 
 
     }
@@ -118,7 +122,7 @@ class ListControllerTest {
 
         verify(mockService, times(1)).editList(1,1, listEditModel);
         response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", CoreMatchers.is(1)));
+                .andExpect(jsonPath("$.id", CoreMatchers.is(1)));
     }
 
     @Test
@@ -130,6 +134,26 @@ class ListControllerTest {
                 .content(mapper.writeValueAsString(list)));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", CoreMatchers.is(1)));
+                .andExpect(jsonPath("$.id", CoreMatchers.is(1)));
+    }
+    @Test
+    void testGetByBoardFail() throws Exception{
+        when(mockService.getAllListByBoard(anyInt())).thenThrow(NoSuchElementException.class);
+
+        ResultActions response = mock.perform(get("/list/getByBoard/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(list)));
+
+        response.andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+    @Test
+    void testGetListFail() throws Exception{
+        when(mockService.getListById(anyInt())).thenThrow(NoSuchElementException.class);
+
+        ResultActions response = mock.perform(get("/list/get/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(list)));
+
+        response.andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 }

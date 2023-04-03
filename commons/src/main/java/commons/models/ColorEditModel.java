@@ -51,7 +51,8 @@ public class ColorEditModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ColorEditModel that = (ColorEditModel) o;
-        return isDefault() == that.isDefault() && Objects.equals(getBackgroundColor(), that.getBackgroundColor())
+        return isDefault() == that.isDefault() &&
+                Objects.equals(getBackgroundColor(), that.getBackgroundColor())
                 && Objects.equals(getFontColor(), that.getFontColor());
     }
 
