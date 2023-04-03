@@ -47,7 +47,8 @@ public class AddListController {
 
         List list = List.create(nameField.getText(),1, new ArrayList<Task>());
 
-        IdResponseModel model = userData.updateBoard(new ListAdded(1, list));
+        IdResponseModel model = userData.updateBoard(new
+                ListAdded(userData.getCurrentBoard().getId(), list));
         if (model.getId() == -1) {
             showCtrl.showError(model.getErrorMessage());
             showCtrl.cancel();

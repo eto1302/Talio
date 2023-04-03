@@ -44,6 +44,10 @@ public class HomeController {
         return gridHome.getScene();
     }
 
+    public void showConnection() {
+        showCtrl.showConnection();
+    }
+
     public void showAdmin() {
         showCtrl.showAdmin();
     }

@@ -42,7 +42,7 @@ public class BoardShape {
     private Button copyButton;
     private ShowCtrl showCtrl;
     private ServerUtils server;
-    @Inject 
+    @Inject
     private UserData userData;
     @Inject
     public BoardShape (ShowCtrl showCtrl, ServerUtils serverUtils){
@@ -58,8 +58,9 @@ public class BoardShape {
      */
     public Scene getSceneUpdated(Board board){
         nameLabel.setText(board.getName());
-        String rgbBackground = board.getBoardColor().getBackgroundColor();
-        String rgbFont = board.getBoardColor().getFontColor();
+        commons.Color background = board.getBoardColor();
+        String rgbBackground = background.getBackgroundColor();
+        String rgbFont = background.getFontColor();
         Color backgroundColor = Color.web(rgbBackground);
         Color fontColor = Color.web(rgbFont);
 

@@ -27,9 +27,12 @@ public class ColorService {
     }
 
 
-    public IdResponseModel deleteColor(int colorId) {
+    public IdResponseModel deleteColor(int boardId, int colorId) {
         try {
-            colorRepository.deleteById(colorId);
+            Board board = boardRepository.getById(boardId);
+            Color color = colorRepository.getById(colorId);
+            board.getColors().remove(color);
+            colorRepository.delete(color);
             return new IdResponseModel(colorId, null);
         } catch (Exception e) {
             return new IdResponseModel(-1, e.getMessage());
@@ -49,7 +52,7 @@ public class ColorService {
             Color color = colorRepository.getById(colorId);
             color.setBackgroundColor(model.getBackgroundColor());
             color.setFontColor(model.getFontColor());
-            color.setDefault(model.isDefault());
+            color.setIsDefault(model.isDefault());
             colorRepository.save(color);
             return new IdResponseModel(colorId, null);
         } catch (Exception e) {
@@ -61,7 +64,7 @@ public class ColorService {
         try {
             Board board = boardRepository.getById(boardId);
             Color color = colorRepository.getById(colorId);
-            board.getTaskColors().add(color);
+            board.getColors().add(color);
             color.setBoard(board);
             color.setBoardId(boardId);
             colorRepository.save(color);

@@ -31,9 +31,8 @@ public class ColorDeleted extends BoardUpdate{
 
     @Override
     public void apply(IUserData data) {
-        commons.Color color = data.getCurrentBoard().getTaskColors().stream()
+        commons.Color color = data.getCurrentBoard().getColors().stream()
                 .filter(e -> e.getId() == colorId).findFirst().orElse(null);
-        data.getCurrentBoard().getTaskColors().remove(color);
-        data.getShowCtrl().deleteTaskColor(color);
+        data.getCurrentBoard().getColors().remove(color);
     }
 }

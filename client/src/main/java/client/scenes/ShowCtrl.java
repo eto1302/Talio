@@ -9,11 +9,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,12 +26,11 @@ public class ShowCtrl implements IShowCtrl {
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, board, taskOverview, connection,
             addBoard, editTask, errorScene, admin, editBoard, colorPicker,
-            addTaskColor;
+            addTaskColor, help, taskColorPicker, editColor;
     private AddListController addListCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
     private BoardController boardController;
-    private TaskOverview taskOverviewCtrl;
     private ConnectionCtrl connectionCtrl;
     private AddBoardController addBoardController;
     private EditTaskController editTaskController;
@@ -39,8 +38,11 @@ public class ShowCtrl implements IShowCtrl {
     private AdminController adminController;
     private EditBoardController editBoardController;
     private ColorPicker colorPickerController;
+    private TaskColorPicker taskColorPickerController;
     private AddTaskColor addTaskColorController;
     private Map<Integer, ListShapeCtrl> listControllers;
+    private HelpCtrl helpCtrl;
+    private EditColor editColorController;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
         this.primaryStage = primaryStage;
@@ -68,13 +70,33 @@ public class ShowCtrl implements IShowCtrl {
         colorPickerController = (ColorPicker) loader.get(10).getKey();
         addTaskColor = new Scene((Parent) loader.get(11).getValue());
         addTaskColorController = (AddTaskColor) loader.get(11).getKey();
+        help = new Scene((Parent) loader.get(12).getValue());
+        helpCtrl = (HelpCtrl) loader.get(12).getKey();
+        taskColorPicker = new Scene((Parent) loader.get(13).getValue());
+        taskColorPickerController = (TaskColorPicker) loader.get(13).getKey();
+        editColor = new Scene((Parent) loader.get(14).getValue());
+        editColorController = (EditColor) loader.get(14).getKey();
 
-        listControllers = new HashMap<>();
+        setUpKeys();
 
         showConnection();
-        //showBoard();
         primaryStage.show();
     }
+
+    private void keyRelease(KeyEvent event) {
+        if(event.isShiftDown()){
+            if (event.getCode()==KeyCode.SLASH)
+                showHelpMenu();
+        }
+    }
+
+    public void setUpKeys(){
+        yourBoards.setOnKeyReleased(this::keyRelease);
+        search.setOnKeyReleased(this::keyRelease);
+        board.setOnKeyReleased(this::keyRelease);
+        admin.setOnKeyReleased(this::keyRelease);
+    }
+
 
     public void showAddBoard(){
         secondaryStage = new Stage();
@@ -111,14 +133,13 @@ public class ShowCtrl implements IShowCtrl {
      * Shows the window with options for adding a task in a list.
      *
      * @param controller   the list's controller
-     * @param primaryStage the primary stage of our scenes.
-     * @param list
+     * @param list  the associated list
      */
-    public void showAddTask(ListShapeCtrl controller, Stage primaryStage, commons.List list){
+    public void showAddTask(ListShapeCtrl controller, commons.List list){
         var addTask = FXML.load(AddTaskController.class, "client",
                 "scenes", "AddTask.fxml");
         Scene addTaskScene = new Scene(addTask.getValue());
-        addTask.getKey().setup(controller, primaryStage, list);
+        addTask.getKey().setup(controller, list);
         secondaryStage = new Stage();
         secondaryStage.setScene(addTaskScene);
         secondaryStage.setTitle("Add a task");
@@ -141,55 +162,29 @@ public class ShowCtrl implements IShowCtrl {
         var addTagPair = FXML.load(AddTagController.class,
                 "client", "scenes", "AddTag.fxml");
         Scene addTagScene = new Scene(addTagPair.getValue());
+
         addTagPair.getKey().setup(task);
         popUpStage.setScene(addTagScene);
         popUpStage.setTitle("Add a tag");
         popUpStage.show();
     }
 
-    public void showAddSubTask(Task task) {
+    public void showAddSubTask(EditTaskController controller, Task task) {
         popUpStage = new Stage();
         var addSubtaskPair = FXML.load(AddSubTaskController.class,
                 "client", "scenes", "AddSubTask.fxml");
         Scene addSubtaskScene = new Scene(addSubtaskPair.getValue());
-        addSubtaskPair.getKey().setup(task);
+        addSubtaskPair.getKey().setup(controller, task);
 
         popUpStage.setScene(addSubtaskScene);
         popUpStage.setTitle("Add a sub-task");
         popUpStage.show();
     }
 
-    public void showEditSubTask(Subtask subtask) {
-        popUpStage = new Stage();
-        var editSubtaskPair = FXML.load(EditSubTaskController.class,
-                "client", "scenes", "AddSubTask.fxml");
-        Scene editSubtaskScene = new Scene(editSubtaskPair.getValue());
-        editSubtaskPair.getKey().setup(subtask);
-
-        popUpStage.setScene(editSubtaskScene);
-        popUpStage.setTitle("Edit a sub-task");
-        popUpStage.show();
-    }
-
     public void showBoard(){
         primaryStage.setTitle("Board");
-        boardController.setup(primaryStage);
+        boardController.setup();
         primaryStage.setScene(this.board);
-    }
-
-    /**
-     * Shows the details of the task. First sets the information in the window according to
-     * the task.
-     */
-    public void showTaskOverview(Task task, ListShapeCtrl listShapeCtrl) {
-        secondaryStage=new Stage();
-        var taskOverview = FXML.load(TaskOverview.class, "client",
-                "scenes", "TaskOverview.fxml");
-        Scene initialize = new Scene(taskOverview.getValue());
-        Scene updated = taskOverview.getKey().setup(task, listShapeCtrl);
-        secondaryStage.setScene(updated);
-        secondaryStage.setTitle("See your task details");
-        secondaryStage.show();
     }
 
     /**
@@ -197,10 +192,11 @@ public class ShowCtrl implements IShowCtrl {
      * First sets up the scene to the list's information
      * @param list the list that contains the info
      */
-    public void showEditList(commons.List list, Stage primaryStage){
+    public void showEditList(commons.List list){
         var editList = FXML.load(EditListController.class,
                 "client", "scenes", "EditList.fxml");
-        editList.getKey().setup(list, primaryStage);
+        editList.getKey().setup(list);
+
         secondaryStage=new Stage();
         secondaryStage.setScene(new Scene(editList.getValue()));
         secondaryStage.setTitle("Edit your list");
@@ -212,9 +208,8 @@ public class ShowCtrl implements IShowCtrl {
      * @param list the updated list
      */
     public void editList(commons.List list) {
-        ListShapeCtrl controller = listControllers.get(list.getId());
-        Scene updated = controller.getSceneUpdated(list);
-        primaryStage.setScene(updated);
+        ListShapeCtrl controller = getListController(list.getId());
+        controller.updateScene(list, boardController);
     }
 
     /**
@@ -222,9 +217,9 @@ public class ShowCtrl implements IShowCtrl {
      * @param list the list to delete
      */
     public void deleteList(commons.List list) {
-        ListShapeCtrl controller = listControllers.get(list.getId());
+        ListShapeCtrl controller = getListController(list.getId());
         if(controller != null) {
-            listControllers.remove(list.getId());
+            boardController.deleteList(controller);
             controller.deleteList();
         }
     }
@@ -237,14 +232,10 @@ public class ShowCtrl implements IShowCtrl {
      */
     public ListShapeCtrl addList(commons.List list) {
         var listShape = FXML.load(ListShapeCtrl.class, "client", "scenes", "List.fxml");
-        Scene initializeList = new Scene(listShape.getValue());
         ListShapeCtrl listShapeCtrl = listShape.getKey();
 
-        listShapeCtrl.set(list, primaryStage);
-        Scene listScene = listShapeCtrl.getSceneUpdated(list);
-        Scene scene = boardController.putList(listScene);
-        primaryStage.setScene(scene);
-        listControllers.put(list.getId(), listShapeCtrl);
+        listShapeCtrl.updateScene(list, boardController);
+        boardController.putList(listShape.getValue(), listShapeCtrl);
         return listShapeCtrl;
     }
 
@@ -268,20 +259,43 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     /**
+     * Adds the taskColor to the ColorPicker and updates the scene
+     *
+     * @param color the color object whose attributes specify the visual of the shape
+     * @return the new TaskColorShape shape controller
+     */
+    public SelectTaskColorController addSelectTaskColor(Color color, Task task) {
+        var selectTaskColorShape = FXML.load(
+                SelectTaskColorController.class, "client", "scenes", "SelectTaskColorShape.fxml");
+        Scene initializeTaskColor = new Scene(selectTaskColorShape.getValue());
+        SelectTaskColorController selectTaskColorController = selectTaskColorShape.getKey();
+
+        selectTaskColorController.set(color, task);
+        Scene taskColorScene = selectTaskColorController.getSceneUpdated(color);
+        Scene scene = taskColorPickerController.putColor(taskColorScene);
+        secondaryStage.setScene(scene);
+        return selectTaskColorController;
+    }
+
+    /**
      * Adds a task to the list.
      * @param task the task with the info
      * @param list the list to add the task to
      */
     public void addTask(Task task, commons.List list) {
         var taskShape = FXML.load(TaskShape.class, "client", "scenes", "Task.fxml");
-        Scene taskScene = new Scene(taskShape.getValue());
         TaskShape taskShapeCtrl = taskShape.getKey();
-        ListShapeCtrl listShapeCtrl = listControllers.get(list.getId());
+        ListShapeCtrl listShapeCtrl = getListController(list.getId());
 
-        taskShapeCtrl.set(task, primaryStage, listShapeCtrl);
-        Scene updated = taskShapeCtrl.getSceneUpdated(task);
-        Scene scene = listShapeCtrl.putTask(updated);
-        primaryStage.setScene(scene);
+        taskShapeCtrl.set(task, listShapeCtrl);
+        taskShapeCtrl.updateScene(task);
+        listShapeCtrl.addTask(taskShape.getValue(), taskShapeCtrl);
+    }
+
+    public void deleteTask(Task task) {
+        ListShapeCtrl listShapeCtrl = getListController(task.getListID());
+        if(listShapeCtrl != null)
+            listShapeCtrl.removeTask(task.getId());
     }
 
     /**
@@ -308,27 +322,36 @@ public class ShowCtrl implements IShowCtrl {
         popUpStage.close();
     }
 
-    public void addTag(Tag tag, TaskOverview controller, Stage primaryStage) {
+    public void addTag(Tag tag, EditTaskController controller, Stage primaryStage) {
     }
 
     public void showEditTask(Task task, ListShapeCtrl listShapeCtrl) {
         var editTaskPair = FXML.load(EditTaskController.class, "client", "scenes", "EditTask.fxml");
         editTaskController = editTaskPair.getKey();
         editTask = new Scene((Parent) editTaskPair.getValue());
+        editTask.setOnKeyReleased(this::keyRelease);
+
+        editTask.setOnKeyPressed(event -> {
+            if (event.getCode()==KeyCode.ESCAPE)
+                cancel();
+        });
+
         Scene updated = editTaskController.setup(task, listShapeCtrl);
         secondaryStage = new Stage();
-        secondaryStage.setScene(editTask);
+        secondaryStage.setScene(updated);
         secondaryStage.setTitle("Edit a task");
         secondaryStage.show();
     }
 
     public void addSubTask(Subtask subtask, EditTaskController editTaskController) {
         var subTaskShapePair = FXML.load(SubTaskShapeCtrl.class,
-            "client", "scenes", "SubTaskShape.fxml");
+                "client", "scenes", "SubTaskShape.fxml");
         SubTaskShapeCtrl subTaskShapeCtrl = subTaskShapePair.getKey();
-//        subTaskShapeCtrl.setup(subtask, editTaskController);
-        Scene subTaskScene = subTaskShapeCtrl.getScene(subtask);
-        editTaskController.putSubtask(subTaskScene);
+        Scene subTaskScene = new Scene((Parent) subTaskShapePair.getValue());
+
+        subTaskShapeCtrl.setup(subtask);
+        Scene updated = subTaskShapeCtrl.getScene(subtask);
+        editTaskController.putSubtask(subTaskScene, subtask);
     }
 
     public void addTag(Tag tag, EditTaskController editTaskController) {
@@ -390,11 +413,10 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     public void refreshList(int listID) {
-        ListShapeCtrl ctrl = listControllers.get(listID);
+        ListShapeCtrl ctrl = getListController(listID);
         if(ctrl != null)
             ctrl.refreshList();
     }
-
 
     public void deleteTaskColor(Color color) {
 
@@ -413,10 +435,44 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.show();
     }
 
+    public void showTaskColorPicker(Task task) {
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Task Color Picker");
+        secondaryStage.setScene(this.taskColorPicker);
+        this.taskColorPickerController.setup(task);
+        secondaryStage.show();
+    }
+
     public void showAddTagColor() {
         secondaryStage = new Stage();
         secondaryStage.setTitle("AddTagColor");
         secondaryStage.setScene(this.addTaskColor);
+        secondaryStage.show();
+    }
+    public void showHelpMenu(){
+        popUpStage=new Stage();
+        help.setOnKeyReleased(event->{
+            if (event.getCode()==KeyCode.Q)
+                closePopUp();
+        });
+        popUpStage.setScene(help);
+        popUpStage.setTitle("Help menu - Shortcuts");
+        popUpStage.setResizable(false);
+
+        popUpStage.show();
+    }
+
+    private ListShapeCtrl getListController(int listId) {
+        ListShapeCtrl controller = boardController.getListControllers().stream()
+                .filter(e -> e.getList().getId() == listId).findFirst().orElse(null);
+        return controller;
+    }
+
+    public void showEditColor(Color color) {
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Edit Color");
+        secondaryStage.setScene(this.editColor);
+        this.editColorController.setup(color);
         secondaryStage.show();
     }
 }
