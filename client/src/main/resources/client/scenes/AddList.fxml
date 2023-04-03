@@ -4,22 +4,16 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<<<<<<< HEAD
 <AnchorPane prefHeight="279.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.lists.AddListController">
+=======
+<AnchorPane prefHeight="229.0" prefWidth="603.0" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddListController">
+>>>>>>> 602e3f1a19b695287d7f04503e6fd501e938396a
    <children>
-      <FlowPane alignment="CENTER" layoutY="7.0" prefHeight="43.0" prefWidth="600.0">
-         <children>
-            <Text fill="#6b6767" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a list" wrappingWidth="125.33673095703125">
-               <font>
-                  <Font size="23.0" />
-               </font>
-            </Text>
-         </children>
-      </FlowPane>
       <TextField fx:id="nameField" layoutX="90.0" layoutY="96.0" prefHeight="26.0" prefWidth="209.0" />
       <Label layoutX="340.0" layoutY="93.0" text="Name" textFill="#6b6767">
          <font>
@@ -28,11 +22,16 @@
       </Label>
       <Line endX="439.49285888671875" endY="0.4000053405761719" layoutX="127.0" layoutY="50.0" opacity="0.54" startX="-97.30712890625" startY="0.4000053405761719" />
       <Line endX="512.0000610351562" endY="1.9999916553497314" layoutX="90.0" layoutY="-2.0" startX="-89.99998474121094" startY="2.0000030994415283" />
-      <Button fx:id="cancelButton" layoutX="465.0" layoutY="239.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+      <Button fx:id="cancelButton" layoutX="444.0" layoutY="185.0" mnemonicParsing="false" onAction="#cancel" styleClass="buttons" text="Cancel" />
 
-      <Button fx:id="addButton" layoutX="530.0" layoutY="238.0" mnemonicParsing="false" onAction="#addList" prefHeight="26.0" prefWidth="51.0" text="Add" />
-      <Line endX="-100.80712127685547" endY="142.79287719726562" layoutX="130.0" layoutY="68.0" opacity="0.54" startX="-100.80712127685547" startY="-17.099979400634766" />
-      <Line endX="435.49298095703125" endY="10.292877197265625" layoutX="131.0" layoutY="201.0" opacity="0.54" startX="-100.5071029663086" startY="10.292877197265625" />
-      <Line endX="92.99298095703125" endY="45.792877197265625" layoutX="474.0" layoutY="165.0" opacity="0.54" startX="92.99285888671875" startY="-114.0999755859375" />
+      <Button fx:id="addButton" layoutX="514.0" layoutY="184.0" mnemonicParsing="false" onAction="#addList" prefHeight="26.0" prefWidth="51.0" styleClass="buttons" text="Add" />
+      <Line endX="-101.0071029663086" endY="92.79287719726562" layoutX="130.0" layoutY="68.0" opacity="0.54" startX="-100.80712127685547" startY="-17.099979400634766" />
+      <Line endX="436.28582763671875" endY="10.292877197265625" layoutX="130.0" layoutY="151.0" opacity="0.54" startX="-100.5071029663086" startY="10.292877197265625" />
+      <Line endX="98.78582763671875" endY="-4.207122802734375" layoutX="468.0" layoutY="165.0" opacity="0.54" startX="98.99285888671875" startY="-115.0999755859375" />
+      <Text fill="#6b6767" layoutX="252.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a list" wrappingWidth="99.73675537109375">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

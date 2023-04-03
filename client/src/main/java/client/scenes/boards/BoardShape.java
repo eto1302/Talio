@@ -43,7 +43,7 @@ public class BoardShape {
     private Button copyButton;
     private ShowCtrl showCtrl;
     private ServerUtils server;
-    @Inject 
+    @Inject
     private UserData userData;
     @Inject
     public BoardShape (ShowCtrl showCtrl, ServerUtils serverUtils){

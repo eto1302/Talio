@@ -18,8 +18,6 @@ package client;
 import client.scenes.AdminController;
 import client.scenes.tags.TagOverviewController;
 import client.user.UserData;
-import client.messageClients.MessageAdmin;
-import client.messageClients.MessageSender;
 import client.scenes.ShowCtrl;
 import client.utils.ServerUtils;
 import com.google.inject.AbstractModule;
@@ -31,8 +29,6 @@ public class MyModule extends AbstractModule {
 
     protected void configure() {
         install(new WSClientModule());
-        bind(MessageAdmin.class).in(Scopes.SINGLETON);
-        bind(MessageSender.class).in(Scopes.SINGLETON);
         RestTemplateBuilder rtb = new RestTemplateBuilder();
         RestTemplate rt = rtb.build();
         bind(RestTemplate.class).toInstance(rt);
