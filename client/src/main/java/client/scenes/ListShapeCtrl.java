@@ -12,7 +12,6 @@ import commons.sync.ListDeleted;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.geometry.Bounds;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -49,24 +48,6 @@ public class ListShapeCtrl {
         this.showCtrl = showCtrl;
         this.serverUtils = serverUtils;
         this.userData = userData;
-    }
-
-    /**
-     * Updates the list's visual (sets the title and the colors of it)
-     * based on the list object that is passed on
-     * @param list the list with the necessary attributes
-     * @return the updated scene after modifications
-     */
-    public Scene getSceneUpdated(commons.List list){
-        listTitle.setText(list.getName());
-        Board board = this.userData.getCurrentBoard();
-        Color backgroundColor= Color.web(board.getListColor().getBackgroundColor());
-        Color fontColor= Color.web(board.getListColor().getFontColor());
-
-        listGrid.setBackground(new Background(
-                new BackgroundFill(backgroundColor, null, null)));
-        listTitle.setTextFill(fontColor);
-        return listGrid.getScene();
     }
 
     public void refreshList(){

@@ -68,7 +68,7 @@ public class TaskShape {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
-                    if (event.getClickCount()==1) {
+                    if (event.getClickCount()==2) {
                         setTaskUpdated();
                         showCtrl.showEditTask(task, controller);
                     }
@@ -157,8 +157,8 @@ public class TaskShape {
     /**
      * Sets the information of the list and task. Sets the methods for the dragging and dropping
      * for the ordering tasks feature
-//     * @param id the id of the task
-//     * @param list the task's list
+     //     * @param id the id of the task
+     //     * @param list the task's list
      */
     public void set(Task task, ListShapeCtrl listShapeCtrl){
         this.task = task;

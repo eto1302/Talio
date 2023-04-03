@@ -57,6 +57,9 @@ public class ConnectionCtrl {
         if (serverUtils.getBoard(1)==null){
             Color boardColor = Color.create("#000000", "#FFFFFF");
             Color listColor = Color.create("#000000", "#FFFFFF");
+            boardColor.setIsDefault(true);
+            listColor.setIsDefault(true);
+
             boardColor.setId(serverUtils.addColor(boardColor).getId());
             listColor.setId(serverUtils.addColor(listColor).getId());
             List<Color> colors = new ArrayList<>();

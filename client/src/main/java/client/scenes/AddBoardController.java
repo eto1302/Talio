@@ -48,6 +48,8 @@ public class AddBoardController {
                 Color.create("#000000", "#FFFFFF");
         commons.Color listColor = commons.
                 Color.create("#000000", "#FFFFFF");
+        boardColor.setIsDefault(true);
+        listColor.setIsDefault(true);
 
         IdResponseModel boardColorResponse = server.addColor(boardColor);
         IdResponseModel listColorResponse = server.addColor(listColor);
@@ -59,18 +61,16 @@ public class AddBoardController {
 
         // if creation fails or client cannot connect to the server, it will return -1
         if (boardColorResponse.getId() == -1) {
-            // show the error popup
             showCtrl.showError(boardColorResponse.getErrorMessage());
             showCtrl.cancel();
             return;
         }
-        // if creation fails or client cannot connect to the server, it will return -1
         if (listColorResponse.getId() == -1) {
-            // show the error popup
             showCtrl.showError(listColorResponse.getErrorMessage());
             showCtrl.cancel();
             return;
         }
+
         Board board = Board.create(nameField.getText(), null,
                 new ArrayList<>(), colors, new ArrayList<>());
         String inviteKey = generateInviteKey();
@@ -79,9 +79,8 @@ public class AddBoardController {
         IdResponseModel response = server.addBoard(board);
         server.setColorToBoard(boardColor, response.getId());
         server.setColorToBoard(listColor, response.getId());
-        // if creation fails or client cannot connect to the server, it will return -1
+
         if (response.getId() == -1) {
-            // show the error popup
             showCtrl.showError(response.getErrorMessage());
             showCtrl.cancel();
             return;

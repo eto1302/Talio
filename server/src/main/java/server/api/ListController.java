@@ -39,7 +39,7 @@ public class ListController {
             return ResponseEntity.badRequest().body(null);
         }
     }
-    
+
     @GetMapping("/findAll")
     @ResponseBody
     public List<commons.List> getAllLists(){
