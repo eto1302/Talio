@@ -15,7 +15,7 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <CheckBox fx:id="textField" mnemonicParsing="false" onAction="#changeSelected" prefHeight="18.0" text="CheckBox" wrapText="true" />
+      <CheckBox fx:id="description" mnemonicParsing="false" onAction="#changeSelected" prefHeight="18.0" text="CheckBox" wrapText="true" />
       <Hyperlink contentDisplay="CENTER" onAction="#remove" text="X" textFill="#130404" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
    </children>
 </GridPane>
