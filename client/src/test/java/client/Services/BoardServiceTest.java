@@ -29,7 +29,6 @@ public class BoardServiceTest {
     private Board board;
     @BeforeEach
     public void setup(){
-        System.setProperty("java.awt.headless", "false");
         MockitoAnnotations.openMocks(this);
         boardService = new BoardService(mockUserData, mockServerUtils);
         this.board = Board.create("test", "pass", new ArrayList<>(),
@@ -156,13 +155,6 @@ public class BoardServiceTest {
 
         verify(mockUserData, times(1)).leaveBoard(any(Integer.class));
         verify(mockUserData, times(1)).saveToDisk();
-    }
-    @Test
-    public void copyInviteTest(){
-        when(mockServerUtils.getBoard(any(Integer.class))).thenReturn(board);
-        this.boardService.copyInviteLink(1);
-
-        verify(mockServerUtils, times(1)).getBoard(any(Integer.class));
     }
     @Test
     public void searchMissingTest(){

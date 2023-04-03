@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.Services.ColorService;
 import client.user.UserData;
+import client.utils.ServerUtils;
 import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
@@ -19,8 +20,8 @@ public class AddTaskColor {
     private ColorService colorService;
 
     @Inject
-    public AddTaskColor(UserData userData) {
-        this.colorService = new ColorService(userData);
+    public AddTaskColor(UserData userData, ServerUtils serverUtils) {
+        this.colorService = new ColorService(userData, serverUtils);
     }
 
     public void add() {

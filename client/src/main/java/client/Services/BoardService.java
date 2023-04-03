@@ -22,7 +22,7 @@ public class BoardService {
 
     public BoardService(UserData userData, ServerUtils serverUtils) {
         this.userData = userData;
-        this.colorService = new ColorService(userData);
+        this.colorService = new ColorService(userData,serverUtils);
         this.serverUtils = serverUtils;
     }
 
@@ -147,5 +147,17 @@ public class BoardService {
         this.userData.saveToDisk();
         this.userData.openBoard(board.getId());
         return new IdResponseModel(1, null);
+    }
+
+    public Board[] getAllBoards() {
+        return this.serverUtils.getAllBoards();
+    }
+
+    public Board[] getBoardsUpdated() {
+        return this.serverUtils.getBoardsUpdated();
+    }
+
+    public IdResponseModel deleteBoard(int boardId) {
+        return this.serverUtils.deleteBoard(boardId);
     }
 }

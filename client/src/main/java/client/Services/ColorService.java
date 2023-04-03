@@ -1,6 +1,7 @@
 package client.Services;
 
 import client.user.UserData;
+import client.utils.ServerUtils;
 import commons.Board;
 import commons.models.ColorEditModel;
 import commons.models.IdResponseModel;
@@ -16,9 +17,11 @@ import java.util.Optional;
 public class ColorService {
 
     private final UserData userData;
+    private final ServerUtils serverUtils;
 
-    public ColorService(UserData userData) {
+    public ColorService(UserData userData, ServerUtils serverUtils) {
         this.userData = userData;
+        this.serverUtils = serverUtils;
     }
 
     public IdResponseModel addColor(Color backgroundColor, Color fontColor) {
@@ -102,5 +105,9 @@ public class ColorService {
                 new ColorDeleted(this.userData.getCurrentBoard().getId(), color.getId()));
         this.userData.openBoard(this.userData.getCurrentBoard().getId());
         return model;
+    }
+
+    public commons.Color getColor(int id) {
+        return this.serverUtils.getColor(id);
     }
 }

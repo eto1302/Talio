@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.Services.ColorService;
 import client.user.UserData;
+import client.utils.ServerUtils;
 import commons.Color;
 import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
@@ -27,8 +28,8 @@ public class TaskColorShape {
     private ColorService colorService;
 
     @Inject
-    public TaskColorShape(UserData userData){
-        this.colorService = new ColorService(userData);
+    public TaskColorShape(UserData userData, ServerUtils serverUtils){
+        this.colorService = new ColorService(userData, serverUtils);
     }
 
     public void delete() {

@@ -28,7 +28,6 @@ public class ListShapeCtrl {
     private VBox tasksBox;
     @FXML
     private ScrollPane scrollPane;
-
     @FXML
     private Label listTitle;
     @FXML
@@ -178,7 +177,7 @@ public class ListShapeCtrl {
         int previousListId = Integer.parseInt(identify.split("\\+")[1].trim());
 
         if (previousListId!=list.getId()) {
-            Task task =taskService.getTask(taskId);
+            Task task = taskService.getTask(taskId);
             List previousList = listService.getList(previousListId);
             previousList.getTasks().remove(task);
 

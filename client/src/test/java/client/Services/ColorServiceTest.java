@@ -1,6 +1,7 @@
 package client.Services;
 
 import client.user.UserData;
+import client.utils.ServerUtils;
 import commons.Board;
 import commons.Color;
 import commons.models.IdResponseModel;
@@ -22,6 +23,8 @@ import static org.mockito.Mockito.*;
 public class ColorServiceTest {
     @MockBean
     private UserData mockUserData = Mockito.mock(UserData.class);
+    @MockBean
+    private ServerUtils mockServerUtils = Mockito.mock(ServerUtils.class);
     private ColorService colorService;
 
     private Board board;
@@ -30,7 +33,7 @@ public class ColorServiceTest {
     @BeforeEach
     public void setup(){
         MockitoAnnotations.openMocks(this);
-        colorService = new ColorService(mockUserData);
+        colorService = new ColorService(mockUserData, mockServerUtils);
     }
 
     @Test

@@ -13,7 +13,6 @@ import javax.inject.Inject;
 public class EditListController {
     @FXML
     private TextField newTitle;
-
     private ShowCtrl showCtrl;
     private List list;
     private ListService listService;
