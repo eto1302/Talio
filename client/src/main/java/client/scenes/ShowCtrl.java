@@ -1,10 +1,6 @@
 package client.scenes;
 
-import client.scenes.boards.*;
-import client.scenes.lists.*;
-import client.scenes.subtasks.*;
 import client.scenes.tags.*;
-import client.scenes.tasks.*;
 import commons.*;
 import commons.mocks.IShowCtrl;
 import javafx.geometry.Pos;

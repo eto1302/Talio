@@ -1,7 +1,6 @@
 package client.scenes.tags;
 
 import client.scenes.*;
-import client.scenes.tasks.EditTaskController;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
@@ -13,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import commons.Tag;
 
 import javax.inject.Inject;

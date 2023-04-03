@@ -76,10 +76,6 @@ public class TagController {
         return tagService.editTag(id, model);
     }
 
-    @GetMapping("/removeFromTask/{tagID}/{taskID}")
-    public IdResponseModel removeFromTask(@PathVariable int tagID, @PathVariable int taskID){
-        return tagService.removeFromTask(tagID, taskID);
-    }
 
     @GetMapping("/removeFromBoard/{tagID}/{boardID}")
     public IdResponseModel removeFromBoard(@PathVariable int tagID, @PathVariable int boardID){

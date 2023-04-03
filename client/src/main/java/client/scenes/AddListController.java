@@ -1,4 +1,4 @@
-package client.scenes.lists;
+package client.scenes;
 
 import client.scenes.ShowCtrl;
 import commons.sync.ListAdded;

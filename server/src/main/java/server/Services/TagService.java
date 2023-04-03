@@ -10,6 +10,7 @@ import server.database.BoardRepository;
 import server.database.TagRepository;
 import server.database.TaskRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -48,7 +49,10 @@ public class TagService {
     public IdResponseModel addTagToTask(Tag tag, int taskID){
         try{
             Task task = taskRepository.getTaskById(taskID);
-            task.getTags().add(tag);
+            Board board = boardRepository.getBoardByID(tag.getBoardId());
+            tag.setBoard(board);
+//            task.getTags().add(tag);
+            if(tag.getTasks() == null) {tag.setTasks(new ArrayList<>());}
             tag.getTasks().add(task);
             tag.getTaskIDs().add(taskID);
             tagRepository.save(tag);
@@ -76,12 +80,14 @@ public class TagService {
         try{
             Tag tag = tagRepository.getById(tagID);
             Task task = taskRepository.getTaskById(taskID);
+            Board board = boardRepository.getBoardByID(tag.getBoardId());
             task.getTags().remove(tag);
             tag.getTasks().remove(task);
-            tag.getTaskIDs().remove(taskID);
-            if(tag.getTasks().size() == 0){
-                tagRepository.delete(tag);
-            }
+            tag.getTaskIDs().remove((Integer) taskID);
+//            if(tag.getTasks().size() == 0){
+//                tagRepository.delete(tag);
+//            }
+            tagRepository.save(tag);
             return new IdResponseModel(tagID, null);
         }
         catch(Exception e){
@@ -121,21 +127,4 @@ public class TagService {
 
     public long count() {return tagRepository.count();}
 
-    public IdResponseModel removeFromTask(int tagId, int taskId) {
-        if(!tagRepository.existsById(tagId) || !taskRepository.existsById(taskId)) return null;
-        Tag tag = tagRepository.getById(tagId);
-        Task task = taskRepository.getById(taskId);
-
-        try{
-            tag.setTask(null);
-            tag.setTaskID(-1);
-            task.getTags().remove(tag);
-            tagRepository.save(tag);
-            taskRepository.save(task);
-            return new IdResponseModel(tagId, null);
-        } catch(Exception e){
-            return new IdResponseModel(-1, e.getMessage());
-        }
-
-    }
 }

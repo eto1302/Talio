@@ -53,7 +53,5 @@ public interface IServerUtils {
     IdResponseModel removeTagFromBoard(int tagID, int boardID);
 
     IdResponseModel editTag(int tagID, TagEditModel model);
-
-    IdResponseModel removeTagFromTask(int tagId, int taskId);
 }
 

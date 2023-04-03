@@ -607,16 +607,6 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
-    public IdResponseModel removeTagFromTask(int tagID, int taskID){
-        try{
-            ResponseEntity<IdResponseModel> response = client.getForEntity(
-                url + "/tag/removeFromTask/" + tagID + "/" + taskID, IdResponseModel.class);
-            return response.getBody();
-        }
-        catch(Exception e){
-            return new IdResponseModel(-1, "Oops, failed to connect to the server...");
-        }
-    }
 
     /**
      * Returns a tag by its ID.

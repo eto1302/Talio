@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="120.0" prefWidth="164.0" style="-fx-padding: 2px; -fx-border-color: gray;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.tasks.TaskShape">
+<GridPane fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="120.0" prefWidth="164.0" style="-fx-padding: 2px; -fx-border-color: gray;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskShape">
 
   <columnConstraints>
       <ColumnConstraints />

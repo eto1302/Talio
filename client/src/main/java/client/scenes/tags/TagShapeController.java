@@ -1,7 +1,7 @@
 package client.scenes.tags;
 
 import client.scenes.ShowCtrl;
-import client.scenes.tasks.EditTaskController;
+import client.scenes.EditTaskController;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Tag;
@@ -65,10 +65,6 @@ public class TagShapeController {
         tagDeleteButton.setTextFill(Color.web(tag.getColor().getFontColor()));
 
         Color backgroundColor = Color.web(tag.getColor().getBackgroundColor());
-        //if the color is dark enough, change text to white
-//        if(backgroundColor.getBrightness() < 0.7){
-//            tagText.setStyle("-fx-text-inner-color: white;");;
-//        }
         tagContainer.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
 
         return tagContainer.getScene();

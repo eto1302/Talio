@@ -1,7 +1,7 @@
 package client.scenes.tags;
 
 import client.scenes.ShowCtrl;
-import client.scenes.tasks.EditTaskController;
+import client.scenes.EditTaskController;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
@@ -11,7 +11,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;

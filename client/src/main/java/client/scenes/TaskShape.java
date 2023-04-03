@@ -1,8 +1,6 @@
-package client.scenes.tasks;
+package client.scenes;
 
 import client.user.UserData;
-import client.scenes.ShowCtrl;
-import client.scenes.lists.ListShapeCtrl;
 import client.utils.ServerUtils;
 import commons.Color;
 import commons.List;
@@ -131,6 +129,7 @@ public class TaskShape {
         subtaskProgress.setText(done + "/" + subtasks.size());
         Color taskColor = this.server.getColor(task.getColorId());
         if(taskColor == null){
+            //TODO: No default color set, errors out
             int defaultColorId = this.userData.getCurrentBoard().getColors()
                     .stream().filter(Color::getIsDefault).findFirst().get().getId();
             this.task.setColorId(defaultColorId);

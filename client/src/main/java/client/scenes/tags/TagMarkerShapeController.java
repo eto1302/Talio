@@ -1,13 +1,11 @@
 package client.scenes.tags;
 
 import client.scenes.ShowCtrl;
-import client.scenes.tasks.TaskShape;
 import client.utils.ServerUtils;
 import commons.Tag;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
