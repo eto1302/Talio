@@ -9,10 +9,17 @@
 <?import javafx.scene.text.Text?>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <AnchorPane prefHeight="279.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.lists.AddListController">
 =======
 <AnchorPane prefHeight="229.0" prefWidth="603.0" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddListController">
 >>>>>>> 602e3f1a19b695287d7f04503e6fd501e938396a
+=======
+<AnchorPane prefHeight="229.0" prefWidth="603.0" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddListController">
+=======
+<AnchorPane prefHeight="279.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.lists.AddListController">
+>>>>>>> cd02f51aa34a269eb33d408446e231f2b5d89b10
+>>>>>>> 1e7a01e3fff72d1742e9f32734e84c4642e3b986
    <children>
       <TextField fx:id="nameField" layoutX="90.0" layoutY="96.0" prefHeight="26.0" prefWidth="209.0" />
       <Label layoutX="340.0" layoutY="93.0" text="Name" textFill="#6b6767">

@@ -1,13 +1,11 @@
 package client.scenes.subtasks;
 
-<<<<<<< HEAD:client/src/main/java/client/scenes/subtasks/AddSubTaskController.java
 import client.scenes.ShowCtrl;
-=======
+import client.scenes.tasks.EditTaskController;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Subtask;
->>>>>>> 602e3f1a19b695287d7f04503e6fd501e938396a:client/src/main/java/client/scenes/AddSubTaskController.java
 import commons.Task;
 import commons.models.IdResponseModel;
 import commons.sync.SubtaskAdded;

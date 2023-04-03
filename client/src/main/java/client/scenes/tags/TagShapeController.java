@@ -7,7 +7,6 @@ import client.utils.ServerUtils;
 import commons.Tag;
 import commons.Task;
 import commons.models.IdResponseModel;
-import commons.sync.ListAdded;
 import commons.sync.TagAddedToTask;
 import commons.sync.TagDeleted;
 import javafx.event.EventHandler;
@@ -18,7 +17,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import org.apache.catalina.User;
 
 import javax.inject.Inject;
 
@@ -73,19 +71,20 @@ public class TagShapeController<T> {
     }
 
     public void handleHighlight(){
-          tagContainer.setOnMouseEntered(new EventHandler<MouseEvent>() {
-              @Override
-              public void handle(MouseEvent event) {
-                  tagContainer.setStyle("-fx-border-width: 2px;-fx-border-color: blue");
-//                  tagContainer.setBorder(new Border(new BorderStroke(Color.BLUEVIOLET, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, )));
-              }
-          });
-          tagContainer.setOnMouseExited(new EventHandler<MouseEvent>() {
-              @Override
-              public void handle(MouseEvent event) {
-                  tagContainer.setStyle("-fx-border-width: 0");
-              }
-          });
+        tagContainer.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                tagContainer.setStyle("-fx-border-width: 2px;-fx-border-color: blue");
+//                tagContainer.setBorder(new Border(new BorderStroke(Color.BLUEVIOLET,
+//                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, )));
+            }
+        });
+        tagContainer.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                tagContainer.setStyle("-fx-border-width: 0");
+            }
+        });
     }
 
 
@@ -99,11 +98,13 @@ public class TagShapeController<T> {
                         return;
                     } else if (event.getClickCount()==1 && taskController != null) {
                         System.out.println("add trigger");
-                        //add the tag to a task if clicked in tagToTask (only place where editTaskController is set)
+                        //add the tag to a task if clicked in tagToTask
+                        // (only place where editTaskController is set)
                         //+ set the board id since it is 0 since db fucked
                         if(validateTagBeforeAdd(tag, taskController.getTask())) return;
                         showCtrl.closePopUp();
-                        IdResponseModel model = userData.updateBoard(new TagAddedToTask(tag.getBoardId(), taskController.getTask(), tag));
+                        IdResponseModel model = userData.updateBoard(new TagAddedToTask(
+                            tag.getBoardId(), taskController.getTask(), tag));
                         if (model.getId() == -1) {
                             showCtrl.showError(model.getErrorMessage());
                             showCtrl.cancel();

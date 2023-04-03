@@ -15,6 +15,7 @@ import commons.sync.ListDeleted;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.geometry.Bounds;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -54,7 +55,6 @@ public class ListShapeCtrl {
         this.taskControllers = new LinkedList<>();
     }
 
-<<<<<<< HEAD:client/src/main/java/client/scenes/lists/ListShapeCtrl.java
     /**
      * Updates the list's visual (sets the title and the colors of it)
      * based on the list object that is passed on
@@ -74,8 +74,6 @@ public class ListShapeCtrl {
         return listGrid.getScene();
     }
 
-=======
->>>>>>> 602e3f1a19b695287d7f04503e6fd501e938396a:client/src/main/java/client/scenes/ListShapeCtrl.java
     public void refreshList(){
         showCtrl.refreshBoardCtrl();
     }

@@ -6,18 +6,18 @@ import commons.mocks.IServerUtils;
 import commons.mocks.IUserData;
 import commons.models.IdResponseModel;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 public class TagDeleted extends BoardUpdate{
 
     private Tag tag;
+    private int taskID;
 
     public TagDeleted(int boardID, Tag tag) {
         super(boardID);
         this.tag = tag;
+        this.taskID = taskID;
     }
 
     public TagDeleted() {super();}
@@ -32,7 +32,11 @@ public class TagDeleted extends BoardUpdate{
 
     @Override
     public IdResponseModel sendToServer(IServerUtils server) {
-        IdResponseModel id = server.removeTag(tag.getId());
+        if(tag.getTaskIDs().size() == 0){
+            return server.removeTagFromBoard(tag.getId(), tag.getBoardId());
+        }
+        //TODO: Find the correct taskID (maybe in a different method)
+        IdResponseModel id = server.removeTagFromTask(tag.getId(), taskID);
         return id;
     }
 

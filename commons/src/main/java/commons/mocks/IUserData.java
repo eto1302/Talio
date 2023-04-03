@@ -1,7 +1,6 @@
 package commons.mocks;
 
 import commons.Board;
-import commons.models.IdResponseModel;
 
 public interface IUserData {
 

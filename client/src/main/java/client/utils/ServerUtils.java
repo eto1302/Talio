@@ -268,7 +268,7 @@ public class ServerUtils implements IServerUtils {
      * @param boardId id of the board
      * @param listId id of the list
      * @param model  name information of the modified list
-     * @return
+     * @return The id of the list.
      */
     public IdResponseModel editList(int boardId, int listId, ListEditModel model) {
         try {
@@ -594,10 +594,21 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
-    public IdResponseModel removeTag(int tagID){
+    public IdResponseModel removeTagFromBoard(int tagID, int boardID){
         try{
             ResponseEntity<IdResponseModel> response = client.getForEntity(
-                    url + "/tag/remove/" + tagID, IdResponseModel.class);
+                    url + "/tag/removeFromBoard/" + tagID + "/" + boardID, IdResponseModel.class);
+            return response.getBody();
+        }
+        catch(Exception e){
+            return new IdResponseModel(-1, "Oops, failed to connect to the server...");
+        }
+    }
+
+    public IdResponseModel removeTagFromTask(int tagID, int taskID){
+        try{
+            ResponseEntity<IdResponseModel> response = client.getForEntity(
+                url + "/tag/removeFromTask/" + tagID + "/" + taskID, IdResponseModel.class);
             return response.getBody();
         }
         catch(Exception e){
@@ -629,13 +640,8 @@ public class ServerUtils implements IServerUtils {
     public java.util.List<Tag> getTagByTask(int taskID) {
         try {
             ResponseEntity<java.util.List<commons.Tag>> response = client.exchange(
-<<<<<<< HEAD
                 url+"tag/getByTask/" + taskID, HttpMethod.GET, null,
                 new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
-=======
-                    url+"task/getByTask/" + taskID, HttpMethod.GET, null,
-                    new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
->>>>>>> 602e3f1a19b695287d7f04503e6fd501e938396a
             );
 
             // return the tag if the request succeeded
@@ -664,13 +670,9 @@ public class ServerUtils implements IServerUtils {
     public java.util.List<Tag> getTagByBoard(int boardID) {
         try {
             ResponseEntity<java.util.List<commons.Tag>> response = client.exchange(
-<<<<<<< HEAD
+
                 url+"tag/getByBoard/" + boardID, HttpMethod.GET, null,
                 new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
-=======
-                    url+"task/getByTask/" + boardID, HttpMethod.GET, null,
-                    new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
->>>>>>> 602e3f1a19b695287d7f04503e6fd501e938396a
             );
 
             // return the tag if the request succeeded

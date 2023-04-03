@@ -1,7 +1,6 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -36,8 +35,9 @@ public class Task {
     @JsonManagedReference
     private java.util.List<Subtask> subtasks;
 
-    @OneToMany(mappedBy = "task")
-    @JsonIgnore
+    @ManyToMany (cascade = CascadeType.REMOVE)
+    @JoinTable(name = "tag2task", joinColumns = @JoinColumn(name = "taskId"),
+        inverseJoinColumns = @JoinColumn(name = "tagId"))
     private java.util.List<Tag> tags;
 
     @Column(name = "colorId")

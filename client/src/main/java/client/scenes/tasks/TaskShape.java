@@ -6,6 +6,7 @@ import client.scenes.lists.ListShapeCtrl;
 import client.utils.ServerUtils;
 import commons.Color;
 import commons.List;
+import commons.Subtask;
 import commons.Tag;
 import commons.Task;
 import commons.models.TaskEditModel;
@@ -35,7 +36,7 @@ public class TaskShape {
     @FXML
     private GridPane grid;
     @FXML
-    private Label plusSign, title, deleteX;
+    private Label plusSign, title, deleteX, subtaskProgress;
     @FXML
     private HBox tagMarkerContainer;
     private ShowCtrl showCtrl;
@@ -117,9 +118,14 @@ public class TaskShape {
     public void updateScene(Task task){
         this.task = task;
         title.setText(task.getTitle());
-<<<<<<< HEAD:client/src/main/java/client/scenes/tasks/TaskShape.java
-        refreshTagMarkers(task);
-=======
+        java.util.List<Subtask> subtasks = task.getSubtasks();
+        int done = 0;
+        for(Subtask subtask: subtasks){
+            if(subtask.isChecked()){
+                ++done;
+            }
+        }
+        subtaskProgress.setText(done + "/" + subtasks.size());
         Color taskColor = this.server.getColor(task.getColorId());
         if(taskColor == null){
             int defaultColorId = this.userData.getCurrentBoard().getColors()
@@ -137,7 +143,7 @@ public class TaskShape {
         title.setTextFill(javafx.scene.paint.Color.web(taskColor.getFontColor()));
         grid.setStyle("-fx-padding: 2px; -fx-border-color: gray; " +
                 "-fx-background-color: " + taskColor.getBackgroundColor() +";");
->>>>>>> 602e3f1a19b695287d7f04503e6fd501e938396a:client/src/main/java/client/scenes/TaskShape.java
+        refreshTagMarkers(task);
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
     }

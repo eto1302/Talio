@@ -2,7 +2,6 @@ package client.scenes.tasks;
 
 import client.scenes.ShowCtrl;
 import client.scenes.lists.ListShapeCtrl;
-import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Subtask;
@@ -17,7 +16,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 
 public class EditTaskController {
 
@@ -49,7 +47,8 @@ public class EditTaskController {
     }
 
     public Scene refresh(){
-        java.util.List<Subtask> subtasks = task.getSubtasks();
+        subtaskBox.getChildren().clear();
+        java.util.List<Subtask> subtasks = server.getSubtasksOrdered(task.getId());
         if(subtasks != null) {
             for(Subtask subtask: subtasks){
                 showCtrl.addSubTask(subtask, this);
@@ -63,15 +62,6 @@ public class EditTaskController {
                 showCtrl.addTagToTask(tag, task);
             }
         }
-        subtaskBox.getChildren().clear();
-        java.util.List<Subtask> subtasks = server.getSubtasksOrdered(task.getId());
-        for (Subtask subtask: subtasks)
-            showCtrl.addSubTask(subtask, this);
-//        tagBox.getChildren().clear();
-//        java.util.List<Tag> tags = server.getTagsByTask(task.getId());
-//        for (Tag tag: tags)
-//            showCtrl.addTag(tag, this);
->>>>>>> 602e3f1a19b695287d7f04503e6fd501e938396a:client/src/main/java/client/scenes/EditTaskController.java
         return title.getScene();
     }
 
@@ -104,15 +94,9 @@ public class EditTaskController {
         task.setDescription(description);
         List list =server.getList(task.getListID());
 
-<<<<<<< HEAD:client/src/main/java/client/scenes/tasks/EditTaskController.java
-        TaskEditModel model = new TaskEditModel(title, description, task.getIndex(), list);
-        IdResponseModel response = server.editTask(task.getId(), model);
-=======
         TaskEditModel model = new TaskEditModel(title, description, task.getIndex(),
                 list, task.getColorId());
-        IdResponseModel response = userData.updateBoard
-                (new TaskEdited(list.getBoardId(), list.getId(), task.getId(), model));
->>>>>>> 602e3f1a19b695287d7f04503e6fd501e938396a:client/src/main/java/client/scenes/EditTaskController.java
+        IdResponseModel response = server.editTask(task.getId(), model);
 
         if (response.getId() == -1) {
             showCtrl.cancel();
@@ -124,7 +108,11 @@ public class EditTaskController {
         showCtrl.cancel();
     }
 
-<<<<<<< HEAD:client/src/main/java/client/scenes/tasks/EditTaskController.java
+    public void showTaskColorPicker() {
+        showCtrl.cancel();
+        showCtrl.showTaskColorPicker(task);
+    }
+
     public ListShapeCtrl getListShapeCtrl() {
         return listShapeCtrl;
     }
@@ -137,12 +125,7 @@ public class EditTaskController {
         return task;
     }
 
-    private void cleanTagBox(){
+    private void cleanTagBox() {
         tagBox.getChildren().remove(0, tagBox.getChildren().size());
-=======
-    public void showTaskColorPicker() {
-        showCtrl.cancel();
-        showCtrl.showTaskColorPicker(task);
->>>>>>> 602e3f1a19b695287d7f04503e6fd501e938396a:client/src/main/java/client/scenes/EditTaskController.java
     }
 }

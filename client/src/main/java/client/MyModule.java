@@ -16,7 +16,6 @@
 package client;
 
 import client.scenes.AdminController;
-import client.scenes.tags.TagOverviewController;
 import client.user.UserData;
 import client.scenes.ShowCtrl;
 import client.utils.ServerUtils;

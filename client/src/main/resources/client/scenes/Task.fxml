@@ -8,7 +8,15 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <GridPane fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="120.0" prefWidth="164.0" style="-fx-padding: 2px; -fx-border-color: gray;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.tasks.TaskShape">
+=======
+<<<<<<< HEAD
+<GridPane id="grid" fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="99.0" prefWidth="178.0" style="-fx-padding: 2px; -fx-border-color: gray;" styleClass="taskGrid" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskShape">
+=======
+<GridPane fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="120.0" prefWidth="164.0" style="-fx-padding: 2px; -fx-border-color: gray;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.tasks.TaskShape">
+>>>>>>> cd02f51aa34a269eb33d408446e231f2b5d89b10
+>>>>>>> 1e7a01e3fff72d1742e9f32734e84c4642e3b986
   <columnConstraints>
       <ColumnConstraints />
     <ColumnConstraints />
@@ -21,6 +29,15 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      <Label fx:id="plusSign" text="+" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+      <Label fx:id="subtaskProgress" opacity="0.39" text="0/1" GridPane.rowIndex="1" />
+      <Label fx:id="deleteX" onMouseEntered="#deleteEvent" text="X" GridPane.columnIndex="1" GridPane.valignment="TOP" />
+      <Label fx:id="title" style="-fx-wrap-text: true;" text="Label" GridPane.halignment="CENTER" />
+=======
+>>>>>>> 1e7a01e3fff72d1742e9f32734e84c4642e3b986
       <Label fx:id="plusSign" text="+" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
       <Label opacity="0.39" text="0/1" GridPane.columnIndex="2" GridPane.rowIndex="2" />
       <Label fx:id="deleteX" onMouseEntered="#deleteEvent" text="X" GridPane.columnIndex="3" GridPane.valignment="TOP" />
@@ -29,6 +46,10 @@
          <padding>
             <Insets left="4.0" right="4.0" />
          </padding></HBox>
+<<<<<<< HEAD
+=======
+>>>>>>> cd02f51aa34a269eb33d408446e231f2b5d89b10
+>>>>>>> 1e7a01e3fff72d1742e9f32734e84c4642e3b986
    </children>
 =======
 <GridPane id="grid" fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="99.0" prefWidth="167.0" style="-fx-padding: 2px; -fx-border-color: gray; -fx-background-color: FFFFFF;" styleClass="taskGrid" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskShape">

@@ -30,8 +30,8 @@ public class TagOverviewController {
     @FXML
     private GridPane tagOverviewContainer;
 
-    List<Tag> tags;
-    Board board;
+    private List<Tag> tags;
+    private Board board;
     private int ind;
 
     @Inject
