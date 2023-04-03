@@ -48,18 +48,12 @@ public class Main extends Application {
     }
 
     public void setup(List<Pair> loader){
-        var home = FXML.load(
-                HomeController.class, "client", "scenes", "Home.fxml");
-        var addList =FXML.load(
-                AddListController.class, "client", "scenes", "AddList.fxml");
-        var yourBoards=FXML.load(
-                YourBoardsController.class, "client", "scenes", "YourBoards.fxml");
-        var search = FXML.load(
-                SearchCtrl.class, "client", "scenes","Search.fxml");
-        var board = FXML.load(
-                BoardController.class, "client", "scenes", "Board.fxml");
-        var connection=FXML.load(
-                ConnectionCtrl.class, "client", "scenes", "Connection.fxml");
+        var home = FXML.load(HomeController.class, "client", "scenes", "Home.fxml");
+        var addList =FXML.load(AddListController.class, "client", "scenes", "AddList.fxml");
+        var yourBoards=FXML.load(YourBoardsController.class, "client", "scenes", "YourBoards.fxml");
+        var search = FXML.load(SearchCtrl.class, "client", "scenes","Search.fxml");
+        var board = FXML.load(BoardController.class, "client", "scenes", "Board.fxml");
+        var connection=FXML.load(ConnectionCtrl.class, "client", "scenes", "Connection.fxml");
         var addBoard=FXML.load(
                 AddBoardController.class, "client", "scenes", "AddBoard.fxml");
         var error=FXML.load(

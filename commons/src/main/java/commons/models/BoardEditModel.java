@@ -2,9 +2,11 @@ package commons.models;
 
 public class BoardEditModel {
     private String name;
+    private String password;
 
-    public BoardEditModel(String name) {
+    public BoardEditModel(String name, String password) {
         this.name = name;
+        this.password = password;
     }
 
     public BoardEditModel() {
@@ -17,10 +19,20 @@ public class BoardEditModel {
     public String getName() {
         return name;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     @Override
     public String toString() {
         return "BoardEditModel{" +
-                "name='" + name + '\'' +
+                "name='" + name + "\', " +
+                "password='" + password + "\'" +
                 '}';
     }
 }

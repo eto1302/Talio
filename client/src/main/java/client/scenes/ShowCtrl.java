@@ -1,5 +1,7 @@
 package client.scenes;
 
+import client.user.UserData;
+import com.google.inject.Inject;
 import commons.*;
 import commons.mocks.IShowCtrl;
 import javafx.geometry.Pos;
@@ -45,6 +47,9 @@ public class ShowCtrl implements IShowCtrl {
     private EditColor editColorController;
     private UnlockBoardController unlockBoardController;
     private LockBoardController lockBoardController;
+
+    @Inject
+    private UserData userData;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
         this.primaryStage = primaryStage;
@@ -428,6 +433,8 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     public void showUnlockBoard() {
+        String password = userData.getBoards().get(userData.getCurrentBoard().getId());
+        unlockBoardController.setCurrentPassword(password == null ? "" : password);
         secondaryStage = new Stage();
         secondaryStage.setTitle("Unlock Board");
         secondaryStage.setScene(this.unlockBoard);
@@ -436,11 +443,16 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     public void showLockBoard() {
+        lockBoardController.reset();
         secondaryStage = new Stage();
         secondaryStage.setTitle("Lock Board");
         secondaryStage.setScene(this.lockBoard);
         secondaryStage.setResizable(false);
         secondaryStage.show();
+    }
+
+    public void updateBoardLockIcon(boolean locked) {
+        boardController.updateLockIcon(locked);
     }
 
     public void refreshBoardCtrl() {

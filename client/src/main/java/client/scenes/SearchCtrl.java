@@ -37,7 +37,7 @@ public class SearchCtrl {
             alert.setContentText("Invalid invite key. Try again?");
         }
         else{
-            this.userData.joinBoard(board.getId(), board.getPassword());
+            this.userData.joinBoard(board.getId(), "");
             this.userData.saveToDisk();
             this.userData.openBoard(board.getId());
             showCtrl.showBoard();

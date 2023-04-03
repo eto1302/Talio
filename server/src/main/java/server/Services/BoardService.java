@@ -72,6 +72,7 @@ public class BoardService {
         try {
             Board board = boardRepository.getBoardByID(boardId);
             board.setName(model.getName());
+            board.setPassword(model.getPassword());
             boardRepository.save(board);
             return new IdResponseModel(boardId, null);
         } catch (Exception e) {

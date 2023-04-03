@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.Lighting;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -44,6 +45,11 @@ public class BoardController {
     private ListShapeCtrl selectedList=null;
     private TaskShape selectedTask=null;
     private boolean editable = false;
+
+    private static final Image LOCKED_IMG = new Image(
+            "file:client/build/resources/main/client/media/lock.png");
+    private static final Image UNLOCKED_IMG = new Image(
+            "file:client/build/resources/main/client/media/unlock.png");
 
     @Inject
     private UserData userData;
@@ -170,7 +176,13 @@ public class BoardController {
     }
 
     public void manageLock() {
-        showCtrl.showLockBoard();
+        if(userData.isCurrentBoardLocked())
+            showCtrl.showUnlockBoard();
+        else showCtrl.showLockBoard();
+    }
+
+    public void updateLockIcon(boolean locked) {
+        lockIcon.setImage(locked ? LOCKED_IMG : UNLOCKED_IMG);
     }
 
     public void movement(KeyEvent event){

@@ -34,8 +34,8 @@ public class EditBoardController {
 
     public void edit() {
         this.userData.updateBoard(
-                new BoardEdited(this.userData.getCurrentBoard().getId(),
-                        new BoardEditModel(newTitle.getText())));
+                new BoardEdited(this.userData.getCurrentBoard().getId(), new BoardEditModel
+                (newTitle.getText(), userData.getCurrentBoard().getPassword())));
         cancel();
         this.userData.openBoard(this.userData.getCurrentBoard().getId());
         showCtrl.showBoard();
