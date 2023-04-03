@@ -268,7 +268,7 @@ public class ServerUtils implements IServerUtils {
      * @param boardId id of the board
      * @param listId id of the list
      * @param model  name information of the modified list
-     * @return
+     * @return The id of the list.
      */
     public IdResponseModel editList(int boardId, int listId, ListEditModel model) {
         try {
@@ -556,6 +556,7 @@ public class ServerUtils implements IServerUtils {
         throw new RuntimeException("Something went wrong");
     }
 
+    @Override
     public IdResponseModel addTagToTask(Tag tag, int taskID){
         try{
             HttpEntity<Tag> req = new HttpEntity<>(tag);
@@ -568,6 +569,7 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
+    @Override
     public IdResponseModel addTagToBoard(Tag tag, int boardID){
         try{
             HttpEntity<Tag> req = new HttpEntity<>(tag);
@@ -638,8 +640,8 @@ public class ServerUtils implements IServerUtils {
     public java.util.List<Tag> getTagByTask(int taskID) {
         try {
             ResponseEntity<java.util.List<commons.Tag>> response = client.exchange(
-                    url+"task/getByTask/" + taskID, HttpMethod.GET, null,
-                    new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
+                url+"tag/getByTask/" + taskID, HttpMethod.GET, null,
+                new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
             );
 
             // return the tag if the request succeeded
@@ -668,8 +670,8 @@ public class ServerUtils implements IServerUtils {
     public java.util.List<Tag> getTagByBoard(int boardID) {
         try {
             ResponseEntity<java.util.List<commons.Tag>> response = client.exchange(
-                    url+"task/getByTask/" + boardID, HttpMethod.GET, null,
-                    new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
+                url+"tag/getByBoard/" + boardID, HttpMethod.GET, null,
+                new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
             );
 
             // return the tag if the request succeeded

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="391.0" prefWidth="594.0" style="-fx-padding: 5px; -fx-vgap: 2px;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.tasks.TaskOverview">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="41.9999755859375" minHeight="10.0" prefHeight="41.9999755859375" vgrow="NEVER" />
+    <RowConstraints maxHeight="281.200033569336" minHeight="10.0" prefHeight="171.8000061035156" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="182.20000915527345" minHeight="10.0" prefHeight="171.7999938964844" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="292.0" text="Task Details" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <GridPane prefHeight="251.0" prefWidth="590.0" style="-fx-padding: 19px;" GridPane.rowIndex="1">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints />
+          <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="20.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" GridPane.rowIndex="3" />
+            <Label text="Description:" GridPane.rowIndex="3">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label prefHeight="30.0" prefWidth="47.0" text="Title:" GridPane.rowIndex="2">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="descriptionField" text="No dexcription yet" wrapText="true" GridPane.columnSpan="4" GridPane.rowIndex="4" GridPane.rowSpan="2" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="title" prefHeight="30.0" wrapText="true" GridPane.columnSpan="4" GridPane.rowIndex="2">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="50.0" />
+               </GridPane.margin>
+            </Label>
+         </children>
+      </GridPane>
+      <GridPane style="-fx-padding: 15px; -fx-hgap: 5px;" GridPane.rowIndex="2">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="388.200048828125" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="164.19995117187494" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="103.40005645751951" vgrow="ALWAYS" />
+            <RowConstraints minHeight="4.199987792968756" prefHeight="34.599943542480474" vgrow="ALWAYS" />
+        </rowConstraints>
+         <children>
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
+               <content>
+                  <VBox fx:id="subtaskBox" prefHeight="101.0" prefWidth="383.0" style="-fx-spacing: 3px; -fx-padding: 5px;">
+                     <children>
+                        <CheckBox mnemonicParsing="false" text="CheckBox" textAlignment="JUSTIFY" />
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <content>
+                  <VBox fx:id="tagBox" prefHeight="101.0" prefWidth="159.0" style="-fx-padding: 5px; -fx-spacing: 3px;" />
+               </content>
+            </ScrollPane>
+            <Button mnemonicParsing="false" onAction="#cancel" text="Done" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin></Button>
+            <Button mnemonicParsing="false" onAction="#showEditTask" text="Edit task" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Button>
+            <Button mnemonicParsing="false" text="Delete task" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets right="100.0" />
+               </GridPane.margin>
+            </Button>
+         </children>
+      </GridPane>
+      <Line endX="160.0928955078125" endY="0.5928825736045837" startX="-100.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
+   </children>
+</GridPane>

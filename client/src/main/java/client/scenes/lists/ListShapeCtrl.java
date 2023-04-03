@@ -1,6 +1,9 @@
-package client.scenes;
+package client.scenes.lists;
 
 
+import client.scenes.ShowCtrl;
+import client.scenes.boards.BoardController;
+import client.scenes.tasks.TaskShape;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
@@ -12,6 +15,7 @@ import commons.sync.ListDeleted;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.geometry.Bounds;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -48,8 +52,27 @@ public class ListShapeCtrl {
         this.showCtrl = showCtrl;
         this.serverUtils = serverUtils;
         this.userData = userData;
+        this.taskControllers = new LinkedList<>();
     }
 
+    /**
+     * Updates the list's visual (sets the title and the colors of it)
+     * based on the list object that is passed on
+     * @param list the list with the necessary attributes
+     * @return the updated scene after modifications
+     */
+    public Scene getSceneUpdated(commons.List list){
+        listTitle.setText(list.getName());
+        Board board = this.userData.getCurrentBoard();
+        Color backgroundColor= Color.web(board.getListColor().getBackgroundColor());
+        Color fontColor= Color.web(board.getListColor().getFontColor());
+
+        listGrid.setBackground(new Background(
+                new BackgroundFill(backgroundColor, null, null)));
+        listTitle.setTextFill(fontColor);
+        if(this.taskControllers == null) {this.taskControllers = new LinkedList<>();}
+        return listGrid.getScene();
+    }
     public void refreshList(){
         showCtrl.refreshBoardCtrl();
     }
@@ -224,6 +247,15 @@ public class ListShapeCtrl {
         for (TaskShape controller: taskControllers)
             if (controller.isSelected())
                 return controller;
+        return null;
+    }
+
+    public TaskShape findTask(Task task){
+        for(TaskShape c: taskControllers){
+            if(task.equals(c.getTask())){
+                return c;
+            }
+        }
         return null;
     }
 

@@ -1,9 +1,11 @@
-package client.scenes;
+package client.scenes.subtasks;
 
+import client.scenes.tasks.EditTaskController;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Subtask;
+import client.scenes.ShowCtrl;
 import commons.Task;
 import commons.models.IdResponseModel;
 import commons.sync.SubtaskAdded;

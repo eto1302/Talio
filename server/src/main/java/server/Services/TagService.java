@@ -120,4 +120,5 @@ public class TagService {
     public Tag save(Tag tag) { return tagRepository.save(tag); }
 
     public long count() {return tagRepository.count();}
+
 }

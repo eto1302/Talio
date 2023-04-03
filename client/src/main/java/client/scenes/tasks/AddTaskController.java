@@ -1,5 +1,7 @@
-package client.scenes;
+package client.scenes.tasks;
 
+import client.scenes.ShowCtrl;
+import client.scenes.lists.ListShapeCtrl;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Color;

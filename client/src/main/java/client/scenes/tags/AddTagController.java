@@ -1,6 +1,12 @@
-package client.scenes;
+package client.scenes.tags;
 
+import client.scenes.*;
+import client.scenes.tasks.EditTaskController;
+import client.user.UserData;
+import client.utils.ServerUtils;
+import commons.Board;
 import commons.Task;
+import commons.sync.TagCreated;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -14,6 +20,10 @@ import javax.inject.Inject;
 public class AddTagController {
 
     private final ShowCtrl showCtrl;
+    @Inject
+    private UserData userData;
+
+    private ServerUtils serverUtils;
 
     @FXML
     private Button cancelButton;
@@ -27,21 +37,30 @@ public class AddTagController {
     private EditTaskController controller;
     private Stage primaryStage;
     private commons.Task task;
+    private Board board;
 
     @Inject
-    public AddTagController(ShowCtrl showCtrl){
+    public AddTagController(ShowCtrl showCtrl, ServerUtils serverUtils) {
         this.showCtrl=showCtrl;
+        this.serverUtils = serverUtils;
     }
+
 
     public void setup(Task task) {
         this.task = task;
+        this.board = userData.getCurrentBoard();
     }
 
     public void addTag() {
-        commons.Color color = commons.Color.create("#0000000", "#FFFFFF");
+        String textColor = (colorPicker.getValue().getBrightness() < 0.7) ? "#FFFFFF" : "#000000";
+        String backgroundColor = colorToHex(colorPicker.getValue());
+        commons.Color color = commons.Color.create(textColor, backgroundColor);
         String tagName = this.textField.getText();
         Tag tag = Tag.create(tagName, color);
-        showCtrl.addTag(tag, controller, primaryStage);
+
+        Board current = userData.getCurrentBoard();
+        userData.updateBoard(new TagCreated(current.getId(), tag, current));
+        cancel();
     }
 
     public void cancel(){

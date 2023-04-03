@@ -25,4 +25,11 @@ public interface IShowCtrl {
     void editColor(Color color);
 
 //    void addTask(Task task);
+    void addTagToTask(Tag tag,Task task);
+
+    void addTag(Tag tag);
+
+    void deleteTag(Tag tag);
+
+    void editTag(Tag tag);
 }

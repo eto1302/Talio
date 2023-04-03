@@ -16,6 +16,11 @@
 package client;
 
 import client.scenes.*;
+import client.scenes.lists.*;
+import client.scenes.boards.*;
+import client.scenes.tasks.*;
+import client.scenes.tags.*;
+import client.scenes.subtasks.*;
 import client.user.UserData;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -78,21 +83,23 @@ public class Main extends Application {
                 TaskColorPicker.class, "client", "scenes", "TaskColorPicker.fxml");
         var editColor= FXML.load(
                 EditColor.class, "client", "scenes", "EditColor.fxml");
-
-        loader.add(home);
+        var tagOverview = FXML.load(TagOverviewController.class,
+            "client", "scenes", "TagOverview.fxml");
+        loader.add(home);//0
         loader.add(addList);
         loader.add(yourBoards);
         loader.add(search);
         loader.add(board);
-        loader.add(connection);
+        loader.add(connection); //5
         loader.add(addBoard);
         loader.add(error);
         loader.add(admin);
         loader.add(editBoard);
+        loader.add(help); //10
+        loader.add(tagOverview);
         loader.add(colorPicker);
         loader.add(addTaskColor);
-        loader.add(help);
         loader.add(taskColorPicker);
-        loader.add(editColor);
+        loader.add(editColor); //15
     }
 }

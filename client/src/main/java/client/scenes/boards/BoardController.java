@@ -1,5 +1,8 @@
-package client.scenes;
+package client.scenes.boards;
 
+import client.scenes.*;
+import client.scenes.lists.ListShapeCtrl;
+import client.scenes.tasks.TaskShape;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
@@ -94,6 +97,7 @@ public class BoardController {
                 showCtrl.addTask(task, list);
             }
         }
+
     }
 
     public void showYourBoards(){
@@ -116,6 +120,11 @@ public class BoardController {
 
     public LinkedList<ListShapeCtrl> getListControllers() {
         return listControllers;
+    }
+
+    public void showTagOverview() {
+        userData.refresh();
+        showCtrl.showTagOverview(userData.getCurrentBoard());
     }
 
     /**
@@ -351,6 +360,14 @@ public class BoardController {
                     movement(event);
             }
         });
+    }
+
+    public TaskShape findTaskController(Task task){
+        for(ListShapeCtrl c: listControllers){
+            TaskShape ts = c.findTask(task);
+            if(ts != null) {return ts;}
+        }
+        return null;
     }
 
 }

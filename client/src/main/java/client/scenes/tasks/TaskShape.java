@@ -1,10 +1,13 @@
-package client.scenes;
+package client.scenes.tasks;
 
 import client.user.UserData;
+import client.scenes.ShowCtrl;
+import client.scenes.lists.ListShapeCtrl;
 import client.utils.ServerUtils;
 import commons.Color;
 import commons.List;
 import commons.Subtask;
+import commons.Tag;
 import commons.Task;
 import commons.models.TaskEditModel;
 import commons.sync.TaskDeleted;
@@ -14,15 +17,18 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -31,6 +37,8 @@ public class TaskShape {
     private GridPane grid;
     @FXML
     private Label plusSign, title, deleteX, subtaskProgress;
+    @FXML
+    private HBox tagMarkerContainer;
     private ShowCtrl showCtrl;
     private ServerUtils server;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
@@ -40,6 +48,7 @@ public class TaskShape {
     private boolean selected;
     private String style;
     private TextField text;
+
 
     @Inject
     public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
@@ -134,8 +143,21 @@ public class TaskShape {
         title.setTextFill(javafx.scene.paint.Color.web(taskColor.getFontColor()));
         grid.setStyle("-fx-padding: 2px; -fx-border-color: gray; " +
                 "-fx-background-color: " + taskColor.getBackgroundColor() +";");
+        refreshTagMarkers(task);
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
+    }
+
+    public void refreshTagMarkers(Task task){
+        java.util.List<Tag> tags = server.getTagByTask(task.getId());
+        tagMarkerContainer.getChildren().remove(0, tagMarkerContainer.getChildren().size());
+        if(tags == null || tags.isEmpty()){
+            return;
+        }
+        for (Tag t: tags){
+            Scene scene = showCtrl.getTagMarker(t, this);
+            tagMarkerContainer.getChildren().add(scene.getRoot());
+        }
     }
 
     /**
