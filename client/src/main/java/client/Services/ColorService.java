@@ -21,7 +21,7 @@ public class ColorService {
         this.userData = userData;
     }
 
-    public IdResponseModel addTaskColor(Color backgroundColor, Color fontColor) {
+    public IdResponseModel addColor(Color backgroundColor, Color fontColor) {
         commons.Color color = commons.Color.create(colorToHex(backgroundColor),
                 colorToHex(fontColor));
         if(this.userData.getCurrentBoard().getColors().size() == 2) color.setIsDefault(true);
@@ -64,6 +64,7 @@ public class ColorService {
     }
 
     private IdResponseModel setDefault(int id, Color colorFont, Color colorBackground) {
+        Board board = this.userData.getCurrentBoard();
         Optional<commons.Color> currentDefault = this.userData.getCurrentBoard().getColors()
                 .stream().filter(commons.Color::getIsDefault).findFirst();
 
@@ -71,7 +72,7 @@ public class ColorService {
             commons.Color toBeDefault = this.userData.getCurrentBoard().getColors().get(2);
             ColorEditModel edit = new ColorEditModel(colorToHex(colorBackground),
                     colorToHex(colorFont), true);
-            userData.updateBoard(new ColorEdited(this.userData.getCurrentBoard().getId(),
+            return userData.updateBoard(new ColorEdited(this.userData.getCurrentBoard().getId(),
                     id, edit));
         }
 
@@ -97,7 +98,7 @@ public class ColorService {
         if(color.getIsDefault()){
             return new IdResponseModel(-1, "Cannot delete default color");
         }
-        IdResponseModel model = this.userData.deleteColor(
+        IdResponseModel model = this.userData.updateBoard(
                 new ColorDeleted(this.userData.getCurrentBoard().getId(), color.getId()));
         this.userData.openBoard(this.userData.getCurrentBoard().getId());
         return model;

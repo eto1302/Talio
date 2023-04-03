@@ -5,6 +5,8 @@ import commons.Board;
 import commons.Color;
 import commons.models.IdResponseModel;
 import commons.sync.ColorAdded;
+import commons.sync.ColorDeleted;
+import commons.sync.ColorEdited;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -12,8 +14,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class ColorServiceTest {
     @MockBean
@@ -21,31 +25,141 @@ public class ColorServiceTest {
     private ColorService colorService;
 
     private Board board;
-    private Color color;
-    private Color color1;
-    private Color color2;
+    private Color defaultColor;
 
     @BeforeEach
     public void setup(){
         MockitoAnnotations.openMocks(this);
         colorService = new ColorService(mockUserData);
-        this.board = Board.create("test", "psswrd", new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>());
     }
 
     @Test
     public void addTaskColorTest(){
-        Mockito.when(mockUserData.getCurrentBoard()).thenReturn(board);
-        Mockito.when(mockUserData.updateBoard(Mockito.any(ColorAdded.class))).thenReturn(
+        this.board = Board.create("test", "psswrd", new ArrayList<>(),
+                Arrays.asList(), new ArrayList<>());
+        when(mockUserData.getCurrentBoard()).thenReturn(board);
+        when(mockUserData.updateBoard(Mockito.any(ColorAdded.class))).thenReturn(
                 new IdResponseModel(4, null));
 
-        IdResponseModel response = colorService.addTaskColor(javafx.scene.paint.Color.RED,
+        IdResponseModel response = colorService.addColor(javafx.scene.paint.Color.RED,
                 javafx.scene.paint.Color.BLACK);
 
-        Mockito.verify(mockUserData, Mockito.times(1)).updateBoard(
+        verify(mockUserData, times(1)).updateBoard(
                 Mockito.any(ColorAdded.class));
 
         assertTrue(response.getId() != -1);
         assertNull(response.getErrorMessage());
+    }
+    @Test
+    public void testEditColorDefault() {
+        this.defaultColor = Color.create("#FFFFFF", "#000000");
+        this.defaultColor.setIsDefault(true);
+        this.board = Board.create("test", "psswrd", new ArrayList<>(),
+                Arrays.asList(defaultColor), new ArrayList<>());
+        when(mockUserData.getCurrentBoard()).thenReturn(board);
+        when(mockUserData.updateBoard(any(ColorEdited.class))).thenReturn(
+                new IdResponseModel(1, null));
+
+        IdResponseModel response = colorService.editColor(1, javafx.scene.paint.Color.WHEAT,
+                javafx.scene.paint.Color.BLACK, true);
+
+        verify(mockUserData, times(2)).updateBoard(any(ColorEdited.class));
+
+        assertTrue(response.getId() != -1);
+        assertNull(response.getErrorMessage());
+    }
+
+    @Test
+    public void testEditColorError() {
+        this.defaultColor = Color.create("#FFFFFF", "#000000");
+        this.defaultColor.setIsDefault(true);
+        this.board = Board.create("test", "psswrd", new ArrayList<>(),
+                Arrays.asList(defaultColor), new ArrayList<>());
+        when(mockUserData.getCurrentBoard()).thenReturn(board);
+        when(mockUserData.updateBoard(any(ColorEdited.class))).thenReturn(
+                new IdResponseModel(-1, "Error"));
+
+        IdResponseModel response = colorService.editColor(1, javafx.scene.paint.Color.WHEAT,
+                javafx.scene.paint.Color.BLACK, true);
+
+        verify(mockUserData, times(1)).updateBoard(any(ColorEdited.class));
+
+        assertTrue(response.getId() == -1);
+    }
+
+    @Test
+    public void testEditColorNotDefault() {
+        this.board = Board.create("test", "psswrd", new ArrayList<>(),
+                Arrays.asList(), new ArrayList<>());
+        when(mockUserData.getCurrentBoard()).thenReturn(board);
+        when(mockUserData.updateBoard(any(ColorEdited.class))).thenReturn(
+                new IdResponseModel(1, null));
+
+        IdResponseModel response = colorService.editColor(1, javafx.scene.paint.Color.WHEAT,
+                javafx.scene.paint.Color.BLACK, false);
+
+        verify(mockUserData, times(1)).updateBoard(any(ColorEdited.class));
+
+        assertTrue(response.getId() != -1);
+        assertNull(response.getErrorMessage());
+    }
+
+    @Test
+    public void testEditColorDefaultWithoutPreviousDefault() {
+        Color color = Color.create("#FFFFFF", "#000000");
+        Color color1 = Color.create("#FFFFFF", "#000000");
+        this.board = Board.create("test", "psswrd", new ArrayList<>(),
+                Arrays.asList(color, color1, color1), new ArrayList<>());
+        when(mockUserData.getCurrentBoard()).thenReturn(board);
+
+        when(mockUserData.updateBoard(any(ColorEdited.class))).thenReturn(
+                new IdResponseModel(1, null));
+
+        IdResponseModel response = colorService.editColor(1, javafx.scene.paint.Color.WHEAT,
+                javafx.scene.paint.Color.BLACK, true);
+
+        verify(mockUserData, times(1)).updateBoard(any(ColorEdited.class));
+
+        assertTrue(response.getId() != -1);
+        assertNull(response.getErrorMessage());
+    }
+
+    @Test
+    public void testDeleteColor() {
+        Color color = Color.create( "#000000", "#FFFFFF");
+        this.board = Board.create("test", "psswrd", new ArrayList<>(),
+                Arrays.asList(), new ArrayList<>());
+        when(mockUserData.getCurrentBoard()).thenReturn(board);
+
+
+        when(mockUserData.updateBoard(any(ColorDeleted.class))).thenReturn(
+                new IdResponseModel(1, null));
+
+        IdResponseModel response = colorService.deleteColor(color);
+
+        verify(mockUserData, times(1)).updateBoard(any(ColorDeleted.class));
+
+        assertTrue(response.getId() != -1);
+        assertNull(response.getErrorMessage());
+    }
+
+    @Test
+    public void testDeleteColorError() {
+        this.defaultColor = Color.create("#FFFFFF", "#000000");
+        this.defaultColor.setIsDefault(true);
+        this.board = Board.create("test", "psswrd", new ArrayList<>(),
+                Arrays.asList(), new ArrayList<>());
+        when(mockUserData.getCurrentBoard()).thenReturn(board);
+
+
+        when(mockUserData.updateBoard(any(ColorDeleted.class))).thenReturn(
+                new IdResponseModel(-1, "Cannot delete default color"));
+
+        IdResponseModel response = colorService.deleteColor(this.defaultColor);
+
+        verify(mockUserData, times(0)).updateBoard(any(ColorDeleted.class));
+
+        assertTrue(response.getId() == -1);
+        assertEquals("Cannot delete default color", response.getErrorMessage());
     }
 }

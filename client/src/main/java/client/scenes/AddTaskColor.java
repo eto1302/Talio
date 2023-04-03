@@ -24,7 +24,7 @@ public class AddTaskColor {
     }
 
     public void add() {
-        IdResponseModel model =  this.colorService.addTaskColor(
+        IdResponseModel model =  this.colorService.addColor(
                 backgroundColor.getValue(), fontColor.getValue());
 
         if (model.getId() == -1) {
