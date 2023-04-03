@@ -81,10 +81,6 @@ public class ShowCtrl implements IShowCtrl {
         colorPickerController = (ColorPicker) loader.get(12).getKey();
         addTaskColor = new Scene((Parent) loader.get(13).getValue());
         addTaskColorController = (AddTaskColor) loader.get(13).getKey();
-        taskColorPicker = new Scene((Parent) loader.get(13).getValue());
-        taskColorPickerController = (TaskColorPicker) loader.get(13).getKey();
-        editColor = new Scene((Parent) loader.get(14).getValue());
-        editColorController = (EditColor) loader.get(14).getKey();
         taskColorPicker = new Scene((Parent) loader.get(14).getValue());
         taskColorPickerController = (TaskColorPicker) loader.get(14).getKey();
         editColor = new Scene((Parent) loader.get(15).getValue());

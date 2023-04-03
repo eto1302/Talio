@@ -10,21 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<GridPane fx:id="boardBox" prefHeight="66.0" prefWidth="693.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.boards.BoardShape">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="40.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-=======
-=======
->>>>>>> 1e7a01e3fff72d1742e9f32734e84c4642e3b986
-<GridPane fx:id="boardBox" prefHeight="66.0" prefWidth="693.0" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardShape">
+<GridPane fx:id="boardBox" prefHeight="66.0" prefWidth="693.0" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.boards.BoardShape">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="40.0" />
@@ -35,21 +21,6 @@
    </rowConstraints>
    <children>
       <VBox alignment="CENTER" prefHeight="48.0" prefWidth="301.0">
-<<<<<<< HEAD
->>>>>>> 602e3f1a19b695287d7f04503e6fd501e938396a
-=======
-=======
-<GridPane fx:id="boardBox" prefHeight="66.0" prefWidth="693.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.boards.BoardShape">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="40.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
->>>>>>> cd02f51aa34a269eb33d408446e231f2b5d89b10
->>>>>>> 1e7a01e3fff72d1742e9f32734e84c4642e3b986
          <children>
             <Label fx:id="nameLabel" text="Main Board">
                <font>
