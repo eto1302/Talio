@@ -16,12 +16,9 @@ import java.util.List;
 
 
 public class TagOverviewController {
-
     private ShowCtrl showCtrl;
     private ServerUtils serverUtils;
-    @Inject
     private UserData userData;
-
 
     @FXML
     private Button addTagButton;
@@ -32,14 +29,18 @@ public class TagOverviewController {
 
     List<Tag> tags;
     Board board;
-    private int ind;
 
     @Inject
-    public TagOverviewController(ShowCtrl showCtrl, ServerUtils serverUtils) {
+    public TagOverviewController(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl = showCtrl;
         this.serverUtils = serverUtils;
+        this.userData = userData;
     }
 
+    /**
+     * refreshes the current board and list of tags
+     * clears current tags being shown and updates the overview
+     */
     public void refresh(){
         clear();
         this.board = userData.getCurrentBoard();
@@ -61,8 +62,6 @@ public class TagOverviewController {
             tagBoxRight.getChildren().add(tagScene.getRoot());
         }
     }
-
-
     public void putTags(List<Tag> tags){
         if(tags == null) return;
         for(int i = 0; i < tags.size(); i++){
@@ -72,7 +71,7 @@ public class TagOverviewController {
     }
 
     public void clear(){
-        tagBoxLeft.getChildren().remove(0, tagBoxLeft.getChildren().size());
-        tagBoxRight.getChildren().remove(0, tagBoxRight.getChildren().size());
+        tagBoxLeft.getChildren().clear();
+        tagBoxRight.getChildren().clear();
     }
 }

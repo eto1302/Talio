@@ -431,7 +431,6 @@ public class ShowCtrl implements IShowCtrl {
         var markerPair = FXML.load(TagMarkerShapeController.class, "client", "scenes", "TagMarkerShape.fxml");
         Scene initializeTagMarker = new Scene(markerPair.getValue());
         TagMarkerShapeController controller = markerPair.getKey();
-        controller.setTaskcontroller(taskController);
         Scene markerScene = controller.getSceneUpdated(tag);
         return markerScene;
     }

@@ -18,49 +18,55 @@ import commons.Tag;
 
 import javax.inject.Inject;
 
+/**
+ * AddTagController
+ * Controller that handles creating tags
+ *
+ */
+
 public class AddTagController {
 
     private final ShowCtrl showCtrl;
-    @Inject
     private UserData userData;
-
     private ServerUtils serverUtils;
 
     @FXML
     private Button cancelButton;
     @FXML
     private Button addButton;
-
     @FXML
     private TextField textField;
     @FXML
     private ColorPicker colorPicker;
-    private EditTaskController controller;
-    private Stage primaryStage;
     private commons.Task task;
-    private Board board;
 
     @Inject
-    public AddTagController(ShowCtrl showCtrl, ServerUtils serverUtils) {
+    public AddTagController(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl=showCtrl;
         this.serverUtils = serverUtils;
+        this.userData = userData;
     }
-
 
     public void setup(Task task) {
         this.task = task;
-        this.board = userData.getCurrentBoard();
     }
 
+    /**
+     * addTag
+     * Creates tag, adds it to the current board, and then updates the board.
+     * See commons.sync.TagCreated.apply() for update method
+     */
     public void addTag() {
-        String textColor = (colorPicker.getValue().getBrightness() < 0.7) ? "#FFFFFF" : "#000000";
+        String textColor = (getBrightness(colorPicker.getValue()) < 130) ? "#FFFFFF" : "#000000";
         String backgroundColor = colorToHex(colorPicker.getValue());
         commons.Color color = commons.Color.create(textColor, backgroundColor);
+
         String tagName = this.textField.getText();
         Tag tag = Tag.create(tagName, color);
 
         Board current = userData.getCurrentBoard();
         IdResponseModel resp = userData.updateBoard(new TagCreated(current.getId(), tag, current));
+
         if (resp.getId() == -1) {
             showCtrl.showError(resp.getErrorMessage());
             showCtrl.cancel();
@@ -83,5 +89,17 @@ public class AddTagController {
                 (int)(color.getGreen() * 255),
                 (int)(color.getBlue() * 255));
         return hexString;
+    }
+
+    /**
+     * Returns a double representing the perceived brightness of the color
+     * @param color javaFx color instance to be converted
+     * @return double [0,255] representation of the brightness
+     */
+    private double getBrightness(Color color){
+        return Math.sqrt(Math.pow(0.299*color.getRed()*255,2)
+                            + Math.pow(0.587*color.getGreen()*255, 2)
+                            + Math.pow(0.114* color.getBlue()*255, 2)
+        );
     }
 }

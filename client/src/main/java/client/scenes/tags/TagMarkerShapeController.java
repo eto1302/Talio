@@ -26,32 +26,18 @@ public class TagMarkerShapeController {
     @FXML
     private Circle markerCircle;
 
-    private TaskShape Taskcontroller;
-
     public TagMarkerShapeController() {
-
     }
 
-    public void setTaskcontroller(TaskShape taskcontroller) {
-        Taskcontroller = taskcontroller;
-    }
-
-    //    @Inject
-//    public TagMarkerShapeController(ShowCtrl showCtrl, ServerUtils serverUtils) {
-//        this.showCtrl = showCtrl;
-//        this.serverUtils = serverUtils;
-//    }
-
+    /**
+     * sets and returns a tagMarker
+     * a tagMarker is a circle representing a tag on a task
+     * @param tag tag to be represented as a marker
+     * @return scene containing the marker
+     */
     public Scene getSceneUpdated(Tag tag){
         Color markerColor = Color.web(tag.getColor().getBackgroundColor());
         markerCircle.setFill(markerColor);
-        //TODO: Make background of marker transparent (???)
-
         return markerCircle.getScene();
-    }
-
-    public void removeTagMarker(){
-        HBox parent = (HBox) tagMarkerContainer.getParent();
-        parent.getChildren().remove(tagMarkerContainer);
     }
 }

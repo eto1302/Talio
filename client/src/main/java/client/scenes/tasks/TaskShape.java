@@ -17,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
@@ -35,6 +36,8 @@ public class TaskShape {
     private Label plusSign, title, deleteX;
     @FXML
     private HBox tagMarkerContainer;
+    @FXML
+    private ScrollPane markerScroll;
     private ShowCtrl showCtrl;
     private ServerUtils server;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
@@ -167,6 +170,21 @@ public class TaskShape {
         if (task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
         this.style=grid.getStyle();
+
+        markerScroll.setStyle(
+                "-fx-vbar-policy: never;" +
+                "-fx-hbar-policy: never;" +
+                "-fx-border: transparent;" +
+                "-fx-border-color: transparent;" +
+                "-fx-border-width: 0;" +
+                "-fx-border-style: none;"
+        );
+        tagMarkerContainer.setStyle(
+                "-fx-border: transparent;" +
+                "-fx-border-color: transparent;" +
+                "-fx-border-width: 0;" +
+                "-fx-border-style: none;"
+        );
 
         grid.setOnDragDetected(this::dragDetected);
         grid.setOnDragOver(this::dragOver);
