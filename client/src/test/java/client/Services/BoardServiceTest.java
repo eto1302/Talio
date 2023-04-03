@@ -29,6 +29,7 @@ public class BoardServiceTest {
     private Board board;
     @BeforeEach
     public void setup(){
+        System.setProperty("java.awt.headless", "false");
         MockitoAnnotations.openMocks(this);
         boardService = new BoardService(mockUserData, mockServerUtils);
         this.board = Board.create("test", "pass", new ArrayList<>(),
