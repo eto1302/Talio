@@ -1,34 +1,27 @@
 package client.scenes;
 
+import client.Services.ListService;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.models.IdResponseModel;
-import commons.models.ListEditModel;
-import commons.sync.ListEdited;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
 
 public class EditListController {
     @FXML
     private TextField newTitle;
-    @FXML
-    private Button cancel, edit;
 
     private ShowCtrl showCtrl;
     private List list;
-    private ServerUtils server;
-    private UserData userData;
+    private ListService listService;
 
     @Inject
     private EditListController(ShowCtrl showCtrl, ServerUtils server, UserData userData) {
         this.showCtrl = showCtrl;
-        this.server = server;
-        this.userData = userData;
+        this.listService = new ListService(userData, server);
     }
 
     public void cancel(){
@@ -49,31 +42,14 @@ public class EditListController {
      * Gets the values from the fields and edits the list accordingly.
      */
     public void edit(){
-        String name = newTitle.getText();
+        IdResponseModel response = this.listService.editList(list, newTitle.getText());
 
-        ListEditModel requestModel = new ListEditModel(name);
-        IdResponseModel responseModel = userData.updateBoard(new
-                ListEdited(list.getBoardId(), list.getId(), requestModel));
-
-        if (responseModel.getId() == -1) {
+        if (response.getId() == -1) {
             showCtrl.cancel();
-            showCtrl.showError(responseModel.getErrorMessage());
+            showCtrl.showError(response.getErrorMessage());
             return;
         }
 
         showCtrl.cancel();
-    }
-
-    /**
-     * Returns a hexadecimal string representation of javafx.scene.paint.Color.
-     * @param color the color to be transformed
-     * @return string representation of the color.
-     */
-    private String colorToHex(Color color){
-        String hexString = String.format("#%02X%02X%02X",
-                (int)(color.getRed() * 255),
-                (int)(color.getGreen() * 255),
-                (int)(color.getBlue() * 255));
-        return hexString;
     }
 }
