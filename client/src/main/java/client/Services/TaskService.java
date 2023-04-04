@@ -36,7 +36,8 @@ public class TaskService {
     public IdResponseModel editTask(Task task, commons.List list, int newIndex){
         TaskEditModel model = new TaskEditModel(task.getTitle(),
                 task.getDescription(), newIndex, list, task.getColorId());
-        return userData.updateBoard(new TaskEdited(list.getBoardId(), list.getId(), task.getId(), model));
+        return userData.updateBoard(new TaskEdited(list.getBoardId(),
+                list.getId(), task.getId(), model));
     }
 
     public IdResponseModel addTask(String title, commons.List list) {
