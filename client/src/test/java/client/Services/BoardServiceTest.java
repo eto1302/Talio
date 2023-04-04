@@ -197,7 +197,7 @@ public class BoardServiceTest {
                 new IdResponseModel(1, null));
         when(mockUserData.getCurrentBoard()).thenReturn(board);
 
-        IdResponseModel response = this.boardService.delete();
+        IdResponseModel response = this.boardService.delete(boardService.getCurrentBoard().getId());
 
         verify(mockUserData, times(1)).getCurrentBoard();
         verify(mockUserData, times(1)).leaveBoard(any(Integer.class));
@@ -218,15 +218,5 @@ public class BoardServiceTest {
         Board[] boards = this.boardService.getBoardsUpdated();
         verify(mockServerUtils, times(1)).getBoardsUpdated();
         assertArrayEquals(boards, new Board[5]);
-    }
-
-    @Test
-    public void deleteBoardTest(){
-        when(mockServerUtils.deleteBoard(any(Integer.class))).thenReturn(
-                new IdResponseModel(1, null));
-        IdResponseModel response = boardService.deleteBoard(1);
-        verify(mockServerUtils, times(1)).deleteBoard(any(Integer.class));
-        assertTrue(response.getId() != -1);
-        assertNull(response.getErrorMessage());
     }
 }

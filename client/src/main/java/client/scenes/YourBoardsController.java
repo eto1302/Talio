@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.Services.BoardService;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
@@ -15,20 +16,18 @@ public class YourBoardsController {
     private final ShowCtrl showCtrl;
     @FXML
     private VBox boardList;
-    private ServerUtils serverUtils;
-    @Inject
-    private UserData userData;
+    private BoardService boardService;
 
     @Inject
-    public YourBoardsController(ShowCtrl showCtrl, ServerUtils serverUtils){
+    public YourBoardsController(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData){
         this.showCtrl = showCtrl;
-        this.serverUtils = serverUtils;
+        this.boardService = new BoardService(userData, serverUtils);
     }
     public void fillBoardBox() {
         this.boardList.getChildren().removeAll(this.boardList.getChildren());
-        Map<Integer, String> boardMap = this.userData.getBoards();
+        Map<Integer, String> boardMap = this.boardService.getJoinedBoards();
         for(int id : boardMap.keySet()){
-            Board currentBoard = this.serverUtils.getBoard(id);
+            Board currentBoard = this.boardService.getBoard(id);
             showCtrl.addBoard(currentBoard);
         }
     }

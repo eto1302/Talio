@@ -32,12 +32,10 @@ public class ConnectionCtrl {
     public void join(){
         String url = serverURL.getText();
 
-
         connectionService.setUrl(url);
 
         url = url.replace("http", "ws");
         StompSession session = null;
-
 
         try {
             session = WSClientModule.connect(url+"ws");
@@ -45,14 +43,15 @@ public class ConnectionCtrl {
             showCtrl.showError("Could not connect to server");
             return;
         }
+
         connectionService.setWsConfig(session);
 
-        if (boardService.getBoard(1)==null){
+        /*if (boardService.getBoard(1)==null){
             boardService.addBoard("Default");
         }
         if(boardService.getCurrentBoard() == null)
-            boardService.enterBoard(1);
-        showCtrl.showBoard();
+            boardService.enterBoard(1);*/
+        showCtrl.showHome();
     }
 
 

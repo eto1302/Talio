@@ -13,6 +13,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class BoardService {
@@ -68,6 +69,7 @@ public class BoardService {
         if (colorResponse.getId() == -1) {
             return colorResponse;
         }
+        this.userData.joinBoard(response.getId(), board.getPassword());
         return response;
     }
 
@@ -101,11 +103,10 @@ public class BoardService {
         this.userData.refresh();
     }
 
-    public IdResponseModel delete() {
-        Board board = this.userData.getCurrentBoard();
-        this.userData.leaveBoard(board.getId());
+    public IdResponseModel delete(int boardId) {
+        this.userData.leaveBoard(boardId);
         this.userData.saveToDisk();
-        BoardDeleted boardDeleted = new BoardDeleted(board.getId());
+        BoardDeleted boardDeleted = new BoardDeleted(boardId);
 
         return userData.deleteBoard(boardDeleted);
     }
@@ -157,7 +158,7 @@ public class BoardService {
         return this.serverUtils.getBoardsUpdated();
     }
 
-    public IdResponseModel deleteBoard(int boardId) {
-        return this.serverUtils.deleteBoard(boardId);
+    public Map<Integer, String> getJoinedBoards() {
+        return this.userData.getBoards();
     }
 }

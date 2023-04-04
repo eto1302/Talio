@@ -141,7 +141,7 @@ public class AdminController {
         }
 
         for(int boardId : boards.stream().map(Board::getId).toArray(Integer[]::new)){
-            IdResponseModel model = boardService.deleteBoard(boardId);
+            IdResponseModel model = boardService.delete(boardId);
 
             if (model.getId() == -1) {
                 showCtrl.showError(model.getErrorMessage());
