@@ -76,8 +76,8 @@ public class TaskShape {
         if (selectedTask==null) {
             selected = true;
             grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
-                    "-fx-border-width: 3px;" +
-                    "-fx-background-color: " + taskColor.getBackgroundColor());
+                "-fx-border-width: 3px;" +
+                "-fx-background-color: " + taskColor.getBackgroundColor());
         }
         else{
             selected=false;
@@ -115,8 +115,8 @@ public class TaskShape {
         this.selected=selected;
         if (selected)
             grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
-                    "-fx-border-width: 3px;"+
-                    "-fx-background-color: " + taskColor.getBackgroundColor());
+                "-fx-border-width: 3px;"+
+                "-fx-background-color: " + taskColor.getBackgroundColor());
         else grid.setStyle(style);
     }
 
@@ -140,7 +140,7 @@ public class TaskShape {
         Color taskColor = colorService.getColor(task.getColorId());
         if(taskColor == null){
             int defaultColorId = this.boardService.getCurrentBoard().getColors()
-                    .stream().filter(Color::getIsDefault).findFirst().get().getId();
+                .stream().filter(Color::getIsDefault).findFirst().get().getId();
             this.task.setColorId(defaultColorId);
             List list = this.listService.getList(this.task.getListID());
 
@@ -149,7 +149,7 @@ public class TaskShape {
         }
         title.setTextFill(javafx.scene.paint.Color.web(taskColor.getFontColor()));
         grid.setStyle("-fx-padding: 2px; -fx-border-color: gray; " +
-                "-fx-background-color: " + taskColor.getBackgroundColor() +";");
+            "-fx-background-color: " + taskColor.getBackgroundColor() +";");
         style = grid.getStyle();
         refreshTagMarkers(task);
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
@@ -273,7 +273,7 @@ public class TaskShape {
             VBox parent = (VBox) grid.getParent();
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
             ArrayList<Task> orderedTasks=
-                    (ArrayList<Task>) server.getTasksOrdered(task.getListID());
+                (ArrayList<Task>) server.getTasksOrdered(task.getListID());
 
             rearrange(source, parent, children, orderedTasks);
             reorderTasks(orderedTasks, currentlist);
@@ -355,7 +355,7 @@ public class TaskShape {
         VBox parent = (VBox) grid.getParent();
         ArrayList<Node> children = new ArrayList<>(parent.getChildren());
         ArrayList<Task> orderedTasks =
-                (ArrayList<Task>) server.getTasksOrdered(task.getListID());
+            (ArrayList<Task>) server.getTasksOrdered(task.getListID());
         var controllers = controller.getTaskControllers();
         List list = server.getList(task.getListID());
 
