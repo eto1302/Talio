@@ -113,7 +113,6 @@ public class EditTaskController {
             return;
         }
 
-        listShapeCtrl.refreshList();
         showCtrl.cancel();
     }
 
