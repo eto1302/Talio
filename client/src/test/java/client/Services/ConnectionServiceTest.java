@@ -38,12 +38,15 @@ public class ConnectionServiceTest {
         this.connectionService.setWsConfig(
                 new DefaultStompSession(new StompSessionHandler() {
                     @Override
-                    public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
+                    public void afterConnected(StompSession session,
+                                               StompHeaders connectedHeaders) {
 
                     }
 
                     @Override
-                    public void handleException(StompSession session, StompCommand command, StompHeaders headers, byte[] payload, Throwable exception) {
+                    public void handleException(StompSession session, StompCommand command,
+                                                StompHeaders headers, byte[] payload,
+                                                Throwable exception) {
 
                     }
 

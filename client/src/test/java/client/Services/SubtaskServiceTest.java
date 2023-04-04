@@ -26,7 +26,7 @@ public class SubtaskServiceTest {
         subtaskService = new SubtaskService(mockUserData, mockServerUtils);
     }
     @Test
-    public void GetSubtasksOrderedTest(){
+    public void getSubtasksOrderedTest(){
         when(mockServerUtils.getSubtasksOrdered(any(Integer.class)))
                 .thenReturn(new ArrayList<Subtask>());
         List<Subtask> response = this.subtaskService.getSubtasksOrdered(1);
