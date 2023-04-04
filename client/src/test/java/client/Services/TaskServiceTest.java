@@ -6,14 +6,13 @@ import commons.Board;
 import commons.Color;
 import commons.Task;
 import commons.models.IdResponseModel;
-import commons.models.TaskEditModel;
 import commons.sync.TaskAdded;
 import commons.sync.TaskDeleted;
+import commons.sync.TaskEdited;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,11 +60,11 @@ public class TaskServiceTest {
 
     @Test
     public void editTask(){
-        when(mockServerUtils.editTask(any(Integer.class), any(TaskEditModel.class)))
+        when(mockUserData.updateBoard(any(TaskEdited.class)))
                 .thenReturn(new IdResponseModel(1, null));
         IdResponseModel response = this.taskService.editTask(task, new commons.List(), 1);
-        verify(mockServerUtils, times(1))
-                .editTask(any(Integer.class), any(TaskEditModel.class));
+        verify(mockUserData, times(1))
+                .updateBoard(any(TaskEdited.class));
         assertTrue(response.getId() != -1);
         assertNull(response.getErrorMessage());
     }
