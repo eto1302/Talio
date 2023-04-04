@@ -139,7 +139,7 @@ public class ShowCtrl implements IShowCtrl {
         var addTask = FXML.load(AddTaskController.class, "client",
                 "scenes", "AddTask.fxml");
         Scene addTaskScene = new Scene(addTask.getValue());
-        addTask.getKey().setup(controller, list);
+        addTask.getKey().setup(list);
         secondaryStage = new Stage();
         secondaryStage.setScene(addTaskScene);
         secondaryStage.setTitle("Add a task");

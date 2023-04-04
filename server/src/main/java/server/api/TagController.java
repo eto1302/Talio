@@ -69,13 +69,13 @@ public class TagController {
         return tagService.addTagToBoard(tag, id);
     }
 
-    @PostMapping("/edit/{id}")
+    @PutMapping("/edit/{id}")
     public IdResponseModel editTag(@PathVariable int id,
                                    @RequestBody TagEditModel model){
         return tagService.editTag(id, model);
     }
 
-    @GetMapping("/remove/{id}")
+    @DeleteMapping("/remove/{id}")
     public IdResponseModel removeTag(@PathVariable int id){
         return tagService.removeTag(id);
     }

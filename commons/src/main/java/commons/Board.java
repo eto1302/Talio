@@ -35,11 +35,11 @@ public class Board {
     private java.util.List<List> lists;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private java.util.List<Tag> tags;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private java.util.List<Color> colors;
 
     /**
