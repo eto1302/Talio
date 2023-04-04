@@ -1,5 +1,7 @@
 package commons.models;
 
+import java.util.Objects;
+
 public class ColorEditModel {
     private String backgroundColor;
     private String fontColor;
@@ -42,5 +44,20 @@ public class ColorEditModel {
                 "backgroundColor='" + backgroundColor + '\'' +
                 ", fontColor='" + fontColor + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ColorEditModel that = (ColorEditModel) o;
+        return isDefault() == that.isDefault() &&
+                Objects.equals(getBackgroundColor(), that.getBackgroundColor())
+                && Objects.equals(getFontColor(), that.getFontColor());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBackgroundColor(), getFontColor(), isDefault());
     }
 }

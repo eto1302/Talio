@@ -1,47 +1,34 @@
 package client.scenes;
 
+import client.Services.BoardService;
 import client.user.UserData;
 import client.utils.ServerUtils;
-import commons.Board;
+import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import javax.inject.Inject;
 
 public class SearchCtrl {
     private ShowCtrl showCtrl;
-
-    @FXML
-    private Button searchButton;
     @FXML
     private TextField inviteKeyField;
-    private ServerUtils server;
-    @Inject
-    private UserData userData;
+    private BoardService boardService;
 
     @Inject
-    public SearchCtrl(ShowCtrl showCtrl, ServerUtils serverUtils){
+    public SearchCtrl(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData){
         this.showCtrl = showCtrl;
-        server=serverUtils;
+        this.boardService = new BoardService(userData, serverUtils);
     }
 
     public void search(){
-        String inviteKey = inviteKeyField.getText();
-        Board board = server.getBoardByInviteKey(inviteKey);
-
-        if (board==null){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText("Invalid invite key. Try again?");
+        IdResponseModel response = this.boardService.search(inviteKeyField.getText());
+        if(response.getId() == -1){
+            this.showCtrl.showError(response.getErrorMessage());
+            this.showCtrl.cancel();
+            return;
         }
-        else{
-            this.userData.joinBoard(board.getId(), "");
-            this.userData.saveToDisk();
-            this.userData.openBoard(board.getId());
-            showCtrl.showBoard();
-            showCtrl.cancel();
-        }
+        showCtrl.showBoard();
+        showCtrl.cancel();
     }
 }

@@ -1,13 +1,14 @@
 package client.scenes;
 
+import client.Services.ListService;
+import client.Services.SubtaskService;
+import client.Services.TaskService;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Subtask;
 import commons.Task;
 import commons.models.IdResponseModel;
-import commons.models.TaskEditModel;
-import commons.sync.TaskEdited;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
@@ -26,29 +27,29 @@ public class EditTaskController {
     @FXML
     private VBox subtaskBox, tagBox;
     private commons.Task task;
-    private ServerUtils server;
-    private ListShapeCtrl listShapeCtrl;
-    private UserData userData;
+    private TaskService taskService;
+    private SubtaskService subtaskService;
+    private ListService listService;
 
     @Inject
     public EditTaskController (ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
-        this.server = serverUtils;
         this.showCtrl = showCtrl;
-        this.userData = userData;
+        this.taskService = new TaskService(userData, serverUtils);
+        this.subtaskService = new SubtaskService(userData, serverUtils);
+        this.listService = new ListService(userData, serverUtils);
     }
 
     public Scene setup(Task task, ListShapeCtrl listShapeCtrl) {
         this.task = task;
         this.title.setText(task.getTitle());
         this.descriptionField.setText(task.getDescription());
-        this.listShapeCtrl = listShapeCtrl;
 
         return refresh();
     }
 
     public Scene refresh(){
         subtaskBox.getChildren().clear();
-        java.util.List<Subtask> subtasks = server.getSubtasksOrdered(task.getId());
+        java.util.List<Subtask> subtasks = subtaskService.getSubtasksOrdered(task.getId());
         for (Subtask subtask: subtasks)
             showCtrl.addSubTask(subtask, this);
 //        tagBox.getChildren().clear();
@@ -85,12 +86,9 @@ public class EditTaskController {
         String description = this.descriptionField.getText();
         task.setTitle(title);
         task.setDescription(description);
-        List list = server.getList(task.getListID());
+        List list = listService.getList(task.getListID());
 
-        TaskEditModel model = new TaskEditModel(title, description, task.getIndex(),
-                list, task.getColorId());
-        IdResponseModel response = userData.updateBoard
-                (new TaskEdited(list.getBoardId(), list.getId(), task.getId(), model));
+        IdResponseModel response = taskService.editTask(task, list, task.getIndex());
 
         if (response.getId() == -1) {
             showCtrl.cancel();

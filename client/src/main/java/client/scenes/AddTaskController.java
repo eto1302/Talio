@@ -1,39 +1,32 @@
 package client.scenes;
 
+import client.Services.BoardService;
+import client.Services.TaskService;
 import client.user.UserData;
 import client.utils.ServerUtils;
-import commons.Color;
 import commons.List;
-import commons.Subtask;
-import commons.Task;
 import commons.models.IdResponseModel;
-import commons.sync.TaskAdded;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 
 public class AddTaskController {
-
     private final ShowCtrl showCtrl;
-    private final ServerUtils server;
-    private ListShapeCtrl controller;
-    private Task task;
     @FXML
     private TextField title;
     @FXML
     private TextArea descriptionField;
     private List list;
+    private TaskService taskService;
+    private BoardService boardService;
 
     @Inject
-    private UserData userData;
-
-    @Inject
-    public AddTaskController (ShowCtrl showCtrl, ServerUtils serverUtils){
+    public AddTaskController (ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData){
         this.showCtrl=showCtrl;
-        server=serverUtils;
+        this.taskService = new TaskService(userData, serverUtils);
+        this.boardService = new BoardService(userData, serverUtils);
     }
 
     public void cancel(){
@@ -41,20 +34,10 @@ public class AddTaskController {
     }
 
     public void addTask() {
-        String title = this.title.getText();
-        String description = this.descriptionField.getText();
-        int colorId = this.userData.getCurrentBoard().getColors()
-                .stream().filter(Color::getIsDefault).findFirst().get().getId();
-        task.setTitle(title);
-        task.setDescription(description);
-        task.setColorId(colorId);
-        java.util.List<Task> tasks = server.getTaskByList(list.getId());
-        task.setIndex(tasks.size());
-
-        IdResponseModel model = userData.updateBoard(new
-                TaskAdded(list.getBoardId(), list.getId(), task));
-        if(model.getId() == -1){
-            showCtrl.showError(model.getErrorMessage());
+        IdResponseModel response = taskService.addTask(
+                title.getText(), descriptionField.getText(), list);
+        if(response.getId() == -1){
+            showCtrl.showError(response.getErrorMessage());
             showCtrl.cancel();
             return;
         }
@@ -63,9 +46,7 @@ public class AddTaskController {
     }
 
 
-    public void setup(ListShapeCtrl controller, commons.List list) {
-        this.task = Task.create(null, null, list.getId(), new ArrayList<Subtask>());
-        this.controller=controller;
+    public void setup(commons.List list) {
         this.list=list;
     }
 }

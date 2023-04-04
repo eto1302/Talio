@@ -1,13 +1,14 @@
 package client.scenes;
 
+import client.Services.BoardService;
+import client.Services.ColorService;
+import client.Services.ListService;
+import client.Services.TaskService;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Color;
 import commons.List;
 import commons.Task;
-import commons.models.TaskEditModel;
-import commons.sync.TaskDeleted;
-import commons.sync.TaskEdited;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
@@ -31,24 +32,28 @@ public class TaskShape {
     @FXML
     private Label plusSign, title, deleteX;
     private ShowCtrl showCtrl;
-    private ServerUtils server;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
     private ListShapeCtrl controller;
     private commons.Task task;
-    private UserData userData;
     private boolean selected;
     private String style;
     private TextField text;
+    private TaskService taskService;
+    private ColorService colorService;
+    private BoardService boardService;
+    private ListService listService;
 
     @Inject
     public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl = showCtrl;
-        this.server = serverUtils;
-        this.userData = userData;
+        this.taskService = new TaskService(userData, serverUtils);
+        this.colorService = new ColorService(userData, serverUtils);
+        this.boardService = new BoardService(userData, serverUtils);
+        this.listService = new ListService(userData, serverUtils);
     }
 
     public void setTaskUpdated() {
-        task=server.getTask(task.getId());
+        task = taskService.getTask(task.getId());
     }
 
     /**
@@ -108,19 +113,15 @@ public class TaskShape {
     public void updateScene(Task task){
         this.task = task;
         title.setText(task.getTitle());
-        Color taskColor = this.server.getColor(task.getColorId());
+        Color taskColor = this.colorService.getColor(task.getColorId());
         if(taskColor == null){
-            int defaultColorId = this.userData.getCurrentBoard().getColors()
+            int defaultColorId = this.boardService.getCurrentBoard().getColors()
                     .stream().filter(Color::getIsDefault).findFirst().get().getId();
             this.task.setColorId(defaultColorId);
+            List list = this.listService.getList(this.task.getListID());
 
-            List list = this.server.getList(this.task.getListID());
-            TaskEditModel edit = new TaskEditModel(task.getTitle(), task.getDescription(),
-                    task.getIndex(), list, task.getColorId());
-
-            userData.updateBoard(new TaskEdited(list.getBoardId(), list.getId(),
-                    task.getId(), edit));
-            taskColor = server.getColor(defaultColorId);
+            this.taskService.editTask(task, list, task.getIndex());
+            taskColor = colorService.getColor(defaultColorId);
         }
         title.setTextFill(javafx.scene.paint.Color.web(taskColor.getFontColor()));
         grid.setStyle("-fx-padding: 2px; -fx-border-color: gray; " +
@@ -135,13 +136,12 @@ public class TaskShape {
     public void delete() {
         VBox parent = (VBox) grid.getParent();
         parent.getChildren().remove(grid);
-        server.removeTask(task.getId(), task.getListID());
+        taskService.deleteTask(task);
         controller.getTaskControllers().remove(this);
     }
 
     public void deleteEvent() {
-        deleteX.setOnMouseClicked(event -> userData.updateBoard(new TaskDeleted(userData
-                .getCurrentBoard().getId(), task.getId(), task.getListID())));
+        deleteX.setOnMouseClicked(event -> taskService.deleteTask(task));
     }
 
 
@@ -150,8 +150,7 @@ public class TaskShape {
     public void deleteOnKey(){
         VBox parent = (VBox) grid.getParent();
         parent.getChildren().remove(grid);
-        userData.updateBoard(new TaskDeleted(userData
-                .getCurrentBoard().getId(), task.getId(), task.getListID()));
+        taskService.deleteTask(task);
         controller.getTaskControllers().remove(this);
     }
     /**
@@ -191,7 +190,7 @@ public class TaskShape {
         ClipboardContent clipboardContent = new ClipboardContent();
         SnapshotParameters snapshotParams = new SnapshotParameters();
         WritableImage image = grid.snapshot(snapshotParams, null);
-        Task task1 =server.getTask(task.getId());
+        Task task1 = taskService.getTask(task.getId());
 
         clipboardContent.putString(task.getId()+"+"+ task1.getListID());
 
@@ -228,14 +227,14 @@ public class TaskShape {
         String identify = dragboard.getString();
         int taskId = Integer.parseInt(identify.split("\\+")[0].trim());
         int previousListId = Integer.parseInt(identify.split("\\+")[1].trim());
-        task =server.getTask(task.getId());
-        Task previousTask = server.getTask(taskId);
-        List currentlist = server.getList(task.getListID());
+        task = taskService.getTask(task.getId());
+        Task previousTask = taskService.getTask(taskId);
+        List currentlist = listService.getList(task.getListID());
         if (dragboard.hasString() && previousListId==task.getListID()){
             VBox parent = (VBox) grid.getParent();
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
             ArrayList<Task> orderedTasks=
-                    (ArrayList<Task>) server.getTasksOrdered(task.getListID());
+                    (ArrayList<Task>) taskService.getTasksOrdered(task.getListID());
 
             rearrange(source, parent, children, orderedTasks);
             reorderTasks(orderedTasks, currentlist);
@@ -245,20 +244,17 @@ public class TaskShape {
             done=true;
         }
         else if (dragboard.hasString() && previousListId!=task.getListID()){
-            List previousList = server.getList(previousListId);
+            List previousList = listService.getList(previousListId);
             previousList.getTasks().remove(previousTask);
             VBox parent = (VBox) grid.getParent();
 
             parent.getChildren().add(((GridPane) source));
             int newIndex= parent.getChildren().indexOf((GridPane) source);
 
-            TaskEditModel model = new TaskEditModel(previousTask.getTitle(),
-                    previousTask.getDescription(), newIndex, currentlist,
-                    previousTask.getColorId());
-            server.editTask(taskId, model);
+            taskService.editTask(previousTask, currentlist, newIndex);
 
             currentlist.getTasks().add(previousTask);
-            java.util.List<Task> previousListTasks = server.getTasksOrdered(previousListId);
+            java.util.List<Task> previousListTasks = taskService.getTasksOrdered(previousListId);
             reorderTasks(previousListTasks, previousList);
             done=true;
         }
@@ -288,9 +284,7 @@ public class TaskShape {
     private void reorderTasks(java.util.List<Task> tasksToReorder, List list){
         for (int i=0; i<tasksToReorder.size(); i++){
             Task taskIndex = tasksToReorder.get(i);
-            TaskEditModel model = new TaskEditModel(taskIndex.getTitle(),
-                    taskIndex.getDescription(), i, list, taskIndex.getColorId());
-            server.editTask(taskIndex.getId(), model);
+            taskService.editTask(taskIndex, list, i);
         }
     }
 
@@ -322,9 +316,9 @@ public class TaskShape {
         VBox parent = (VBox) grid.getParent();
         ArrayList<Node> children = new ArrayList<>(parent.getChildren());
         ArrayList<Task> orderedTasks =
-                (ArrayList<Task>) server.getTasksOrdered(task.getListID());
+                (ArrayList<Task>) taskService.getTasksOrdered(task.getListID());
         var controllers = controller.getTaskControllers();
-        List list = server.getList(task.getListID());
+        List list = listService.getList(task.getListID());
 
         if (direction.equals("up") && index!=0){
             Collections.rotate(children.subList(index-1, index+1), 1);
@@ -344,13 +338,11 @@ public class TaskShape {
 
     public void editOnKey() {
         int index = ((VBox) grid.getParent()).getChildren().indexOf(grid);
-        TaskEditModel model = new TaskEditModel(text.getText(), task.getDescription(),
-                index, controller.getList(), task.getColorId());
-        task.setTitle(model.getTitle());
-        server.editTask(task.getId(), model);
+        task.setTitle(text.getText());
+        taskService.editTask(task, controller.getList(), index);
 
         title.setGraphic(null);
-        title.setText(model.getTitle());
+        title.setText(text.getText());
     }
 
     public void makeEditable() {

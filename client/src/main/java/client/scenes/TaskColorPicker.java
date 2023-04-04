@@ -1,6 +1,8 @@
 package client.scenes;
 
+import client.Services.BoardService;
 import client.user.UserData;
+import client.utils.ServerUtils;
 import commons.Board;
 import commons.Task;
 import javafx.fxml.FXML;
@@ -18,13 +20,13 @@ public class TaskColorPicker {
     @FXML
     private VBox taskColorList;
     @Inject
-    private UserData userData;
-    @Inject
     private ShowCtrl showCtrl;
     private Task task;
+    private BoardService boardService;
 
-    public TaskColorPicker(){
-
+    @Inject
+    public TaskColorPicker(UserData userData, ServerUtils serverUtils){
+        this.boardService = new BoardService(userData, serverUtils);
     }
 
     public void close(){
@@ -33,7 +35,7 @@ public class TaskColorPicker {
 
     public void fillTaskColors(){
         this.taskColorList.getChildren().removeAll(this.taskColorList.getChildren());
-        List<commons.Color> colors = this.userData.getCurrentBoard().getColors();
+        List<commons.Color> colors = this.boardService.getCurrentBoard().getColors();
         if(colors == null) return;
         for(int i = 2; i < colors.size(); ++i){
             commons.Color color = colors.get(i);
@@ -42,7 +44,7 @@ public class TaskColorPicker {
     }
 
     public void setup(Task task) {
-        Board currentBoard = this.userData.getCurrentBoard();
+        Board currentBoard = this.boardService.getCurrentBoard();
         this.boardLabel.setText(currentBoard.getName());
         this.task = task;
         this.fillTaskColors();

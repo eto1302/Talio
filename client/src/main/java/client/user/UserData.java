@@ -10,7 +10,6 @@ import com.google.inject.Inject;
 import commons.Board;
 import commons.mocks.IUserData;
 import commons.models.IdResponseModel;
-import commons.sync.ColorDeleted;
 
 import java.io.*;
 import java.util.HashMap;
@@ -223,15 +222,6 @@ public class UserData implements IUserData {
             return response;
 
         messageSender.send(boardDeleted.getSendQueue(), boardDeleted);
-        return response;
-    }
-
-    public IdResponseModel deleteColor(ColorDeleted colorDeleted) {
-        IdResponseModel response = colorDeleted.sendToServer(serverUtils);
-        if (response.getId() == -1)
-            return response;
-
-        messageSender.send(colorDeleted.getSendQueue(), colorDeleted);
         return response;
     }
 
