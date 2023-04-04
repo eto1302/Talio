@@ -58,15 +58,18 @@ class SubtaskControllerTest {
     }
     @Test
     void testGetSubtasksByTask() throws Exception{
-        when(mockService.getAllSubtasksByTaskID(anyInt())).thenReturn(Arrays.asList(subtask1, subtask2));
+        when(mockService.getAllSubtasksByTaskID(anyInt()))
+                .thenReturn(Arrays.asList(subtask1, subtask2));
 
         ResultActions response = mock.perform(get("/subtask/getByTask/2")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(jsonPath("$.size()", CoreMatchers.is(Arrays.asList(subtask1, subtask2).size())))
+                .andExpect(jsonPath("$.size()",
+                        CoreMatchers.is(Arrays.asList(subtask1, subtask2).size())))
                 .andExpect(jsonPath("$[0].checked", CoreMatchers.is(subtask1.isChecked())))
-                .andExpect(jsonPath("$[1].description", CoreMatchers.is(subtask2.getDescription())));
+                .andExpect(jsonPath("$[1].description",
+                        CoreMatchers.is(subtask2.getDescription())));
     }
     @Test
     void getAllSubtasks() throws Exception{
@@ -76,7 +79,8 @@ class SubtaskControllerTest {
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(jsonPath("$.size()", CoreMatchers.is(Arrays.asList(subtask1, subtask2).size())));
+                .andExpect(jsonPath("$.size()",
+                        CoreMatchers.is(Arrays.asList(subtask1, subtask2).size())));
     }
     @Test
     void testGetSubtasksOrdered() throws Exception{
@@ -86,8 +90,10 @@ class SubtaskControllerTest {
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(jsonPath("$.size()", CoreMatchers.is(Arrays.asList(subtask2, subtask1).size())))
-                .andExpect(jsonPath("$[0].description", CoreMatchers.is(subtask2.getDescription())));
+                .andExpect(jsonPath("$.size()",
+                        CoreMatchers.is(Arrays.asList(subtask2, subtask1).size())))
+                .andExpect(jsonPath("$[0].description",
+                        CoreMatchers.is(subtask2.getDescription())));
     }
     @Test
     void testRemoveSubtask() throws Exception{
