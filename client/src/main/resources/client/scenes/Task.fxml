@@ -2,12 +2,13 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="120.0" prefWidth="164.0" style="-fx-padding: 2px; -fx-border-color: gray;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.tasks.TaskShape">
+<GridPane fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="120.0" prefWidth="164.0" style="-fx-padding: 2px; -fx-border-color: gray;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskShape">
 
   <columnConstraints>
       <ColumnConstraints />
@@ -17,7 +18,7 @@
   </columnConstraints>
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="89.59998168945313" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="20.0" prefHeight="40.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
@@ -25,9 +26,14 @@
       <Label fx:id="subtaskProgress" opacity="0.39" text="0/1" GridPane.rowIndex="1" />
       <Label fx:id="deleteX" onMouseEntered="#deleteEvent" text="X" GridPane.columnIndex="3" GridPane.valignment="TOP" />
       <Label fx:id="title" style="-fx-wrap-text: true;" text="Label" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-      <HBox fx:id="tagMarkerContainer" prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-         <padding>
-            <Insets left="4.0" right="4.0" />
-         </padding></HBox>
+      <ScrollPane fx:id="markerScroll" minHeight="20.0" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1">
+         <content>
+            <HBox fx:id="tagMarkerContainer" minHeight="20.0" prefHeight="20.0" prefWidth="155.0" spacing="5.0">
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </HBox>
+         </content>
+      </ScrollPane>
    </children>
 </GridPane>

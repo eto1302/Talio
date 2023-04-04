@@ -51,6 +51,7 @@ public class TagAddedToTask extends BoardUpdate{
         List<Tag> fresh = task.getTags();
         fresh.add(tag);
         task.setTags(fresh);
+        if(tag.getTasks() == null) {tag.setTasks(new ArrayList<>());}
         tag.getTasks().add(task);
         tag.getTaskIDs().add(task.getId());
         data.getShowCtrl().addTagToTask(tag, task);

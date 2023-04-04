@@ -1,4 +1,4 @@
-package client.scenes.subtasks;
+package client.scenes;
 
 import client.scenes.ShowCtrl;
 import commons.Subtask;

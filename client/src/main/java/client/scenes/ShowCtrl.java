@@ -1,10 +1,6 @@
 package client.scenes;
 
-import client.scenes.boards.*;
-import client.scenes.lists.*;
-import client.scenes.subtasks.*;
 import client.scenes.tags.*;
-import client.scenes.tasks.*;
 import commons.*;
 import commons.mocks.IShowCtrl;
 import javafx.geometry.Pos;
@@ -167,18 +163,6 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.show();
     }
 
-    public void showAddTag(Task task){
-        popUpStage = new Stage();
-        var addTagPair = FXML.load(AddTagController.class,
-                "client", "scenes", "AddTag.fxml");
-        Scene addTagScene = new Scene(addTagPair.getValue());
-
-        addTagPair.getKey().setup(task);
-        popUpStage.setScene(addTagScene);
-        popUpStage.setTitle("Add a tag");
-        popUpStage.show();
-    }
-
     public void showAddSubTask(EditTaskController controller, Task task) {
         popUpStage = new Stage();
         var addSubtaskPair = FXML.load(AddSubTaskController.class,
@@ -188,6 +172,18 @@ public class ShowCtrl implements IShowCtrl {
 
         popUpStage.setScene(addSubtaskScene);
         popUpStage.setTitle("Add a sub-task");
+        popUpStage.show();
+    }
+
+    public void showEditSubTask(Subtask subtask) {
+        popUpStage = new Stage();
+        var editSubtaskPair = FXML.load(EditSubTaskController.class,
+                "client", "scenes", "AddSubTask.fxml");
+        Scene editSubtaskScene = new Scene(editSubtaskPair.getValue());
+        editSubtaskPair.getKey().setup(subtask);
+
+        popUpStage.setScene(editSubtaskScene);
+        popUpStage.setTitle("Edit a sub-task");
         popUpStage.show();
     }
 
@@ -362,6 +358,7 @@ public class ShowCtrl implements IShowCtrl {
 
         Scene updated = editTaskController.setup(task, listShapeCtrl, primaryStage);
         secondaryStage = new Stage();
+        //TODO: Possible problem
         secondaryStage.setScene(updated);
         secondaryStage.setTitle("Edit a task");
         secondaryStage.show();
@@ -435,6 +432,12 @@ public class ShowCtrl implements IShowCtrl {
 //        }
     }
 
+    public void removeTagFromTask(Tag tag, Task task){
+        TaskShape ts = boardController.findTaskController(task);
+        ts.refreshTagMarkers(task);
+        editTaskController.refresh();
+    }
+
     private void refreshAllTasks(){
         //TODO: change to better impl, only way to do this for now
         // since there is no way to get a task from a tag
@@ -461,7 +464,7 @@ public class ShowCtrl implements IShowCtrl {
     public void addTagToTask(Tag tag, Task task){
         TaskShape taskController = boardController.findTaskController(task);
         taskController.refreshTagMarkers(task);
-        editTaskController.putTag(getTagScene(tag));
+        editTaskController.putTag(getTagSceneTask(tag, editTaskController));
     }
 
     public Scene getTagScene(Tag tag){
@@ -486,7 +489,6 @@ public class ShowCtrl implements IShowCtrl {
             "client", "scenes", "TagMarkerShape.fxml");
         Scene initializeTagMarker = new Scene(markerPair.getValue());
         TagMarkerShapeController controller = markerPair.getKey();
-        controller.setTaskcontroller(taskController);
         Scene markerScene = controller.getSceneUpdated(tag);
         return markerScene;
     }
@@ -610,4 +612,13 @@ public class ShowCtrl implements IShowCtrl {
         this.editColorController.setup(color);
         secondaryStage.show();
     }
+
+    public Scene getEditTask(){
+        return editTask;
+    }
+
+    public Stage getSecondaryStage(){
+        return secondaryStage;
+    }
+
 }

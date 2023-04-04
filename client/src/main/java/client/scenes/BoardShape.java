@@ -1,4 +1,4 @@
-package client.scenes.boards;
+package client.scenes;
 
 import client.scenes.ShowCtrl;
 import client.user.UserData;
