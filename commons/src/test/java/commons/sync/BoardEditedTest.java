@@ -57,7 +57,7 @@ public class BoardEditedTest {
 
         this.boardEdited.apply(mockUserData);
 
-        verify(mockUserData, times(1)).getCurrentBoard();
+        verify(mockUserData, times(2)).getCurrentBoard();
         assertEquals("test", board.getName());
     }
 
