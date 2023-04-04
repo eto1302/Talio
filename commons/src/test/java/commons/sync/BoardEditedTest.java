@@ -23,19 +23,19 @@ public class BoardEditedTest {
     @BeforeEach
     void setup(){
         this.boardEdited = new BoardEdited(1,
-                new BoardEditModel("test"));
+                new BoardEditModel("test", "password"));
         this.board = Board.create("test123", "pass", new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>());
     }
 
     @Test
     public void getBoardIdTest(){
-        assertEquals(1, this.boardEdited.getBoardId());
+        assertEquals(1, this.boardEdited.getBoardID());
     }
 
     @Test
     public void getEditTest(){
-        assertEquals(new BoardEditModel("test"), this.boardEdited.getEdit());
+        assertEquals(new BoardEditModel("test", "password"), this.boardEdited.getEdit());
     }
 
     @Test
