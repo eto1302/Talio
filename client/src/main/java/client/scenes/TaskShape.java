@@ -11,6 +11,7 @@ import commons.List;
 import commons.Subtask;
 import commons.Tag;
 import commons.Task;
+import commons.sync.TaskDeleted;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
@@ -33,6 +34,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class TaskShape {
+
+    @Inject
+    ServerUtils server;
+    @Inject
+    UserData userData;
     @FXML
     private GridPane grid;
     @FXML
@@ -137,7 +143,7 @@ public class TaskShape {
             }
         }
         subtaskProgress.setText(done + "/" + subtasks.size());
-        Color taskColor = this.server.getColor(task.getColorId());
+        Color taskColor = colorService.getColor(task.getColorId());
         if(taskColor == null){
             int defaultColorId = this.boardService.getCurrentBoard().getColors()
                     .stream().filter(Color::getIsDefault).findFirst().get().getId();
@@ -156,6 +162,7 @@ public class TaskShape {
             plusSign.setVisible(false);
     }
 
+    //TODO: refactor to service
     public void refreshTagMarkers(Task task){
         java.util.List<Tag> tags = server.getTagByTask(task.getId());
         tagMarkerContainer.getChildren().remove(0, tagMarkerContainer.getChildren().size());
@@ -188,8 +195,7 @@ public class TaskShape {
     public void deleteOnKey(){
         VBox parent = (VBox) grid.getParent();
         parent.getChildren().remove(grid);
-        userData.updateBoard(new TaskDeleted(userData
-                .getCurrentBoard().getId(), task.getId(), task.getListID()));
+        taskService.deleteTask(task);;
         controller.getTaskControllers().remove(this);
     }
     /**
@@ -290,10 +296,7 @@ public class TaskShape {
             parent.getChildren().add(((GridPane) source));
             int newIndex= parent.getChildren().indexOf((GridPane) source);
 
-            TaskEditModel model = new TaskEditModel(previousTask.getTitle(),
-                    previousTask.getDescription(), newIndex, currentlist,
-                    previousTask.getColorId());
-            server.editTask(taskId, model);
+            taskService.editTask(previousTask, currentlist, newIndex);
 
             currentlist.getTasks().add(previousTask);
             java.util.List<Task> previousListTasks = server.getTasksOrdered(previousListId);
@@ -326,9 +329,7 @@ public class TaskShape {
     private void reorderTasks(java.util.List<Task> tasksToReorder, List list){
         for (int i=0; i<tasksToReorder.size(); i++){
             Task taskIndex = tasksToReorder.get(i);
-            TaskEditModel model = new TaskEditModel(taskIndex.getTitle(),
-                    taskIndex.getDescription(), i, list, taskIndex.getColorId());
-            server.editTask(taskIndex.getId(), model);
+            taskService.editTask(taskIndex, list, i);
         }
     }
 
@@ -382,13 +383,11 @@ public class TaskShape {
 
     public void editOnKey() {
         int index = ((VBox) grid.getParent()).getChildren().indexOf(grid);
-        TaskEditModel model = new TaskEditModel(text.getText(), task.getDescription(),
-                index, controller.getList(), task.getColorId());
-        task.setTitle(model.getTitle());
-        server.editTask(task.getId(), model);
+        task.setTitle(text.getText());
+        taskService.editTask(task, controller.getList(), index);
 
         title.setGraphic(null);
-        title.setText(model.getTitle());
+        title.setText(text.getText());
     }
 
     public void makeEditable() {

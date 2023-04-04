@@ -100,11 +100,11 @@ public class TagService {
         }
     }
 
-    public IdResponseModel removeFromBoard(int tagID, int boardID){
+    public IdResponseModel removeFromBoard(int tagID){
         try{
             Tag tag = tagRepository.getById(tagID);
-            Board board = boardRepository.getBoardByID(boardID);
-            board.getTags().remove(tag);
+//            Board board = boardRepository.getBoardByID(boardID);
+//            board.getTags().remove(tag);
             tagRepository.delete(tag);
             return new IdResponseModel(tagID, null);
         }

@@ -75,7 +75,6 @@ public class Main extends Application {
                 EditColor.class, "client", "scenes", "EditColor.fxml");
         var tagOverview = FXML.load(TagOverviewController.class,
             "client", "scenes", "TagOverview.fxml");
-        loader.add(home);//0
         var unlockBoard = FXML.load(
                 UnlockBoardController.class, "client", "scenes", "UnlockBoard.fxml");
         var lockBoard = FXML.load(

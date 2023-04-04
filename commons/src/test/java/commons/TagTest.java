@@ -46,22 +46,11 @@ class TagTest {
         assertEquals(Color.create("#FFFFFF", "#111111"), testTag.getColor());
     }
 
-    @Test
-    public void testGetTask() {
-        testTag.setTask(new Task());
-        assertEquals(new Task(), testTag.getTask());
-    }
 
     @Test
     public void testGetBoard() {
         testTag.setBoard(new Board());
         assertEquals(new Board(), testTag.getBoard());
-    }
-
-    @Test
-    public void testGetTaskId() {
-        testTag.setTaskID(1);
-        assertEquals(1, testTag.getTaskID());
     }
 
     @Test

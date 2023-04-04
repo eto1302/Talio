@@ -29,11 +29,8 @@ public class ShowCtrl implements IShowCtrl {
 
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, board, connection,
-            addBoard, editTask, errorScene, admin, editBoard, colorPicker,
+            addBoard, editTask, errorScene, admin, editBoard, tagOverview,colorPicker,
             addTaskColor, help, taskColorPicker, editColor, unlockBoard, lockBoard;
-    private Scene home, addList, yourBoards, search, board, taskOverview, connection,
-            addBoard, editTask, errorScene, admin, editBoard, tagOverview, help,
-            colorPicker, addTaskColor, taskColorPicker, editColor;
     private AddListController addListCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
@@ -91,20 +88,11 @@ public class ShowCtrl implements IShowCtrl {
         taskColorPickerController = (TaskColorPicker) loader.get(14).getKey();
         editColor = new Scene((Parent) loader.get(15).getValue());
         editColorController = (EditColor) loader.get(15).getKey();
-        colorPicker = new Scene((Parent) loader.get(10).getValue());
-        colorPickerController = (ColorPicker) loader.get(10).getKey();
-        addTaskColor = new Scene((Parent) loader.get(11).getValue());
-        addTaskColorController = (AddTaskColor) loader.get(11).getKey();
-        help = new Scene((Parent) loader.get(12).getValue());
-        helpCtrl = (HelpCtrl) loader.get(12).getKey();
-        taskColorPicker = new Scene((Parent) loader.get(13).getValue());
-        taskColorPickerController = (TaskColorPicker) loader.get(13).getKey();
-        editColor = new Scene((Parent) loader.get(14).getValue());
-        editColorController = (EditColor) loader.get(14).getKey();
-        unlockBoard = new Scene((Parent) loader.get(15).getValue());
-        unlockBoardController = (UnlockBoardController) loader.get(15).getKey();
-        lockBoard = new Scene((Parent) loader.get(16).getValue());
-        lockBoardController = (LockBoardController) loader.get(16).getKey();
+        unlockBoard = new Scene((Parent) loader.get(16).getValue());
+        unlockBoardController = (UnlockBoardController) loader.get(16).getKey();
+        lockBoard = new Scene((Parent) loader.get(17).getValue());
+        lockBoardController = (LockBoardController) loader.get(17).getKey();
+
 
         setUpKeys();
         listControllers = new HashMap<>();

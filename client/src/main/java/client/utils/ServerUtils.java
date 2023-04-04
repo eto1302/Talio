@@ -595,10 +595,10 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
-    public IdResponseModel removeTagFromBoard(int tagID, int boardID){
+    public IdResponseModel removeTag(int tagID){
         try{
             ResponseEntity<IdResponseModel> response = client.getForEntity(
-                    url + "/tag/removeFromBoard/" + tagID + "/" + boardID, IdResponseModel.class);
+                    url + "/tag/removeTag/" + tagID, IdResponseModel.class);
             return response.getBody();
         }
         catch(Exception e){

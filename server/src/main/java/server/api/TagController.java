@@ -76,13 +76,14 @@ public class TagController {
     }
 
     @DeleteMapping("/remove/{id}")
-    public IdResponseModel removeTag(@PathVariable int id){
-        return tagService.removeTag(id);
-
-    @GetMapping("/removeFromBoard/{tagID}/{boardID}")
-    public IdResponseModel removeFromBoard(@PathVariable int tagID, @PathVariable int boardID){
-        return tagService.removeFromBoard(tagID, boardID);
+    public IdResponseModel removeTag(@PathVariable int id) {
+        return tagService.removeFromBoard(id);
     }
+
+//    @GetMapping("/removeFromBoard/{tagID}/{boardID}")
+//    public IdResponseModel removeFromBoard(@PathVariable int tagID, @PathVariable int boardID){
+//        return tagService.removeFromBoard(tagID);
+//    }
 
     private static boolean isNullOrEmpty(String s) {
         return s == null || s.isEmpty();
