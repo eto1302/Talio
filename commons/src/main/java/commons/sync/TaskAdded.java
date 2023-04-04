@@ -51,6 +51,6 @@ public class TaskAdded extends BoardUpdate {
                 .filter(e -> e.getId() == listID).findFirst().orElse(null);
         if(list.getTasks() == null) {list.setTasks(new ArrayList<>());}
         list.getTasks().add(task);
-        //data.getShowCtrl().addTask(task, list);
+        data.getShowCtrl().addTask(task, list);
     }
 }

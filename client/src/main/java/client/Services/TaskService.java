@@ -9,6 +9,7 @@ import commons.models.IdResponseModel;
 import commons.models.TaskEditModel;
 import commons.sync.TaskAdded;
 import commons.sync.TaskDeleted;
+import commons.sync.TaskEdited;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,8 @@ public class TaskService {
     public IdResponseModel editTask(Task task, commons.List list, int newIndex){
         TaskEditModel model = new TaskEditModel(task.getTitle(),
                 task.getDescription(), newIndex, list, task.getColorId());
-        return serverUtils.editTask(task.getId(), model);
+        return userData.updateBoard(new TaskEdited(list.getBoardId(),
+                list.getId(), task.getId(), model));
     }
 
     public IdResponseModel addTask(String title, commons.List list) {

@@ -581,12 +581,6 @@ public class ShowCtrl implements IShowCtrl {
         boardController.refresh();
     }
 
-    public void refreshList(int listID) {
-        ListShapeCtrl ctrl = getListController(listID);
-        if(ctrl != null)
-            ctrl.refreshList();
-    }
-
     public void deleteTaskColor(Color color) {
 
     }
