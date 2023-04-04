@@ -9,10 +9,13 @@ import commons.Task;
 import commons.models.IdResponseModel;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.geometry.Bounds;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.Lighting;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -34,18 +37,31 @@ public class BoardController {
     @FXML
     private GridPane boardBox;
     @FXML
+    private ImageView lockIcon;
+    @FXML
+    private ImageView editIcon;
+    @FXML
+    private ImageView deleteIcon;
+    @FXML
     private ScrollPane scrollPane;
     private final ShowCtrl showCtrl;
     private LinkedList<ListShapeCtrl> listControllers;
     private ListShapeCtrl selectedList=null;
     private TaskShape selectedTask=null;
     private boolean editable = false;
+    private UserData userData;
     private BoardService boardService;
     private TaskService taskService;
+
+    private static final Image LOCKED_IMG = new Image(
+            "file:client/build/resources/main/icons/lock.png");
+    private static final Image UNLOCKED_IMG = new Image(
+            "file:client/build/resources/main/icons/unlock.png");
 
     @Inject
     public BoardController(ShowCtrl showCtrl, ServerUtils server, UserData userData) {
         this.showCtrl = showCtrl;
+        this.userData = userData;
         this.boardService = new BoardService(userData, server);
         this.taskService = new TaskService(userData, server);
     }
@@ -139,7 +155,6 @@ public class BoardController {
         showCtrl.showConnection();
     }
 
-
     public void showEditBoard() { showCtrl.showEditBoard();}
 
     public void delete() {
@@ -151,6 +166,26 @@ public class BoardController {
         else{
             showCtrl.showYourBoards();
         }
+    }
+
+    public void lockHoverOn() {
+        ((Lighting) lockIcon.getEffect()).getLight().setColor(Color.valueOf("#FFFFFF"));
+    }
+
+    public void lockHoverOff() {
+        ((Lighting) lockIcon.getEffect()).getLight().setColor(Color.valueOf("#000000"));
+    }
+
+    public void manageLock() {
+        if(userData.isCurrentBoardLocked())
+            showCtrl.showUnlockBoard();
+        else showCtrl.showLockBoard();
+    }
+
+    public void updateLockIcon(boolean locked) {
+        lockIcon.setImage(locked ? LOCKED_IMG : UNLOCKED_IMG);
+        editIcon.setVisible(!locked);
+        deleteIcon.setVisible(!locked);
     }
 
     public void movement(KeyEvent event){

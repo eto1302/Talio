@@ -162,7 +162,7 @@ public class BoardControllerTest {
     }
     @Test
     void testEditBoard() throws Exception{
-        BoardEditModel boardEditModel = new BoardEditModel("Hello");
+        BoardEditModel boardEditModel = new BoardEditModel("Hello", "password");
 
         when(mockService.editBoard(anyInt(), eq(boardEditModel))).thenReturn(model);
 

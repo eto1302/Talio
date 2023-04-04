@@ -132,8 +132,8 @@ public class BoardService {
     public IdResponseModel editBoard(String title) {
         IdResponseModel response = this.userData.updateBoard(
                 new BoardEdited(this.userData.getCurrentBoard().getId(),
-                        new BoardEditModel(title)));
-        this.userData.openBoard(this.userData.getCurrentBoard().getId());
+                        new BoardEditModel(title, userData.getCurrentBoard().getPassword())));
+        this.userData.refresh();
         return response;
     }
 

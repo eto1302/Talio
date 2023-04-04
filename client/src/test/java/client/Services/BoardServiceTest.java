@@ -183,13 +183,12 @@ public class BoardServiceTest {
     public void editTest(){
         when(mockUserData.updateBoard(any(BoardEdited.class))).thenReturn(
                 new IdResponseModel(1, null));
-        when(mockUserData.openBoard(any(Integer.class))).thenReturn(board);
         when(mockUserData.getCurrentBoard()).thenReturn(board);
 
         IdResponseModel response = this.boardService.editBoard("new");
 
         verify(mockUserData, times(1)).updateBoard(any(BoardEdited.class));
-        verify(mockUserData, times(1)).openBoard(any(Integer.class));
+        verify(mockUserData, times(1)).refresh();
         verify(mockUserData, times(2)).getCurrentBoard();
     }
     @Test
