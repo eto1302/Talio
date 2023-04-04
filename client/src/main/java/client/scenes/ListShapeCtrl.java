@@ -10,14 +10,19 @@ import commons.Board;
 import commons.List;
 import commons.Task;
 import commons.models.IdResponseModel;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.geometry.Bounds;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import javax.inject.Inject;
 import java.util.LinkedList;
@@ -32,6 +37,12 @@ public class ListShapeCtrl {
     private Label listTitle;
     @FXML
     private GridPane listGrid;
+    @FXML
+    private HBox hbox;
+    @FXML
+    private ImageView deleteList;
+    @FXML
+    private Label addTask;
     private final ShowCtrl showCtrl;
     private List list;
     private LinkedList<TaskShape> taskControllers;
@@ -39,6 +50,7 @@ public class ListShapeCtrl {
     private ListService listService;
     private BoardService boardService;
     private TaskService taskService;
+    private TextField text;
 
     @Inject
     public ListShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
@@ -95,6 +107,9 @@ public class ListShapeCtrl {
         this.list = list;
         this.boardController = boardController;
         this.taskControllers = new LinkedList<>();
+        text = new TextField();
+        initializeText();
+
         Board board = boardService.getBoard(list.getBoardId());
         taskControllers = new LinkedList<>();
 
@@ -108,6 +123,31 @@ public class ListShapeCtrl {
         listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
         listTitle.setTextFill(fontColor);
     }
+
+    private void initializeText() {
+        text.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode()==KeyCode.ENTER){
+                    if(!text.getText().equals("")) {
+                        IdResponseModel response = taskService.addTask(
+                                text.getText(), list);
+                        if (response.getId() == -1) {
+                            showCtrl.showError(response.getErrorMessage());
+                            return;
+                        }
+                        showCtrl.showBoard();
+                    }
+                    else{
+                        hbox.getChildren().remove(text);
+                        hbox.getChildren().add(deleteList);
+                        hbox.getChildren().add(addTask);
+                    }
+                }
+            }
+        });
+    }
+
     public List getList(){
         return list;
     }
@@ -120,7 +160,11 @@ public class ListShapeCtrl {
      * shows the add task window
      */
     public void showAddTask(){
-        showCtrl.showAddTask(this, list);
+        text.setPrefWidth(200);
+        hbox.getChildren().remove(deleteList);
+        hbox.getChildren().remove(addTask);
+        hbox.getChildren().add(text);
+        text.requestFocus();
     }
 
     /**

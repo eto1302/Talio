@@ -24,7 +24,7 @@ public class ShowCtrl implements IShowCtrl {
     private Stage primaryStage, secondaryStage, popUpStage;
 
     private HomeController homeCtrl;
-    private Scene home, addList, yourBoards, search, board, taskOverview, connection,
+    private Scene home, addList, yourBoards, search, board, connection,
             addBoard, editTask, errorScene, admin, editBoard, colorPicker,
             addTaskColor, help, taskColorPicker, editColor;
     private AddListController addListCtrl;
@@ -129,22 +129,6 @@ public class ShowCtrl implements IShowCtrl {
         primaryStage.setScene(this.yourBoards);
     }
 
-    /**
-     * Shows the window with options for adding a task in a list.
-     *
-     * @param controller   the list's controller
-     * @param list  the associated list
-     */
-    public void showAddTask(ListShapeCtrl controller, commons.List list){
-        var addTask = FXML.load(AddTaskController.class, "client",
-                "scenes", "AddTask.fxml");
-        Scene addTaskScene = new Scene(addTask.getValue());
-        addTask.getKey().setup(list);
-        secondaryStage = new Stage();
-        secondaryStage.setScene(addTaskScene);
-        secondaryStage.setTitle("Add a task");
-        secondaryStage.show();
-    }
 
     public void cancel() {
         secondaryStage.close();

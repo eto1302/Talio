@@ -76,7 +76,7 @@ public class TaskServiceTest {
         when(mockUserData.updateBoard(any(TaskAdded.class))).thenReturn(
                 new IdResponseModel(1, null));
 
-        IdResponseModel response = this.taskService.addTask("name", "descr",
+        IdResponseModel response = this.taskService.addTask("name",
                 new commons.List());
 
         verify(mockUserData, times(1)).getCurrentBoard();

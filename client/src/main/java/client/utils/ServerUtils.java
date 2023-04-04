@@ -362,8 +362,8 @@ public class ServerUtils implements IServerUtils {
      */
     public IdResponseModel removeTask(int taskID, int listID){
         try{
-            ResponseEntity<IdResponseModel> response = client.getForEntity(
-                    url+"task/remove/"+taskID+"/"+listID,
+            ResponseEntity<IdResponseModel> response = client.exchange(
+                    url+"task/remove/"+taskID+"/"+listID, HttpMethod.DELETE, null,
                     IdResponseModel.class);
             return response.getBody();
         }

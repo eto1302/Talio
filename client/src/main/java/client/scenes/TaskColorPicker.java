@@ -23,7 +23,7 @@ public class TaskColorPicker {
     private ShowCtrl showCtrl;
     private Task task;
     private BoardService boardService;
-
+    @Inject
     public TaskColorPicker(UserData userData, ServerUtils serverUtils){
         this.boardService = new BoardService(userData, serverUtils);
     }

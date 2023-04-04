@@ -38,12 +38,11 @@ public class TaskService {
         return serverUtils.editTask(task.getId(), model);
     }
 
-    public IdResponseModel addTask(String title, String description, commons.List list) {
-        Task task = Task.create(null, null, list.getId(), new ArrayList<Subtask>());
+    public IdResponseModel addTask(String title, commons.List list) {
+        Task task = Task.create(null, title, list.getId(), new ArrayList<Subtask>());
         int colorId = this.boardService.getCurrentBoard().getColors()
                 .stream().filter(Color::getIsDefault).findFirst().get().getId();
         task.setTitle(title);
-        task.setDescription(description);
         task.setColorId(colorId);
         java.util.List<Task> tasks = serverUtils.getTaskByList(list.getId());
         task.setIndex(tasks.size());

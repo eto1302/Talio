@@ -42,6 +42,7 @@ public class TaskShape {
     private ColorService colorService;
     private BoardService boardService;
     private ListService listService;
+    private Color taskColor;
 
     @Inject
     public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
@@ -64,7 +65,7 @@ public class TaskShape {
         if (selectedTask==null) {
             selected = true;
             grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
-                    "-fx-border-width: 3px");
+                    "-fx-border-width: 3px;" + "-fx-background-color: " + taskColor.getBackgroundColor());
         }
         else{
             selected=false;
@@ -102,7 +103,7 @@ public class TaskShape {
         this.selected=selected;
         if (selected)
             grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
-                    "-fx-border-width: 3px");
+                    "-fx-border-width: 3px;"+ "-fx-background-color: " + taskColor.getBackgroundColor());
         else grid.setStyle(style);
     }
 
@@ -113,7 +114,8 @@ public class TaskShape {
     public void updateScene(Task task){
         this.task = task;
         title.setText(task.getTitle());
-        Color taskColor = this.colorService.getColor(task.getColorId());
+        taskColor = this.colorService.getColor(task.getColorId());
+
         if(taskColor == null){
             int defaultColorId = this.boardService.getCurrentBoard().getColors()
                     .stream().filter(Color::getIsDefault).findFirst().get().getId();
@@ -126,6 +128,7 @@ public class TaskShape {
         title.setTextFill(javafx.scene.paint.Color.web(taskColor.getFontColor()));
         grid.setStyle("-fx-padding: 2px; -fx-border-color: gray; " +
                 "-fx-background-color: " + taskColor.getBackgroundColor() +";");
+        style = grid.getStyle();
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
     }
@@ -162,7 +165,7 @@ public class TaskShape {
     public void set(Task task, ListShapeCtrl listShapeCtrl){
         this.task = task;
         this.controller = listShapeCtrl;
-        if (task.getDescription().equals("No description yet"))
+        if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
         this.style=grid.getStyle();
 
