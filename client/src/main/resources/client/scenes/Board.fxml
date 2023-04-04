@@ -33,12 +33,13 @@
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="465.6" minWidth="10.0" prefWidth="461.6" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="272.80003662109374" minWidth="0.8000000000000114" prefWidth="4.800000000000011" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="291.7999633789062" minWidth="10.0" prefWidth="179.79996337890623" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="100000.0" minWidth="10.0" prefWidth="179.79996337890623" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
+                <Label opacity="0.5" prefHeight="34.0" prefWidth="129.0" text="Press &quot;?&quot; for help menu" GridPane.columnIndex="2" GridPane.halignment="LEFT" />
                 <MenuButton fx:id="menu" mnemonicParsing="false" popupSide="RIGHT" prefHeight="37.0" prefWidth="46.0" styleClass="buttons" text="---" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                     <items>
                         <MenuItem fx:id="joinBoard" mnemonicParsing="false" onAction="#showSearch" text="Join board" />
@@ -88,7 +89,6 @@
                         </ImageView>
                     </children>
                 </HBox>
-                <Label opacity="0.5" prefHeight="34.0" prefWidth="155.0" text="Press &quot;?&quot; for help menu" GridPane.columnIndex="2" GridPane.halignment="LEFT" />
             </children>
         </GridPane>
         <ScrollPane fx:id="scrollPane" fitToHeight="true" minHeight="200.0" GridPane.rowIndex="1">
