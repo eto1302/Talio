@@ -79,7 +79,6 @@ public class Main extends Application {
                 UnlockBoardController.class, "client", "scenes", "UnlockBoard.fxml");
         var lockBoard = FXML.load(
                 LockBoardController.class, "client", "scenes", "LockBoard.fxml");
-
         loader.add(home);
         loader.add(addList);
         loader.add(yourBoards);

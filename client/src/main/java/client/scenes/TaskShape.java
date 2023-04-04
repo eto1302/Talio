@@ -6,12 +6,7 @@ import client.Services.ListService;
 import client.Services.TaskService;
 import client.user.UserData;
 import client.utils.ServerUtils;
-import commons.Color;
-import commons.List;
-import commons.Subtask;
-import commons.Tag;
-import commons.Task;
-import commons.sync.TaskDeleted;
+import commons.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
@@ -20,8 +15,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
@@ -29,16 +24,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class TaskShape {
 
     @Inject
-    ServerUtils server;
+    private ServerUtils server;
     @Inject
-    UserData userData;
+    private UserData userData;
     @FXML
     private GridPane grid;
     @FXML
