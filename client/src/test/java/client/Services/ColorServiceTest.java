@@ -165,4 +165,14 @@ public class ColorServiceTest {
         assertTrue(response.getId() == -1);
         assertEquals("Cannot delete default color", response.getErrorMessage());
     }
+
+    @Test
+    public void getColorTest(){
+        this.defaultColor = Color.create("#FFFFFF", "#000000");
+        when(mockServerUtils.getColor(any(Integer.class))).thenReturn(defaultColor);
+
+        Color actual = colorService.getColor(1);
+        verify(mockServerUtils, times(1)).getColor(any(Integer.class));
+        assertEquals(actual, defaultColor);
+    }
 }

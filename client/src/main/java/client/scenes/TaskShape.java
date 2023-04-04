@@ -136,7 +136,7 @@ public class TaskShape {
     public void delete() {
         VBox parent = (VBox) grid.getParent();
         parent.getChildren().remove(grid);
-        taskService.remove(task);
+        taskService.deleteTask(task);
         controller.getTaskControllers().remove(this);
     }
 

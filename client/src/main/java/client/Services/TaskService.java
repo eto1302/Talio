@@ -52,10 +52,6 @@ public class TaskService {
                 TaskAdded(list.getBoardId(), list.getId(), task));
     }
 
-    public void remove(Task task) {
-        serverUtils.removeTask(task.getId(), task.getListID());
-    }
-
     public IdResponseModel deleteTask(Task task) {
         return userData.updateBoard(new TaskDeleted(userData
                 .getCurrentBoard().getId(), task.getId(), task.getListID()));

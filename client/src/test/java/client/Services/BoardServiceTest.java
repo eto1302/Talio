@@ -205,4 +205,29 @@ public class BoardServiceTest {
         verify(mockUserData, times(1)).saveToDisk();
         verify(mockUserData, times(1)).deleteBoard(any(BoardDeleted.class));
     }
+    @Test
+    public void getAllBoardsTest(){
+        when(mockServerUtils.getAllBoards()).thenReturn(new Board[5]);
+        Board[] boards = this.boardService.getAllBoards();
+        verify(mockServerUtils, times(1)).getAllBoards();
+        assertArrayEquals(boards, new Board[5]);
+    }
+
+    @Test
+    public void getBoardsUpdatedTest(){
+        when(mockServerUtils.getBoardsUpdated()).thenReturn(new Board[5]);
+        Board[] boards = this.boardService.getBoardsUpdated();
+        verify(mockServerUtils, times(1)).getBoardsUpdated();
+        assertArrayEquals(boards, new Board[5]);
+    }
+
+    @Test
+    public void deleteBoardTest(){
+        when(mockServerUtils.deleteBoard(any(Integer.class))).thenReturn(
+                new IdResponseModel(1, null));
+        IdResponseModel response = boardService.deleteBoard(1);
+        verify(mockServerUtils, times(1)).deleteBoard(any(Integer.class));
+        assertTrue(response.getId() != -1);
+        assertNull(response.getErrorMessage());
+    }
 }
