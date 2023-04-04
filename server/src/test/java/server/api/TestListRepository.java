@@ -11,7 +11,7 @@ import server.database.ListRepositoy;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class TestListRepositry implements ListRepositoy {
+public class TestListRepository implements ListRepositoy {
     @Override
     public List getListByID(int id) {
         return null;
@@ -160,7 +160,7 @@ public class TestListRepositry implements ListRepositoy {
     @Override
     public <S extends List, R> R findBy(Example<S> example,
                                         Function<FluentQuery.FetchableFluentQuery<S>, R>
-                                            queryFunction) {
+                                                queryFunction) {
         return null;
     }
 }

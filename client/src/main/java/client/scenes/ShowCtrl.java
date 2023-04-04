@@ -192,18 +192,6 @@ public class ShowCtrl implements IShowCtrl {
         popUpStage.show();
     }
 
-    public void showEditSubTask(Subtask subtask) {
-        popUpStage = new Stage();
-        var editSubtaskPair = FXML.load(EditSubTaskController.class,
-                "client", "scenes", "AddSubTask.fxml");
-        Scene editSubtaskScene = new Scene(editSubtaskPair.getValue());
-        editSubtaskPair.getKey().setup(subtask);
-
-        popUpStage.setScene(editSubtaskScene);
-        popUpStage.setTitle("Edit a sub-task");
-        popUpStage.show();
-    }
-
     public void showBoard(){
         primaryStage.setTitle("Board");
         boardController.setup();
@@ -368,13 +356,13 @@ public class ShowCtrl implements IShowCtrl {
 
     public void addSubTask(Subtask subtask, EditTaskController editTaskController) {
         var subTaskShapePair = FXML.load(SubTaskShapeCtrl.class,
-            "client", "scenes", "SubTaskShape.fxml");
+                "client", "scenes", "SubTaskShape.fxml");
         SubTaskShapeCtrl subTaskShapeCtrl = subTaskShapePair.getKey();
         Scene subTaskScene = new Scene((Parent) subTaskShapePair.getValue());
 
-        subTaskShapeCtrl.setup(subtask, editTaskController);
+        subTaskShapeCtrl.setup(subtask);
         Scene updated = subTaskShapeCtrl.getScene(subtask);
-        editTaskController.putSubtask(subTaskScene);
+        editTaskController.putSubtask(subTaskScene, subtask);
     }
 
     public void addTag(Tag tag, EditTaskController editTaskController) {
