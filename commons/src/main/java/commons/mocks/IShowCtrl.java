@@ -32,4 +32,6 @@ public interface IShowCtrl {
     void deleteTag(Tag tag);
 
     void editTag(Tag tag);
+
+    void removeTagFromTask(Tag tag, Task task);
 }

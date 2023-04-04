@@ -1,7 +1,7 @@
-package client.scenes.tasks;
+package client.scenes;
 
 import client.scenes.ShowCtrl;
-import client.scenes.lists.ListShapeCtrl;
+import client.scenes.ListShapeCtrl;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Subtask;
@@ -125,7 +125,7 @@ public class EditTaskController {
         return task;
     }
 
-    private void cleanTagBox(){
+    private void cleanTagBox() {
         tagBox.getChildren().remove(0, tagBox.getChildren().size());
     }
 }

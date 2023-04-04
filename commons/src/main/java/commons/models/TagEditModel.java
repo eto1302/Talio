@@ -32,8 +32,8 @@ public class TagEditModel {
     @Override
     public String toString() {
         return "TagEditModel{" +
-                "name='" + name + '\'' +
-                ", color='" + color.toString() + '\'' +
-                '}';
+            "name='" + name + '\'' +
+            ", color='" + color.toString() + '\'' +
+            '}';
     }
 }

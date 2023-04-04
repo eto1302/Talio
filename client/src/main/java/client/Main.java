@@ -16,11 +16,7 @@
 package client;
 
 import client.scenes.*;
-import client.scenes.lists.*;
-import client.scenes.boards.*;
-import client.scenes.tasks.*;
 import client.scenes.tags.*;
-import client.scenes.subtasks.*;
 import client.user.UserData;
 import javafx.application.Application;
 import javafx.stage.Stage;

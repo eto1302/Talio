@@ -2,15 +2,15 @@ package commons.mocks;
 
 import commons.Color;
 import commons.List;
+import commons.Tag;
 import commons.Subtask;
 import commons.Task;
+import commons.models.*;
 import commons.models.BoardEditModel;
 import commons.models.ColorEditModel;
 import commons.models.IdResponseModel;
 import commons.models.ListEditModel;
 import commons.models.SubtaskEditModel;
-import commons.Tag;
-import commons.models.*;
 
 public interface IServerUtils {
 

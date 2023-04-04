@@ -28,6 +28,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -605,16 +607,6 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
-    public IdResponseModel removeTagFromTask(int tagID, int taskID){
-        try{
-            ResponseEntity<IdResponseModel> response = client.getForEntity(
-                url + "/tag/removeFromTask/" + tagID + "/" + taskID, IdResponseModel.class);
-            return response.getBody();
-        }
-        catch(Exception e){
-            return new IdResponseModel(-1, "Oops, failed to connect to the server...");
-        }
-    }
 
     /**
      * Returns a tag by its ID.
@@ -670,6 +662,7 @@ public class ServerUtils implements IServerUtils {
     public java.util.List<Tag> getTagByBoard(int boardID) {
         try {
             ResponseEntity<java.util.List<commons.Tag>> response = client.exchange(
+
                 url+"tag/getByBoard/" + boardID, HttpMethod.GET, null,
                 new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
             );
@@ -710,5 +703,26 @@ public class ServerUtils implements IServerUtils {
             throw new NoSuchElementException("No such task id");
 
         throw new RuntimeException("Something went wrong");
+    }
+
+    public IdResponseModel removeTagFromTask(int tagId, int taskId){
+        try{
+            String fullurl = url+"/tag/removeFromTask/" + tagId + "/" + taskId;
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("tagId", String.valueOf(tagId));
+            params.put("taskId", String.valueOf(taskId));
+
+            ResponseEntity<IdResponseModel> resp = client.exchange(
+                    fullurl,
+                    HttpMethod.DELETE,
+                    null,
+                    IdResponseModel.class,
+                    params
+            );
+            return resp.getBody();
+        }
+        catch(Exception e){
+            return new IdResponseModel(-1, "failed to connect to server");
+        }
     }
 }

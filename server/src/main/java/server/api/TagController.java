@@ -75,10 +75,6 @@ public class TagController {
         return tagService.editTag(id, model);
     }
 
-    @GetMapping("/removeFromTask/{tagID}/{taskID}")
-    public IdResponseModel removeFromTask(@PathVariable int tagID, @PathVariable int taskID){
-        return tagService.removeFromTask(tagID, taskID);
-    }
 
     @GetMapping("/removeFromBoard/{tagID}/{boardID}")
     public IdResponseModel removeFromBoard(@PathVariable int tagID, @PathVariable int boardID){
@@ -121,6 +117,13 @@ public class TagController {
         var idx = random.nextInt((int) tagService.count());
         return ResponseEntity.ok(tags.get(idx));
     }
+
+    @DeleteMapping("/removeFromTask/{tagId}/{taskId}")
+    public IdResponseModel removeFromTask(@PathVariable int tagId, @PathVariable int taskId){
+        IdResponseModel resp = tagService.removeFromTask(tagId, taskId);
+        return resp;
+    }
+
 
     public void setRandom(Random random) {
         this.random = random;

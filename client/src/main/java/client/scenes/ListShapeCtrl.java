@@ -1,9 +1,6 @@
-package client.scenes.lists;
+package client.scenes;
 
 
-import client.scenes.ShowCtrl;
-import client.scenes.boards.BoardController;
-import client.scenes.tasks.TaskShape;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
@@ -73,6 +70,7 @@ public class ListShapeCtrl {
         if(this.taskControllers == null) {this.taskControllers = new LinkedList<>();}
         return listGrid.getScene();
     }
+
     public void refreshList(){
         showCtrl.refreshBoardCtrl();
     }
