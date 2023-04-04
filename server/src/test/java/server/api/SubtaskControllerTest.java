@@ -93,6 +93,7 @@ class SubtaskControllerTest {
                 .andExpect(jsonPath("$.size()",
                         CoreMatchers.is(Arrays.asList(subtask2, subtask1).size())))
                 .andExpect(jsonPath("$[0].description",
+
                         CoreMatchers.is(subtask2.getDescription())));
     }
     @Test
