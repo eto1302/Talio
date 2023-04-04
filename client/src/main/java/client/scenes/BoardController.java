@@ -158,7 +158,8 @@ public class BoardController {
     public void showEditBoard() { showCtrl.showEditBoard();}
 
     public void delete() {
-        IdResponseModel response = this.boardService.delete();
+        IdResponseModel response = this.boardService.delete(
+                this.boardService.getCurrentBoard().getId());
 
         if (response.getId() == -1) {
             showCtrl.showError(response.getErrorMessage());
