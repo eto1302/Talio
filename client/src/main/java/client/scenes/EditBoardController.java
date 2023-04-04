@@ -33,7 +33,6 @@ public class EditBoardController {
             return;
         }
         cancel();
-        showCtrl.showBoard();
     }
 
     public void setup(){

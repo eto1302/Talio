@@ -56,10 +56,6 @@ public class ListShapeCtrl {
         this.taskService = new TaskService(userData, serverUtils);
     }
 
-    public void refreshList(){
-        showCtrl.refreshBoardCtrl();
-    }
-
     public void updateScrollPane(int index){
         Bounds bounds = scrollPane.getViewportBounds();
         scrollPane.setVvalue(tasksBox.getChildren().get(index).getLayoutY() *
@@ -130,15 +126,11 @@ public class ListShapeCtrl {
                                 text.getText(), list);
                         if (response.getId() == -1) {
                             showCtrl.showError(response.getErrorMessage());
-                            return;
                         }
-                        showCtrl.showBoard();
                     }
-                    else{
-                        hbox.getChildren().remove(text);
-                        hbox.getChildren().add(deleteList);
-                        hbox.getChildren().add(addTask);
-                    }
+                    hbox.getChildren().remove(text);
+                    hbox.getChildren().add(deleteList);
+                    hbox.getChildren().add(addTask);
                 }
             }
         });
