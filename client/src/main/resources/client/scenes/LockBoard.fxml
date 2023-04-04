@@ -19,7 +19,7 @@
         </Text>
       <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="65.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../main/client/media/unlock.png" />
+            <Image url="@../main/icons/unlock.png" />
          </image>
       </ImageView>
       <Separator blendMode="MULTIPLY" layoutX="17.0" layoutY="52.0" prefHeight="6.0" prefWidth="414.0" />
@@ -30,7 +30,7 @@
       <PasswordField fx:id="passwordField" layoutX="125.0" layoutY="106.0" prefHeight="25.0" prefWidth="306.0" />
       <Label layoutX="17.0" layoutY="141.0" text="Confirm Password:" />
       <PasswordField fx:id="confirmPasswordField" layoutX="125.0" layoutY="137.0" prefHeight="25.0" prefWidth="306.0" />
-      <Button layoutX="214.0" layoutY="218.0" mnemonicParsing="false" onAction="#lockBoard" prefHeight="25.0" prefWidth="217.0" text="Lock Board" />
+      <Button fx:id="lockBoardButton" layoutX="214.0" layoutY="218.0" mnemonicParsing="false" onAction="#lockBoard" prefHeight="25.0" prefWidth="217.0" text="Lock Board" />
       <Separator blendMode="MULTIPLY" layoutX="17.0" layoutY="204.0" prefHeight="6.0" prefWidth="414.0" />
       <Label layoutX="20.0" layoutY="222.0" prefHeight="17.0" prefWidth="91.0" text="Other Options:" />
       <Button layoutX="214.0" layoutY="252.0" mnemonicParsing="false" onAction="#removePassword" prefHeight="25.0" prefWidth="217.0" text="Remove Password" />
