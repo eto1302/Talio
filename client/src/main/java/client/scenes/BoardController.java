@@ -1,11 +1,12 @@
 package client.scenes;
 
+import client.Services.BoardService;
+import client.Services.TaskService;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
 import commons.Task;
 import commons.models.IdResponseModel;
-import commons.sync.BoardDeleted;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -35,19 +36,18 @@ public class BoardController {
     @FXML
     private ScrollPane scrollPane;
     private final ShowCtrl showCtrl;
-    private ServerUtils server;
     private LinkedList<ListShapeCtrl> listControllers;
     private ListShapeCtrl selectedList=null;
     private TaskShape selectedTask=null;
     private boolean editable = false;
+    private BoardService boardService;
+    private TaskService taskService;
 
     @Inject
-    private UserData userData;
-
-    @Inject
-    public BoardController(ShowCtrl showCtrl, ServerUtils server) {
+    public BoardController(ShowCtrl showCtrl, ServerUtils server, UserData userData) {
         this.showCtrl = showCtrl;
-        this.server = server;
+        this.boardService = new BoardService(userData, server);
+        this.taskService = new TaskService(userData, server);
     }
 
 
@@ -66,7 +66,7 @@ public class BoardController {
      *  TODO: the board and get rid of the button in the future.
      */
     public void refresh() {
-        Board board = this.userData.getCurrentBoard();
+        Board board = this.boardService.getCurrentBoard();
         this.boardLabel.setText(board.getName());
         this.boardLabel.setTextFill(Color.web(
                 board.getBoardColor().getFontColor()));
@@ -79,17 +79,17 @@ public class BoardController {
         List<commons.List> lists;
 
         try {
-            userData.refresh();
+            boardService.refresh();
         } catch (Exception e) {
             showCtrl.showError(e.getMessage());
             return;
         }
-        lists = userData.getCurrentBoard().getLists();
+        lists = boardService.getCurrentBoard().getLists();
 
         for (commons.List list : lists) {
             showCtrl.addList(list);
 
-            List<Task> orderedTasks = server.getTasksOrdered(list.getId());
+            List<Task> orderedTasks = taskService.getTasksOrdered(list.getId());
             for(Task task: orderedTasks){
                 showCtrl.addTask(task, list);
             }
@@ -143,15 +143,10 @@ public class BoardController {
     public void showEditBoard() { showCtrl.showEditBoard();}
 
     public void delete() {
-        Board board = this.userData.getCurrentBoard();
-        this.userData.leaveBoard(board.getId());
-        this.userData.saveToDisk();
-        BoardDeleted boardDeleted = new BoardDeleted(board.getId());
+        IdResponseModel response = this.boardService.delete();
 
-        IdResponseModel model = userData.deleteBoard(boardDeleted);
-
-        if (model.getId() == -1) {
-            showCtrl.showError(model.getErrorMessage());
+        if (response.getId() == -1) {
+            showCtrl.showError(response.getErrorMessage());
         }
         else{
             showCtrl.showYourBoards();
