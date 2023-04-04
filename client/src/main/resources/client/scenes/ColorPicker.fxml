@@ -24,7 +24,7 @@
         <RowConstraints maxHeight="123.0" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label fx:id="boardLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="139.0" text="LABEL" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+        <Label fx:id="boardLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="36.0" prefWidth="580.0" text="LABEL" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
             <font>
                 <Font size="25.0" />
             </font></Label>

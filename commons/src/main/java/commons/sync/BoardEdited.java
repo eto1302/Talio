@@ -35,6 +35,7 @@ public class BoardEdited extends BoardUpdate {
     public void apply(IUserData data) {
         data.getCurrentBoard().setName(edit.getName());
         data.getCurrentBoard().setPassword(edit.getPassword());
+        data.getShowCtrl().showBoard();
     }
 
 }

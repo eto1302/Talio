@@ -30,7 +30,6 @@ public class ColorService {
         if(this.userData.getCurrentBoard().getColors().size() == 2) color.setIsDefault(true);
         IdResponseModel model = userData.updateBoard(new ColorAdded(
                 this.userData.getCurrentBoard().getId(), color));
-        userData.openBoard(this.userData.getCurrentBoard().getId());
         return model;
     }
 
