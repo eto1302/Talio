@@ -13,7 +13,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
@@ -29,9 +28,7 @@ public class SubTaskShapeCtrl {
     @FXML
     private GridPane grid;
     @FXML
-    private CheckBox checkbox;
-    @FXML
-    private Label description;
+    private CheckBox description;
     private ShowCtrl showCtrl;
     private ServerUtils serverUtils;
     private Subtask subtask;
@@ -47,7 +44,7 @@ public class SubTaskShapeCtrl {
     public void setup(Subtask subtask){
         this.subtask = subtask;
         description.setText(subtask.getDescription());
-        checkbox.setSelected(subtask.isChecked());
+        description.setSelected(subtask.isChecked());
 
         grid.setOnDragDetected(this::dragDetected);
         grid.setOnDragOver(this::dragOver);
@@ -94,7 +91,7 @@ public class SubTaskShapeCtrl {
     public Scene getScene(Subtask subtask){
         if(subtask.getDescription() == null) subtask.setDescription("");
         description.setText(subtask.getDescription());
-        checkbox.setSelected(subtask.isChecked());
+        description.setSelected(subtask.isChecked());
         return grid.getScene();
     }
 
