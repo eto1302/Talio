@@ -65,7 +65,8 @@ public class TaskShape {
         if (selectedTask==null) {
             selected = true;
             grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
-                    "-fx-border-width: 3px;" + "-fx-background-color: " + taskColor.getBackgroundColor());
+                    "-fx-border-width: 3px;" +
+                    "-fx-background-color: " + taskColor.getBackgroundColor());
         }
         else{
             selected=false;
@@ -103,7 +104,8 @@ public class TaskShape {
         this.selected=selected;
         if (selected)
             grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
-                    "-fx-border-width: 3px;"+ "-fx-background-color: " + taskColor.getBackgroundColor());
+                    "-fx-border-width: 3px;"+
+                    "-fx-background-color: " + taskColor.getBackgroundColor());
         else grid.setStyle(style);
     }
 

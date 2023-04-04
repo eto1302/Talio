@@ -1,14 +1,9 @@
 package client.scenes;
 
-import javafx.fxml.FXML;
-import javafx.scene.layout.GridPane;
-
 import javax.inject.Inject;
 
 
 public class HomeController {
-    @FXML
-    private GridPane gridHome;
 
     private final ShowCtrl showCtrl;
 
@@ -24,7 +19,6 @@ public class HomeController {
     public void showYourBoards(){
         showCtrl.showYourBoards();
     }
-
 
     public void showSearch() {showCtrl.showSearch();}
 

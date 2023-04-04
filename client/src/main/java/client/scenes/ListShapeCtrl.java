@@ -12,7 +12,6 @@ import commons.Task;
 import commons.models.IdResponseModel;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.geometry.Bounds;
 import javafx.scene.control.*;
@@ -20,9 +19,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 import javax.inject.Inject;
 import java.util.LinkedList;
