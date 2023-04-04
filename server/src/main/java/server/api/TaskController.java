@@ -50,13 +50,13 @@ public class TaskController {
         return this.taskService.addTask(task, listID);
     }
 
-    @PostMapping("/edit/{taskID}")
+    @PutMapping("/edit/{taskID}")
     public IdResponseModel editTask(@PathVariable int taskID,
                                     @RequestBody commons.models.TaskEditModel model){
         return this.taskService.editTask(taskID, model);
     }
 
-    @GetMapping("/remove/{taskID}/{listID}")
+    @DeleteMapping("/remove/{taskID}/{listID}")
     public IdResponseModel removeTask(@PathVariable int taskID, @PathVariable int listID){
         return this.taskService.removeTask(taskID, listID);
     }

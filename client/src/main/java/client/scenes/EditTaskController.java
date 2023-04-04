@@ -1,5 +1,9 @@
 package client.scenes;
 
+import client.Services.ListService;
+import client.Services.SubtaskService;
+import client.Services.TaskService;
+import client.user.UserData;
 import client.scenes.ShowCtrl;
 import client.scenes.ListShapeCtrl;
 import client.utils.ServerUtils;
@@ -28,14 +32,19 @@ public class EditTaskController {
     @FXML
     private VBox subtaskBox, tagBox;
     private commons.Task task;
+    private TaskService taskService;
+    private SubtaskService subtaskService;
+    private ListService listService;
     private ServerUtils server;
     private ListShapeCtrl listShapeCtrl;
     private Stage primaryStage;
 
     @Inject
-    public EditTaskController (ShowCtrl showCtrl, ServerUtils serverUtils){
-        this.server = serverUtils;
-        this.showCtrl=showCtrl;
+    public EditTaskController (ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
+        this.showCtrl = showCtrl;
+        this.taskService = new TaskService(userData, serverUtils);
+        this.subtaskService = new SubtaskService(userData, serverUtils);
+        this.listService = new ListService(userData, serverUtils);
     }
 
     public Scene setup(Task task, ListShapeCtrl listShapeCtrl, Stage primaryStage){
@@ -96,11 +105,9 @@ public class EditTaskController {
         String description = this.descriptionField.getText();
         task.setTitle(title);
         task.setDescription(description);
-        List list =server.getList(task.getListID());
+        List list = listService.getList(task.getListID());
 
-        TaskEditModel model = new TaskEditModel(title, description, task.getIndex(),
-                list, task.getColorId());
-        IdResponseModel response = server.editTask(task.getId(), model);
+        IdResponseModel response = taskService.editTask(task, list, task.getIndex());
 
         if (response.getId() == -1) {
             showCtrl.cancel();

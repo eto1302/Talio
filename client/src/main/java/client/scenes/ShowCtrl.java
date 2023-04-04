@@ -1,6 +1,8 @@
 package client.scenes;
 
 import client.scenes.tags.*;
+import client.user.UserData;
+import com.google.inject.Inject;
 import commons.*;
 import commons.mocks.IShowCtrl;
 import javafx.geometry.Pos;
@@ -26,6 +28,9 @@ public class ShowCtrl implements IShowCtrl {
     private Stage primaryStage, secondaryStage, popUpStage;
 
     private HomeController homeCtrl;
+    private Scene home, addList, yourBoards, search, board, connection,
+            addBoard, editTask, errorScene, admin, editBoard, colorPicker,
+            addTaskColor, help, taskColorPicker, editColor, unlockBoard, lockBoard;
     private Scene home, addList, yourBoards, search, board, taskOverview, connection,
             addBoard, editTask, errorScene, admin, editBoard, tagOverview, help,
             colorPicker, addTaskColor, taskColorPicker, editColor;
@@ -46,6 +51,11 @@ public class ShowCtrl implements IShowCtrl {
     private Map<Integer, ListShapeCtrl> listControllers;
     private HelpCtrl helpCtrl;
     private EditColor editColorController;
+    private UnlockBoardController unlockBoardController;
+    private LockBoardController lockBoardController;
+
+    @Inject
+    private UserData userData;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
         this.primaryStage = primaryStage;
@@ -81,6 +91,20 @@ public class ShowCtrl implements IShowCtrl {
         taskColorPickerController = (TaskColorPicker) loader.get(14).getKey();
         editColor = new Scene((Parent) loader.get(15).getValue());
         editColorController = (EditColor) loader.get(15).getKey();
+        colorPicker = new Scene((Parent) loader.get(10).getValue());
+        colorPickerController = (ColorPicker) loader.get(10).getKey();
+        addTaskColor = new Scene((Parent) loader.get(11).getValue());
+        addTaskColorController = (AddTaskColor) loader.get(11).getKey();
+        help = new Scene((Parent) loader.get(12).getValue());
+        helpCtrl = (HelpCtrl) loader.get(12).getKey();
+        taskColorPicker = new Scene((Parent) loader.get(13).getValue());
+        taskColorPickerController = (TaskColorPicker) loader.get(13).getKey();
+        editColor = new Scene((Parent) loader.get(14).getValue());
+        editColorController = (EditColor) loader.get(14).getKey();
+        unlockBoard = new Scene((Parent) loader.get(15).getValue());
+        unlockBoardController = (UnlockBoardController) loader.get(15).getKey();
+        lockBoard = new Scene((Parent) loader.get(16).getValue());
+        lockBoardController = (LockBoardController) loader.get(16).getKey();
 
         setUpKeys();
         listControllers = new HashMap<>();
@@ -135,22 +159,6 @@ public class ShowCtrl implements IShowCtrl {
         primaryStage.setScene(this.yourBoards);
     }
 
-    /**
-     * Shows the window with options for adding a task in a list.
-     *
-     * @param controller   the list's controller
-     * @param list  the associated list
-     */
-    public void showAddTask(ListShapeCtrl controller, commons.List list){
-        var addTask = FXML.load(AddTaskController.class, "client",
-                "scenes", "AddTask.fxml");
-        Scene addTaskScene = new Scene(addTask.getValue());
-        addTask.getKey().setup(controller, list);
-        secondaryStage = new Stage();
-        secondaryStage.setScene(addTaskScene);
-        secondaryStage.setTitle("Add a task");
-        secondaryStage.show();
-    }
 
     public void cancel() {
         secondaryStage.close();
@@ -192,11 +200,6 @@ public class ShowCtrl implements IShowCtrl {
         boardController.setup();
         primaryStage.setScene(this.board);
     }
-
-    /**
-     * Shows the details of the task. First sets the information in the window according to
-     * the task.
-     */
 
     /**
      * Shows the window with options for the editing the list.
@@ -251,11 +254,6 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 1e7a01e3fff72d1742e9f32734e84c4642e3b986
      * Adds the taskColor to the ColorPicker and updates the scene
      *
      * @param color the color object whose attributes specify the visual of the shape
@@ -294,12 +292,6 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     /**
-<<<<<<< HEAD
->>>>>>> 602e3f1a19b695287d7f04503e6fd501e938396a
-=======
-=======
->>>>>>> cd02f51aa34a269eb33d408446e231f2b5d89b10
->>>>>>> 1e7a01e3fff72d1742e9f32734e84c4642e3b986
      * Adds a task to the list.
      * @param task the task with the info
      * @param list the list to add the task to
@@ -358,7 +350,6 @@ public class ShowCtrl implements IShowCtrl {
 
         Scene updated = editTaskController.setup(task, listShapeCtrl, primaryStage);
         secondaryStage = new Stage();
-        //TODO: Possible problem
         secondaryStage.setScene(updated);
         secondaryStage.setTitle("Edit a task");
         secondaryStage.show();
@@ -574,11 +565,33 @@ public class ShowCtrl implements IShowCtrl {
         editBoardController.setup();
         secondaryStage.show();
     }
+
+    public void showUnlockBoard() {
+        String password = userData.getBoards().get(userData.getCurrentBoard().getId());
+        unlockBoardController.setCurrentPassword(password == null ? "" : password);
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Unlock Board");
+        secondaryStage.setScene(this.unlockBoard);
+        secondaryStage.setResizable(false);
+        secondaryStage.show();
+    }
+
+    public void showLockBoard(Board adminModeBoard) {
+        lockBoardController.reset(adminModeBoard);
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Lock Board");
+        secondaryStage.setScene(this.lockBoard);
+        secondaryStage.setResizable(false);
+        secondaryStage.show();
+    }
+
+    public void updateBoardLockIcon(boolean locked) {
+        boardController.updateLockIcon(locked);
+    }
+
     public void refreshBoardCtrl() {
         boardController.refresh();
     }
-
-
 
     public void refreshList(int listID) {
         ListShapeCtrl ctrl = getListController(listID);

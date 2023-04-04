@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="693.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AdminController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="693.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AdminController">
     <children>
         <TableView fx:id="table" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columns>
@@ -15,9 +15,10 @@
                 <TableColumn fx:id="pwd" prefWidth="234.4000244140625" text="password" />
             </columns>
         </TableView>
-        <Button layoutX="557.0" layoutY="422.0" mnemonicParsing="false" onAction="#delete" text="delete" />
+        <Button layoutX="568.0" layoutY="421.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
         <TextField fx:id="search" layoutX="12.0" layoutY="421.0" text="search..." />
-        <Button layoutX="477.0" layoutY="421.0" mnemonicParsing="false" onAction="#selectAll" text="select All" />
+        <Button layoutX="375.0" layoutY="421.0" mnemonicParsing="false" onAction="#selectAll" text="Select All" />
         <Button layoutX="627.0" layoutY="421.0" mnemonicParsing="false" onAction="#cancel" text="Return" />
+      <Button layoutX="447.0" layoutY="421.0" mnemonicParsing="false" onAction="#managePassword" text="Manage Password" />
     </children>
 </AnchorPane>

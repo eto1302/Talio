@@ -93,7 +93,8 @@ public class ServerUtils implements IServerUtils {
     public IdResponseModel deleteBoard(int id) {
         try {
             ResponseEntity<IdResponseModel> response =
-                    client.getForEntity(url+"board/delete/"+id, IdResponseModel.class);
+                    client.exchange(url+"board/delete/"+id, HttpMethod.DELETE,
+                            null, IdResponseModel.class);
             return response.getBody();
         } catch (Exception e) {
             return new IdResponseModel(-1, "Oops, failed to connect to server...");
@@ -103,15 +104,15 @@ public class ServerUtils implements IServerUtils {
     @Override
     public IdResponseModel editBoard(int boardId, BoardEditModel edit) {
         try {
-            HttpEntity<BoardEditModel> req = new HttpEntity<BoardEditModel>(edit);
-            ResponseEntity<IdResponseModel> response = client.postForEntity(
-                    url+"board/edit/"+boardId, req, IdResponseModel.class);
+            HttpEntity<BoardEditModel> req = new HttpEntity<>(edit);
+            ResponseEntity<IdResponseModel> response = client.exchange(
+                    url + "board/edit/" + boardId, HttpMethod.PUT, req, IdResponseModel.class);
 
-            if (boardId != response.getBody().getId())
+            if (boardId != response.getBody().getId()) {
                 return new IdResponseModel(-1, "Board doesn't match");
+            }
 
             return response.getBody();
-
         } catch (Exception e) {
             return new IdResponseModel(-1, "Oops, failed to connect to server...");
         }
@@ -120,10 +121,10 @@ public class ServerUtils implements IServerUtils {
     @Override
     public IdResponseModel deleteColor(int boardId, int colorId) {
         try {
-            ResponseEntity<IdResponseModel> response = client.getForEntity(
-                    url+"color/delete/"+boardId+"/"+colorId,
-                    IdResponseModel.class
-            );
+            ResponseEntity<IdResponseModel> response =
+                    client.exchange(url+"color/delete/"+boardId + "/" + colorId,
+                            HttpMethod.DELETE,
+                            null, IdResponseModel.class);
             return response.getBody();
         } catch (Exception e) {
             return new IdResponseModel(-1, "Oops, failed to connect to server...");
@@ -146,9 +147,10 @@ public class ServerUtils implements IServerUtils {
     public IdResponseModel setColorToBoard(Color color, int boardId) {
         try {
             HttpEntity<commons.Color> req = new HttpEntity<Color>(color);
-            IdResponseModel id = client.postForObject(
-                    url+"color/add/"+color.getId()+"/"+boardId, req, IdResponseModel.class);
-            return id;
+            ResponseEntity<IdResponseModel> response = client.exchange(
+                    url+"color/add/"+color.getId()+"/"+boardId,
+                    HttpMethod.PUT, req, IdResponseModel.class);
+            return response.getBody();
         } catch (Exception e) {
             return new IdResponseModel(-1, "Oops, failed to connect to server...");
         }
@@ -158,11 +160,9 @@ public class ServerUtils implements IServerUtils {
     public IdResponseModel editColor(int colorId, ColorEditModel model) {
         try {
             HttpEntity<ColorEditModel> req = new HttpEntity<ColorEditModel>(model);
-            ResponseEntity<IdResponseModel> response = client.postForEntity(
-                    url+"color/edit/"+colorId, req,
-                    IdResponseModel.class
-            );
-
+            ResponseEntity<IdResponseModel> response = client.exchange(
+                    url+"color/edit/"+colorId, HttpMethod.PUT,
+                    req, IdResponseModel.class);
             if (colorId != response.getBody().getId())
                 return new IdResponseModel(-1, "list doesn't match");
 
@@ -252,10 +252,10 @@ public class ServerUtils implements IServerUtils {
      */
     public IdResponseModel deleteList(int boardId, int listId) {
         try {
-            ResponseEntity<IdResponseModel> response = client.getForEntity(
-                    url+"list/delete/"+boardId+"/"+listId,
-                    IdResponseModel.class
-            );
+            ResponseEntity<IdResponseModel> response = client.exchange(
+                    url+"list/delete/"+boardId+"/"+listId, HttpMethod.DELETE,
+                            null, IdResponseModel.class);
+
             return response.getBody();
         } catch (Exception e) {
             return new IdResponseModel(-1, "Oops, failed to connect to server...");
@@ -275,11 +275,9 @@ public class ServerUtils implements IServerUtils {
     public IdResponseModel editList(int boardId, int listId, ListEditModel model) {
         try {
             HttpEntity<ListEditModel> req = new HttpEntity<ListEditModel>(model);
-            ResponseEntity<IdResponseModel> response = client.postForEntity(
-                    url+"list/edit/"+boardId+"/"+listId, req,
-                    IdResponseModel.class
-            );
-
+            ResponseEntity<IdResponseModel> response = client.exchange(
+                    url+"list/edit/"+boardId+"/"+listId, HttpMethod.PUT,
+                    req, IdResponseModel.class);
             if (listId != response.getBody().getId())
                 return new IdResponseModel(-1, "list doesn't match");
 
@@ -366,8 +364,8 @@ public class ServerUtils implements IServerUtils {
      */
     public IdResponseModel removeTask(int taskID, int listID){
         try{
-            ResponseEntity<IdResponseModel> response = client.getForEntity(
-                    url+"task/remove/"+taskID+"/"+listID,
+            ResponseEntity<IdResponseModel> response = client.exchange(
+                    url+"task/remove/"+taskID+"/"+listID, HttpMethod.DELETE, null,
                     IdResponseModel.class);
             return response.getBody();
         }
@@ -385,9 +383,9 @@ public class ServerUtils implements IServerUtils {
     public IdResponseModel editTask(int taskID, commons.models.TaskEditModel model){
         try {
             HttpEntity<TaskEditModel> req = new HttpEntity<>(model);
-            ResponseEntity<IdResponseModel> response = client.postForEntity(
-                    url + "task/edit/" + taskID, req, IdResponseModel.class
-            );
+            ResponseEntity<IdResponseModel> response = client.exchange(
+                    url + "task/edit/" + taskID, HttpMethod.PUT,
+                    req, IdResponseModel.class);
             return response.getBody();
         }
         catch (Exception e){
@@ -503,10 +501,9 @@ public class ServerUtils implements IServerUtils {
      */
     public IdResponseModel deleteSubtask(int taskID, int subtaskID) {
         try {
-            ResponseEntity<IdResponseModel> response = client.getForEntity(
-                    url+"subtask/delete/"+taskID+"/"+subtaskID,
-                    IdResponseModel.class
-            );
+            ResponseEntity<IdResponseModel> response = client.exchange(
+                    url+"subtask/delete/"+taskID+"/"+subtaskID, HttpMethod.DELETE,
+                    null, IdResponseModel.class);
             return response.getBody();
         } catch (Exception e) {
             return new IdResponseModel(-1, "Server connection failed");
@@ -524,9 +521,9 @@ public class ServerUtils implements IServerUtils {
     public IdResponseModel editSubtask(int subtaskID, SubtaskEditModel model) {
         try {
             HttpEntity<SubtaskEditModel> req = new HttpEntity<>(model);
-            ResponseEntity<IdResponseModel> response = client.postForEntity(
-                    url+"subtask/edit/"+subtaskID, req,
-                    IdResponseModel.class);
+            ResponseEntity<IdResponseModel> response = client.exchange(
+                    url+"subtask/edit/"+subtaskID, HttpMethod.PUT,
+                    req, IdResponseModel.class);
 
             if (subtaskID != response.getBody().getId())
                 return new IdResponseModel(-1, "Subtasks don't match");
@@ -587,8 +584,10 @@ public class ServerUtils implements IServerUtils {
     public IdResponseModel editTag(int tagID, TagEditModel model){
         try{
             HttpEntity<TagEditModel> req = new HttpEntity<>(model);
-            ResponseEntity<IdResponseModel> response = client.postForEntity(
-                    url + "tag/edit/" + tagID, req, IdResponseModel.class);
+
+            ResponseEntity<IdResponseModel> response = client.exchange(
+                    url + "tag/edit/" + tagID, HttpMethod.PUT,
+                    req, IdResponseModel.class);
             return response.getBody();
         }
         catch (Exception e){

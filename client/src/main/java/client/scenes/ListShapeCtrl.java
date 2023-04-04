@@ -1,17 +1,21 @@
 package client.scenes;
 
 
+import client.Services.BoardService;
+import client.Services.ListService;
+import client.Services.TaskService;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
 import commons.List;
 import commons.Task;
 import commons.models.IdResponseModel;
-import commons.models.TaskEditModel;
-import commons.sync.ListDeleted;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.geometry.Bounds;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -28,47 +32,32 @@ public class ListShapeCtrl {
     @FXML
     private VBox tasksBox;
     @FXML
-    private MenuItem editList, deleteList;
-    @FXML
     private ScrollPane scrollPane;
-
     @FXML
     private Label listTitle;
     @FXML
     private GridPane listGrid;
+    @FXML
+    private HBox hbox;
+    @FXML
+    private ImageView deleteList;
+    @FXML
+    private Label addTask;
     private final ShowCtrl showCtrl;
-    private final ServerUtils serverUtils;
-    private final UserData userData;
     private List list;
-
     private LinkedList<TaskShape> taskControllers;
     private BoardController boardController;
+    private ListService listService;
+    private BoardService boardService;
+    private TaskService taskService;
+    private TextField text;
 
     @Inject
     public ListShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl = showCtrl;
-        this.serverUtils = serverUtils;
-        this.userData = userData;
-        this.taskControllers = new LinkedList<>();
-    }
-
-    /**
-     * Updates the list's visual (sets the title and the colors of it)
-     * based on the list object that is passed on
-     * @param list the list with the necessary attributes
-     * @return the updated scene after modifications
-     */
-    public Scene getSceneUpdated(commons.List list){
-        listTitle.setText(list.getName());
-        Board board = this.userData.getCurrentBoard();
-        Color backgroundColor= Color.web(board.getListColor().getBackgroundColor());
-        Color fontColor= Color.web(board.getListColor().getFontColor());
-
-        listGrid.setBackground(new Background(
-                new BackgroundFill(backgroundColor, null, null)));
-        listTitle.setTextFill(fontColor);
-        if(this.taskControllers == null) {this.taskControllers = new LinkedList<>();}
-        return listGrid.getScene();
+        this.listService = new ListService(userData, serverUtils);
+        this.boardService = new BoardService(userData, serverUtils);
+        this.taskService = new TaskService(userData, serverUtils);
     }
 
     public void refreshList(){
@@ -93,8 +82,7 @@ public class ListShapeCtrl {
      * sends a message for board deletion, invoked from FXML
      */
     public void initiateDeleteList() {
-        IdResponseModel response = userData.updateBoard(new
-                ListDeleted(list.getBoardId(), list.getId()));
+        IdResponseModel response = this.listService.deleteList(list);
         if (response.getId() == -1)
             showCtrl.showError(response.getErrorMessage());
     }
@@ -119,7 +107,10 @@ public class ListShapeCtrl {
         this.list = list;
         this.boardController = boardController;
         this.taskControllers = new LinkedList<>();
-        Board board = serverUtils.getBoard(list.getBoardId());
+        text = new TextField();
+        initializeText();
+
+        Board board = boardService.getBoard(list.getBoardId());
         taskControllers = new LinkedList<>();
 
         listGrid.setOnDragOver(this::dragOver);
@@ -132,6 +123,31 @@ public class ListShapeCtrl {
         listGrid.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
         listTitle.setTextFill(fontColor);
     }
+
+    private void initializeText() {
+        text.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode()==KeyCode.ENTER){
+                    if(!text.getText().equals("")) {
+                        IdResponseModel response = taskService.addTask(
+                                text.getText(), list);
+                        if (response.getId() == -1) {
+                            showCtrl.showError(response.getErrorMessage());
+                            return;
+                        }
+                        showCtrl.showBoard();
+                    }
+                    else{
+                        hbox.getChildren().remove(text);
+                        hbox.getChildren().add(deleteList);
+                        hbox.getChildren().add(addTask);
+                    }
+                }
+            }
+        });
+    }
+
     public List getList(){
         return list;
     }
@@ -144,7 +160,11 @@ public class ListShapeCtrl {
      * shows the add task window
      */
     public void showAddTask(){
-        showCtrl.showAddTask(this, list);
+        text.setPrefWidth(200);
+        hbox.getChildren().remove(deleteList);
+        hbox.getChildren().remove(addTask);
+        hbox.getChildren().add(text);
+        text.requestFocus();
     }
 
     /**
@@ -201,16 +221,14 @@ public class ListShapeCtrl {
         int previousListId = Integer.parseInt(identify.split("\\+")[1].trim());
 
         if (previousListId!=list.getId()) {
-            Task task =serverUtils.getTask(taskId);
-            List previousList = serverUtils.getList(previousListId);
+            Task task = taskService.getTask(taskId);
+            List previousList = listService.getList(previousListId);
             previousList.getTasks().remove(task);
 
             tasksBox.getChildren().add(((GridPane) source));
             int newIndex= tasksBox.getChildren().indexOf((GridPane) source);
 
-            TaskEditModel model = new TaskEditModel(task.getTitle(),
-                    task.getDescription(), newIndex, list, task.getColorId());
-            serverUtils.editTask(taskId, model);
+            taskService.editTask(task, list, newIndex);
 
             list.getTasks().add(task);
             reorderTasks(previousListId);
@@ -229,14 +247,12 @@ public class ListShapeCtrl {
      * @param previousListId the list in which the other task got dragged from
      */
     private void reorderTasks(int previousListId){
-        java.util.List<Task> tasksToReorder = serverUtils.getTasksOrdered(previousListId);
-        List previousList = serverUtils.getList(previousListId);
+        java.util.List<Task> tasksToReorder = taskService.getTasksOrdered(previousListId);
+        List previousList = listService.getList(previousListId);
 
         for (int i=0; i<tasksToReorder.size(); i++){
             Task taskIndex = tasksToReorder.get(i);
-            TaskEditModel model = new TaskEditModel(taskIndex.getTitle(),
-                    taskIndex.getDescription(), i, previousList, taskIndex.getColorId());
-            serverUtils.editTask(taskIndex.getId(), model);
+            taskService.editTask(taskIndex, previousList, i);
         }
     }
 

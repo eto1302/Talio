@@ -1,5 +1,9 @@
 package client.scenes;
 
+import client.Services.BoardService;
+import client.Services.ColorService;
+import client.Services.ListService;
+import client.Services.TaskService;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Color;
@@ -7,9 +11,6 @@ import commons.List;
 import commons.Subtask;
 import commons.Tag;
 import commons.Task;
-import commons.models.TaskEditModel;
-import commons.sync.TaskDeleted;
-import commons.sync.TaskEdited;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
@@ -41,25 +42,30 @@ public class TaskShape {
     @FXML
     private ScrollPane markerScroll;
     private ShowCtrl showCtrl;
-    private ServerUtils server;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
     private ListShapeCtrl controller;
     private commons.Task task;
-    private UserData userData;
     private boolean selected;
     private String style;
     private TextField text;
+    private TaskService taskService;
+    private ColorService colorService;
+    private BoardService boardService;
+    private ListService listService;
+    private Color taskColor;
 
 
     @Inject
     public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl = showCtrl;
-        this.server = serverUtils;
-        this.userData = userData;
+        this.taskService = new TaskService(userData, serverUtils);
+        this.colorService = new ColorService(userData, serverUtils);
+        this.boardService = new BoardService(userData, serverUtils);
+        this.listService = new ListService(userData, serverUtils);
     }
 
     public void setTaskUpdated() {
-        task=server.getTask(task.getId());
+        task = taskService.getTask(task.getId());
     }
 
     /**
@@ -70,7 +76,8 @@ public class TaskShape {
         if (selectedTask==null) {
             selected = true;
             grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
-                    "-fx-border-width: 3px");
+                    "-fx-border-width: 3px;" +
+                    "-fx-background-color: " + taskColor.getBackgroundColor());
         }
         else{
             selected=false;
@@ -108,7 +115,8 @@ public class TaskShape {
         this.selected=selected;
         if (selected)
             grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
-                    "-fx-border-width: 3px");
+                    "-fx-border-width: 3px;"+
+                    "-fx-background-color: " + taskColor.getBackgroundColor());
         else grid.setStyle(style);
     }
 
@@ -119,6 +127,8 @@ public class TaskShape {
     public void updateScene(Task task){
         this.task = task;
         title.setText(task.getTitle());
+        taskColor = this.colorService.getColor(task.getColorId());
+
         java.util.List<Subtask> subtasks = task.getSubtasks();
         int done = 0;
         for(Subtask subtask: subtasks){
@@ -129,22 +139,18 @@ public class TaskShape {
         subtaskProgress.setText(done + "/" + subtasks.size());
         Color taskColor = this.server.getColor(task.getColorId());
         if(taskColor == null){
-            //TODO: No default color set, errors out
-            int defaultColorId = this.userData.getCurrentBoard().getColors()
+            int defaultColorId = this.boardService.getCurrentBoard().getColors()
                     .stream().filter(Color::getIsDefault).findFirst().get().getId();
             this.task.setColorId(defaultColorId);
+            List list = this.listService.getList(this.task.getListID());
 
-            List list = this.server.getList(this.task.getListID());
-            TaskEditModel edit = new TaskEditModel(task.getTitle(), task.getDescription(),
-                    task.getIndex(), list, task.getColorId());
-
-            userData.updateBoard(new TaskEdited(list.getBoardId(), list.getId(),
-                    task.getId(), edit));
-            taskColor = server.getColor(defaultColorId);
+            this.taskService.editTask(task, list, task.getIndex());
+            taskColor = colorService.getColor(defaultColorId);
         }
         title.setTextFill(javafx.scene.paint.Color.web(taskColor.getFontColor()));
         grid.setStyle("-fx-padding: 2px; -fx-border-color: gray; " +
                 "-fx-background-color: " + taskColor.getBackgroundColor() +";");
+        style = grid.getStyle();
         refreshTagMarkers(task);
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
@@ -168,13 +174,12 @@ public class TaskShape {
     public void delete() {
         VBox parent = (VBox) grid.getParent();
         parent.getChildren().remove(grid);
-        server.removeTask(task.getId(), task.getListID());
+        taskService.deleteTask(task);
         controller.getTaskControllers().remove(this);
     }
 
     public void deleteEvent() {
-        deleteX.setOnMouseClicked(event -> userData.updateBoard(new TaskDeleted(userData
-                .getCurrentBoard().getId(), task.getId(), task.getListID())));
+        deleteX.setOnMouseClicked(event -> taskService.deleteTask(task));
     }
 
 
@@ -199,21 +204,6 @@ public class TaskShape {
         if (task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
         this.style=grid.getStyle();
-
-        markerScroll.setStyle(
-                "-fx-vbar-policy: never;" +
-                "-fx-hbar-policy: never;" +
-                "-fx-border: transparent;" +
-                "-fx-border-color: transparent;" +
-                "-fx-border-width: 0;" +
-                "-fx-border-style: none;"
-        );
-        tagMarkerContainer.setStyle(
-                "-fx-border: transparent;" +
-                "-fx-border-color: transparent;" +
-                "-fx-border-width: 0;" +
-                "-fx-border-style: none;"
-        );
 
         grid.setOnDragDetected(this::dragDetected);
         grid.setOnDragOver(this::dragOver);

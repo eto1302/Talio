@@ -1,7 +1,8 @@
 package client.scenes;
 
-import client.user.Services.ColorService;
+import client.Services.ColorService;
 import client.user.UserData;
+import client.utils.ServerUtils;
 import commons.Color;
 import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
@@ -20,8 +21,8 @@ public class EditColor {
     private ShowCtrl showCtrl;
 
     @Inject
-    public EditColor(UserData userData) {
-        this.colorService = new ColorService(userData);
+    public EditColor(UserData userData, ServerUtils serverUtils) {
+        this.colorService = new ColorService(userData, serverUtils);
     }
 
     public void setup(Color color){
