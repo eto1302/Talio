@@ -118,6 +118,16 @@ public class AdminController {
 
     }
 
+    public void managePassword() {
+        List<Board> boards = table.getSelectionModel().getSelectedItems();
+        if(boards.size() != 1) {
+            showCtrl.showError("Please select exactly one board");
+            return;
+        }
+
+        showCtrl.showLockBoard(boards.get(0));
+    }
+
     public void selectAll(){
         table.getSelectionModel().selectAll();
     }

@@ -29,6 +29,11 @@ public class BoardEditedTest {
     }
 
     @Test
+    public void getBoardIdTest(){
+        assertEquals(1, this.boardEdited.getBoardID());
+    }
+
+    @Test
     public void getEditTest(){
         assertEquals(new BoardEditModel("test", "password"), this.boardEdited.getEdit());
     }

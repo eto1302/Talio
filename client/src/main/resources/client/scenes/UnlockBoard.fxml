@@ -20,7 +20,7 @@
         </Text>
       <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="124.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../main/client/media/lock.png" />
+            <Image url="@../main/icons/lock.png" />
          </image>
       </ImageView>
       <Separator blendMode="MULTIPLY" layoutX="17.0" layoutY="52.0" prefHeight="6.0" prefWidth="414.0" />

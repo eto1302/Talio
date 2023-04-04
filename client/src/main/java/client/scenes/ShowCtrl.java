@@ -430,8 +430,8 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.show();
     }
 
-    public void showLockBoard() {
-        lockBoardController.reset();
+    public void showLockBoard(Board adminModeBoard) {
+        lockBoardController.reset(adminModeBoard);
         secondaryStage = new Stage();
         secondaryStage.setTitle("Lock Board");
         secondaryStage.setScene(this.lockBoard);

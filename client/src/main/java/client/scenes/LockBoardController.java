@@ -1,10 +1,12 @@
 package client.scenes;
 
 import client.user.UserData;
+import commons.Board;
 import commons.models.BoardEditModel;
 import commons.models.IdResponseModel;
 import commons.sync.BoardEdited;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 
 import javax.inject.Inject;
@@ -17,8 +19,12 @@ public class LockBoardController {
     private PasswordField passwordField;
     @FXML
     private PasswordField confirmPasswordField;
+    @FXML
+    private Button lockBoardButton;
 
     private UserData userData;
+
+    private Board adminModeBoard;
 
     @Inject
     public LockBoardController(ShowCtrl showCtrl, UserData userData) {
@@ -26,9 +32,11 @@ public class LockBoardController {
         this.userData = userData;
     }
 
-    public void reset() {
+    public void reset(Board adminModeBoard) {
         passwordField.setText("");
         confirmPasswordField.setText("");
+        lockBoardButton.setDisable(adminModeBoard != null);
+        this.adminModeBoard = adminModeBoard;
     }
 
     public void cancel(){
@@ -49,10 +57,10 @@ public class LockBoardController {
             return;
         }
 
-        BoardEditModel model = new BoardEditModel(userData
-                .getCurrentBoard().getName(), passwordField.getText());
-        IdResponseModel id = userData.updateBoard(new BoardEdited(
-                userData.getCurrentBoard().getId(), model));
+        Board board = adminModeBoard == null ? userData.getCurrentBoard() : adminModeBoard;
+
+        BoardEditModel model = new BoardEditModel(board.getName(), passwordField.getText());
+        IdResponseModel id = userData.updateBoard(new BoardEdited(board.getId(), model));
 
         if(id.getId() == -1) {
             showCtrl.showError(id.getErrorMessage());
@@ -73,16 +81,15 @@ public class LockBoardController {
     }
 
     public void removePassword() {
-        if(userData.getCurrentBoard().getPassword() == null ||
-                userData.getCurrentBoard().getPassword().length() == 0) {
+        Board board = adminModeBoard == null ? userData.getCurrentBoard() : adminModeBoard;
+
+        if(board.getPassword() == null || board.getPassword().length() == 0) {
             showCtrl.showError("Board already has no password");
             return;
         }
 
-        BoardEditModel model = new BoardEditModel(userData
-                .getCurrentBoard().getName(), "");
-        IdResponseModel id = userData.updateBoard(new BoardEdited(
-                userData.getCurrentBoard().getId(), model));
+        BoardEditModel model = new BoardEditModel(board.getName(), "");
+        IdResponseModel id = userData.updateBoard(new BoardEdited(board.getId(), model));
 
         if(id.getId() == -1) {
             showCtrl.showError(id.getErrorMessage());

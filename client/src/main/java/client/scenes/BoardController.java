@@ -180,7 +180,7 @@ public class BoardController {
     public void manageLock() {
         if(userData.isCurrentBoardLocked())
             showCtrl.showUnlockBoard();
-        else showCtrl.showLockBoard();
+        else showCtrl.showLockBoard(null);
     }
 
     public void updateLockIcon(boolean locked) {
