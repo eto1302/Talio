@@ -1,12 +1,18 @@
 package commons.sync;
 
 import commons.Board;
+import commons.Color;
+import commons.List;
+import commons.Task;
 import commons.mocks.IServerUtils;
+import commons.mocks.IShowCtrl;
 import commons.mocks.IUserData;
 import commons.models.BoardEditModel;
 import commons.models.IdResponseModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 
@@ -15,13 +21,16 @@ import static org.mockito.Mockito.*;
 
 public class BoardEditedTest {
     private BoardEdited boardEdited;
+    @MockBean
     private IUserData mockUserData = mock(IUserData.class);
+    @MockBean
     private IServerUtils mockServerUtils = mock(IServerUtils.class);
 
     private Board board;
 
     @BeforeEach
     void setup(){
+        MockitoAnnotations.openMocks(this);
         this.boardEdited = new BoardEdited(1,
                 new BoardEditModel("test", "password"));
         this.board = Board.create("test123", "pass", new ArrayList<>(),
@@ -54,10 +63,37 @@ public class BoardEditedTest {
     @Test
     public void applyTest(){
         when(mockUserData.getCurrentBoard()).thenReturn(board);
+        when(mockUserData.getShowCtrl()).thenReturn(new IShowCtrl() {
+            @Override
+            public Object addList(List list) {return null;}
+            @Override
+            public void editList(List list) {}
+            @Override
+            public void deleteList(List list) {}
+            @Override
+            public void addTask(Task task, List list) {}
+            @Override
+            public void deleteTask(Task task) {}
+            @Override
+            public void refreshAdminBoards() {}
+            @Override
+            public void refreshBoardCtrl() {}
+            @Override
+            public Object addTaskColor(Color color) {return null;}
+            @Override
+            public void deleteTaskColor(Color color) {}
+            @Override
+            public void editColor(Color color) {}
+            @Override
+            public void showBoard() {}
+            @Override
+            public void showColorPicker() {}
+        });
 
         this.boardEdited.apply(mockUserData);
 
         verify(mockUserData, times(2)).getCurrentBoard();
+        verify(mockUserData, times(1)).getShowCtrl();
         assertEquals("test", board.getName());
     }
 
