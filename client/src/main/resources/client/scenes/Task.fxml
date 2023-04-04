@@ -1,23 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane id="grid" fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="99.0" prefWidth="167.0" style="-fx-padding: 2px; -fx-border-color: gray; -fx-background-color: FFFFFF;" styleClass="taskGrid" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskShape">
+<GridPane fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="120.0" prefWidth="164.0" style="-fx-padding: 2px; -fx-border-color: gray;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskShape">
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="235.79998779296875" />
-        <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="27.800012207031244" />
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="89.59998168945313" vgrow="SOMETIMES" />
-        <RowConstraints minHeight="10.0" prefHeight="36.800024414062506" vgrow="NEVER" />
-    </rowConstraints>
-    <children>
-        <Label fx:id="plusSign" text="+" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-        <Label opacity="0.39" text="0/1" GridPane.rowIndex="1" />
-        <Label fx:id="deleteX" onMouseEntered="#deleteEvent" text="X" GridPane.columnIndex="1" GridPane.valignment="TOP" />
-        <Label fx:id="title" style="-fx-wrap-text: true;" text="Label" GridPane.halignment="CENTER" />
-    </children>
+      <ColumnConstraints maxWidth="26.399963855743408" minWidth="4.799988269805907" prefWidth="24.000000476837158" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="136.0" minWidth="10.0" prefWidth="111.99999952316283" />
+      <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="10.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="89.59998168945313" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="40.39999999999999" minHeight="20.0" prefHeight="40.39999999999999" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="13.799993896484366" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label fx:id="plusSign" text="+" GridPane.halignment="CENTER" />
+      <Label fx:id="deleteX" onMouseEntered="#deleteEvent" text="X" GridPane.columnIndex="2" GridPane.valignment="TOP" />
+      <Label fx:id="title" style="-fx-wrap-text: true;" text="Label" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+         <GridPane.margin>
+            <Insets right="53.0" top="10.0" />
+         </GridPane.margin></Label>
+      <ScrollPane fx:id="markerScroll" minHeight="20.0" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+         <content>
+            <HBox fx:id="tagMarkerContainer" minHeight="20.0" prefHeight="20.0" prefWidth="155.0" spacing="5.0">
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </HBox>
+         </content>
+      </ScrollPane>
+      <Label fx:id="subtaskProgress" opacity="0.39" prefHeight="18.0" prefWidth="29.0" text="0/1" GridPane.rowIndex="1" />
+   </children>
 </GridPane>

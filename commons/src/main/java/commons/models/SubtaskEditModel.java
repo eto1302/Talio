@@ -14,6 +14,8 @@ public class SubtaskEditModel {
         this.index=index;
     }
 
+    public SubtaskEditModel(){super();}
+
     public String getDescription() {
         return description;
     }

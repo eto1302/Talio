@@ -29,4 +29,13 @@ public interface IShowCtrl {
     void showColorPicker();
 
 //    void addTask(Task task);
+    void addTagToTask(Tag tag,Task task);
+
+    void addTag(Tag tag);
+
+    void deleteTag(Tag tag);
+
+    void editTag(Tag tag);
+
+    void removeTagFromTask(Tag tag, Task task);
 }

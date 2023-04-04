@@ -28,6 +28,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -268,7 +270,7 @@ public class ServerUtils implements IServerUtils {
      * @param boardId id of the board
      * @param listId id of the list
      * @param model  name information of the modified list
-     * @return
+     * @return The id of the list.
      */
     public IdResponseModel editList(int boardId, int listId, ListEditModel model) {
         try {
@@ -553,6 +555,7 @@ public class ServerUtils implements IServerUtils {
         throw new RuntimeException("Something went wrong");
     }
 
+    @Override
     public IdResponseModel addTagToTask(Tag tag, int taskID){
         try{
             HttpEntity<Tag> req = new HttpEntity<>(tag);
@@ -565,6 +568,7 @@ public class ServerUtils implements IServerUtils {
         }
     }
 
+    @Override
     public IdResponseModel addTagToBoard(Tag tag, int boardID){
         try{
             HttpEntity<Tag> req = new HttpEntity<>(tag);
@@ -594,13 +598,14 @@ public class ServerUtils implements IServerUtils {
     public IdResponseModel removeTag(int tagID){
         try{
             ResponseEntity<IdResponseModel> response = client.getForEntity(
-                    url + "/tag/remove/" + tagID, IdResponseModel.class);
+                    url + "/tag/removeTag/" + tagID, IdResponseModel.class);
             return response.getBody();
         }
         catch(Exception e){
             return new IdResponseModel(-1, "Oops, failed to connect to the server...");
         }
     }
+
 
     /**
      * Returns a tag by its ID.
@@ -626,8 +631,8 @@ public class ServerUtils implements IServerUtils {
     public java.util.List<Tag> getTagByTask(int taskID) {
         try {
             ResponseEntity<java.util.List<commons.Tag>> response = client.exchange(
-                    url+"task/getByTask/" + taskID, HttpMethod.GET, null,
-                    new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
+                url+"tag/getByTask/" + taskID, HttpMethod.GET, null,
+                new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
             );
 
             // return the tag if the request succeeded
@@ -656,8 +661,9 @@ public class ServerUtils implements IServerUtils {
     public java.util.List<Tag> getTagByBoard(int boardID) {
         try {
             ResponseEntity<java.util.List<commons.Tag>> response = client.exchange(
-                    url+"task/getByTask/" + boardID, HttpMethod.GET, null,
-                    new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
+
+                url+"tag/getByBoard/" + boardID, HttpMethod.GET, null,
+                new ParameterizedTypeReference<java.util.List<commons.Tag>>() {}
             );
 
             // return the tag if the request succeeded
@@ -696,5 +702,26 @@ public class ServerUtils implements IServerUtils {
             throw new NoSuchElementException("No such task id");
 
         throw new RuntimeException("Something went wrong");
+    }
+
+    public IdResponseModel removeTagFromTask(int tagId, int taskId){
+        try{
+            String fullurl = url+"/tag/removeFromTask/" + tagId + "/" + taskId;
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("tagId", String.valueOf(tagId));
+            params.put("taskId", String.valueOf(taskId));
+
+            ResponseEntity<IdResponseModel> resp = client.exchange(
+                    fullurl,
+                    HttpMethod.DELETE,
+                    null,
+                    IdResponseModel.class,
+                    params
+            );
+            return resp.getBody();
+        }
+        catch(Exception e){
+            return new IdResponseModel(-1, "failed to connect to server");
+        }
     }
 }

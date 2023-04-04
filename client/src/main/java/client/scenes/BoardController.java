@@ -110,6 +110,7 @@ public class BoardController {
                 showCtrl.addTask(task, list);
             }
         }
+
     }
 
     public void showYourBoards(){
@@ -132,6 +133,11 @@ public class BoardController {
 
     public LinkedList<ListShapeCtrl> getListControllers() {
         return listControllers;
+    }
+
+    public void showTagOverview() {
+        userData.refresh();
+        showCtrl.showTagOverview(userData.getCurrentBoard());
     }
 
     /**
@@ -382,6 +388,14 @@ public class BoardController {
                     movement(event);
             }
         });
+    }
+
+    public TaskShape findTaskController(Task task){
+        for(ListShapeCtrl c: listControllers){
+            TaskShape ts = c.findTask(task);
+            if(ts != null) {return ts;}
+        }
+        return null;
     }
 
 }

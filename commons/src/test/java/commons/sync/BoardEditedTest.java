@@ -1,9 +1,6 @@
 package commons.sync;
 
-import commons.Board;
-import commons.Color;
-import commons.List;
-import commons.Task;
+import commons.*;
 import commons.mocks.IServerUtils;
 import commons.mocks.IShowCtrl;
 import commons.mocks.IUserData;
@@ -88,6 +85,16 @@ public class BoardEditedTest {
             public void showBoard() {}
             @Override
             public void showColorPicker() {}
+            @Override
+            public void addTagToTask(Tag tag, Task task) {}
+            @Override
+            public void addTag(Tag tag) {}
+            @Override
+            public void deleteTag(Tag tag) {}
+            @Override
+            public void editTag(Tag tag) {}
+            @Override
+            public void removeTagFromTask(Tag tag, Task task) {}
         });
 
         this.boardEdited.apply(mockUserData);

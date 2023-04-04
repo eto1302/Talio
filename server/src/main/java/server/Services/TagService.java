@@ -10,6 +10,7 @@ import server.database.BoardRepository;
 import server.database.TagRepository;
 import server.database.TaskRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -33,7 +34,8 @@ public class TagService {
 
     public java.util.List<Tag> getAllTagsByTask(int taskID) throws NoSuchElementException {
         if(!taskRepository.existsById(taskID)){
-            throw new NoSuchElementException();
+//            throw new NoSuchElementException();
+            return new ArrayList<>();
         }
         return taskRepository.getTaskById(taskID).getTags();
     }
@@ -47,12 +49,17 @@ public class TagService {
 
     public IdResponseModel addTagToTask(Tag tag, int taskID){
         try{
+            tag = tagRepository.getById(tag.getId());
             Task task = taskRepository.getTaskById(taskID);
-            task.getTags().add(tag);
-            tag.setTask(task);
-            tag.setTaskID(taskID);
-            tag.setBoardId(-1);
+            Board board = boardRepository.getBoardByID(tag.getBoardId());
+            tag.setBoard(board);
+//            task.getTags().add(tag);
+            if(tag.getTasks() == null) {tag.setTasks(new ArrayList<>());}
+            tag.getTasks().add(task);
+            tag.getTaskIDs().add(taskID);
+//            task.getTags().add(tag);
             tagRepository.save(tag);
+//            taskRepository.save(task);
             return new IdResponseModel(tag.getId(), null);
         }
         catch(Exception e){
@@ -65,7 +72,6 @@ public class TagService {
             Board board = boardRepository.getBoardByID(boardID);
             board.getTags().add(tag);
             tag.setBoard(board);
-            tag.setTaskID(-1);
             tagRepository.save(tag);
             return new IdResponseModel(tag.getId(), null);
         }
@@ -74,21 +80,33 @@ public class TagService {
         }
     }
 
-    public IdResponseModel removeTag(int tagID){
+    public IdResponseModel removeFromTask(int tagID, int taskID){
         try{
             Tag tag = tagRepository.getById(tagID);
-            if(tag.getTaskID() != -1){
-                Task task = taskRepository.getTaskById(tag.getTaskID());
-                task.getTags().remove(tag);
-                tagRepository.delete(tag);
-                return new IdResponseModel(tagID, null);
-            }
-            else{
-                Board board = boardRepository.getBoardByID(tag.getBoardId());
-                board.getTags().remove(tag);
-                tagRepository.delete(tag);
-                return new IdResponseModel(tagID, null);
-            }
+            Task task = taskRepository.getTaskById(taskID);
+            Board board = boardRepository.getBoardByID(tag.getBoardId());
+            task.getTags().remove(tag);
+            tag.getTasks().remove(task);
+            tag.getTaskIDs().remove((Integer) taskID);
+//            if(tag.getTasks().size() == 0){
+//                tagRepository.delete(tag);
+//            }
+            tagRepository.save(tag);
+//            taskRepository.save(task);
+            return new IdResponseModel(tagID, null);
+        }
+        catch(Exception e){
+            return new IdResponseModel(-1, e.getMessage());
+        }
+    }
+
+    public IdResponseModel removeFromBoard(int tagID){
+        try{
+            Tag tag = tagRepository.getById(tagID);
+//            Board board = boardRepository.getBoardByID(boardID);
+//            board.getTags().remove(tag);
+            tagRepository.delete(tag);
+            return new IdResponseModel(tagID, null);
         }
         catch(Exception e){
             return new IdResponseModel(-1, e.getMessage());
@@ -99,7 +117,7 @@ public class TagService {
         try{
             Tag tag = tagRepository.getById(tagID);
             tag.setName(model.getName());
-            //tag.setColor(model.getColor());
+            tag.setColor(model.getColor());
             tagRepository.save(tag);
             return new IdResponseModel(tagID, null);
         }
@@ -113,4 +131,5 @@ public class TagService {
     public Tag save(Tag tag) { return tagRepository.save(tag); }
 
     public long count() {return tagRepository.count();}
+
 }

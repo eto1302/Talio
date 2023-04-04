@@ -76,9 +76,14 @@ public class TagController {
     }
 
     @DeleteMapping("/remove/{id}")
-    public IdResponseModel removeTag(@PathVariable int id){
-        return tagService.removeTag(id);
+    public IdResponseModel removeTag(@PathVariable int id) {
+        return tagService.removeFromBoard(id);
     }
+
+//    @GetMapping("/removeFromBoard/{tagID}/{boardID}")
+//    public IdResponseModel removeFromBoard(@PathVariable int tagID, @PathVariable int boardID){
+//        return tagService.removeFromBoard(tagID);
+//    }
 
     private static boolean isNullOrEmpty(String s) {
         return s == null || s.isEmpty();
@@ -116,6 +121,13 @@ public class TagController {
         var idx = random.nextInt((int) tagService.count());
         return ResponseEntity.ok(tags.get(idx));
     }
+
+    @DeleteMapping("/removeFromTask/{tagId}/{taskId}")
+    public IdResponseModel removeFromTask(@PathVariable int tagId, @PathVariable int taskId){
+        IdResponseModel resp = tagService.removeFromTask(tagId, taskId);
+        return resp;
+    }
+
 
     public void setRandom(Random random) {
         this.random = random;

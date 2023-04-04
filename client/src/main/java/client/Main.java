@@ -16,6 +16,7 @@
 package client;
 
 import client.scenes.*;
+import client.scenes.tags.*;
 import client.user.UserData;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -72,24 +73,26 @@ public class Main extends Application {
                 TaskColorPicker.class, "client", "scenes", "TaskColorPicker.fxml");
         var editColor= FXML.load(
                 EditColor.class, "client", "scenes", "EditColor.fxml");
+        var tagOverview = FXML.load(TagOverviewController.class,
+            "client", "scenes", "TagOverview.fxml");
         var unlockBoard = FXML.load(
                 UnlockBoardController.class, "client", "scenes", "UnlockBoard.fxml");
         var lockBoard = FXML.load(
                 LockBoardController.class, "client", "scenes", "LockBoard.fxml");
-
         loader.add(home);
         loader.add(addList);
         loader.add(yourBoards);
         loader.add(search);
         loader.add(board);
-        loader.add(connection);
+        loader.add(connection); //5
         loader.add(addBoard);
         loader.add(error);
         loader.add(admin);
         loader.add(editBoard);
+        loader.add(help); //10
+        loader.add(tagOverview);
         loader.add(colorPicker);
         loader.add(addTaskColor);
-        loader.add(help);
         loader.add(taskColorPicker);
         loader.add(editColor);
         loader.add(unlockBoard);

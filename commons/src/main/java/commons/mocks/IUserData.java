@@ -8,4 +8,6 @@ public interface IUserData {
 
     IShowCtrl getShowCtrl();
 
+    void refresh();
+
 }

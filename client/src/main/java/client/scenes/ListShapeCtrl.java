@@ -12,9 +12,11 @@ import commons.Task;
 import commons.models.IdResponseModel;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.geometry.Bounds;
-import javafx.scene.control.*;
+import javafx.scene.Parent;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
@@ -215,7 +217,7 @@ public class ListShapeCtrl {
 
             tasksBox.getChildren().add(((GridPane) source));
             int newIndex= tasksBox.getChildren().indexOf((GridPane) source);
-            
+
             taskService.editTask(task, list, newIndex);
 
             list.getTasks().add(task);
@@ -249,6 +251,15 @@ public class ListShapeCtrl {
         for (TaskShape controller: taskControllers)
             if (controller.isSelected())
                 return controller;
+        return null;
+    }
+
+    public TaskShape findTask(Task task){
+        for(TaskShape c: taskControllers){
+            if(task.equals(c.getTask())){
+                return c;
+            }
+        }
         return null;
     }
 
