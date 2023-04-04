@@ -422,7 +422,9 @@ public class ShowCtrl implements IShowCtrl {
 
     private void refreshTags(Tag tag){
         tagOverviewController.refresh();
-        editTaskController.refresh();
+        if(editTaskController != null){
+            editTaskController.refresh();
+        }
         refreshAllTasks();
         //TODO: add or empty check when changed to list
 //        if(tag.getTask() != null){
@@ -447,6 +449,9 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     public void showAddTagToTask(EditTaskController c){
+        if(popUpStage != null){
+            closePopUp();
+        }
         popUpStage = new Stage();
         var tagToTaskPair = FXML.load(AddTagToTaskController.class,
             "client", "scenes", "AddTagToTask.fxml");

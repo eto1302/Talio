@@ -42,6 +42,7 @@ public class EditTagController {
 
     public void setTag(Tag tag) {
         this.tag = tag;
+        this.textField.setText(tag.getName());
     }
 
     public void cancel(){
