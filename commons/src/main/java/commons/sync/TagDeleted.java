@@ -32,12 +32,8 @@ public class TagDeleted extends BoardUpdate{
 
     @Override
     public IdResponseModel sendToServer(IServerUtils server) {
-        if(tag.getTaskIDs().size() == 0){
-            return server.removeTagFromBoard(tag.getId(), tag.getBoardId());
-        }
+        return server.removeTagFromBoard(tag.getId(), tag.getBoardId());
         //TODO: Find the correct taskID (maybe in a different method)
-        IdResponseModel id = server.removeTagFromTask(tag.getId(), taskID);
-        return id;
     }
 
     @Override

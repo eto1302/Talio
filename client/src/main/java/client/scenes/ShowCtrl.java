@@ -422,7 +422,9 @@ public class ShowCtrl implements IShowCtrl {
 
     private void refreshTags(Tag tag){
         tagOverviewController.refresh();
-        editTaskController.refresh();
+        if(editTaskController != null){
+            editTaskController.refresh();
+        }
         refreshAllTasks();
         //TODO: add or empty check when changed to list
 //        if(tag.getTask() != null){
@@ -462,27 +464,57 @@ public class ShowCtrl implements IShowCtrl {
 
     @Override
     public void addTagToTask(Tag tag, Task task){
+        //TODO: change to use new impl
         TaskShape taskController = boardController.findTaskController(task);
         taskController.refreshTagMarkers(task);
-        editTaskController.putTag(getTagSceneTask(tag, editTaskController));
+        editTaskController.refresh();
     }
 
-    public Scene getTagScene(Tag tag){
+    public void putTagSceneOverview(Tag tag, TagOverviewController cntr){
         var tagPair = FXML.load(TagShapeController.class, "client", "scenes", "TagShape.fxml");
-        Scene initializeTagShape = new Scene(tagPair.getValue());
+//        Scene initializeTagShape = new Scene(tagPair.getValue());
         TagShapeController tagShapeController = tagPair.getKey();
-        Scene tagScene = tagShapeController.getSceneUpdated(tag);
-        return tagScene;
+        tagShapeController.updateScene(tag);
+
+        cntr.putTag(tagPair.getValue());
     }
 
-    public Scene getTagSceneTask(Tag tag, EditTaskController c){
+    public void putTagSceneEditTask(Tag tag){
         var tagPair = FXML.load(TagShapeController.class, "client", "scenes", "TagShape.fxml");
-        Scene initializeTagShape = new Scene(tagPair.getValue());
+//        Scene initializeTagShape = new Scene(tagPair.getValue());
         TagShapeController tagShapeController = tagPair.getKey();
-        tagShapeController.setTaskController(c);
-        Scene tagScene = tagShapeController.getSceneUpdated(tag);
-        return tagScene;
+        tagShapeController.updateScene(tag);
+        tagShapeController.setTaskController(editTaskController);
+
+        editTaskController.putTag(tagPair.getValue());
     }
+
+    public void putTagSceneAddToTask(Tag tag, AddTagToTaskController cntrl){
+        var tagPair = FXML.load(TagShapeController.class, "client", "scenes", "TagShape.fxml");
+//        Scene initializeTagShape = new Scene(tagPair.getValue());
+        TagShapeController tagShapeController = tagPair.getKey();
+        tagShapeController.updateScene(tag);
+        tagShapeController.setTaskController(editTaskController);
+        cntrl.putTag(tagPair.getValue());
+    }
+
+//    public Scene getTagScene(Tag tag){
+//        var tagPair = FXML.load(TagShapeController.class, "client", "scenes", "TagShape.fxml");
+////        Scene initializeTagShape = new Scene(tagPair.getValue());
+//        TagShapeController tagShapeController = tagPair.getKey();
+//        tagShapeController.getSceneUpdated(tag);
+//        return tagPair.getValue();
+//    }
+//
+//
+//    public Scene getTagSceneTask(Tag tag, EditTaskController c){
+//        var tagPair = FXML.load(TagShapeController.class, "client", "scenes", "TagShape.fxml");
+////        Scene initializeTagShape = new Scene(tagPair.getValue());
+//        TagShapeController tagShapeController = tagPair.getKey();
+//        tagShapeController.setTaskController(c);
+//        Scene tagScene = tagShapeController.getSceneUpdated(tag);
+//        return tagScene;
+//    }
 
     public Scene getTagMarker(Tag tag, TaskShape taskController) {
         var markerPair = FXML.load(TagMarkerShapeController.class,

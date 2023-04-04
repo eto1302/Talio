@@ -34,7 +34,8 @@ public class TagService {
 
     public java.util.List<Tag> getAllTagsByTask(int taskID) throws NoSuchElementException {
         if(!taskRepository.existsById(taskID)){
-            throw new NoSuchElementException();
+//            throw new NoSuchElementException();
+            return new ArrayList<>();
         }
         return taskRepository.getTaskById(taskID).getTags();
     }
@@ -48,6 +49,7 @@ public class TagService {
 
     public IdResponseModel addTagToTask(Tag tag, int taskID){
         try{
+            tag = tagRepository.getById(tag.getId());
             Task task = taskRepository.getTaskById(taskID);
             Board board = boardRepository.getBoardByID(tag.getBoardId());
             tag.setBoard(board);
@@ -55,7 +57,9 @@ public class TagService {
             if(tag.getTasks() == null) {tag.setTasks(new ArrayList<>());}
             tag.getTasks().add(task);
             tag.getTaskIDs().add(taskID);
+//            task.getTags().add(tag);
             tagRepository.save(tag);
+//            taskRepository.save(task);
             return new IdResponseModel(tag.getId(), null);
         }
         catch(Exception e){
@@ -88,6 +92,7 @@ public class TagService {
 //                tagRepository.delete(tag);
 //            }
             tagRepository.save(tag);
+//            taskRepository.save(task);
             return new IdResponseModel(tagID, null);
         }
         catch(Exception e){

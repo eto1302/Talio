@@ -12,7 +12,6 @@ import commons.sync.TagDeleted;
 import commons.sync.TagRemovedFromTask;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -53,11 +52,10 @@ public class TagShapeController {
 
 
     /**
-     * Sets fields and returns a scene containing the tagShape
+     * Sets fields and updates the tagShape
      * @param tag tag we are showing
-     * @return Scene with a tag
      */
-    public Scene getSceneUpdated(Tag tag){
+    public void updateScene(Tag tag){
         this.tag = tag;
 
         tagText.setText(tag.getName());
@@ -66,8 +64,6 @@ public class TagShapeController {
 
         Color backgroundColor = Color.web(tag.getColor().getBackgroundColor());
         tagContainer.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
-
-        return tagContainer.getScene();
     }
 
     /**

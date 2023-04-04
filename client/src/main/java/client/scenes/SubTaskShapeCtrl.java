@@ -92,6 +92,7 @@ public class SubTaskShapeCtrl {
     }
 
     public Scene getScene(Subtask subtask){
+        if(subtask.getDescription() == null) subtask.setDescription("");
         description.setText(subtask.getDescription());
         checkbox.setSelected(subtask.isChecked());
         return grid.getScene();

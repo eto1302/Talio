@@ -20,7 +20,7 @@ public class Tag {
     @JoinColumn(name = "colorId", referencedColumnName = "id")
     private Color color;
 
-    @ManyToMany (cascade = CascadeType.REMOVE)
+    @ManyToMany ()
     @JoinTable(name = "tag2task", joinColumns = @JoinColumn(name = "tagId"),
         inverseJoinColumns = @JoinColumn(name = "taskId"))
     @JsonIgnore()

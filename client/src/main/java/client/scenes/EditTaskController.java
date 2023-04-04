@@ -10,6 +10,7 @@ import commons.Task;
 import commons.models.IdResponseModel;
 import commons.models.TaskEditModel;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -40,6 +41,9 @@ public class EditTaskController {
     public Scene setup(Task task, ListShapeCtrl listShapeCtrl, Stage primaryStage){
         this.task = task;
         this.title.setText(task.getTitle());
+        if(task.getDescription() == null){
+            task.setDescription("");
+        }
         this.descriptionField.setText(task.getDescription());
         this.listShapeCtrl = listShapeCtrl;
         this.primaryStage = primaryStage;
@@ -59,7 +63,7 @@ public class EditTaskController {
         java.util.List<Tag> tags = server.getTagByTask(task.getId());
         if(tags != null) {
             for(Tag tag: tags){
-                showCtrl.addTagToTask(tag, task);
+                showCtrl.putTagSceneEditTask(tag);
             }
         }
         return title.getScene();
@@ -70,9 +74,9 @@ public class EditTaskController {
         task.getSubtasks().add(subtask);
     }
 
-    public Scene putTag(Scene scene){
-        tagBox.getChildren().add(scene.getRoot());
-        return tagBox.getScene();
+    public void putTag(Node parent){
+        tagBox.getChildren().add(parent);
+
     }
 
     public void cancel(){
