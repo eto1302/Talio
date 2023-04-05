@@ -32,6 +32,7 @@ class ColorControllerTest {
     private transient Color color1 = Color.create("#FFFFFF", "#000000");
     private transient Color color2 = Color.create("#101010", "#FF10FF");
 
+    @Test
     void testGetColorById() throws Exception{
         when(mockService.getColorById(anyInt())).thenReturn(color1);
 
@@ -40,5 +41,14 @@ class ColorControllerTest {
 
         response.andExpect(MockMvcResultMatchers.status().isOk());
     }
+    @Test
+    void testGetColorByIdFails() throws Exception{
+
+    }
+    @Test
+    void testCreate() throws Exception{
+
+    }
+
 
 }
