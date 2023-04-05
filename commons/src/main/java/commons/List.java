@@ -123,10 +123,9 @@ public class List {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         List list = (List) o;
-        return id == list.id && boardId == list.boardId
-                && Objects.equals(name, list.name)
-                && Objects.equals(tasks, list.tasks)
-                && Objects.equals(board, list.board);
+        return getId() == list.getId() &&
+                getBoardId() == list.getBoardId() &&
+                Objects.equals(getName(), list.getName());
     }
 
     /**

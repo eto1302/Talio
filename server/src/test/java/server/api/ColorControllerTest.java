@@ -98,9 +98,11 @@ class ColorControllerTest {
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(jsonPath("$.size()", CoreMatchers.is(Arrays.asList(color1, color2).size())))
+                .andExpect(jsonPath("$.size()",
+                        CoreMatchers.is(Arrays.asList(color1, color2).size())))
                 .andExpect(jsonPath("$[0].fontColor", CoreMatchers.is(color1.getFontColor())))
-                .andExpect(jsonPath("$[1].backgroundColor", CoreMatchers.is(color2.getBackgroundColor())));
+                .andExpect(jsonPath("$[1].backgroundColor",
+                        CoreMatchers.is(color2.getBackgroundColor())));
     }
     @Test
     void testDeleteColor() throws Exception{
