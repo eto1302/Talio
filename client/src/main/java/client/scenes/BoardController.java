@@ -279,10 +279,10 @@ public class BoardController {
                 selectedTask.makeEditable();
                 break;
             case C:
-                //show color preset
+                showCtrl.showColorPicker();
                 break;
             case T:
-                //show tag
+                showCtrl.showAddTag();
                 break;
         }
     }
