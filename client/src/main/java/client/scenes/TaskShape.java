@@ -1,24 +1,26 @@
 package client.scenes;
 
+import client.Services.BoardService;
+import client.Services.ColorService;
+import client.Services.ListService;
+import client.Services.TaskService;
 import client.user.UserData;
 import client.utils.ServerUtils;
-import commons.Color;
-import commons.List;
-import commons.Task;
-import commons.models.TaskEditModel;
-import commons.sync.TaskDeleted;
-import commons.sync.TaskEdited;
+import commons.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
@@ -26,29 +28,44 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class TaskShape {
+
+    @Inject
+    private ServerUtils server;
+    @Inject
+    private UserData userData;
     @FXML
     private GridPane grid;
     @FXML
-    private Label plusSign, title, deleteX;
+    private Label plusSign, title, deleteX, subtaskProgress;
+    @FXML
+    private HBox tagMarkerContainer;
+    @FXML
+    private ScrollPane markerScroll;
     private ShowCtrl showCtrl;
-    private ServerUtils server;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
     private ListShapeCtrl controller;
     private commons.Task task;
-    private UserData userData;
     private boolean selected;
     private String style;
     private TextField text;
+    private TaskService taskService;
+    private ColorService colorService;
+    private BoardService boardService;
+    private ListService listService;
+    private Color taskColor;
+
 
     @Inject
     public TaskShape(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl = showCtrl;
-        this.server = serverUtils;
-        this.userData = userData;
+        this.taskService = new TaskService(userData, serverUtils);
+        this.colorService = new ColorService(userData, serverUtils);
+        this.boardService = new BoardService(userData, serverUtils);
+        this.listService = new ListService(userData, serverUtils);
     }
 
     public void setTaskUpdated() {
-        task=server.getTask(task.getId());
+        task = taskService.getTask(task.getId());
     }
 
     /**
@@ -59,7 +76,8 @@ public class TaskShape {
         if (selectedTask==null) {
             selected = true;
             grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
-                    "-fx-border-width: 3px");
+                "-fx-border-width: 3px;" +
+                "-fx-background-color: " + taskColor.getBackgroundColor());
         }
         else{
             selected=false;
@@ -97,7 +115,8 @@ public class TaskShape {
         this.selected=selected;
         if (selected)
             grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
-                    "-fx-border-width: 3px");
+                "-fx-border-width: 3px;"+
+                "-fx-background-color: " + taskColor.getBackgroundColor());
         else grid.setStyle(style);
     }
 
@@ -108,25 +127,46 @@ public class TaskShape {
     public void updateScene(Task task){
         this.task = task;
         title.setText(task.getTitle());
-        Color taskColor = this.server.getColor(task.getColorId());
+        taskColor = this.colorService.getColor(task.getColorId());
+
+        java.util.List<Subtask> subtasks = task.getSubtasks();
+        int done = 0;
+        for(Subtask subtask: subtasks){
+            if(subtask.isChecked()){
+                ++done;
+            }
+        }
+        subtaskProgress.setText(done + "/" + subtasks.size());
+        Color taskColor = colorService.getColor(task.getColorId());
         if(taskColor == null){
-            int defaultColorId = this.userData.getCurrentBoard().getColors()
-                    .stream().filter(Color::getIsDefault).findFirst().get().getId();
+            int defaultColorId = this.boardService.getCurrentBoard().getColors()
+                .stream().filter(Color::getIsDefault).findFirst().get().getId();
             this.task.setColorId(defaultColorId);
+            List list = this.listService.getList(this.task.getListID());
 
-            List list = this.server.getList(this.task.getListID());
-            TaskEditModel edit = new TaskEditModel(task.getTitle(), task.getDescription(),
-                    task.getIndex(), list, task.getColorId());
-
-            userData.updateBoard(new TaskEdited(list.getBoardId(), list.getId(),
-                    task.getId(), edit));
-            taskColor = server.getColor(defaultColorId);
+            this.taskService.editTask(task, list, task.getIndex());
+            taskColor = colorService.getColor(defaultColorId);
         }
         title.setTextFill(javafx.scene.paint.Color.web(taskColor.getFontColor()));
         grid.setStyle("-fx-padding: 2px; -fx-border-color: gray; " +
-                "-fx-background-color: " + taskColor.getBackgroundColor() +";");
+            "-fx-background-color: " + taskColor.getBackgroundColor() +";");
+        style = grid.getStyle();
+        refreshTagMarkers(task);
         if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
+    }
+
+    //TODO: refactor to service
+    public void refreshTagMarkers(Task task){
+        java.util.List<Tag> tags = server.getTagByTask(task.getId());
+        tagMarkerContainer.getChildren().remove(0, tagMarkerContainer.getChildren().size());
+        if(tags == null || tags.isEmpty()){
+            return;
+        }
+        for (Tag t: tags){
+            Scene scene = showCtrl.getTagMarker(t, this);
+            tagMarkerContainer.getChildren().add(scene.getRoot());
+        }
     }
 
     /**
@@ -135,13 +175,12 @@ public class TaskShape {
     public void delete() {
         VBox parent = (VBox) grid.getParent();
         parent.getChildren().remove(grid);
-        server.removeTask(task.getId(), task.getListID());
+        taskService.deleteTask(task);
         controller.getTaskControllers().remove(this);
     }
 
     public void deleteEvent() {
-        deleteX.setOnMouseClicked(event -> userData.updateBoard(new TaskDeleted(userData
-                .getCurrentBoard().getId(), task.getId(), task.getListID())));
+        deleteX.setOnMouseClicked(event -> taskService.deleteTask(task));
     }
 
 
@@ -150,8 +189,7 @@ public class TaskShape {
     public void deleteOnKey(){
         VBox parent = (VBox) grid.getParent();
         parent.getChildren().remove(grid);
-        userData.updateBoard(new TaskDeleted(userData
-                .getCurrentBoard().getId(), task.getId(), task.getListID()));
+        taskService.deleteTask(task);;
         controller.getTaskControllers().remove(this);
     }
     /**
@@ -235,7 +273,7 @@ public class TaskShape {
             VBox parent = (VBox) grid.getParent();
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
             ArrayList<Task> orderedTasks=
-                    (ArrayList<Task>) server.getTasksOrdered(task.getListID());
+                (ArrayList<Task>) server.getTasksOrdered(task.getListID());
 
             rearrange(source, parent, children, orderedTasks);
             reorderTasks(orderedTasks, currentlist);
@@ -252,10 +290,7 @@ public class TaskShape {
             parent.getChildren().add(((GridPane) source));
             int newIndex= parent.getChildren().indexOf((GridPane) source);
 
-            TaskEditModel model = new TaskEditModel(previousTask.getTitle(),
-                    previousTask.getDescription(), newIndex, currentlist,
-                    previousTask.getColorId());
-            server.editTask(taskId, model);
+            taskService.editTask(previousTask, currentlist, newIndex);
 
             currentlist.getTasks().add(previousTask);
             java.util.List<Task> previousListTasks = server.getTasksOrdered(previousListId);
@@ -288,9 +323,7 @@ public class TaskShape {
     private void reorderTasks(java.util.List<Task> tasksToReorder, List list){
         for (int i=0; i<tasksToReorder.size(); i++){
             Task taskIndex = tasksToReorder.get(i);
-            TaskEditModel model = new TaskEditModel(taskIndex.getTitle(),
-                    taskIndex.getDescription(), i, list, taskIndex.getColorId());
-            server.editTask(taskIndex.getId(), model);
+            taskService.editTask(taskIndex, list, i);
         }
     }
 
@@ -322,7 +355,7 @@ public class TaskShape {
         VBox parent = (VBox) grid.getParent();
         ArrayList<Node> children = new ArrayList<>(parent.getChildren());
         ArrayList<Task> orderedTasks =
-                (ArrayList<Task>) server.getTasksOrdered(task.getListID());
+            (ArrayList<Task>) server.getTasksOrdered(task.getListID());
         var controllers = controller.getTaskControllers();
         List list = server.getList(task.getListID());
 
@@ -344,13 +377,11 @@ public class TaskShape {
 
     public void editOnKey() {
         int index = ((VBox) grid.getParent()).getChildren().indexOf(grid);
-        TaskEditModel model = new TaskEditModel(text.getText(), task.getDescription(),
-                index, controller.getList(), task.getColorId());
-        task.setTitle(model.getTitle());
-        server.editTask(task.getId(), model);
+        task.setTitle(text.getText());
+        taskService.editTask(task, controller.getList(), index);
 
         title.setGraphic(null);
-        title.setText(model.getTitle());
+        title.setText(text.getText());
     }
 
     public void makeEditable() {

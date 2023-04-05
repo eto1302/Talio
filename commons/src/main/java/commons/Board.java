@@ -35,11 +35,11 @@ public class Board {
     private java.util.List<List> lists;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private java.util.List<Tag> tags;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private java.util.List<Color> colors;
 
     /**
@@ -153,14 +153,6 @@ public class Board {
         this.inviteKey = inviteKey;
     }
 
-    public java.util.List<Color> getColors() {
-        return colors;
-    }
-
-    public void setColors(java.util.List<Color> colors) {
-        this.colors = colors;
-    }
-
     /**
      * Returns true if the given object is equal to this board.
      * <p>
@@ -218,5 +210,13 @@ public class Board {
 
     public void setListColor(Color color){
         this.colors.set(1, color);
+    }
+
+    public java.util.List<Color> getColors(){
+        return colors;
+    }
+
+    public void setColors(java.util.List<Color> colors) {
+        this.colors = colors;
     }
 }

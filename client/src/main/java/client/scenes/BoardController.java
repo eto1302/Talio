@@ -1,17 +1,21 @@
 package client.scenes;
 
+import client.Services.BoardService;
+import client.Services.TaskService;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
 import commons.Task;
 import commons.models.IdResponseModel;
-import commons.sync.BoardDeleted;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.geometry.Bounds;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.Lighting;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -33,21 +37,33 @@ public class BoardController {
     @FXML
     private GridPane boardBox;
     @FXML
+    private ImageView lockIcon;
+    @FXML
+    private ImageView editIcon;
+    @FXML
+    private ImageView deleteIcon;
+    @FXML
     private ScrollPane scrollPane;
     private final ShowCtrl showCtrl;
-    private ServerUtils server;
     private LinkedList<ListShapeCtrl> listControllers;
     private ListShapeCtrl selectedList=null;
     private TaskShape selectedTask=null;
     private boolean editable = false;
-
-    @Inject
     private UserData userData;
+    private BoardService boardService;
+    private TaskService taskService;
+
+    private static final Image LOCKED_IMG = new Image(
+            "file:client/build/resources/main/icons/lock.png");
+    private static final Image UNLOCKED_IMG = new Image(
+            "file:client/build/resources/main/icons/unlock.png");
 
     @Inject
-    public BoardController(ShowCtrl showCtrl, ServerUtils server) {
+    public BoardController(ShowCtrl showCtrl, ServerUtils server, UserData userData) {
         this.showCtrl = showCtrl;
-        this.server = server;
+        this.userData = userData;
+        this.boardService = new BoardService(userData, server);
+        this.taskService = new TaskService(userData, server);
     }
 
 
@@ -66,7 +82,7 @@ public class BoardController {
      *  TODO: the board and get rid of the button in the future.
      */
     public void refresh() {
-        Board board = this.userData.getCurrentBoard();
+        Board board = this.boardService.getCurrentBoard();
         this.boardLabel.setText(board.getName());
         this.boardLabel.setTextFill(Color.web(
                 board.getBoardColor().getFontColor()));
@@ -79,21 +95,22 @@ public class BoardController {
         List<commons.List> lists;
 
         try {
-            userData.refresh();
+            boardService.refresh();
         } catch (Exception e) {
             showCtrl.showError(e.getMessage());
             return;
         }
-        lists = userData.getCurrentBoard().getLists();
+        lists = boardService.getCurrentBoard().getLists();
 
         for (commons.List list : lists) {
             showCtrl.addList(list);
 
-            List<Task> orderedTasks = server.getTasksOrdered(list.getId());
+            List<Task> orderedTasks = taskService.getTasksOrdered(list.getId());
             for(Task task: orderedTasks){
                 showCtrl.addTask(task, list);
             }
         }
+
     }
 
     public void showYourBoards(){
@@ -118,6 +135,11 @@ public class BoardController {
         return listControllers;
     }
 
+    public void showTagOverview() {
+        userData.refresh();
+        showCtrl.showTagOverview(userData.getCurrentBoard());
+    }
+
     /**
      * Puts the root of the scene (the grid representing the list) inside the board
      * @param root the root we are looking to add to our board
@@ -139,23 +161,38 @@ public class BoardController {
         showCtrl.showConnection();
     }
 
-
     public void showEditBoard() { showCtrl.showEditBoard();}
 
     public void delete() {
-        Board board = this.userData.getCurrentBoard();
-        this.userData.leaveBoard(board.getId());
-        this.userData.saveToDisk();
-        BoardDeleted boardDeleted = new BoardDeleted(board.getId());
+        IdResponseModel response = this.boardService.delete(
+                this.boardService.getCurrentBoard().getId());
 
-        IdResponseModel model = userData.deleteBoard(boardDeleted);
-
-        if (model.getId() == -1) {
-            showCtrl.showError(model.getErrorMessage());
+        if (response.getId() == -1) {
+            showCtrl.showError(response.getErrorMessage());
         }
         else{
             showCtrl.showYourBoards();
         }
+    }
+
+    public void lockHoverOn() {
+        ((Lighting) lockIcon.getEffect()).getLight().setColor(Color.valueOf("#FFFFFF"));
+    }
+
+    public void lockHoverOff() {
+        ((Lighting) lockIcon.getEffect()).getLight().setColor(Color.valueOf("#000000"));
+    }
+
+    public void manageLock() {
+        if(userData.isCurrentBoardLocked())
+            showCtrl.showUnlockBoard();
+        else showCtrl.showLockBoard(null);
+    }
+
+    public void updateLockIcon(boolean locked) {
+        lockIcon.setImage(locked ? LOCKED_IMG : UNLOCKED_IMG);
+        editIcon.setVisible(!locked);
+        deleteIcon.setVisible(!locked);
     }
 
     public void movement(KeyEvent event){
@@ -351,6 +388,14 @@ public class BoardController {
                     movement(event);
             }
         });
+    }
+
+    public TaskShape findTaskController(Task task){
+        for(ListShapeCtrl c: listControllers){
+            TaskShape ts = c.findTask(task);
+            if(ts != null) {return ts;}
+        }
+        return null;
     }
 
 }

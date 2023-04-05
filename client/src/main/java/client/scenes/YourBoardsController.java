@@ -1,13 +1,11 @@
 package client.scenes;
 
+import client.Services.BoardService;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
@@ -17,31 +15,19 @@ public class YourBoardsController {
 
     private final ShowCtrl showCtrl;
     @FXML
-    private MenuItem joinBoard;
-    @FXML
-    private MenuItem addBoard;
-    @FXML
-    private MenuItem personalize;
-    @FXML
-    private GridPane boardBox;
-    @FXML
     private VBox boardList;
-    @FXML
-    private Button searchButton;
-    private ServerUtils serverUtils;
-    @Inject
-    private UserData userData;
+    private BoardService boardService;
 
     @Inject
-    public YourBoardsController(ShowCtrl showCtrl, ServerUtils serverUtils){
+    public YourBoardsController(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData){
         this.showCtrl = showCtrl;
-        this.serverUtils = serverUtils;
+        this.boardService = new BoardService(userData, serverUtils);
     }
     public void fillBoardBox() {
         this.boardList.getChildren().removeAll(this.boardList.getChildren());
-        Map<Integer, String> boardMap = this.userData.getBoards();
+        Map<Integer, String> boardMap = this.boardService.getJoinedBoards();
         for(int id : boardMap.keySet()){
-            Board currentBoard = this.serverUtils.getBoard(id);
+            Board currentBoard = this.boardService.getBoard(id);
             showCtrl.addBoard(currentBoard);
         }
     }

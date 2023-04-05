@@ -2,8 +2,10 @@ package commons.mocks;
 
 import commons.Color;
 import commons.List;
+import commons.Tag;
 import commons.Subtask;
 import commons.Task;
+import commons.models.*;
 import commons.models.BoardEditModel;
 import commons.models.ColorEditModel;
 import commons.models.IdResponseModel;
@@ -42,4 +44,14 @@ public interface IServerUtils {
 
     IdResponseModel editColor(int colorId, ColorEditModel edit);
 
+    IdResponseModel addTagToTask(Tag tag, int taskId);
+
+    IdResponseModel addTagToBoard(Tag tag, int boardId);
+
+    IdResponseModel removeTagFromTask(int tagID, int taskID);
+
+    IdResponseModel removeTag(int tagID);
+
+    IdResponseModel editTag(int tagID, TagEditModel model);
 }
+

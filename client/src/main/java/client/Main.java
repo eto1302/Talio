@@ -16,6 +16,7 @@
 package client;
 
 import client.scenes.*;
+import client.scenes.tags.*;
 import client.user.UserData;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -48,18 +49,12 @@ public class Main extends Application {
     }
 
     public void setup(List<Pair> loader){
-        var home = FXML.load(
-                HomeController.class, "client", "scenes", "Home.fxml");
-        var addList =FXML.load(
-                AddListController.class, "client", "scenes", "AddList.fxml");
-        var yourBoards=FXML.load(
-                YourBoardsController.class, "client", "scenes", "YourBoards.fxml");
-        var search = FXML.load(
-                SearchCtrl.class, "client", "scenes","Search.fxml");
-        var board = FXML.load(
-                BoardController.class, "client", "scenes", "Board.fxml");
-        var connection=FXML.load(
-                ConnectionCtrl.class, "client", "scenes", "Connection.fxml");
+        var home = FXML.load(HomeController.class, "client", "scenes", "Home.fxml");
+        var addList =FXML.load(AddListController.class, "client", "scenes", "AddList.fxml");
+        var yourBoards=FXML.load(YourBoardsController.class, "client", "scenes", "YourBoards.fxml");
+        var search = FXML.load(SearchCtrl.class, "client", "scenes","Search.fxml");
+        var board = FXML.load(BoardController.class, "client", "scenes", "Board.fxml");
+        var connection=FXML.load(ConnectionCtrl.class, "client", "scenes", "Connection.fxml");
         var addBoard=FXML.load(
                 AddBoardController.class, "client", "scenes", "AddBoard.fxml");
         var error=FXML.load(
@@ -78,21 +73,29 @@ public class Main extends Application {
                 TaskColorPicker.class, "client", "scenes", "TaskColorPicker.fxml");
         var editColor= FXML.load(
                 EditColor.class, "client", "scenes", "EditColor.fxml");
-
+        var tagOverview = FXML.load(TagOverviewController.class,
+            "client", "scenes", "TagOverview.fxml");
+        var unlockBoard = FXML.load(
+                UnlockBoardController.class, "client", "scenes", "UnlockBoard.fxml");
+        var lockBoard = FXML.load(
+                LockBoardController.class, "client", "scenes", "LockBoard.fxml");
         loader.add(home);
         loader.add(addList);
         loader.add(yourBoards);
         loader.add(search);
         loader.add(board);
-        loader.add(connection);
+        loader.add(connection); //5
         loader.add(addBoard);
         loader.add(error);
         loader.add(admin);
         loader.add(editBoard);
+        loader.add(help); //10
+        loader.add(tagOverview);
         loader.add(colorPicker);
         loader.add(addTaskColor);
-        loader.add(help);
         loader.add(taskColorPicker);
         loader.add(editColor);
+        loader.add(unlockBoard);
+        loader.add(lockBoard);
     }
 }

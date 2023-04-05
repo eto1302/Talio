@@ -1,6 +1,8 @@
 package client.scenes;
 
-
+import client.Services.AdminService;
+import client.Services.BoardService;
+import client.user.UserData;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
@@ -20,7 +22,6 @@ import java.util.List;
 public class AdminController {
 
     private final ShowCtrl showCtrl;
-    private final ServerUtils server;
 
     @FXML
     private TableView<Board> table;
@@ -30,11 +31,14 @@ public class AdminController {
 
     @FXML
     private TableColumn<Board, String> id, name, pwd;
+    private BoardService boardService;
+    private AdminService adminService;
 
     @Inject
-    public AdminController (ShowCtrl showCtrl, ServerUtils server){
+    public AdminController (ShowCtrl showCtrl, ServerUtils server, UserData userData){
         this.showCtrl=showCtrl;
-        this.server = server;
+        this.boardService = new BoardService(userData, server);
+        this.adminService = new AdminService(server);
     }
 
     public void setup() {
@@ -54,7 +58,7 @@ public class AdminController {
         search.setOnMouseClicked(event -> search.selectAll());
 
         // display all the boards from the server
-        Board[] boards = server.getAllBoards();
+        Board[] boards = boardService.getAllBoards();
         refresh(boards);
 
         // start the thread that will pull for updates using long-polling
@@ -68,7 +72,7 @@ public class AdminController {
 
                 // server will return the boards when there is an update
                 // or null when the timeout is reached
-                Board[] boardsUpdated = server.getBoardsUpdated();
+                Board[] boardsUpdated = boardService.getBoardsUpdated();
                 if (boardsUpdated != null) {
                     refresh(boardsUpdated);
                 }
@@ -114,6 +118,16 @@ public class AdminController {
 
     }
 
+    public void managePassword() {
+        List<Board> boards = table.getSelectionModel().getSelectedItems();
+        if(boards.size() != 1) {
+            showCtrl.showError("Please select exactly one board");
+            return;
+        }
+
+        showCtrl.showLockBoard(boards.get(0));
+    }
+
     public void selectAll(){
         table.getSelectionModel().selectAll();
     }
@@ -127,7 +141,7 @@ public class AdminController {
         }
 
         for(int boardId : boards.stream().map(Board::getId).toArray(Integer[]::new)){
-            IdResponseModel model = server.deleteBoard(boardId);
+            IdResponseModel model = boardService.delete(boardId);
 
             if (model.getId() == -1) {
                 showCtrl.showError(model.getErrorMessage());
@@ -135,10 +149,10 @@ public class AdminController {
             }
         }
 
-        refresh(server.getAllBoards());
+        refresh(boardService.getAllBoards());
     }
 
     public boolean verifyAdmin(String password){
-        return server.verifyAdmin(password);
+        return adminService.verifyAdmin(password);
     }
 }

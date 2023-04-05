@@ -1,61 +1,42 @@
 package client.scenes;
 
+import client.Services.BoardService;
 import client.user.UserData;
+import client.utils.ServerUtils;
 import commons.Board;
-import commons.models.BoardEditModel;
-import commons.sync.BoardEdited;
+import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
 public class EditBoardController {
 
     @FXML
     private TextField newTitle;
-    @FXML
-    private ColorPicker newBackground;
-    @FXML
-    private ColorPicker newFont;
     @Inject
     private ShowCtrl showCtrl;
-    @Inject
-    private UserData userData;
-    private BoardController boardController;
+    private BoardService boardService;
 
     @Inject
-    public EditBoardController(){
-
+    public EditBoardController(UserData userData, ServerUtils serverUtils){
+        this.boardService = new BoardService(userData, serverUtils);
     }
     public void cancel() {
         showCtrl.cancel();
     }
 
     public void edit() {
-        this.userData.updateBoard(
-                new BoardEdited(this.userData.getCurrentBoard().getId(),
-                        new BoardEditModel(newTitle.getText())));
+        IdResponseModel response = this.boardService.editBoard(newTitle.getText());
+        if(response.getId() == -1){
+            this.showCtrl.showError(response.getErrorMessage());
+            this.showCtrl.cancel();
+            return;
+        }
         cancel();
-        this.userData.openBoard(this.userData.getCurrentBoard().getId());
-        showCtrl.showBoard();
-    }
-
-    /**
-     * Returns a hexadecimal string representation of javafx.scene.paint.Color.
-     * @param color
-     * @return string representation of the color.
-     */
-    private String colorToHex(Color color){
-        String hexString = String.format("#%02X%02X%02X",
-                (int)(color.getRed() * 255),
-                (int)(color.getGreen() * 255),
-                (int)(color.getBlue() * 255));
-        return hexString;
     }
 
     public void setup(){
-        Board currentBoard = this.userData.getCurrentBoard();
+        Board currentBoard = this.boardService.getCurrentBoard();
         this.newTitle.setText(currentBoard.getName());
     }
 

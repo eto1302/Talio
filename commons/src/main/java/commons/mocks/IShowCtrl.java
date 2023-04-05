@@ -16,7 +16,7 @@ public interface IShowCtrl {
 
     void refreshAdminBoards();
 
-    void refreshList(int listID);
+    void refreshBoardCtrl();
 
     Object addTaskColor(Color color);
 
@@ -24,5 +24,18 @@ public interface IShowCtrl {
 
     void editColor(Color color);
 
+    void showBoard();
+
+    void showColorPicker();
+
 //    void addTask(Task task);
+    void addTagToTask(Tag tag,Task task);
+
+    void addTag(Tag tag);
+
+    void deleteTag(Tag tag);
+
+    void editTag(Tag tag);
+
+    void removeTagFromTask(Tag tag, Task task);
 }

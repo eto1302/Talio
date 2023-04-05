@@ -160,7 +160,7 @@ public class TestListRepository implements ListRepositoy {
     @Override
     public <S extends List, R> R findBy(Example<S> example,
                                         Function<FluentQuery.FetchableFluentQuery<S>, R>
-                                                queryFunction) {
+                                            queryFunction) {
         return null;
     }
 }
