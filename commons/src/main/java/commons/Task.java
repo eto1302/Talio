@@ -62,7 +62,10 @@ public class Task {
     /**
      * Constructs an empty task.
      */
-    public Task() {}
+    public Task() {
+        this.tags = new java.util.ArrayList<>();
+        this.subtasks = new java.util.ArrayList<>();
+    }
 
     /**
      * Gets the unique identifier of the task.

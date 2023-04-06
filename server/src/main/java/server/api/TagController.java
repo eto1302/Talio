@@ -14,7 +14,6 @@ import java.util.Random;
 public class TagController {
 
     private final TagService tagService;
-    private Random random;
 
     public TagController(TagService tagService){
         this.tagService = tagService;
@@ -59,6 +58,7 @@ public class TagController {
         return this.tagService.findAll();
     }
 
+
     @PostMapping("/addToTask/{id}")
     public IdResponseModel addTagToTask(@PathVariable int id, @RequestBody Tag tag){
         return tagService.addTagToTask(tag, id);
@@ -80,28 +80,8 @@ public class TagController {
         return tagService.removeFromBoard(id);
     }
 
-//    @GetMapping("/removeFromBoard/{tagID}/{boardID}")
-//    public IdResponseModel removeFromBoard(@PathVariable int tagID, @PathVariable int boardID){
-//        return tagService.removeFromBoard(tagID);
-//    }
-
     private static boolean isNullOrEmpty(String s) {
         return s == null || s.isEmpty();
-    }
-
-    @GetMapping(path = { "", "/" })
-    public java.util.List<Tag> getAll() {
-        return tagService.findAll();
-    }
-
-    @GetMapping("/{id}")
-    @ResponseBody
-    public ResponseEntity<Object> getTagById(@PathVariable int id) {
-        Tag tag = tagService.getTagById(id);
-        if (id < 0 || (tag == null)) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(tagService.getTagById(id));
     }
 
     @PostMapping(path = { "", "/" })
@@ -114,11 +94,11 @@ public class TagController {
         Tag saved = tagService.save(tag);
         return ResponseEntity.ok(saved);
     }
+
     @GetMapping("rnd")
     public ResponseEntity<Tag> getRandom() {
         var tags = tagService.findAll();
-        long n = tagService.count();
-        var idx = random.nextInt((int) tagService.count());
+        var idx = new Random().nextInt((int) tagService.count());
         return ResponseEntity.ok(tags.get(idx));
     }
 
@@ -126,10 +106,5 @@ public class TagController {
     public IdResponseModel removeFromTask(@PathVariable int tagId, @PathVariable int taskId){
         IdResponseModel resp = tagService.removeFromTask(tagId, taskId);
         return resp;
-    }
-
-
-    public void setRandom(Random random) {
-        this.random = random;
     }
 }

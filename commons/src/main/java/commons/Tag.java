@@ -58,7 +58,10 @@ public class Tag {
     /**
      * Creates a new Tag object.
      */
-    public Tag(){}
+    public Tag(){
+        this.tasks = new java.util.ArrayList<>();
+        this.taskIDs = new java.util.ArrayList<>();
+    }
 
     /**
      * Returns the task associated with the tag.
