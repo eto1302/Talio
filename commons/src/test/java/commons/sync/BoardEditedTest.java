@@ -102,9 +102,7 @@ public class BoardEditedTest {
                 return false;
             }
         });
-
         this.boardEdited.apply(mockUserData);
-
         verify(mockUserData, times(2)).getCurrentBoard();
         verify(mockUserData, times(1)).getShowCtrl();
         assertEquals("test", board.getName());
