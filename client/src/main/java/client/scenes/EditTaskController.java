@@ -89,10 +89,18 @@ public class EditTaskController {
     }
 
     public void showAddTagToTask() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         showCtrl.showAddTagToTask(this);
     }
 
     public void showAddSubTask(){
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         showCtrl.showAddSubTask(this, task);
     }
 
@@ -119,6 +127,10 @@ public class EditTaskController {
     }
 
     public void showTaskColorPicker() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         showCtrl.cancel();
         showCtrl.showTaskColorPicker(task);
     }

@@ -56,6 +56,10 @@ public class EditTagController {
      * see commons.sync.TagEdited.apply() for update method
      */
     public void editTag(){
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         TagEditModel model = new TagEditModel(textField.getText(), colorPickerToColor());
         IdResponseModel resp = userData.updateBoard(new TagEdited(tag.getBoardId(), tag, model));
         if (resp.getId() == -1) {

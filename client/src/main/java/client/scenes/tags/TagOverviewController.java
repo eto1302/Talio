@@ -54,6 +54,10 @@ public class TagOverviewController {
     }
 
     public void showAddTag(){
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         showCtrl.showAddTag();
     }
 

@@ -161,13 +161,23 @@ public class BoardController {
         showCtrl.showConnection();
     }
 
-    public void showEditBoard() { showCtrl.showEditBoard();}
+    public void showEditBoard() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
+        showCtrl.showEditBoard();
+    }
 
     public void delete() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         IdResponseModel response = this.boardService.delete(
                 this.boardService.getCurrentBoard().getId());
 
-        if (response.getId() == -1) {
+        if (response.getId() < 0) {
             showCtrl.showError(response.getErrorMessage());
         }
         else{
