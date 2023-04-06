@@ -133,7 +133,6 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.setScene(addList);
         secondaryStage.setTitle("Add a list");
         secondaryStage.show();
-
     }
 
     public void showHome() {
@@ -357,7 +356,7 @@ public class ShowCtrl implements IShowCtrl {
     public void showAddTag(){
         popUpStage = new Stage();
         var addTagPair = FXML.load(AddTagController.class,
-                "client", "scenes", "AddTagToTask.fxml");
+                "client", "scenes", "AddTag.fxml");
         Scene addTagScene = new Scene(addTagPair.getValue());
 
         popUpStage.setScene(addTagScene);

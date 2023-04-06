@@ -597,8 +597,9 @@ public class ServerUtils implements IServerUtils {
 
     public IdResponseModel removeTag(int tagID){
         try{
-            ResponseEntity<IdResponseModel> response = client.getForEntity(
-                    url + "/tag/removeTag/" + tagID, IdResponseModel.class);
+            ResponseEntity<IdResponseModel> response = client.exchange(
+                    url + "/tag/remove/" + tagID, HttpMethod.DELETE,
+                null, IdResponseModel.class);
             return response.getBody();
         }
         catch(Exception e){
