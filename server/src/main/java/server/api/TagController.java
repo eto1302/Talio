@@ -75,9 +75,9 @@ public class TagController {
         return tagService.editTag(id, model);
     }
 
-    @DeleteMapping("/remove/{id}")
-    public IdResponseModel removeTag(@PathVariable int id) {
-        return tagService.removeFromBoard(id);
+    @DeleteMapping("/delete/{id}")
+    public IdResponseModel delete(@PathVariable int id) {
+        return tagService.delete(id);
     }
 
     private static boolean isNullOrEmpty(String s) {

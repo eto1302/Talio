@@ -22,6 +22,10 @@ public class ColorEditModel {
         this.isDefault = isDefault;
     }
 
+    public ColorEditModel(){
+
+    }
+
     public String getBackgroundColor() {
         return backgroundColor;
     }
