@@ -1,7 +1,6 @@
 package client.scenes.tags;
 
 import client.Services.TagService;
-import client.scenes.ShowCtrl;
 import client.scenes.EditTaskController;
 import client.user.UserData;
 import client.utils.ServerUtils;

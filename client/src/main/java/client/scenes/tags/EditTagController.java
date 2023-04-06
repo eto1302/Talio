@@ -1,6 +1,5 @@
 package client.scenes.tags;
 
-import client.scenes.ShowCtrl;
 import client.user.UserData;
 import commons.Color;
 import commons.Tag;
