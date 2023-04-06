@@ -1,5 +1,6 @@
 package client.scenes.tags;
 
+import client.scenes.ShowCtrl;
 import client.utils.ServerUtils;
 import commons.Tag;
 import javafx.fxml.FXML;

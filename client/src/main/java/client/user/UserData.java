@@ -2,6 +2,7 @@ package client.user;
 
 import client.messageClients.MessageAdmin;
 import client.messageClients.MessageSender;
+import client.scenes.ShowCtrl;
 import commons.sync.BoardDeleted;
 import commons.sync.BoardUpdate;
 import client.utils.ServerUtils;

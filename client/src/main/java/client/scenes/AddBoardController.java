@@ -12,13 +12,13 @@ import javax.inject.Inject;
 
 public class AddBoardController {
 
-    private final SearchCtrl showCtrl;
+    private final ShowCtrl showCtrl;
     @FXML
     private TextField nameField;
     private BoardService boardService;
 
     @Inject
-    public AddBoardController (SearchCtrl showCtrl, ServerUtils server, UserData userData){
+    public AddBoardController (ShowCtrl showCtrl, ServerUtils server, UserData userData){
         this.showCtrl=showCtrl;
         this.boardService = new BoardService(userData, server);
     }
