@@ -16,7 +16,8 @@ public class EditListController {
     private ShowCtrl showCtrl;
     private List list;
     private ListService listService;
-    private UserData userData;
+    @Inject
+    private final UserData userData;
 
     @Inject
     private EditListController(ShowCtrl showCtrl, ServerUtils server, UserData userData) {

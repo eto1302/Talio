@@ -26,7 +26,8 @@ public class TaskColorShape {
     private ShowCtrl showCtrl;
     private Color color;
     private ColorService colorService;
-    private UserData userData;
+    @Inject
+    private final UserData userData;
 
     @Inject
     public TaskColorShape(UserData userData, ServerUtils serverUtils){

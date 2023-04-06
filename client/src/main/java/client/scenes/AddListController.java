@@ -18,12 +18,13 @@ public class AddListController {
     private ListService listService;
 
     @Inject
-    private UserData userData;
+    private final UserData userData;
 
     @Inject
     public AddListController(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl = showCtrl;
         this.listService = new ListService(userData,serverUtils);
+        this.userData = userData;
     }
 
     public void cancel(){

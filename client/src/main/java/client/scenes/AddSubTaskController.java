@@ -23,12 +23,13 @@ public class AddSubTaskController {
     private Task task;
 
     @Inject
-    private UserData userData;
+    private final UserData userData;
 
     @Inject
-    public AddSubTaskController(ShowCtrl showCtrl, ServerUtils server){
+    public AddSubTaskController(ShowCtrl showCtrl, ServerUtils server, UserData userData){
         this.showCtrl = showCtrl;
         this.server = server;
+        this.userData = userData;
     }
 
     public void cancel(){

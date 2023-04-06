@@ -19,11 +19,13 @@ public class EditColor {
     private Color color;
     @Inject
     private ShowCtrl showCtrl;
-    private UserData userData;
+    @Inject
+    private final UserData userData;
 
     @Inject
     public EditColor(UserData userData, ServerUtils serverUtils) {
         this.colorService = new ColorService(userData, serverUtils);
+        this.userData = userData;
     }
 
     public void setup(Color color){

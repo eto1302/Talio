@@ -17,7 +17,8 @@ import javax.inject.Inject;
 public class EditTagController {
 
     private final ShowCtrl showCtrl;
-    private UserData userData;
+    @Inject
+    private final UserData userData;
 
     @FXML
     private Button cancelButton;

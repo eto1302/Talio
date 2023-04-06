@@ -35,7 +35,8 @@ public class SubTaskShapeCtrl {
     private Subtask subtask;
     private TextField text;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
-    private UserData userData;
+    @Inject
+    private final UserData userData;
 
     @Inject
     public SubTaskShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData){

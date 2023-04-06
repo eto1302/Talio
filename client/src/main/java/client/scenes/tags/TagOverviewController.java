@@ -17,8 +17,10 @@ import java.util.List;
 
 public class TagOverviewController {
     private ShowCtrl showCtrl;
-    private ServerUtils serverUtils;
-    private UserData userData;
+    @Inject
+    private final ServerUtils serverUtils;
+    @Inject
+    private final UserData userData;
 
     @FXML
     private Button addTagButton;

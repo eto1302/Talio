@@ -25,8 +25,10 @@ import javax.inject.Inject;
 public class AddTagController {
 
     private final ShowCtrl showCtrl;
-    private UserData userData;
-    private ServerUtils serverUtils;
+    @Inject
+    private final UserData userData;
+    @Inject
+    private final ServerUtils serverUtils;
 
     @FXML
     private Button cancelButton;

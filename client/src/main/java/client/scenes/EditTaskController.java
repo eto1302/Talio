@@ -35,7 +35,8 @@ public class EditTaskController {
     @Inject
     private ServerUtils server;
     private ListShapeCtrl listShapeCtrl;
-    private UserData userData;
+    @Inject
+    private final UserData userData;
 
     @Inject
     public EditTaskController (ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
