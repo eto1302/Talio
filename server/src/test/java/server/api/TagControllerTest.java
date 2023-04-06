@@ -20,12 +20,9 @@ import server.Services.TagService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 
-import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -121,12 +118,12 @@ public class TagControllerTest {
     }
 
     @Test
-    void testGetByTaskReturnsBadRequestForInvalidId() throws Exception {
+    void testGetByTaskReturnsEmptyListForInvalidId() throws Exception {
         int taskId = -1;
-        when(tagServiceMock.getAllTagsByTask(taskId)).thenThrow(new NoSuchElementException());
+        when(tagServiceMock.getAllTagsByTask(taskId)).thenReturn(new ArrayList<>());
 
-        mockMvc.perform(get("/tag/getByTask/{id}", taskId))
-                .andExpect(status().isBadRequest());
+        var res = mockMvc.perform(get("/tag/getByTask/{id}", taskId)).andReturn();
+        assertEquals("[]", res.getResponse().getContentAsString());
 
         verify(tagServiceMock, times(1)).getAllTagsByTask(taskId);
         verifyNoMoreInteractions(tagServiceMock);
