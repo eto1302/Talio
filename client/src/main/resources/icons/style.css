@@ -15,3 +15,11 @@
     -fx-opacity: 1;
     -fx-text-fill: #091525;
 }
+
+.backgroundThemes{
+    -fx-background-color: #161f5b;
+}
+
+.banners{
+    -fx-background-color: black;
+}

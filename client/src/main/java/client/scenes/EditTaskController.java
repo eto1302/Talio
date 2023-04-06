@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.Services.ListService;
 import client.Services.SubtaskService;
+import client.Services.TagService;
 import client.Services.TaskService;
 import client.user.UserData;
 import client.utils.ServerUtils;
@@ -32,8 +33,7 @@ public class EditTaskController {
     private TaskService taskService;
     private SubtaskService subtaskService;
     private ListService listService;
-    @Inject
-    private ServerUtils server;
+    private TagService tagService;
     private ListShapeCtrl listShapeCtrl;
 
     @Inject
@@ -42,6 +42,7 @@ public class EditTaskController {
         this.taskService = new TaskService(userData, serverUtils);
         this.subtaskService = new SubtaskService(userData, serverUtils);
         this.listService = new ListService(userData, serverUtils);
+        this.tagService = new TagService(userData, serverUtils);
     }
 
     public Scene setup(Task task, ListShapeCtrl listShapeCtrl){
@@ -57,7 +58,7 @@ public class EditTaskController {
 
     public Scene refresh(){
         subtaskBox.getChildren().clear();
-        java.util.List<Subtask> subtasks = server.getSubtasksOrdered(task.getId());
+        java.util.List<Subtask> subtasks = subtaskService.getSubtasksOrdered(task.getId());
         if(subtasks != null) {
             for(Subtask subtask: subtasks){
                 showCtrl.addSubTask(subtask, this);
@@ -65,7 +66,7 @@ public class EditTaskController {
         }
 //        java.util.List<Tag> tags = task.getTags();
         cleanTagBox();
-        java.util.List<Tag> tags = server.getTagByTask(task.getId());
+        java.util.List<Tag> tags = tagService.getTagByTask(task.getId());
         if(tags != null) {
             for(Tag tag: tags){
                 showCtrl.putTagSceneEditTask(tag);
