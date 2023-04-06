@@ -291,7 +291,7 @@ public class ShowCtrl implements IShowCtrl {
 
         taskShapeCtrl.set(task, listShapeCtrl);
         taskShapeCtrl.updateScene(task);
-        listShapeCtrl.addTask(taskShape.getValue(), taskShapeCtrl);
+        listShapeCtrl.addTask(taskShape.getValue(), taskShapeCtrl, task);
     }
 
     public void deleteTask(Task task) {
@@ -336,7 +336,7 @@ public class ShowCtrl implements IShowCtrl {
                 cancel();
         });
 
-        Scene updated = editTaskController.setup(task, listShapeCtrl, primaryStage);
+        Scene updated = editTaskController.setup(task, listShapeCtrl);
         secondaryStage = new Stage();
         secondaryStage.setScene(updated);
         secondaryStage.setTitle("Edit a task");
@@ -357,7 +357,7 @@ public class ShowCtrl implements IShowCtrl {
     public void showAddTag(){
         popUpStage = new Stage();
         var addTagPair = FXML.load(AddTagController.class,
-                "client", "scenes", "AddTag.fxml");
+                "client", "scenes", "AddTagToTask.fxml");
         Scene addTagScene = new Scene(addTagPair.getValue());
 
         popUpStage.setScene(addTagScene);
@@ -606,9 +606,9 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.show();
     }
 
-    public void showAddTagColor() {
+    public void showAddTaskColor() {
         secondaryStage = new Stage();
-        secondaryStage.setTitle("AddTagColor");
+        secondaryStage.setTitle("AddTaskColor");
         secondaryStage.setScene(this.addTaskColor);
         secondaryStage.show();
     }

@@ -16,7 +16,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import javax.inject.Inject;
 
@@ -33,9 +32,9 @@ public class EditTaskController {
     private TaskService taskService;
     private SubtaskService subtaskService;
     private ListService listService;
+    @Inject
     private ServerUtils server;
     private ListShapeCtrl listShapeCtrl;
-    private Stage primaryStage;
 
     @Inject
     public EditTaskController (ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
@@ -45,7 +44,7 @@ public class EditTaskController {
         this.listService = new ListService(userData, serverUtils);
     }
 
-    public Scene setup(Task task, ListShapeCtrl listShapeCtrl, Stage primaryStage){
+    public Scene setup(Task task, ListShapeCtrl listShapeCtrl){
         this.task = task;
         this.title.setText(task.getTitle());
         if(task.getDescription() == null){
@@ -53,7 +52,6 @@ public class EditTaskController {
         }
         this.descriptionField.setText(task.getDescription());
         this.listShapeCtrl = listShapeCtrl;
-        this.primaryStage = primaryStage;
         return refresh();
     }
 

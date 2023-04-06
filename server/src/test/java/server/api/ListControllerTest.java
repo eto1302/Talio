@@ -52,16 +52,16 @@ class ListControllerTest {
     void testAddList() throws Exception{
         when(mockService.addList(eq(list), anyInt())).thenReturn(new IdResponseModel(1, null));
 
-        ResultActions response = mock.perform(post("/list/add/1")
+        ResultActions response = mock.perform(post("/list/add/2")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(list)));
 
         response.andExpect(MockMvcResultMatchers.status().isOk());
+        verify(mockService, times(1)).addList(eq(list), anyInt());
 
-        //TODO: fix error where response content is an empty string
-//        String listContent = response.andReturn().getResponse().getContentAsString();
-//        IdResponseModel model = mapper.readValue(listContent, IdResponseModel.class);
-//        assertNull(model.getErrorMessage());
+        String listContent = response.andReturn().getResponse().getContentAsString();
+        IdResponseModel model = mapper.readValue(listContent, IdResponseModel.class);
+        assertNull(model.getErrorMessage());
     }
 
     @Test

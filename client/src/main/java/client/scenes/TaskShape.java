@@ -201,7 +201,7 @@ public class TaskShape {
     public void set(Task task, ListShapeCtrl listShapeCtrl){
         this.task = task;
         this.controller = listShapeCtrl;
-        if (task.getDescription().equals("No description yet"))
+        if (task.getDescription()==null || task.getDescription().equals("No description yet"))
             plusSign.setVisible(false);
         this.style=grid.getStyle();
 

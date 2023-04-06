@@ -99,6 +99,6 @@ public class ColorPicker {
 
     public void showAddTaskColor() {
         this.showCtrl.cancel();
-        this.showCtrl.showAddTagColor();
+        this.showCtrl.showAddTaskColor();
     }
 }
