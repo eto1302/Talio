@@ -38,9 +38,9 @@ public class AddBoardController {
     public void addBoard(){
         IdResponseModel response = boardService.addBoard(nameField.getText());
 
-        if (response.getId() == -1) {
-            showCtrl.showError(response.getErrorMessage());
+        if (response.getId() < 0) {
             showCtrl.cancel();
+            showCtrl.showError(response.getErrorMessage());
             return;
         }
         Board boardUpdated = boardService.getBoard(response.getId());

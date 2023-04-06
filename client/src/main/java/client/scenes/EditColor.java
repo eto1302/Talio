@@ -34,9 +34,9 @@ public class EditColor {
     public void edit() {
         IdResponseModel model = colorService.editColor(color.getId(),
                 backgroundColor.getValue(), fontColor.getValue(), color.getIsDefault());
-        if(model.getId() == -1){
-            this.showCtrl.showError(model.getErrorMessage());
+        if(model.getId() < 0){
             this.showCtrl.cancel();
+            this.showCtrl.showError(model.getErrorMessage());
             return;
         }
         showCtrl.cancel();

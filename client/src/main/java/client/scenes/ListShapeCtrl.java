@@ -78,7 +78,7 @@ public class ListShapeCtrl {
      */
     public void initiateDeleteList() {
         IdResponseModel response = this.listService.deleteList(list);
-        if (response.getId() == -1)
+        if (response.getId() < 0)
             showCtrl.showError(response.getErrorMessage());
     }
 

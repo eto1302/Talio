@@ -43,7 +43,7 @@ public class EditListController {
     public void edit(){
         IdResponseModel response = this.listService.editList(list, newTitle.getText());
 
-        if (response.getId() == -1) {
+        if (response.getId() < 0) {
             showCtrl.cancel();
             showCtrl.showError(response.getErrorMessage());
             return;

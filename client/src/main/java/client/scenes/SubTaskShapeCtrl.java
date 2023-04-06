@@ -66,7 +66,12 @@ public class SubTaskShapeCtrl {
         SubtaskEditModel model = new SubtaskEditModel(text.getText(), subtask.isChecked(), index);
         subtask.setDescription(model.getDescription());
         subtask.setChecked(model.isChecked());
-        serverUtils.editSubtask(subtask.getId(), model);
+        IdResponseModel id = serverUtils.editSubtask(subtask.getId(), model);
+
+        if(id.getId() < 0){
+            showCtrl.showError(id.getErrorMessage());
+            return;
+        }
 
         description.setGraphic(null);
         description.setText(model.getDescription());
@@ -97,21 +102,25 @@ public class SubTaskShapeCtrl {
 
     public void changeSelected(){
         int index = ((VBox) grid.getParent()).getChildren().indexOf(grid);
+        IdResponseModel id = null;
         if(subtask.isChecked()){
             subtask.setChecked(false);
-            serverUtils.editSubtask(subtask.getId(),
+            id = serverUtils.editSubtask(subtask.getId(),
                     new SubtaskEditModel(subtask.getDescription(), false, index));
         }
         else{
             subtask.setChecked(true);
-            serverUtils.editSubtask(subtask.getId(),
+            id = serverUtils.editSubtask(subtask.getId(),
                     new SubtaskEditModel(subtask.getDescription(), true, index));
+        }
+        if(id.getId() < 0){
+            showCtrl.showError(id.getErrorMessage());
         }
     }
 
     public void remove(){
         IdResponseModel model = serverUtils.deleteSubtask(subtask.getTaskID(), subtask.getId());
-        if(model.getId() == -1){
+        if(model.getId() < 0){
             showCtrl.showError(model.getErrorMessage());
         }
         else{

@@ -49,9 +49,9 @@ public class AddSubTaskController {
         List list = server.getList(task.getListID());
         IdResponseModel model = userData.updateBoard(new
                 SubtaskAdded(list.getBoardId(), task.getId(), subtask));
-        if(model.getId() == -1){
-            showCtrl.showError(model.getErrorMessage());
+        if(model.getId() < 0){
             showCtrl.closePopUp();
+            showCtrl.showError(model.getErrorMessage());
             return;
         }
         controller.refresh();
