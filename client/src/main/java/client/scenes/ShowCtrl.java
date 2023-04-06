@@ -558,7 +558,7 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     public void showUnlockBoard() {
-        String password = userData.getBoards().get(userData.getCurrentBoard().getId());
+        String password = userData.getCurrentBoard().getPassword();
         unlockBoardController.setCurrentPassword(password == null ? "" : password);
         secondaryStage = new Stage();
         secondaryStage.setTitle("Unlock Board");
