@@ -17,8 +17,8 @@ import java.util.List;
 
 public class TagOverviewController {
     private ShowCtrl showCtrl;
-    private ServerUtils serverUtils;
-    private UserData userData;
+    private final ServerUtils serverUtils;
+    private final UserData userData;
 
     @FXML
     private Button addTagButton;
@@ -54,6 +54,10 @@ public class TagOverviewController {
     }
 
     public void showAddTag(){
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         showCtrl.showAddTag();
     }
 

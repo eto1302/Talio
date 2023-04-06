@@ -16,20 +16,26 @@ public class EditBoardController {
     @Inject
     private ShowCtrl showCtrl;
     private BoardService boardService;
+    private final UserData userData;
 
     @Inject
     public EditBoardController(UserData userData, ServerUtils serverUtils){
         this.boardService = new BoardService(userData, serverUtils);
+        this.userData = userData;
     }
     public void cancel() {
         showCtrl.cancel();
     }
 
     public void edit() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         IdResponseModel response = this.boardService.editBoard(newTitle.getText());
-        if(response.getId() == -1){
-            this.showCtrl.showError(response.getErrorMessage());
+        if(response.getId() < 0){
             this.showCtrl.cancel();
+            this.showCtrl.showError(response.getErrorMessage());
             return;
         }
         cancel();

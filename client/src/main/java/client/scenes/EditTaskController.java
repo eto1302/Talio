@@ -35,6 +35,7 @@ public class EditTaskController {
     @Inject
     private ServerUtils server;
     private ListShapeCtrl listShapeCtrl;
+    private final UserData userData;
 
     @Inject
     public EditTaskController (ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
@@ -42,6 +43,7 @@ public class EditTaskController {
         this.taskService = new TaskService(userData, serverUtils);
         this.subtaskService = new SubtaskService(userData, serverUtils);
         this.listService = new ListService(userData, serverUtils);
+        this.userData = userData;
     }
 
     public Scene setup(Task task, ListShapeCtrl listShapeCtrl){
@@ -76,12 +78,10 @@ public class EditTaskController {
 
     public void putSubtask(Scene scene, Subtask subtask){
         subtaskBox.getChildren().add(scene.getRoot());
-        task.getSubtasks().add(subtask);
     }
 
     public void putTag(Node parent){
         tagBox.getChildren().add(parent);
-
     }
 
     public void cancel(){
@@ -89,14 +89,26 @@ public class EditTaskController {
     }
 
     public void showAddTagToTask() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         showCtrl.showAddTagToTask(this);
     }
 
     public void showAddSubTask(){
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         showCtrl.showAddSubTask(this, task);
     }
 
     public void save() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         String title = this.title.getText();
         String description = this.descriptionField.getText();
         task.setTitle(title);
@@ -105,7 +117,7 @@ public class EditTaskController {
 
         IdResponseModel response = taskService.editTask(task, list, task.getIndex());
 
-        if (response.getId() == -1) {
+        if (response.getId() < 0) {
             showCtrl.cancel();
             showCtrl.showError(response.getErrorMessage());
             return;
@@ -115,6 +127,10 @@ public class EditTaskController {
     }
 
     public void showTaskColorPicker() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         showCtrl.cancel();
         showCtrl.showTaskColorPicker(task);
     }

@@ -21,9 +21,8 @@ import java.util.stream.Collectors;
 
 public class AddTagToTaskController {
     private ShowCtrl showCtrl;
-    private ServerUtils serverUtils;
-
-    private UserData userData;
+    private final ServerUtils serverUtils;
+    private final UserData userData;
 
     @FXML
     private GridPane tag2taskContainer;

@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.scenes.ShowCtrl;
+import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Subtask;
 import commons.models.IdResponseModel;
@@ -34,11 +35,13 @@ public class SubTaskShapeCtrl {
     private Subtask subtask;
     private TextField text;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
+    private final UserData userData;
 
     @Inject
-    public SubTaskShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils){
+    public SubTaskShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData){
         this.showCtrl = showCtrl;
         this.serverUtils = serverUtils;
+        this.userData = userData;
     }
 
     public void setup(Subtask subtask){
@@ -62,11 +65,20 @@ public class SubTaskShapeCtrl {
     }
 
     private void edit(){
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         int index = ((VBox) grid.getParent()).getChildren().indexOf(grid);
         SubtaskEditModel model = new SubtaskEditModel(text.getText(), subtask.isChecked(), index);
         subtask.setDescription(model.getDescription());
         subtask.setChecked(model.isChecked());
-        serverUtils.editSubtask(subtask.getId(), model);
+        IdResponseModel id = serverUtils.editSubtask(subtask.getId(), model);
+
+        if(id.getId() < 0){
+            showCtrl.showError(id.getErrorMessage());
+            return;
+        }
 
         description.setGraphic(null);
         description.setText(model.getDescription());
@@ -74,6 +86,10 @@ public class SubTaskShapeCtrl {
     }
 
     private void editSubtask(MouseEvent event){
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         if (event.getButton().equals(MouseButton.PRIMARY))
             if (event.getClickCount()==1) {
                 text = new TextField();
@@ -96,22 +112,34 @@ public class SubTaskShapeCtrl {
     }
 
     public void changeSelected(){
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         int index = ((VBox) grid.getParent()).getChildren().indexOf(grid);
+        IdResponseModel id = null;
         if(subtask.isChecked()){
             subtask.setChecked(false);
-            serverUtils.editSubtask(subtask.getId(),
+            id = serverUtils.editSubtask(subtask.getId(),
                     new SubtaskEditModel(subtask.getDescription(), false, index));
         }
         else{
             subtask.setChecked(true);
-            serverUtils.editSubtask(subtask.getId(),
+            id = serverUtils.editSubtask(subtask.getId(),
                     new SubtaskEditModel(subtask.getDescription(), true, index));
+        }
+        if(id.getId() < 0){
+            showCtrl.showError(id.getErrorMessage());
         }
     }
 
     public void remove(){
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         IdResponseModel model = serverUtils.deleteSubtask(subtask.getTaskID(), subtask.getId());
-        if(model.getId() == -1){
+        if(model.getId() < 0){
             showCtrl.showError(model.getErrorMessage());
         }
         else{
@@ -167,6 +195,10 @@ public class SubTaskShapeCtrl {
      * @param event the drag event
      */
     private void dragDrop(DragEvent event){
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         Dragboard dragboard = event.getDragboard();
         Object source = event.getGestureSource();
         boolean done=false;
