@@ -1,6 +1,8 @@
 package client.scenes;
 
 import client.scenes.tags.*;
+import client.user.UserData;
+import com.google.inject.Inject;
 import commons.*;
 import commons.mocks.IShowCtrl;
 import javafx.geometry.Pos;
@@ -26,9 +28,9 @@ public class ShowCtrl implements IShowCtrl {
     private Stage primaryStage, secondaryStage, popUpStage;
 
     private HomeController homeCtrl;
-    private Scene home, addList, yourBoards, search, board, taskOverview, connection,
-            addBoard, editTask, errorScene, admin, editBoard, tagOverview, help,
-            colorPicker, addTaskColor, taskColorPicker, editColor;
+    private Scene home, addList, yourBoards, search, board, connection,
+            addBoard, editTask, errorScene, admin, editBoard, tagOverview,colorPicker,
+            addTaskColor, help, taskColorPicker, editColor, unlockBoard, lockBoard;
     private AddListController addListCtrl;
     private YourBoardsController yourBoardsCtrl;
     private SearchCtrl searchCtrl;
@@ -46,6 +48,11 @@ public class ShowCtrl implements IShowCtrl {
     private Map<Integer, ListShapeCtrl> listControllers;
     private HelpCtrl helpCtrl;
     private EditColor editColorController;
+    private UnlockBoardController unlockBoardController;
+    private LockBoardController lockBoardController;
+
+    @Inject
+    private UserData userData;
 
     public void initialize(Stage primaryStage, List<Pair> loader) {
         this.primaryStage = primaryStage;
@@ -81,6 +88,11 @@ public class ShowCtrl implements IShowCtrl {
         taskColorPickerController = (TaskColorPicker) loader.get(14).getKey();
         editColor = new Scene((Parent) loader.get(15).getValue());
         editColorController = (EditColor) loader.get(15).getKey();
+        unlockBoard = new Scene((Parent) loader.get(16).getValue());
+        unlockBoardController = (UnlockBoardController) loader.get(16).getKey();
+        lockBoard = new Scene((Parent) loader.get(17).getValue());
+        lockBoardController = (LockBoardController) loader.get(17).getKey();
+
 
         setUpKeys();
         listControllers = new HashMap<>();
@@ -135,22 +147,6 @@ public class ShowCtrl implements IShowCtrl {
         primaryStage.setScene(this.yourBoards);
     }
 
-    /**
-     * Shows the window with options for adding a task in a list.
-     *
-     * @param controller   the list's controller
-     * @param list  the associated list
-     */
-    public void showAddTask(ListShapeCtrl controller, commons.List list){
-        var addTask = FXML.load(AddTaskController.class, "client",
-                "scenes", "AddTask.fxml");
-        Scene addTaskScene = new Scene(addTask.getValue());
-        addTask.getKey().setup(controller, list);
-        secondaryStage = new Stage();
-        secondaryStage.setScene(addTaskScene);
-        secondaryStage.setTitle("Add a task");
-        secondaryStage.show();
-    }
 
     public void cancel() {
         secondaryStage.close();
@@ -192,11 +188,6 @@ public class ShowCtrl implements IShowCtrl {
         boardController.setup();
         primaryStage.setScene(this.board);
     }
-
-    /**
-     * Shows the details of the task. First sets the information in the window according to
-     * the task.
-     */
 
     /**
      * Shows the window with options for the editing the list.
@@ -251,11 +242,6 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 1e7a01e3fff72d1742e9f32734e84c4642e3b986
      * Adds the taskColor to the ColorPicker and updates the scene
      *
      * @param color the color object whose attributes specify the visual of the shape
@@ -294,12 +280,6 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     /**
-<<<<<<< HEAD
->>>>>>> 602e3f1a19b695287d7f04503e6fd501e938396a
-=======
-=======
->>>>>>> cd02f51aa34a269eb33d408446e231f2b5d89b10
->>>>>>> 1e7a01e3fff72d1742e9f32734e84c4642e3b986
      * Adds a task to the list.
      * @param task the task with the info
      * @param list the list to add the task to
@@ -311,7 +291,7 @@ public class ShowCtrl implements IShowCtrl {
 
         taskShapeCtrl.set(task, listShapeCtrl);
         taskShapeCtrl.updateScene(task);
-        listShapeCtrl.addTask(taskShape.getValue(), taskShapeCtrl);
+        listShapeCtrl.addTask(taskShape.getValue(), taskShapeCtrl, task);
     }
 
     public void deleteTask(Task task) {
@@ -356,9 +336,8 @@ public class ShowCtrl implements IShowCtrl {
                 cancel();
         });
 
-        Scene updated = editTaskController.setup(task, listShapeCtrl, primaryStage);
+        Scene updated = editTaskController.setup(task, listShapeCtrl);
         secondaryStage = new Stage();
-        //TODO: Possible problem
         secondaryStage.setScene(updated);
         secondaryStage.setTitle("Edit a task");
         secondaryStage.show();
@@ -378,7 +357,7 @@ public class ShowCtrl implements IShowCtrl {
     public void showAddTag(){
         popUpStage = new Stage();
         var addTagPair = FXML.load(AddTagController.class,
-                "client", "scenes", "AddTag.fxml");
+                "client", "scenes", "AddTagToTask.fxml");
         Scene addTagScene = new Scene(addTagPair.getValue());
 
         popUpStage.setScene(addTagScene);
@@ -467,27 +446,57 @@ public class ShowCtrl implements IShowCtrl {
 
     @Override
     public void addTagToTask(Tag tag, Task task){
+        //TODO: change to use new impl
         TaskShape taskController = boardController.findTaskController(task);
         taskController.refreshTagMarkers(task);
-        editTaskController.putTag(getTagSceneTask(tag, editTaskController));
+        editTaskController.refresh();
     }
 
-    public Scene getTagScene(Tag tag){
+    public void putTagSceneOverview(Tag tag, TagOverviewController cntr){
         var tagPair = FXML.load(TagShapeController.class, "client", "scenes", "TagShape.fxml");
-        Scene initializeTagShape = new Scene(tagPair.getValue());
+//        Scene initializeTagShape = new Scene(tagPair.getValue());
         TagShapeController tagShapeController = tagPair.getKey();
-        Scene tagScene = tagShapeController.getSceneUpdated(tag);
-        return tagScene;
+        tagShapeController.updateScene(tag);
+
+        cntr.putTag(tagPair.getValue());
     }
 
-    public Scene getTagSceneTask(Tag tag, EditTaskController c){
+    public void putTagSceneEditTask(Tag tag){
         var tagPair = FXML.load(TagShapeController.class, "client", "scenes", "TagShape.fxml");
-        Scene initializeTagShape = new Scene(tagPair.getValue());
+//        Scene initializeTagShape = new Scene(tagPair.getValue());
         TagShapeController tagShapeController = tagPair.getKey();
-        tagShapeController.setTaskController(c);
-        Scene tagScene = tagShapeController.getSceneUpdated(tag);
-        return tagScene;
+        tagShapeController.updateScene(tag);
+        tagShapeController.setTaskController(editTaskController);
+
+        editTaskController.putTag(tagPair.getValue());
     }
+
+    public void putTagSceneAddToTask(Tag tag, AddTagToTaskController cntrl){
+        var tagPair = FXML.load(TagShapeController.class, "client", "scenes", "TagShape.fxml");
+//        Scene initializeTagShape = new Scene(tagPair.getValue());
+        TagShapeController tagShapeController = tagPair.getKey();
+        tagShapeController.updateScene(tag);
+        tagShapeController.setTaskController(editTaskController);
+        cntrl.putTag(tagPair.getValue());
+    }
+
+//    public Scene getTagScene(Tag tag){
+//        var tagPair = FXML.load(TagShapeController.class, "client", "scenes", "TagShape.fxml");
+////        Scene initializeTagShape = new Scene(tagPair.getValue());
+//        TagShapeController tagShapeController = tagPair.getKey();
+//        tagShapeController.getSceneUpdated(tag);
+//        return tagPair.getValue();
+//    }
+//
+//
+//    public Scene getTagSceneTask(Tag tag, EditTaskController c){
+//        var tagPair = FXML.load(TagShapeController.class, "client", "scenes", "TagShape.fxml");
+////        Scene initializeTagShape = new Scene(tagPair.getValue());
+//        TagShapeController tagShapeController = tagPair.getKey();
+//        tagShapeController.setTaskController(c);
+//        Scene tagScene = tagShapeController.getSceneUpdated(tag);
+//        return tagScene;
+//    }
 
     public Scene getTagMarker(Tag tag, TaskShape taskController) {
         var markerPair = FXML.load(TagMarkerShapeController.class,
@@ -547,16 +556,32 @@ public class ShowCtrl implements IShowCtrl {
         editBoardController.setup();
         secondaryStage.show();
     }
-    public void refreshBoardCtrl() {
-        boardController.refresh();
+
+    public void showUnlockBoard() {
+        String password = userData.getBoards().get(userData.getCurrentBoard().getId());
+        unlockBoardController.setCurrentPassword(password == null ? "" : password);
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Unlock Board");
+        secondaryStage.setScene(this.unlockBoard);
+        secondaryStage.setResizable(false);
+        secondaryStage.show();
     }
 
+    public void showLockBoard(Board adminModeBoard) {
+        lockBoardController.reset(adminModeBoard);
+        secondaryStage = new Stage();
+        secondaryStage.setTitle("Lock Board");
+        secondaryStage.setScene(this.lockBoard);
+        secondaryStage.setResizable(false);
+        secondaryStage.show();
+    }
 
+    public void updateBoardLockIcon(boolean locked) {
+        boardController.updateLockIcon(locked);
+    }
 
-    public void refreshList(int listID) {
-        ListShapeCtrl ctrl = getListController(listID);
-        if(ctrl != null)
-            ctrl.refreshList();
+    public void refreshBoardCtrl() {
+        boardController.refresh();
     }
 
     public void deleteTaskColor(Color color) {
@@ -584,9 +609,9 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.show();
     }
 
-    public void showAddTagColor() {
+    public void showAddTaskColor() {
         secondaryStage = new Stage();
-        secondaryStage.setTitle("AddTagColor");
+        secondaryStage.setTitle("AddTaskColor");
         secondaryStage.setScene(this.addTaskColor);
         secondaryStage.show();
     }

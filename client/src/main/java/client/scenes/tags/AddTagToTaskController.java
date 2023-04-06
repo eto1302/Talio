@@ -1,14 +1,13 @@
 package client.scenes.tags;
 
-import client.scenes.ShowCtrl;
 import client.scenes.EditTaskController;
+import client.scenes.ShowCtrl;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
 import commons.Tag;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -90,11 +89,10 @@ public class AddTagToTaskController {
     /**
      * puts a scene into the tagBox
      * used by putTags
-     * @param tagScene TagShape scene to be inserted
+     * @param parent parent node of TagShape scene to be inserted
      */
-    public void putTag(Scene tagScene){
-        Node root = tagScene.getRoot();
-        tagBox.getChildren().add(root);
+    public void putTag(Node parent){
+        tagBox.getChildren().add(parent);
     }
 
     /**
@@ -109,8 +107,7 @@ public class AddTagToTaskController {
         }
         int max = (tags.size() < 5) ? tags.size():5;
         for(int i = 0; i < max; i++){
-            Scene ts = showCtrl.getTagSceneTask(tags.get(i), controller);
-            putTag(ts);
+            showCtrl.putTagSceneAddToTask(tags.get(i), this);
         }
     }
 

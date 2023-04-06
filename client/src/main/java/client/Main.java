@@ -49,18 +49,12 @@ public class Main extends Application {
     }
 
     public void setup(List<Pair> loader){
-        var home = FXML.load(
-                HomeController.class, "client", "scenes", "Home.fxml");
-        var addList =FXML.load(
-                AddListController.class, "client", "scenes", "AddList.fxml");
-        var yourBoards=FXML.load(
-                YourBoardsController.class, "client", "scenes", "YourBoards.fxml");
-        var search = FXML.load(
-                SearchCtrl.class, "client", "scenes","Search.fxml");
-        var board = FXML.load(
-                BoardController.class, "client", "scenes", "Board.fxml");
-        var connection=FXML.load(
-                ConnectionCtrl.class, "client", "scenes", "Connection.fxml");
+        var home = FXML.load(HomeController.class, "client", "scenes", "Home.fxml");
+        var addList =FXML.load(AddListController.class, "client", "scenes", "AddList.fxml");
+        var yourBoards=FXML.load(YourBoardsController.class, "client", "scenes", "YourBoards.fxml");
+        var search = FXML.load(SearchCtrl.class, "client", "scenes","Search.fxml");
+        var board = FXML.load(BoardController.class, "client", "scenes", "Board.fxml");
+        var connection=FXML.load(ConnectionCtrl.class, "client", "scenes", "Connection.fxml");
         var addBoard=FXML.load(
                 AddBoardController.class, "client", "scenes", "AddBoard.fxml");
         var error=FXML.load(
@@ -81,7 +75,11 @@ public class Main extends Application {
                 EditColor.class, "client", "scenes", "EditColor.fxml");
         var tagOverview = FXML.load(TagOverviewController.class,
             "client", "scenes", "TagOverview.fxml");
-        loader.add(home);//0
+        var unlockBoard = FXML.load(
+                UnlockBoardController.class, "client", "scenes", "UnlockBoard.fxml");
+        var lockBoard = FXML.load(
+                LockBoardController.class, "client", "scenes", "LockBoard.fxml");
+        loader.add(home);
         loader.add(addList);
         loader.add(yourBoards);
         loader.add(search);
@@ -96,6 +94,8 @@ public class Main extends Application {
         loader.add(colorPicker);
         loader.add(addTaskColor);
         loader.add(taskColorPicker);
-        loader.add(editColor); //15
+        loader.add(editColor);
+        loader.add(unlockBoard);
+        loader.add(lockBoard);
     }
 }

@@ -40,6 +40,8 @@ public class BoardService {
 
     public IdResponseModel deleteBoard(int boardId) {
         try {
+            if (!boardRepository.existsById(boardId))
+                return new IdResponseModel(-1, "Board does not exist");
             boardRepository.deleteById(boardId);
             return new IdResponseModel(boardId, null);
         } catch (Exception e) {
@@ -72,6 +74,7 @@ public class BoardService {
         try {
             Board board = boardRepository.getBoardByID(boardId);
             board.setName(model.getName());
+            board.setPassword(model.getPassword());
             boardRepository.save(board);
             return new IdResponseModel(boardId, null);
         } catch (Exception e) {

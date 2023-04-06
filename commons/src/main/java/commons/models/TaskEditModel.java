@@ -2,6 +2,8 @@ package commons.models;
 
 import commons.List;
 
+import java.util.Objects;
+
 public class TaskEditModel {
     private String title;
     private String description;
@@ -66,5 +68,21 @@ public class TaskEditModel {
                 "title='" + this.title + '\'' +
                 ", description='" + this.description + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TaskEditModel that = (TaskEditModel) o;
+        return getIndex() == that.getIndex() && getColorId() == that.getColorId() &&
+                Objects.equals(getTitle(), that.getTitle()) &&
+                Objects.equals(getDescription(), that.getDescription()) &&
+                Objects.equals(getList(), that.getList());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTitle(), getDescription(), getList(), getIndex(), getColorId());
     }
 }

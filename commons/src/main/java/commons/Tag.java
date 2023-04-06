@@ -20,7 +20,7 @@ public class Tag {
     @JoinColumn(name = "colorId", referencedColumnName = "id")
     private Color color;
 
-    @ManyToMany (cascade = CascadeType.REMOVE)
+    @ManyToMany ()
     @JoinTable(name = "tag2task", joinColumns = @JoinColumn(name = "tagId"),
         inverseJoinColumns = @JoinColumn(name = "taskId"))
     @JsonIgnore()
@@ -58,7 +58,10 @@ public class Tag {
     /**
      * Creates a new Tag object.
      */
-    public Tag(){}
+    public Tag(){
+        this.tasks = new java.util.ArrayList<>();
+        this.taskIDs = new java.util.ArrayList<>();
+    }
 
     /**
      * Returns the task associated with the tag.

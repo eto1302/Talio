@@ -1,7 +1,9 @@
 package client.scenes;
 
-import client.user.Services.ColorService;
+import client.Services.BoardService;
+import client.Services.ColorService;
 import client.user.UserData;
+import client.utils.ServerUtils;
 import commons.Board;
 import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
@@ -27,15 +29,15 @@ public class ColorPicker {
     private javafx.scene.control.ColorPicker listFont;
     @FXML
     private VBox taskColorList;
-    private UserData userData;
     @Inject
     private ShowCtrl showCtrl;
     private ColorService colorService;
+    private BoardService boardService;
 
     @Inject
-    public ColorPicker(UserData userData){
-        this.userData = userData;
-        this.colorService = new ColorService(userData);
+    public ColorPicker(UserData userData, ServerUtils serverUtils){
+        this.colorService = new ColorService(userData, serverUtils);
+        this.boardService = new BoardService(userData, serverUtils);
     }
 
     public void save() {
@@ -72,7 +74,7 @@ public class ColorPicker {
 
     public void fillTaskColors(){
         this.taskColorList.getChildren().clear();
-        List<commons.Color> colors = this.userData.getCurrentBoard().getColors();
+        List<commons.Color> colors = this.boardService.getCurrentBoard().getColors();
         if(colors == null) return;
         for(int i = 2; i < colors.size(); ++i){
             commons.Color color = colors.get(i);
@@ -81,7 +83,7 @@ public class ColorPicker {
     }
 
     public void setup() {
-        Board currentBoard = this.userData.getCurrentBoard();
+        Board currentBoard = this.boardService.getCurrentBoard();
         this.boardLabel.setText(currentBoard.getName());
         this.boardBackground.setValue(Color.web(currentBoard.getBoardColor().getBackgroundColor()));
         this.boardFont.setValue(Color.web(currentBoard.getBoardColor().getFontColor()));
@@ -97,6 +99,6 @@ public class ColorPicker {
 
     public void showAddTaskColor() {
         this.showCtrl.cancel();
-        this.showCtrl.showAddTagColor();
+        this.showCtrl.showAddTaskColor();
     }
 }

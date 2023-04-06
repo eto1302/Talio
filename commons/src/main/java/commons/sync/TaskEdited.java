@@ -60,7 +60,7 @@ public class TaskEdited extends BoardUpdate {
                 e.getId() == taskID).findFirst().orElse(null);
         task.setTitle(taskEditModel.getTitle());
         task.setDescription(taskEditModel.getDescription());
-        data.getShowCtrl().refreshList(listID);
+        data.getShowCtrl().refreshBoardCtrl();
     }
 
 }

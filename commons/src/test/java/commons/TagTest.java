@@ -46,6 +46,19 @@ class TagTest {
         assertEquals(Color.create("#FFFFFF", "#111111"), testTag.getColor());
     }
 
+
+    @Test
+    public void testGetBoard() {
+        testTag.setBoard(new Board());
+        assertEquals(new Board(), testTag.getBoard());
+    }
+
+    @Test
+    public void testGetBoardId() {
+        testTag.setBoardId(1);
+        assertEquals(1, testTag.getBoardId());
+    }
+
     @Test
     void testEquals() {
         Tag newTag = Tag.create("testTag", color);

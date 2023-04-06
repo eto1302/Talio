@@ -5,6 +5,8 @@ import commons.mocks.IServerUtils;
 import commons.mocks.IUserData;
 import commons.models.IdResponseModel;
 
+import java.util.ArrayList;
+
 public class TaskAdded extends BoardUpdate {
 
     private Task task;
@@ -47,7 +49,8 @@ public class TaskAdded extends BoardUpdate {
     public void apply(IUserData data) {
         commons.List list = data.getCurrentBoard().getLists().stream()
                 .filter(e -> e.getId() == listID).findFirst().orElse(null);
+        if(list.getTasks() == null) {list.setTasks(new ArrayList<>());}
         list.getTasks().add(task);
-        //data.getShowCtrl().addTask(task, list);
+        data.getShowCtrl().addTask(task, list);
     }
 }

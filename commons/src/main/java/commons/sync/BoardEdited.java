@@ -7,30 +7,35 @@ import commons.models.IdResponseModel;
 
 public class BoardEdited extends BoardUpdate {
 
-    private final int boardId;
-    private final BoardEditModel edit;
+    private BoardEditModel edit;
 
     public BoardEdited(int boardId, BoardEditModel edit) {
-        this.boardId = boardId;
+        super(boardId);
         this.edit = edit;
     }
 
-    public int getBoardId() {
-        return boardId;
+    public BoardEdited() {
+        super();
     }
 
     public BoardEditModel getEdit() {
         return edit;
     }
 
+    public void setEdit(BoardEditModel edit) {
+        this.edit = edit;
+    }
+
     @Override
     public IdResponseModel sendToServer(IServerUtils server) {
-        return server.editBoard(boardId, edit);
+        return server.editBoard(super.getBoardID(), edit);
     }
 
     @Override
     public void apply(IUserData data) {
         data.getCurrentBoard().setName(edit.getName());
+        data.getCurrentBoard().setPassword(edit.getPassword());
+        data.getShowCtrl().showBoard();
     }
 
 }

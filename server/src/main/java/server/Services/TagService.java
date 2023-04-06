@@ -10,7 +10,6 @@ import server.database.BoardRepository;
 import server.database.TagRepository;
 import server.database.TaskRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -48,11 +47,11 @@ public class TagService {
 
     public IdResponseModel addTagToTask(Tag tag, int taskID){
         try{
+            tag = tagRepository.getById(tag.getId());
             Task task = taskRepository.getTaskById(taskID);
             Board board = boardRepository.getBoardByID(tag.getBoardId());
             tag.setBoard(board);
-//            task.getTags().add(tag);
-            if(tag.getTasks() == null) {tag.setTasks(new ArrayList<>());}
+            task.getTags().add(tag);
             tag.getTasks().add(task);
             tag.getTaskIDs().add(taskID);
             tagRepository.save(tag);
@@ -88,6 +87,7 @@ public class TagService {
 //                tagRepository.delete(tag);
 //            }
             tagRepository.save(tag);
+//            taskRepository.save(task);
             return new IdResponseModel(tagID, null);
         }
         catch(Exception e){
@@ -95,11 +95,11 @@ public class TagService {
         }
     }
 
-    public IdResponseModel removeFromBoard(int tagID, int boardID){
+    public IdResponseModel removeFromBoard(int tagID){
         try{
             Tag tag = tagRepository.getById(tagID);
-            Board board = boardRepository.getBoardByID(boardID);
-            board.getTags().remove(tag);
+//            Board board = boardRepository.getBoardByID(boardID);
+//            board.getTags().remove(tag);
             tagRepository.delete(tag);
             return new IdResponseModel(tagID, null);
         }

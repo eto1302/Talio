@@ -90,7 +90,7 @@ public class BoardController {
             return ResponseEntity.badRequest().body(null);
         }
     }
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public IdResponseModel deleteBoard(@PathVariable int id) {
         IdResponseModel response = boardService.deleteBoard(id);
         boardService.fireBoardUpdateEvent();
@@ -101,7 +101,7 @@ public class BoardController {
     public boolean verifyAdminPassword(@PathVariable String password) {
         return boardService.verifyAdminPassword(password);
     }
-    @PostMapping("/edit/{boardId}")
+    @PutMapping("/edit/{boardId}")
     public IdResponseModel editBoard(@PathVariable int boardId, @RequestBody BoardEditModel model) {
         IdResponseModel response = boardService.editBoard(boardId, model);
         boardService.fireBoardUpdateEvent();

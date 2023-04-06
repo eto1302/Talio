@@ -8,20 +8,21 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="client.scenes.AddTaskColor">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="247.0" prefWidth="500.0" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddTaskColor">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="9.0" prefHeight="120.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="185.0" minHeight="10.0" prefHeight="200.0" valignment="CENTER" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="166.0" minHeight="10.0" prefHeight="200.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="166.0" minHeight="10.0" prefHeight="159.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="9.0" prefHeight="52.20001220703125" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="185.0" minHeight="10.0" prefHeight="61.8" valignment="CENTER" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="166.0" minHeight="10.0" prefHeight="56.999999999999986" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="166.0" minHeight="10.0" prefHeight="91.6000015258789" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label text="Add Tag Color" GridPane.halignment="CENTER">
+        <Label text="Add Task Color" GridPane.halignment="CENTER">
             <font>
                 <Font size="17.0" />
             </font>
@@ -34,12 +35,12 @@
                 <Insets left="50.0" />
             </GridPane.margin>
         </Label>
-        <ColorPicker fx:id="backgroundColor" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+        <ColorPicker fx:id="backgroundColor" styleClass="buttons" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
             <GridPane.margin>
                 <Insets right="50.0" />
             </GridPane.margin>
         </ColorPicker>
-        <Label alignment="CENTER" text="Font Color" GridPane.rowIndex="2">
+        <Label alignment="CENTER" text="Font Color" GridPane.rowIndex="2" GridPane.valignment="TOP">
             <font>
                 <Font size="17.0" />
             </font>
@@ -47,7 +48,7 @@
                 <Insets left="50.0" />
             </GridPane.margin>
         </Label>
-        <ColorPicker fx:id="fontColor" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+        <ColorPicker fx:id="fontColor" styleClass="buttons" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
             <GridPane.margin>
                 <Insets right="50.0" />
             </GridPane.margin>
@@ -55,6 +56,7 @@
                 <Color />
             </value>
         </ColorPicker>
-        <Button alignment="CENTER" mnemonicParsing="false" onAction="#add" text="Add Tag Color" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <Button alignment="CENTER" mnemonicParsing="false" onAction="#add" styleClass="buttons" text="Add Task Color" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+      <Line endX="100.0" startX="-113.02130889892578" startY="0.17871396243572235" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
     </children>
 </GridPane>

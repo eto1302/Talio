@@ -6,7 +6,7 @@ import client.utils.ServerUtils;
 import commons.Board;
 import commons.Tag;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -29,6 +29,8 @@ public class TagOverviewController {
 
     private List<Tag> tags;
     private Board board;
+
+    private int ind = 0;
 
     @Inject
     public TagOverviewController(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
@@ -55,23 +57,32 @@ public class TagOverviewController {
         showCtrl.showAddTag();
     }
 
-    public void putTag(Scene tagScene, int ind) {
+    public void putTag(Node parent) {
         if (ind % 2 == 0) {
-            tagBoxLeft.getChildren().add(tagScene.getRoot());
+            tagBoxLeft.getChildren().add(parent);
         } else {
-            tagBoxRight.getChildren().add(tagScene.getRoot());
+            tagBoxRight.getChildren().add(parent);
         }
+        ind++;
     }
     public void putTags(List<Tag> tags){
         if(tags == null) return;
         for(int i = 0; i < tags.size(); i++){
-            Scene ts = showCtrl.getTagScene(tags.get(i));
-            putTag(ts, i);
+            showCtrl.putTagSceneOverview(tags.get(i), this);
         }
     }
 
     public void clear(){
         tagBoxLeft.getChildren().clear();
         tagBoxRight.getChildren().clear();
+        ind = 0;
+    }
+
+    public int getInd() {
+        return ind;
+    }
+
+    public void setInd(int ind) {
+        this.ind = ind;
     }
 }

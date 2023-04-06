@@ -10,7 +10,6 @@ import com.google.inject.Inject;
 import commons.Board;
 import commons.mocks.IUserData;
 import commons.models.IdResponseModel;
-import commons.sync.ColorDeleted;
 
 import java.io.*;
 import java.util.HashMap;
@@ -43,6 +42,11 @@ public class UserData implements IUserData {
      * Current opened board, imperative for synchronization
      */
     private Board currentBoard;
+
+    /**
+     * A boolean state to store whether the current board is locked
+     */
+    private boolean currentBoardLocked;
 
     /**
      * Message sender used for synchronization
@@ -153,6 +157,8 @@ public class UserData implements IUserData {
         assert boards.containsKey(identifier);
 
         this.currentBoard = serverUtils.getBoard(identifier);
+        setCurrentBoardLocked(currentBoard.getPassword() != null
+                && currentBoard.getPassword().length() > 0);
         this.messageAdmin.subscribe("/topic/" + BoardUpdate.QUEUE + currentBoard.getId());
         return currentBoard;
     }
@@ -173,6 +179,22 @@ public class UserData implements IUserData {
     }
 
     /**
+     * @return whether the current board is locked
+     */
+    public boolean isCurrentBoardLocked() {
+        return currentBoardLocked;
+    }
+
+    /**
+     * Sets the state of whether the current board is locked (updates UI)
+     * @param currentBoardLocked the desired state
+     */
+    public void setCurrentBoardLocked(boolean currentBoardLocked) {
+        this.currentBoardLocked = currentBoardLocked;
+        showCtrl.updateBoardLockIcon(currentBoardLocked);
+    }
+
+    /**
      * Uses a {@link BoardUpdate} object to update the board in a particular way. This includes
      * updating the current board locally, sending the update to the server, and messaging all
      * other clients about the update.
@@ -181,6 +203,11 @@ public class UserData implements IUserData {
      * @return status of board update, note that no changes are made if status is fail (-1)
      */
     public IdResponseModel updateBoard(BoardUpdate boardUpdate) {
+        if(currentBoardLocked) {
+            showCtrl.showError("Board is locked");
+            return new IdResponseModel(-2, "Board is locked");
+        }
+
         IdResponseModel response = boardUpdate.sendToServer(serverUtils);
         if (response.getId() == -1)
             return response;
@@ -195,15 +222,6 @@ public class UserData implements IUserData {
             return response;
 
         messageSender.send(boardDeleted.getSendQueue(), boardDeleted);
-        return response;
-    }
-
-    public IdResponseModel deleteColor(ColorDeleted colorDeleted) {
-        IdResponseModel response = colorDeleted.sendToServer(serverUtils);
-        if (response.getId() == -1)
-            return response;
-
-        messageSender.send(colorDeleted.getSendQueue(), colorDeleted);
         return response;
     }
 

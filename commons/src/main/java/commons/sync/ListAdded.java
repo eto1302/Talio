@@ -5,6 +5,8 @@ import commons.mocks.IServerUtils;
 import commons.mocks.IUserData;
 import commons.models.IdResponseModel;
 
+import java.util.ArrayList;
+
 public class ListAdded extends BoardUpdate {
 
     private List list;
@@ -35,6 +37,7 @@ public class ListAdded extends BoardUpdate {
 
     @Override
     public void apply(IUserData data) {
+        list.setTasks(new ArrayList<>());
         data.getCurrentBoard().getLists().add(list);
         data.getShowCtrl().addList(list);
     }

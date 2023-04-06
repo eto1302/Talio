@@ -35,11 +35,11 @@ public class Board {
     private java.util.List<List> lists;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private java.util.List<Tag> tags;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private java.util.List<Color> colors;
 
     /**
@@ -65,6 +65,9 @@ public class Board {
      * Creates a new Board object.
      */
     public Board() {
+        this.tags = new ArrayList<>();
+        this.lists = new ArrayList<>();
+        this.colors = new ArrayList<>();
     }
 
     /**
@@ -218,5 +221,9 @@ public class Board {
 
     public void setColors(java.util.List<Color> colors) {
         this.colors = colors;
+    }
+
+    public void setTags(java.util.List<Tag> tags) {
+        this.tags = tags;
     }
 }

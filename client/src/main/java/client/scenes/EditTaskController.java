@@ -1,19 +1,21 @@
 package client.scenes;
 
-import client.scenes.ShowCtrl;
-import client.scenes.ListShapeCtrl;
+import client.Services.ListService;
+import client.Services.SubtaskService;
+import client.Services.TaskService;
+import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.List;
 import commons.Subtask;
 import commons.Tag;
 import commons.Task;
 import commons.models.IdResponseModel;
-import commons.models.TaskEditModel;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import javax.inject.Inject;
 
@@ -27,22 +29,29 @@ public class EditTaskController {
     @FXML
     private VBox subtaskBox, tagBox;
     private commons.Task task;
+    private TaskService taskService;
+    private SubtaskService subtaskService;
+    private ListService listService;
+    @Inject
     private ServerUtils server;
     private ListShapeCtrl listShapeCtrl;
-    private Stage primaryStage;
 
     @Inject
-    public EditTaskController (ShowCtrl showCtrl, ServerUtils serverUtils){
-        this.server = serverUtils;
-        this.showCtrl=showCtrl;
+    public EditTaskController (ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
+        this.showCtrl = showCtrl;
+        this.taskService = new TaskService(userData, serverUtils);
+        this.subtaskService = new SubtaskService(userData, serverUtils);
+        this.listService = new ListService(userData, serverUtils);
     }
 
-    public Scene setup(Task task, ListShapeCtrl listShapeCtrl, Stage primaryStage){
+    public Scene setup(Task task, ListShapeCtrl listShapeCtrl){
         this.task = task;
         this.title.setText(task.getTitle());
+        if(task.getDescription() == null){
+            task.setDescription("");
+        }
         this.descriptionField.setText(task.getDescription());
         this.listShapeCtrl = listShapeCtrl;
-        this.primaryStage = primaryStage;
         return refresh();
     }
 
@@ -59,7 +68,7 @@ public class EditTaskController {
         java.util.List<Tag> tags = server.getTagByTask(task.getId());
         if(tags != null) {
             for(Tag tag: tags){
-                showCtrl.addTagToTask(tag, task);
+                showCtrl.putTagSceneEditTask(tag);
             }
         }
         return title.getScene();
@@ -70,9 +79,9 @@ public class EditTaskController {
         task.getSubtasks().add(subtask);
     }
 
-    public Scene putTag(Scene scene){
-        tagBox.getChildren().add(scene.getRoot());
-        return tagBox.getScene();
+    public void putTag(Node parent){
+        tagBox.getChildren().add(parent);
+
     }
 
     public void cancel(){
@@ -92,11 +101,9 @@ public class EditTaskController {
         String description = this.descriptionField.getText();
         task.setTitle(title);
         task.setDescription(description);
-        List list =server.getList(task.getListID());
+        List list = listService.getList(task.getListID());
 
-        TaskEditModel model = new TaskEditModel(title, description, task.getIndex(),
-                list, task.getColorId());
-        IdResponseModel response = server.editTask(task.getId(), model);
+        IdResponseModel response = taskService.editTask(task, list, task.getIndex());
 
         if (response.getId() == -1) {
             showCtrl.cancel();
@@ -104,7 +111,6 @@ public class EditTaskController {
             return;
         }
 
-        listShapeCtrl.refreshList();
         showCtrl.cancel();
     }
 

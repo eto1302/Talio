@@ -145,8 +145,7 @@ public class Subtask {
         return getId() == subtask.getId() && isChecked() == subtask.isChecked() &&
                 getIndex()==subtask.getIndex() &&
                 getTaskID() == subtask.getTaskID() &&
-                Objects.equals(getDescription(), subtask.getDescription())
-                && Objects.equals(getTask(), subtask.getTask());
+                Objects.equals(getDescription(), subtask.getDescription());
     }
 
     /**
