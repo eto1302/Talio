@@ -65,6 +65,9 @@ public class Board {
      * Creates a new Board object.
      */
     public Board() {
+        this.tags = new ArrayList<>();
+        this.lists = new ArrayList<>();
+        this.colors = new ArrayList<>();
     }
 
     /**
@@ -218,5 +221,9 @@ public class Board {
 
     public void setColors(java.util.List<Color> colors) {
         this.colors = colors;
+    }
+
+    public void setTags(java.util.List<Tag> tags) {
+        this.tags = tags;
     }
 }

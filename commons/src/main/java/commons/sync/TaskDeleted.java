@@ -36,7 +36,7 @@ public class TaskDeleted extends BoardUpdate{
 
     @Override
     public IdResponseModel sendToServer(IServerUtils server) {
-        return server.removeTask(taskID, listID);
+        return server.deleteTask(taskID, listID);
     }
 
     @Override

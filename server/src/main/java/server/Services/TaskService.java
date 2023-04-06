@@ -26,7 +26,7 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public java.util.List<commons.Task> getTasksSortedByIndex(int listId){
+    public java.util.List<commons.Task> getTasksOrderedByIndex(int listId){
         return taskRepository.getTasksByIndex(listId);
     }
 
@@ -51,7 +51,7 @@ public class TaskService {
         }
     }
 
-    public IdResponseModel removeTask(int taskID, int listID){
+    public IdResponseModel deleteTask(int taskID, int listID){
         try{
             commons.List list = listRepositoy.getListByID(listID);
             commons.Task task = taskRepository.getTaskById(taskID);

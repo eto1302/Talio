@@ -10,8 +10,10 @@ import commons.models.TaskEditModel;
 import commons.sync.TaskAdded;
 import commons.sync.TaskDeleted;
 import commons.sync.TaskEdited;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TaskService {
@@ -26,7 +28,11 @@ public class TaskService {
     }
 
     public List<Task> getTasksOrdered(int id) {
-        return serverUtils.getTasksOrdered(id);
+        ResponseEntity<Task[]> response = serverUtils.getTasksOrdered(id);
+        if(!response.getStatusCode().is2xxSuccessful()){
+            return new ArrayList<>();
+        }
+        return Arrays.asList(response.getBody());
     }
 
     public Task getTask(int id) {
@@ -46,8 +52,12 @@ public class TaskService {
                 .stream().filter(Color::getIsDefault).findFirst().get().getId();
         task.setTitle(title);
         task.setColorId(colorId);
-        java.util.List<Task> tasks = serverUtils.getTaskByList(list.getId());
-        task.setIndex(tasks.size());
+        ResponseEntity<Task[]> response = serverUtils.getTaskByList(list.getId());
+        if(!response.getStatusCode().is2xxSuccessful()){
+            return new IdResponseModel(-1, "Couldn't get tasks by list");
+        }
+        Task[] tasks = response.getBody();
+        task.setIndex(tasks.length);
 
         return userData.updateBoard(new
                 TaskAdded(list.getBoardId(), list.getId(), task));

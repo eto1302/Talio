@@ -23,6 +23,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class ListShapeCtrl {
@@ -99,6 +100,7 @@ public class ListShapeCtrl {
      */
     public void updateScene(List list, BoardController boardController) {
         this.list = list;
+        list.setTasks(new ArrayList<>());
         this.boardController = boardController;
         this.taskControllers = new LinkedList<>();
         text = new TextField();
@@ -161,9 +163,10 @@ public class ListShapeCtrl {
      * Adds the task inside the box with tasks
      * @param root the grid representing the task UI
      */
-    public void addTask(Parent root, TaskShape controller) {
+    public void addTask(Parent root, TaskShape controller, Task task) {
         tasksBox.getChildren().add(root);
         taskControllers.addLast(controller);
+        list.getTasks().add(task);
     }
 
     /**

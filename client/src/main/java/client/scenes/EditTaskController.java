@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.Services.ListService;
 import client.Services.SubtaskService;
+import client.Services.TagService;
 import client.Services.TaskService;
 import client.user.UserData;
 import client.utils.ServerUtils;
@@ -16,7 +17,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import javax.inject.Inject;
 
@@ -33,9 +33,8 @@ public class EditTaskController {
     private TaskService taskService;
     private SubtaskService subtaskService;
     private ListService listService;
-    private ServerUtils server;
+    private TagService tagService;
     private ListShapeCtrl listShapeCtrl;
-    private Stage primaryStage;
 
     @Inject
     public EditTaskController (ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
@@ -43,9 +42,10 @@ public class EditTaskController {
         this.taskService = new TaskService(userData, serverUtils);
         this.subtaskService = new SubtaskService(userData, serverUtils);
         this.listService = new ListService(userData, serverUtils);
+        this.tagService = new TagService(userData, serverUtils);
     }
 
-    public Scene setup(Task task, ListShapeCtrl listShapeCtrl, Stage primaryStage){
+    public Scene setup(Task task, ListShapeCtrl listShapeCtrl){
         this.task = task;
         this.title.setText(task.getTitle());
         if(task.getDescription() == null){
@@ -53,13 +53,12 @@ public class EditTaskController {
         }
         this.descriptionField.setText(task.getDescription());
         this.listShapeCtrl = listShapeCtrl;
-        this.primaryStage = primaryStage;
         return refresh();
     }
 
     public Scene refresh(){
         subtaskBox.getChildren().clear();
-        java.util.List<Subtask> subtasks = server.getSubtasksOrdered(task.getId());
+        java.util.List<Subtask> subtasks = subtaskService.getSubtasksOrdered(task.getId());
         if(subtasks != null) {
             for(Subtask subtask: subtasks){
                 showCtrl.addSubTask(subtask, this);
@@ -67,7 +66,7 @@ public class EditTaskController {
         }
 //        java.util.List<Tag> tags = task.getTags();
         cleanTagBox();
-        java.util.List<Tag> tags = server.getTagByTask(task.getId());
+        java.util.List<Tag> tags = tagService.getTagByTask(task.getId());
         if(tags != null) {
             for(Tag tag: tags){
                 showCtrl.putTagSceneEditTask(tag);

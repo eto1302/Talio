@@ -7,8 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,11 +29,12 @@ public class SubtaskServiceTest {
     }
     @Test
     public void getSubtasksOrderedTest(){
+        Subtask[] expected = new Subtask[1];
         when(mockServerUtils.getSubtasksOrdered(any(Integer.class)))
-                .thenReturn(new ArrayList<Subtask>());
+                .thenReturn(new ResponseEntity<>(expected, HttpStatus.OK));
         List<Subtask> response = this.subtaskService.getSubtasksOrdered(1);
         verify(mockServerUtils, times(1))
                 .getSubtasksOrdered(any(Integer.class));
-        assertEquals(new ArrayList<Subtask>(), response);
+        assertEquals(Arrays.asList(expected), response);
     }
 }

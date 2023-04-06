@@ -1,5 +1,6 @@
 package client.scenes.tags;
 
+import client.Services.TagService;
 import client.scenes.ShowCtrl;
 import client.scenes.EditTaskController;
 import client.user.UserData;
@@ -22,11 +23,7 @@ import javax.inject.Inject;
 
 public class TagShapeController {
 
-    @Inject
     private ShowCtrl showCtrl;
-    @Inject
-    private ServerUtils serverUtils;
-    @Inject
     private UserData userData;
 
     @FXML
@@ -37,8 +34,13 @@ public class TagShapeController {
     private Tag tag;
 
     private EditTaskController taskController;
+    private TagService tagService;
 
-    public TagShapeController() {
+    @Inject
+    public TagShapeController(UserData userData, ServerUtils serverUtils, ShowCtrl showCtrl) {
+        this.tagService = new TagService(userData, serverUtils);
+        this.showCtrl = showCtrl;
+        this.userData = userData;
     }
 
     /**
@@ -151,7 +153,7 @@ public class TagShapeController {
      * @return boolean representing whether the tag is valid
      */
     private boolean validateTagBeforeAdd(Tag tag, Task task){
-        java.util.List<Tag> tags = serverUtils.getTagByTask(task.getId());
+        java.util.List<Tag> tags = this.tagService.getTagByTask(task.getId());
         return !tags.contains(tag);
     }
 
