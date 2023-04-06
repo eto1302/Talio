@@ -27,6 +27,8 @@ public class ColorService {
     public IdResponseModel addColor(Color backgroundColor, Color fontColor) {
         commons.Color color = commons.Color.create(colorToHex(backgroundColor),
                 colorToHex(fontColor));
+        color.setBoardId(userData.getCurrentBoard().getId());
+        color.setBoard(null);
         if(this.userData.getCurrentBoard().getColors().size() == 2) color.setIsDefault(true);
         IdResponseModel model = userData.updateBoard(new ColorAdded(
                 this.userData.getCurrentBoard().getId(), color));

@@ -3,6 +3,7 @@ package client.scenes;
 import client.Services.BoardService;
 import client.Services.TaskService;
 import client.user.UserData;
+import client.utils.Constants;
 import client.utils.ServerUtils;
 import commons.Board;
 import commons.Task;
@@ -14,7 +15,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.Lighting;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -52,11 +52,6 @@ public class BoardController {
     private UserData userData;
     private BoardService boardService;
     private TaskService taskService;
-
-    private static final Image LOCKED_IMG = new Image(
-            "file:client/build/resources/main/icons/lock.png");
-    private static final Image UNLOCKED_IMG = new Image(
-            "file:client/build/resources/main/icons/unlock.png");
 
     @Inject
     public BoardController(ShowCtrl showCtrl, ServerUtils server, UserData userData) {
@@ -190,7 +185,7 @@ public class BoardController {
     }
 
     public void updateLockIcon(boolean locked) {
-        lockIcon.setImage(locked ? LOCKED_IMG : UNLOCKED_IMG);
+        lockIcon.setImage(locked ? Constants.LOCKED_IMG : Constants.UNLOCKED_IMG);
         editIcon.setVisible(!locked);
         deleteIcon.setVisible(!locked);
     }
