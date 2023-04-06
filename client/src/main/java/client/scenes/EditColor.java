@@ -19,6 +19,7 @@ public class EditColor {
     private Color color;
     @Inject
     private ShowCtrl showCtrl;
+    private UserData userData;
 
     @Inject
     public EditColor(UserData userData, ServerUtils serverUtils) {
@@ -32,6 +33,10 @@ public class EditColor {
     }
 
     public void edit() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         IdResponseModel model = colorService.editColor(color.getId(),
                 backgroundColor.getValue(), fontColor.getValue(), color.getIsDefault());
         if(model.getId() < 0){

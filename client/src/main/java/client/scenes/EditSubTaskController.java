@@ -28,7 +28,6 @@ public class EditSubTaskController {
 
     public void editSubTask() {
         String name = this.description.getText();
-
     }
 }
 

@@ -26,13 +26,19 @@ public class TaskColorShape {
     private ShowCtrl showCtrl;
     private Color color;
     private ColorService colorService;
+    private UserData userData;
 
     @Inject
     public TaskColorShape(UserData userData, ServerUtils serverUtils){
         this.colorService = new ColorService(userData, serverUtils);
+        this.userData = userData;
     }
 
     public void delete() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         IdResponseModel response = colorService.deleteColor(color);
         if(response.getId() < 0){
             showCtrl.cancel();

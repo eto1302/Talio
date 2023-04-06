@@ -50,6 +50,7 @@ public class ListShapeCtrl {
     private BoardService boardService;
     private TaskService taskService;
     private TextField text;
+    private UserData userData;
 
     @Inject
     public ListShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
@@ -57,6 +58,7 @@ public class ListShapeCtrl {
         this.listService = new ListService(userData, serverUtils);
         this.boardService = new BoardService(userData, serverUtils);
         this.taskService = new TaskService(userData, serverUtils);
+        this.userData = userData;
     }
 
     public void updateScrollPane(int index){
@@ -77,15 +79,21 @@ public class ListShapeCtrl {
      * sends a message for board deletion, invoked from FXML
      */
     public void initiateDeleteList() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         IdResponseModel response = this.listService.deleteList(list);
-        if (response.getId() < 0)
+        if (response.getId() < 0) {
             showCtrl.showError(response.getErrorMessage());
+        }
     }
 
     /**
      * shows the window with options for editing the list
      */
     public void editList(){
+
         if(list == null) {
             showCtrl.showError("Failed to get the list...");
             return;
@@ -152,6 +160,10 @@ public class ListShapeCtrl {
      * shows the add task window
      */
     public void showAddTask(){
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         text.setPrefWidth(200);
         hbox.getChildren().remove(deleteList);
         hbox.getChildren().remove(addTask);
@@ -174,6 +186,10 @@ public class ListShapeCtrl {
      * @param taskId the ID of the task to remove
      */
     public void removeTask(int taskId) {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         TaskShape controller = taskControllers.stream().filter(e ->
                 e.getTask().getId() == taskId).findFirst().orElse(null);
         if(controller != null) {
@@ -205,6 +221,10 @@ public class ListShapeCtrl {
      * @param event the drag event
      */
     public void dragDrop(DragEvent event) {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         Dragboard dragboard = event.getDragboard();
         boolean done = false;
         Object source = event.getGestureSource();

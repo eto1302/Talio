@@ -16,11 +16,13 @@ public class EditListController {
     private ShowCtrl showCtrl;
     private List list;
     private ListService listService;
+    private UserData userData;
 
     @Inject
     private EditListController(ShowCtrl showCtrl, ServerUtils server, UserData userData) {
         this.showCtrl = showCtrl;
         this.listService = new ListService(userData, server);
+        this.userData = userData;
     }
 
     public void cancel(){
@@ -41,6 +43,11 @@ public class EditListController {
      * Gets the values from the fields and edits the list accordingly.
      */
     public void edit(){
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
+
         IdResponseModel response = this.listService.editList(list, newTitle.getText());
 
         if (response.getId() < 0) {

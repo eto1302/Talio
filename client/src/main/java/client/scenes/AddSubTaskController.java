@@ -41,6 +41,10 @@ public class AddSubTaskController {
     }
 
     public void addSubTask() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         String name = this.description.getText();
         Subtask subtask = Subtask.create(name, false, task.getId());
         java.util.List<Subtask> subtasks = server.getSubtasksByTask(task.getId());
