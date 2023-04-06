@@ -232,8 +232,6 @@ public class ListShapeCtrl {
 
         if (previousListId!=list.getId()) {
             Task task = taskService.getTask(taskId);
-            List previousList = listService.getList(previousListId);
-            previousList.getTasks().remove(task);
 
             tasksBox.getChildren().add(((GridPane) source));
             int newIndex= tasksBox.getChildren().indexOf((GridPane) source);

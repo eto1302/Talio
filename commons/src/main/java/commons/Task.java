@@ -199,8 +199,7 @@ public class Task {
         Task task = (Task) o;
         return getId() == task.getId() &&
                 Objects.equals(getDescription(), task.getDescription())
-                && Objects.equals(getTitle(), task.getTitle())
-                && Objects.equals(getListID(), task.getListID());
+                && Objects.equals(getTitle(), task.getTitle());
     }
 
     /**
