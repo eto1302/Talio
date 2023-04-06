@@ -34,6 +34,8 @@ public class AddTaskColor {
             return;
         }
         showCtrl.cancel();
+        if(!showCtrl.isColorPickerOpen())
+            showCtrl.showColorPicker();
     }
 
     public void cancel(){

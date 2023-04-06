@@ -27,6 +27,8 @@ public class ColorService {
     public IdResponseModel addColor(Color backgroundColor, Color fontColor) {
         commons.Color color = commons.Color.create(colorToHex(backgroundColor),
                 colorToHex(fontColor));
+        color.setBoardId(userData.getCurrentBoard().getId());
+        color.setBoard(null);
         if(this.userData.getCurrentBoard().getColors().size() == 2) color.setIsDefault(true);
         IdResponseModel model = userData.updateBoard(new ColorAdded(
                 this.userData.getCurrentBoard().getId(), color));
@@ -61,7 +63,6 @@ public class ColorService {
 
         IdResponseModel idResponseModel = userData.updateBoard(new ColorEdited(
                 board.getId(), id, model));
-        this.userData.openBoard(board.getId());
         return idResponseModel;
     }
 
@@ -92,7 +93,6 @@ public class ColorService {
                 colorToHex(colorBackground),colorToHex(colorFont), true);
         IdResponseModel model = userData.updateBoard(new ColorEdited(
                 this.userData.getCurrentBoard().getId(), id, edit));
-        userData.openBoard(this.userData.getCurrentBoard().getId());
         return model;
     }
 
@@ -102,7 +102,6 @@ public class ColorService {
         }
         IdResponseModel model = this.userData.updateBoard(
                 new ColorDeleted(this.userData.getCurrentBoard().getId(), color.getId()));
-        this.userData.openBoard(this.userData.getCurrentBoard().getId());
         return model;
     }
 

@@ -570,6 +570,10 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.show();
     }
 
+    public boolean isColorPickerOpen() {
+        return secondaryStage.isShowing() && secondaryStage.getScene() == colorPicker;
+    }
+
     public void showTaskColorPicker(Task task) {
         secondaryStage = new Stage();
         secondaryStage.setTitle("Task Color Picker");
