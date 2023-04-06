@@ -1,9 +1,6 @@
 package client.scenes;
 
-import client.Services.BoardService;
-import client.Services.ColorService;
-import client.Services.ListService;
-import client.Services.TaskService;
+import client.Services.*;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.*;
@@ -52,6 +49,7 @@ public class TaskShape {
     private ColorService colorService;
     private BoardService boardService;
     private ListService listService;
+    private TagService tagService;
     private Color taskColor;
 
 
@@ -62,6 +60,7 @@ public class TaskShape {
         this.colorService = new ColorService(userData, serverUtils);
         this.boardService = new BoardService(userData, serverUtils);
         this.listService = new ListService(userData, serverUtils);
+        this.tagService = new TagService(userData, serverUtils);
     }
 
     public void setTaskUpdated() {
@@ -158,7 +157,7 @@ public class TaskShape {
 
     //TODO: refactor to service
     public void refreshTagMarkers(Task task){
-        java.util.List<Tag> tags = server.getTagByTask(task.getId());
+        java.util.List<Tag> tags = this.tagService.getTagByTask(task.getId());
         tagMarkerContainer.getChildren().remove(0, tagMarkerContainer.getChildren().size());
         if(tags == null || tags.isEmpty()){
             return;
@@ -273,7 +272,7 @@ public class TaskShape {
             VBox parent = (VBox) grid.getParent();
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
             ArrayList<Task> orderedTasks=
-                (ArrayList<Task>) server.getTasksOrdered(task.getListID());
+                (ArrayList<Task>) taskService.getTasksOrdered(task.getListID());
 
             rearrange(source, parent, children, orderedTasks);
             reorderTasks(orderedTasks, currentlist);
@@ -293,7 +292,7 @@ public class TaskShape {
             taskService.editTask(previousTask, currentlist, newIndex);
 
             currentlist.getTasks().add(previousTask);
-            java.util.List<Task> previousListTasks = server.getTasksOrdered(previousListId);
+            java.util.List<Task> previousListTasks = taskService.getTasksOrdered(previousListId);
             reorderTasks(previousListTasks, previousList);
             done=true;
         }
@@ -355,7 +354,7 @@ public class TaskShape {
         VBox parent = (VBox) grid.getParent();
         ArrayList<Node> children = new ArrayList<>(parent.getChildren());
         ArrayList<Task> orderedTasks =
-            (ArrayList<Task>) server.getTasksOrdered(task.getListID());
+            (ArrayList<Task>) taskService.getTasksOrdered(task.getListID());
         var controllers = controller.getTaskControllers();
         List list = server.getList(task.getListID());
 

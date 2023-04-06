@@ -1,6 +1,8 @@
 package client.scenes;
 
+import client.Services.SubtaskService;
 import client.scenes.ShowCtrl;
+import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Subtask;
 import commons.models.IdResponseModel;
@@ -34,11 +36,13 @@ public class SubTaskShapeCtrl {
     private Subtask subtask;
     private TextField text;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
+    private SubtaskService subtaskService;
 
     @Inject
-    public SubTaskShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils){
+    public SubTaskShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData){
         this.showCtrl = showCtrl;
         this.serverUtils = serverUtils;
+        this.subtaskService = new SubtaskService(userData, serverUtils);
     }
 
     public void setup(Subtask subtask){
@@ -177,8 +181,9 @@ public class SubTaskShapeCtrl {
             int targetIndex = parent.getChildren().indexOf(grid);
 
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
-            ArrayList<Subtask> orderedSubtasks=
-                    (ArrayList<Subtask>) serverUtils.getSubtasksOrdered(subtask.getTaskID());
+            ArrayList<Subtask> orderedSubtasks= (ArrayList<Subtask>)
+                    this.subtaskService.getSubtasksOrdered(
+                    subtask.getTaskID());
 
             if (sourceIndex<targetIndex) {
                 Collections.rotate(children.subList(sourceIndex, targetIndex + 1), -1);

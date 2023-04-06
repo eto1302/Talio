@@ -68,7 +68,7 @@ class TaskServiceTest {
     void testGetTasksSortedByIndex(){
         when(mockTaskRepo.getTasksByIndex(anyInt())).thenReturn(Arrays.asList(task2, task1));
 
-        java.util.List<Task> list = mockService.getTasksSortedByIndex(anyInt());
+        java.util.List<Task> list = mockService.getTasksOrderedByIndex(anyInt());
         assertEquals(2, list.size());
         assertEquals(task1, list.get(1));
         verify(mockTaskRepo, times(1)).getTasksByIndex(anyInt());
@@ -121,7 +121,7 @@ class TaskServiceTest {
 
         int taskId = random.nextInt(100);
         int listId = random.nextInt(100);
-        IdResponseModel test = mockService.removeTask(taskId, listId);
+        IdResponseModel test = mockService.deleteTask(taskId, listId);
 
         assertEquals(test.getId(), taskId);
         verify(mockTaskRepo, times(1)).delete(task1);
@@ -133,7 +133,7 @@ class TaskServiceTest {
 
         int taskId = random.nextInt(100);
         int listId = random.nextInt(100);
-        IdResponseModel test = mockService.removeTask(taskId, listId);
+        IdResponseModel test = mockService.deleteTask(taskId, listId);
 
         assertEquals(-1, test.getId());
         verify(mockTaskRepo, times(0)).delete(task1);
