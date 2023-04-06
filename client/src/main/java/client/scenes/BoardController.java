@@ -52,6 +52,7 @@ public class BoardController {
     private UserData userData;
     private BoardService boardService;
     private TaskService taskService;
+    private String identify = null;
 
     @Inject
     public BoardController(ShowCtrl showCtrl, ServerUtils server, UserData userData) {
@@ -106,6 +107,13 @@ public class BoardController {
             }
         }
 
+        if (identify!=null){
+            int listSelect = Integer.parseInt(identify.split("\\+")[0].trim());
+            int taskSelect = Integer.parseInt(identify.split("\\+")[1].trim());
+            selectedList=listControllers.get(listSelect);
+            selectedTask=selectedList.getTaskControllers().get(taskSelect);
+            selectedTask.setStatus(true);
+        }
     }
 
     public void showYourBoards(){
@@ -203,11 +211,14 @@ public class BoardController {
         else if (selectedTask!=null && !editable){
             int index = selectedList.getTaskControllers().indexOf(selectedTask);
             TaskShape copy = selectedTask;
+            int listSelect = listControllers.indexOf(selectedList);
 
             switch (key){
                 case DOWN:
                 case KP_DOWN:
                 case S:
+                    int select = index!=selectedList.getTaskControllers().size()-1 ? index+1:index;
+                    identify = listSelect+"+"+select;
                     selectedTask.orderWithKeyEvent(index, "down");
                     if (index!=selectedList.getTaskControllers().size()-1) {
                         selectedTask = selectedList.getTaskControllers().get(index + 1);
@@ -215,10 +226,11 @@ public class BoardController {
                     } else selectedTask=copy;
                     selectedTask.setStatus(true);
                     break;
-
                 case UP:
                 case KP_UP:
                 case W:
+                    int select1 = index!=0 ? index-1:index;
+                    identify = listSelect+"+"+select1;
                     selectedTask.orderWithKeyEvent(index, "up");
                     if (index!=0) {
                         selectedTask = selectedList.getTaskControllers().get(index - 1);
@@ -227,10 +239,8 @@ public class BoardController {
                     else selectedTask=copy;
                     selectedTask.setStatus(true);
                     break;
-
             }
         }
-
         else if (editable)
             if (key==KeyCode.ENTER) {
                 editable=false;

@@ -353,7 +353,7 @@ public class TaskShape {
         VBox parent = (VBox) grid.getParent();
         ArrayList<Node> children = new ArrayList<>(parent.getChildren());
         ArrayList<Task> orderedTasks =
-            (ArrayList<Task>) taskService.getTasksOrdered(task.getListID());
+                new ArrayList<>(taskService.getTasksOrdered(task.getListID()));
         var controllers = controller.getTaskControllers();
         List list = server.getList(task.getListID());
 
