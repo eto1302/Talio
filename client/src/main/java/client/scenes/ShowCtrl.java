@@ -312,6 +312,9 @@ public class ShowCtrl implements IShowCtrl {
         primaryStage.setScene(scene);
     }
     public void showError(String errorMessage) {
+        if(popUpStage != null){
+            closePopUp();
+        }
         popUpStage = new Stage();
         popUpStage.setScene(errorScene);
         popUpStage.setTitle("error");

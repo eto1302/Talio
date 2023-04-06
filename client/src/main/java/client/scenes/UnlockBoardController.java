@@ -25,7 +25,6 @@ public class UnlockBoardController {
     }
 
     public void setCurrentPassword(String password) {
-
         this.passwordField.setText(password);
     }
 
