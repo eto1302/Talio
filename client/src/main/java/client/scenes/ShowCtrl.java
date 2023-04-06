@@ -171,18 +171,6 @@ public class ShowCtrl implements IShowCtrl {
         popUpStage.show();
     }
 
-    public void showEditSubTask(Subtask subtask) {
-        popUpStage = new Stage();
-        var editSubtaskPair = FXML.load(EditSubTaskController.class,
-                "client", "scenes", "AddSubTask.fxml");
-        Scene editSubtaskScene = new Scene(editSubtaskPair.getValue());
-        editSubtaskPair.getKey().setup(subtask);
-
-        popUpStage.setScene(editSubtaskScene);
-        popUpStage.setTitle("Edit a sub-task");
-        popUpStage.show();
-    }
-
     public void showBoard(){
         primaryStage.setTitle("Board");
         boardController.setup();
