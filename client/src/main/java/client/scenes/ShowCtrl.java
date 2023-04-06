@@ -318,6 +318,7 @@ public class ShowCtrl implements IShowCtrl {
         popUpStage.setTitle("error");
         errorController.setErrorMessage(errorMessage);
         popUpStage.show();
+        this.cancel();
     }
 
     public void closePopUp() {
@@ -357,7 +358,7 @@ public class ShowCtrl implements IShowCtrl {
     public void showAddTag(){
         popUpStage = new Stage();
         var addTagPair = FXML.load(AddTagController.class,
-                "client", "scenes", "AddTagToTask.fxml");
+                "client", "scenes", "AddTag.fxml");
         Scene addTagScene = new Scene(addTagPair.getValue());
 
         popUpStage.setScene(addTagScene);
@@ -450,7 +451,8 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     public void putTagSceneOverview(Tag tag, TagOverviewController cntr){
-        var tagPair = FXML.load(TagShapeController.class, "client", "scenes", "TagShape.fxml");
+        var tagPair = FXML.load(TagShapeController.class,
+                "client", "scenes", "TagShape.fxml");
 //        Scene initializeTagShape = new Scene(tagPair.getValue());
         TagShapeController tagShapeController = tagPair.getKey();
         tagShapeController.updateScene(tag);
