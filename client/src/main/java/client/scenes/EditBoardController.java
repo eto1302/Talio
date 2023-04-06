@@ -16,7 +16,6 @@ public class EditBoardController {
     @Inject
     private ShowCtrl showCtrl;
     private BoardService boardService;
-    @Inject
     private final UserData userData;
 
     @Inject

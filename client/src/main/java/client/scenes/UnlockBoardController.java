@@ -16,7 +16,6 @@ public class UnlockBoardController {
     @FXML
     private CheckBox remember;
 
-    @Inject
     private final UserData userData;
 
     @Inject

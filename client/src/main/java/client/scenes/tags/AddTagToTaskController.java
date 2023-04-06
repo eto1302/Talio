@@ -21,9 +21,7 @@ import java.util.stream.Collectors;
 
 public class AddTagToTaskController {
     private ShowCtrl showCtrl;
-    @Inject
     private final ServerUtils serverUtils;
-    @Inject
     private final UserData userData;
 
     @FXML

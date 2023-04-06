@@ -19,7 +19,6 @@ public class EditColor {
     private Color color;
     @Inject
     private ShowCtrl showCtrl;
-    @Inject
     private final UserData userData;
 
     @Inject

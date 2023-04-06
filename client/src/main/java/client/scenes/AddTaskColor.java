@@ -18,7 +18,6 @@ public class AddTaskColor {
     private ShowCtrl showCtrl;
 
     private ColorService colorService;
-    @Inject
     private final UserData userData;
 
     @Inject

@@ -22,7 +22,6 @@ public class AddSubTaskController {
     private TextArea description;
     private Task task;
 
-    @Inject
     private final UserData userData;
 
     @Inject

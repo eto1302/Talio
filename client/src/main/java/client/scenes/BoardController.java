@@ -49,7 +49,6 @@ public class BoardController {
     private ListShapeCtrl selectedList=null;
     private TaskShape selectedTask=null;
     private boolean editable = false;
-    @Inject
     private final UserData userData;
     private BoardService boardService;
     private TaskService taskService;

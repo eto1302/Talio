@@ -17,7 +17,6 @@ public class AddListController {
     private final ShowCtrl showCtrl;
     private ListService listService;
 
-    @Inject
     private final UserData userData;
 
     @Inject

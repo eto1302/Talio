@@ -21,7 +21,6 @@ public class LockBoardController {
     private PasswordField confirmPasswordField;
     @FXML
     private Button lockBoardButton;
-    @Inject
     private final UserData userData;
 
     private Board adminModeBoard;

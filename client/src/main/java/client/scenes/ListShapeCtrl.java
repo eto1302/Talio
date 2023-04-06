@@ -50,7 +50,6 @@ public class ListShapeCtrl {
     private BoardService boardService;
     private TaskService taskService;
     private TextField text;
-    @Inject
     private final UserData userData;
 
     @Inject

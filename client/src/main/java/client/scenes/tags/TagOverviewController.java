@@ -17,9 +17,7 @@ import java.util.List;
 
 public class TagOverviewController {
     private ShowCtrl showCtrl;
-    @Inject
     private final ServerUtils serverUtils;
-    @Inject
     private final UserData userData;
 
     @FXML
