@@ -87,7 +87,7 @@ public class TaskShape {
                 if (event.getButton().equals(MouseButton.PRIMARY))
                     if (event.getClickCount()==2) {
                         setTaskUpdated();
-                        showCtrl.showEditTask(task, controller);
+                        showCtrl.showEditTask(task, controller, TaskShape.this);
                     }
             }
         });

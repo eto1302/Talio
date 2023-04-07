@@ -14,6 +14,7 @@ import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -29,12 +30,15 @@ public class EditTaskController {
     private TextArea descriptionField;
     @FXML
     private VBox subtaskBox, tagBox;
+    @FXML
+    private Label mode;
     private commons.Task task;
     private TaskService taskService;
     private SubtaskService subtaskService;
     private ListService listService;
     private TagService tagService;
     private ListShapeCtrl listShapeCtrl;
+    private TaskShape taskShapeCtrl;
 
     @Inject
     public EditTaskController (ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
@@ -45,14 +49,18 @@ public class EditTaskController {
         this.tagService = new TagService(userData, serverUtils);
     }
 
-    public Scene setup(Task task, ListShapeCtrl listShapeCtrl){
+    public Scene setup(Task task, ListShapeCtrl listShapeCtrl, TaskShape taskShapeCtrl){
         this.task = task;
         this.title.setText(task.getTitle());
         if(task.getDescription() == null){
             task.setDescription("");
         }
+        if (listShapeCtrl.getBoardController().isLocked())
+            mode.setText("Read-Only Mode");
+
         this.descriptionField.setText(task.getDescription());
         this.listShapeCtrl = listShapeCtrl;
+        this.taskShapeCtrl=taskShapeCtrl;
         return refresh();
     }
 
@@ -134,5 +142,10 @@ public class EditTaskController {
 
     private void cleanTagBox() {
         tagBox.getChildren().remove(0, tagBox.getChildren().size());
+    }
+
+    public void deleteTask(){
+        taskShapeCtrl.delete();
+        showCtrl.cancel();
     }
 }

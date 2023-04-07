@@ -48,7 +48,7 @@ public class BoardController {
     private LinkedList<ListShapeCtrl> listControllers;
     private ListShapeCtrl selectedList=null;
     private TaskShape selectedTask=null;
-    private boolean editable = false;
+    private boolean editable = false, locked;
     private UserData userData;
     private BoardService boardService;
     private TaskService taskService;
@@ -113,6 +113,7 @@ public class BoardController {
             selectedList=listControllers.get(listSelect);
             selectedTask=selectedList.getTaskControllers().get(taskSelect);
             selectedTask.setStatus(true);
+            selectedList.updateScrollPane(taskSelect);
         }
     }
 
@@ -164,7 +165,7 @@ public class BoardController {
         showCtrl.showConnection();
     }
 
-    public void showEditBoard() { showCtrl.showEditBoard();}
+    public void showEditBoard() { showCtrl.showColorPicker();}
 
     public void delete() {
         IdResponseModel response = this.boardService.delete(
@@ -196,6 +197,11 @@ public class BoardController {
         lockIcon.setImage(locked ? Constants.LOCKED_IMG : Constants.UNLOCKED_IMG);
         editIcon.setVisible(!locked);
         deleteIcon.setVisible(!locked);
+        this.locked=locked;
+    }
+
+    public boolean isLocked() {
+        return locked;
     }
 
     public void movement(KeyEvent event){
@@ -277,7 +283,7 @@ public class BoardController {
                 selectedTask.deleteOnKey();
                 break;
             case ENTER:
-                showCtrl.showEditTask(selectedTask.getTask(), selectedList);
+                showCtrl.showEditTask(selectedTask.getTask(), selectedList, selectedTask);
                 break;
             case E:
                 editable=true;
