@@ -28,7 +28,7 @@ class TaskTest {
 
     @Test
     void create() {
-        Task task = Task.create("Description", "Title", 1, null);
+        Task task = new Task("Description", "Title", 1, null);
         assertNotNull(task);
         assertEquals(0, task.getId());
         assertEquals("Description", task.getDescription());
@@ -75,8 +75,8 @@ class TaskTest {
         assertFalse(task1.equals(null));
         assertFalse(task1.equals(new Object()));
         assertFalse(task1.equals(task2));
-        assertFalse(task1.equals(Task.create("Description 1", "Title 2", 1, null)));
-        assertFalse(task1.equals(Task.create("Description 2", "Title 1", 2, null)));
+        assertFalse(task1.equals(new Task("Description 1", "Title 2", 1, null)));
+        assertFalse(task1.equals(new Task("Description 2", "Title 1", 2, null)));
     }
 
     @Test

@@ -34,7 +34,7 @@ import java.util.*;
 
 public class ServerUtils implements IServerUtils {
     private RestTemplate client;
-    private static String url = "http://localhost:8080/";
+    private String url = "http://localhost:8080/";
 
     @Inject
     public ServerUtils(RestTemplate mockClient) {

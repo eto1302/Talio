@@ -22,7 +22,7 @@ public class ListService {
     }
 
     public IdResponseModel addList(String name) {
-        List list = List.create(name,this.userData.getCurrentBoard().getId(),
+        List list = new List(name,this.userData.getCurrentBoard().getId(),
                 new ArrayList<Task>());
         return userData.updateBoard(new
                 ListAdded(userData.getCurrentBoard().getId(), list));

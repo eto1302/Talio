@@ -48,19 +48,15 @@ public class Board {
      * @param name     The name of the board.
      * @param password The password of the board.
      * @param lists    The set of lists associated with the board.
-     * @return A new Board object with the given name, password, and set of lists.
      */
-    public static Board create(String name, String password, java.util.List<List> lists,
+    public Board (String name, String password, java.util.List<List> lists,
                                java.util.List<Color> colors, java.util.List<Tag> tags) {
-        Board board = new Board();
-        board.name = name;
-        board.password = password;
-        board.lists = lists;
-        board.colors = colors;
-        board.tags = tags;
-        return board;
+        this.name = name;
+        this.password = password;
+        this.lists = lists;
+        this.colors = colors;
+        this.tags = tags;
     }
-
     /**
      * Creates a new Board object.
      */

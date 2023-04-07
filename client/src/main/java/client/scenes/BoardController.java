@@ -3,7 +3,6 @@ package client.scenes;
 import client.Services.BoardService;
 import client.Services.TaskService;
 import client.user.UserData;
-import client.utils.Constants;
 import client.utils.ServerUtils;
 import commons.Board;
 import commons.Task;
@@ -15,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.Lighting;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -49,15 +49,18 @@ public class BoardController {
     private ListShapeCtrl selectedList=null;
     private TaskShape selectedTask=null;
     private boolean editable = false, locked;
-    private UserData userData;
     private BoardService boardService;
     private TaskService taskService;
+
+    private final Image lockedImage = new Image(
+            "file:client/build/resources/main/icons/lock.png");
+    private final Image unlockedImage = new Image(
+            "file:client/build/resources/main/icons/unlock.png");
     private String identify = null;
 
     @Inject
     public BoardController(ShowCtrl showCtrl, ServerUtils server, UserData userData) {
         this.showCtrl = showCtrl;
-        this.userData = userData;
         this.boardService = new BoardService(userData, server);
         this.taskService = new TaskService(userData, server);
     }
@@ -140,8 +143,8 @@ public class BoardController {
     }
 
     public void showTagOverview() {
-        userData.refresh();
-        showCtrl.showTagOverview(userData.getCurrentBoard());
+        boardService.refresh();
+        showCtrl.showTagOverview(boardService.getCurrentBoard());
     }
 
     /**
@@ -165,7 +168,9 @@ public class BoardController {
         showCtrl.showConnection();
     }
 
-    public void showEditBoard() { showCtrl.showColorPicker();}
+    public void showEditBoard() {
+        showCtrl.showEditBoard();
+    }
 
     public void delete() {
         IdResponseModel response = this.boardService.delete(
@@ -188,13 +193,13 @@ public class BoardController {
     }
 
     public void manageLock() {
-        if(userData.isCurrentBoardLocked())
+        if(boardService.isCurrentBoardLocked())
             showCtrl.showUnlockBoard();
         else showCtrl.showLockBoard(null);
     }
 
     public void updateLockIcon(boolean locked) {
-        lockIcon.setImage(locked ? Constants.LOCKED_IMG : Constants.UNLOCKED_IMG);
+        lockIcon.setImage(locked ? lockedImage : unlockedImage);
         editIcon.setVisible(!locked);
         deleteIcon.setVisible(!locked);
         this.locked=locked;

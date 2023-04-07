@@ -32,14 +32,10 @@ public class List {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="boardId", nullable=false)
     private Board board;
-
-
-    public static List create(String name, int boardId, java.util.List<Task> tasks) {
-        List list = new List();
-        list.name = name;
-        list.boardId = boardId;
-        list.tasks=tasks;
-        return list;
+    public List(String name, int boardId, java.util.List<Task> tasks){
+        this.name = name;
+        this.boardId = boardId;
+        this.tasks = tasks;
     }
 
     /**

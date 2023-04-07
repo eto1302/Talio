@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class TaskService {
@@ -32,7 +33,7 @@ public class TaskService {
         if(!response.getStatusCode().is2xxSuccessful()){
             return new ArrayList<>();
         }
-        return Arrays.asList(response.getBody());
+        return new LinkedList<Task>(Arrays.asList(response.getBody()));
     }
 
     public Task getTask(int id) {
@@ -47,7 +48,7 @@ public class TaskService {
     }
 
     public IdResponseModel addTask(String title, commons.List list) {
-        Task task = Task.create(null, title, list.getId(), new ArrayList<Subtask>());
+        Task task = new Task(null, title, list.getId(), new ArrayList<Subtask>());
         int colorId = this.boardService.getCurrentBoard().getColors()
                 .stream().filter(Color::getIsDefault).findFirst().get().getId();
         task.setTitle(title);

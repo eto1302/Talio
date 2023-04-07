@@ -32,9 +32,9 @@ class SubtaskServiceTest {
     @Autowired
     private SubtaskService mockService = new SubtaskService(mockTaskRepo, mockSubtaskRepo);
 
-    private transient Subtask subtask1 = Subtask.create("Doing homework", false, 1);
-    private transient Subtask subtask2 = Subtask.create("Random Subtask", true, 1);
-    private transient Task task = Task.create("No description yet",
+    private transient Subtask subtask1 = new Subtask("Doing homework", false, 1);
+    private transient Subtask subtask2 = new Subtask("Random Subtask", true, 1);
+    private transient Task task = new Task("No description yet",
             "Task 1", 1, new ArrayList<>());
     private Random random;
     private SubtaskEditModel model;

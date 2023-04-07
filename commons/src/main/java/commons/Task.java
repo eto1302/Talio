@@ -47,16 +47,13 @@ public class Task {
      * Creates a new task with the specified description and title.
      * @param description the description of the task
      * @param title the title of the task
-     * @return the newly created task
      */
-    public static Task create(String description, String title, int listID,
-                              java.util.List<Subtask> subtasks) {
-        Task task = new Task();
-        task.description = description;
-        task.title = title;
-        task.listID=listID;
-        task.subtasks=subtasks;
-        return task;
+    public Task(String description, String title, int listID,
+                java.util.List<Subtask> subtasks){
+        this.description = description;
+        this.title = title;
+        this.listID = listID;
+        this.subtasks = subtasks;
     }
 
     /**

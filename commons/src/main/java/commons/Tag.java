@@ -46,14 +46,13 @@ public class Tag {
      *
      * @param name     The name of the tag.
      * @param color    The color of the tag.
-     * @return A new Board object with the given name, password, and set of lists.
      */
-    public static Tag create(String name, Color color) {
-        Tag tag = new Tag();
-        tag.name = name;
-        tag.color = color;
-        return tag;
+
+    public Tag(String name, Color color) {
+        this.name = name;
+        this.color = color;
     }
+
 
     /**
      * Creates a new Tag object.

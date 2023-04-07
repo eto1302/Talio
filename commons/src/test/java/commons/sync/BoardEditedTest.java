@@ -30,7 +30,7 @@ public class BoardEditedTest {
         MockitoAnnotations.openMocks(this);
         this.boardEdited = new BoardEdited(1,
                 new BoardEditModel("test", "password"));
-        this.board = Board.create("test123", "pass", new ArrayList<>(),
+        this.board = new Board("test123", "pass", new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>());
     }
 

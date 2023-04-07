@@ -29,13 +29,10 @@ public class Subtask {
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="taskId", nullable=false)
     private Task task;
-
-    public static Subtask create(String description, boolean checked, int taskID){
-        Subtask subtask = new Subtask();
-        subtask.description=description;
-        subtask.checked=checked;
-        subtask.taskID=taskID;
-        return  subtask;
+    public Subtask(String description, boolean checked, int taskID){
+        this.description = description;
+        this.checked = checked;
+        this.taskID = taskID;
     }
 
     /**

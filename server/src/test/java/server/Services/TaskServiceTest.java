@@ -31,11 +31,11 @@ class TaskServiceTest {
     @Autowired
     private TaskService mockService = new TaskService(mockTaskRepo, mockListRepo);
 
-    private transient Task task1 = Task.create("No description yet",
+    private transient Task task1 = new Task("No description yet",
             "Task 1", 1, new ArrayList<>());
-    private transient  Task task2 = Task.create("Getting food",
+    private transient  Task task2 = new Task("Getting food",
             "Task 2", 1, new ArrayList<>());
-    private transient List list = List.create("List 2", 1,
+    private transient List list = new List("List 2", 1,
             new ArrayList<>());
     private Random random;
     private TaskEditModel model;
