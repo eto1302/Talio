@@ -47,11 +47,9 @@ public class Color {
     public Color() {
     }
 
-    public static Color create(String fontColor, String backgroundColor){
-        Color color = new Color();
-        color.fontColor = fontColor;
-        color.backgroundColor = backgroundColor;
-        return color;
+    public Color(String fontColor, String backgroundColor){
+        this.fontColor = fontColor;
+        this.backgroundColor = backgroundColor;
     }
 
     public int getId() {

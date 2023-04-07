@@ -53,9 +53,9 @@ public class BoardController {
     private BoardService boardService;
     private TaskService taskService;
 
-    private static final Image LOCKED_IMG = new Image(
+    private final Image lockedImage = new Image(
             "file:client/build/resources/main/icons/lock.png");
-    private static final Image UNLOCKED_IMG = new Image(
+    private final Image unlockedImage = new Image(
             "file:client/build/resources/main/icons/unlock.png");
 
     @Inject
@@ -200,7 +200,7 @@ public class BoardController {
     }
 
     public void updateLockIcon(boolean locked) {
-        lockIcon.setImage(locked ? LOCKED_IMG : UNLOCKED_IMG);
+        lockIcon.setImage(locked ? lockedImage : unlockedImage);
         editIcon.setVisible(!locked);
         deleteIcon.setVisible(!locked);
     }

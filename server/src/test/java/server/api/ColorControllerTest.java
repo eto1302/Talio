@@ -38,8 +38,8 @@ class ColorControllerTest {
     @MockBean
     private ColorService mockService;
 
-    private transient Color color1 = Color.create("#FFFFFF", "#000000");
-    private transient Color color2 = Color.create("#101010", "#FF10FF");
+    private transient Color color1 = new Color("#FFFFFF", "#000000");
+    private transient Color color2 = new Color("#101010", "#FF10FF");
     private IdResponseModel model;
     @BeforeEach
     void setup(){

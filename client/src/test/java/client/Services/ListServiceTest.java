@@ -33,9 +33,9 @@ public class ListServiceTest {
     public void setup(){
         MockitoAnnotations.openMocks(this);
         listService = new ListService(mockUserData, mockServerUtils);
-        board = Board.create("test", "pass", new ArrayList<>(),
+        board = new Board("test", "pass", new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>());
-        list = List.create("test", 1, new ArrayList<>());
+        list = new List("test", 1, new ArrayList<>());
     }
 
     @Test

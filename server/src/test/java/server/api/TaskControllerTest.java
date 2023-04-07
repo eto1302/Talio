@@ -42,9 +42,9 @@ class TaskControllerTest {
     @MockBean
     private TaskService mockService;
 
-    private transient Task task1 = Task.create("No description yet",
+    private transient Task task1 = new Task("No description yet",
             "Task 1", 1, new ArrayList<>());
-    private transient  Task task2 = Task.create("Getting food",
+    private transient  Task task2 = new Task("Getting food",
             "Task 2", 1, new ArrayList<>());
     private IdResponseModel model;
 

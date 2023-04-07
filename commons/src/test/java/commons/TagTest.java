@@ -11,8 +11,8 @@ class TagTest {
     private Color color;
     @BeforeEach
     void setUp() {
-        color = Color.create("#000000", "#FFFFFF");
-        testTag = Tag.create("testTag", color);
+        color = new Color("#000000", "#FFFFFF");
+        testTag = new Tag("testTag", color);
     }
 
     @Test
@@ -42,8 +42,8 @@ class TagTest {
 
     @Test
     void setColor() {
-        testTag.setColor(Color.create("#FFFFFF", "#111111"));
-        assertEquals(Color.create("#FFFFFF", "#111111"), testTag.getColor());
+        testTag.setColor(new Color("#FFFFFF", "#111111"));
+        assertEquals(new Color("#FFFFFF", "#111111"), testTag.getColor());
     }
 
 
@@ -61,13 +61,13 @@ class TagTest {
 
     @Test
     void testEquals() {
-        Tag newTag = Tag.create("testTag", color);
+        Tag newTag = new Tag("testTag", color);
         assertEquals(newTag, testTag);
     }
 
     @Test
     void testNotEquals() {
-        Tag newTag = Tag.create("testTag1", color);
+        Tag newTag = new Tag("testTag1", color);
         assertNotEquals(newTag, testTag);
     }
 
@@ -78,7 +78,7 @@ class TagTest {
 
     @Test
     void testWrongHashCode() {
-        Tag newTag = Tag.create("testTag1", color);
+        Tag newTag = new Tag("testTag1", color);
         assertNotEquals(newTag.hashCode(), testTag.hashCode());
     }
 

@@ -40,13 +40,13 @@ class ListControllerTest {
     @MockBean
     private transient ListService mockService;
 
-    private transient List list = List.create("List 1", 1,
+    private transient List list = new List("List 1", 1,
             new ArrayList<>(Arrays.asList(
-                    Task.create("No description", "Task 1", 1, new ArrayList<>()))));
+                    new Task("No description", "Task 1", 1, new ArrayList<>()))));
 
-    private transient List list2 = List.create("List 2", 1,
+    private transient List list2 = new List("List 2", 1,
             new ArrayList<>(Arrays.asList(
-                    Task.create("Watching series", "Task 2", 2, new ArrayList<>()))));
+                    new Task("Watching series", "Task 2", 2, new ArrayList<>()))));
 
     @Test
     void testAddList() throws Exception{

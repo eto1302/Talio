@@ -39,7 +39,7 @@ public class SubtaskService {
     }
 
     public IdResponseModel add(String name, Task task) {
-        Subtask subtask = Subtask.create(name, false, task.getId());
+        Subtask subtask = new Subtask(name, false, task.getId());
         java.util.List<Subtask> subtasks = this.getSubtasksByTask(task.getId());
         subtask.setIndex(subtasks.size());
 

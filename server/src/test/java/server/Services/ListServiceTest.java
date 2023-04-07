@@ -33,16 +33,16 @@ class ListServiceTest {
     @Autowired
     private ListService mockService = new ListService(mockListRepo, mockBoardRepo);
 
-    private transient List list = List.create("List 1", 1,
+    private transient List list = new List("List 1", 1,
             new ArrayList<>(Arrays.asList(
-                    Task.create("No description", "Task 1", 1, new ArrayList<>()))));
+                    new Task("No description", "Task 1", 1, new ArrayList<>()))));
 
-    private transient List list2 = List.create("List 2", 1,
+    private transient List list2 = new List("List 2", 1,
             new ArrayList<>(Arrays.asList(
-                    Task.create("Watching series", "Task 2", 2, new ArrayList<>()))));
-    private transient Board board = Board.create("default", "1234",
+                    new Task("Watching series", "Task 2", 2, new ArrayList<>()))));
+    private transient Board board = new Board("default", "1234",
             new ArrayList<>(), new ArrayList<>(
-                    Arrays.asList(Color.create("#000000", "#FFFFFF"))),
+                    Arrays.asList(new Color("#000000", "#FFFFFF"))),
             new ArrayList<>());
 
     private Random random;

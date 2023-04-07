@@ -43,9 +43,9 @@ public class TagService {
     public IdResponseModel addTag(String text, Color background, Color font) {
         String textColor = colorService.colorToHex(font);
         String backgroundColor = colorService.colorToHex(background);
-        commons.Color color = commons.Color.create(textColor, backgroundColor);
+        commons.Color color = new commons.Color(textColor, backgroundColor);
 
-        Tag tag = Tag.create(text, color);
+        Tag tag = new Tag(text, color);
 
         Board current = userData.getCurrentBoard();
         return userData.updateBoard(new TagCreated(current.getId(), tag, current));

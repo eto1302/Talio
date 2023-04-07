@@ -80,7 +80,7 @@ public class TagController {
         return tagService.delete(id);
     }
 
-    private static boolean isNullOrEmpty(String s) {
+    private boolean isNullOrEmpty(String s) {
         return s == null || s.isEmpty();
     }
 
@@ -104,7 +104,6 @@ public class TagController {
 
     @DeleteMapping("/removeFromTask/{tagId}/{taskId}")
     public IdResponseModel removeFromTask(@PathVariable int tagId, @PathVariable int taskId){
-        IdResponseModel resp = tagService.removeFromTask(tagId, taskId);
-        return resp;
+        return tagService.removeFromTask(tagId, taskId);
     }
 }

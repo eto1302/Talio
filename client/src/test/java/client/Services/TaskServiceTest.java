@@ -35,10 +35,10 @@ public class TaskServiceTest {
     public void setup(){
         MockitoAnnotations.openMocks(this);
         taskService = new TaskService(mockUserData, mockServerUtils);
-        this.task = Task.create("descr", "test", 1, new ArrayList<>());
-        this.color = Color.create("#FFFFFF", "#000000");
+        this.task = new Task("descr", "test", 1, new ArrayList<>());
+        this.color = new Color("#FFFFFF", "#000000");
         this.color.setIsDefault(true);
-        this.board = Board.create("test", "passwd",
+        this.board = new Board("test", "passwd",
                 new ArrayList<>(), Arrays.asList(color), new ArrayList<>());
     }
     @Test
