@@ -100,12 +100,12 @@ public class ListShapeCtrl {
         this.list = list;
         list.setTasks(new ArrayList<>());
         this.boardController = boardController;
-        this.taskControllers = new LinkedList<>();
         text = new TextField();
         initializeText();
 
         Board board = boardService.getBoard(list.getBoardId());
-        taskControllers = new LinkedList<>();
+        if (taskControllers==null)
+            taskControllers = new LinkedList<>();
 
         listGrid.setOnDragOver(this::dragOver);
         listGrid.setOnDragDropped(this::dragDrop);
@@ -138,8 +138,9 @@ public class ListShapeCtrl {
                 else if(event.getCode()==KeyCode.ENTER && editList){
                     if(!text.getText().equals("")) {
                         IdResponseModel response = listService.editList(list, text.getText());
+                        list.setName(text.getText());
 
-                        if (response.getId() == -1) {
+                        if (response.getId() <0) {
                             showCtrl.showError(response.getErrorMessage());
                         }
                     }
