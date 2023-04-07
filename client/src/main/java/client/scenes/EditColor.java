@@ -19,10 +19,12 @@ public class EditColor {
     private Color color;
     @Inject
     private ShowCtrl showCtrl;
+    private final UserData userData;
 
     @Inject
     public EditColor(UserData userData, ServerUtils serverUtils) {
         this.colorService = new ColorService(userData, serverUtils);
+        this.userData = userData;
     }
 
     public void setup(Color color){
@@ -32,11 +34,15 @@ public class EditColor {
     }
 
     public void edit() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         IdResponseModel model = colorService.editColor(color.getId(),
                 backgroundColor.getValue(), fontColor.getValue(), color.getIsDefault());
-        if(model.getId() == -1){
-            this.showCtrl.showError(model.getErrorMessage());
+        if(model.getId() < 0){
             this.showCtrl.cancel();
+            this.showCtrl.showError(model.getErrorMessage());
             return;
         }
         showCtrl.cancel();

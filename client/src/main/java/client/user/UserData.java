@@ -195,6 +195,13 @@ public class UserData implements IUserData {
     }
 
     /**
+     * Shows the error pop-up as the pop-up stage in showCtrl.
+     */
+    public void showError(){
+        showCtrl.showError("Board is locked");
+    }
+
+    /**
      * Uses a {@link BoardUpdate} object to update the board in a particular way. This includes
      * updating the current board locally, sending the update to the server, and messaging all
      * other clients about the update.
@@ -204,7 +211,6 @@ public class UserData implements IUserData {
      */
     public IdResponseModel updateBoard(BoardUpdate boardUpdate) {
         if(currentBoardLocked) {
-            showCtrl.showError("Board is locked");
             return new IdResponseModel(-2, "Board is locked");
         }
 

@@ -2,7 +2,6 @@ package client.scenes;
 
 import client.Services.ListService;
 import client.Services.SubtaskService;
-import client.Services.TagService;
 import client.Services.TaskService;
 import client.user.UserData;
 import client.utils.ServerUtils;
