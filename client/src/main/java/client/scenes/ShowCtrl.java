@@ -5,6 +5,7 @@ import client.user.UserData;
 import com.google.inject.Inject;
 import commons.*;
 import commons.mocks.IShowCtrl;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -26,6 +28,7 @@ import static client.utils.Constants.FXML;
 public class ShowCtrl implements IShowCtrl {
 
     private Stage primaryStage, secondaryStage, popUpStage;
+    double height, width;
 
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, board, connection,
@@ -96,7 +99,10 @@ public class ShowCtrl implements IShowCtrl {
 
         setUpKeys();
         listControllers = new HashMap<>();
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(600);
 
+        resizeListener();
         showConnection();
         primaryStage.show();
     }
@@ -115,11 +121,20 @@ public class ShowCtrl implements IShowCtrl {
         admin.setOnKeyReleased(this::keyRelease);
     }
 
+    private void resizeListener(){
+        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) ->{
+            width=primaryStage.getWidth();
+            height= primaryStage.getHeight();
+        };
+        primaryStage.widthProperty().addListener(stageSizeListener);
+        primaryStage.heightProperty().addListener(stageSizeListener);
+    }
 
     public void showAddBoard(){
         secondaryStage = new Stage();
         secondaryStage.setScene(addBoard);
         secondaryStage.setTitle("Add a board");
+        secondaryStage.setResizable(false);
         secondaryStage.show();
     }
 
@@ -132,16 +147,21 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage = new Stage();
         secondaryStage.setScene(addList);
         secondaryStage.setTitle("Add a list");
+        secondaryStage.setResizable(false);
         secondaryStage.show();
     }
 
     public void showHome() {
         primaryStage.setTitle("Home");
+        ((GridPane)this.home.getRoot()).setPrefWidth(width);
+        ((GridPane)this.home.getRoot()).setPrefHeight(height);
         primaryStage.setScene(this.home);
     }
 
     public void showYourBoards(){
         primaryStage.setTitle("Your boards");
+        ((GridPane)this.yourBoards.getRoot()).setPrefWidth(width);
+        ((GridPane)this.yourBoards.getRoot()).setPrefHeight(height);
         this.yourBoardsCtrl.fillBoardBox();
         primaryStage.setScene(this.yourBoards);
     }
@@ -156,6 +176,7 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.setScene(search);
         secondaryStage.setTitle("Search for a board");
         secondaryStage.show();
+        secondaryStage.setResizable(false);
     }
 
     public void showAddSubTask(EditTaskController controller, Task task) {
@@ -168,10 +189,13 @@ public class ShowCtrl implements IShowCtrl {
         popUpStage.setScene(addSubtaskScene);
         popUpStage.setTitle("Add a sub-task");
         popUpStage.show();
+        popUpStage.setResizable(false);
     }
 
     public void showBoard(){
         primaryStage.setTitle("Board");
+        ((GridPane)this.board.getRoot()).setPrefHeight(height);
+        ((GridPane)this.board.getRoot()).setPrefWidth(width);
         boardController.setup();
         primaryStage.setScene(this.board);
     }
@@ -291,6 +315,7 @@ public class ShowCtrl implements IShowCtrl {
         popUpStage.setScene(errorScene);
         popUpStage.setTitle("error");
         errorController.setErrorMessage(errorMessage);
+        popUpStage.setResizable(false);
         popUpStage.show();
         this.cancel();
     }
@@ -315,6 +340,7 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage = new Stage();
         secondaryStage.setScene(updated);
         secondaryStage.setTitle("Edit a task");
+        secondaryStage.setResizable(false);
         secondaryStage.show();
     }
 
@@ -337,6 +363,7 @@ public class ShowCtrl implements IShowCtrl {
 
         popUpStage.setScene(addTagScene);
         popUpStage.setTitle("Add a tag");
+        popUpStage.setResizable(false);
         popUpStage.show();
     }
 
@@ -350,6 +377,7 @@ public class ShowCtrl implements IShowCtrl {
 
         popUpStage.setScene(editTagScene);
         popUpStage.setTitle("edit a tag");
+        popUpStage.setResizable(false);
         popUpStage.show();
     }
 
@@ -359,6 +387,7 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.setTitle("Tag overview");
         secondaryStage.setScene(this.tagOverview);
         tagOverviewController.refresh();
+        secondaryStage.setResizable(false);
         secondaryStage.show();
     }
 
@@ -416,6 +445,7 @@ public class ShowCtrl implements IShowCtrl {
 
         popUpStage.setScene(addTagToTask);
         popUpStage.setTitle("Add tag to task");
+        popUpStage.setResizable(false);
         popUpStage.show();
     }
 
@@ -517,6 +547,8 @@ public class ShowCtrl implements IShowCtrl {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout);
         stage.setScene(scene);
+        stage.setResizable(false);
+
 
         stage.showAndWait();
     }
@@ -530,6 +562,7 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.setTitle("Edit Board");
         secondaryStage.setScene(this.editBoard);
         editBoardController.setup();
+        secondaryStage.setResizable(false);
         secondaryStage.show();
     }
 
@@ -574,6 +607,7 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.setTitle("Color Picker");
         secondaryStage.setScene(this.colorPicker);
         this.colorPickerController.setup();
+        secondaryStage.setResizable(false);
         secondaryStage.show();
     }
 
@@ -586,6 +620,7 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.setTitle("Task Color Picker");
         secondaryStage.setScene(this.taskColorPicker);
         this.taskColorPickerController.setup(task);
+        secondaryStage.setResizable(false);
         secondaryStage.show();
     }
 
@@ -593,6 +628,7 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage = new Stage();
         secondaryStage.setTitle("AddTaskColor");
         secondaryStage.setScene(this.addTaskColor);
+        secondaryStage.setResizable(false);
         secondaryStage.show();
     }
 
@@ -620,6 +656,8 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.setTitle("Edit Color");
         secondaryStage.setScene(this.editColor);
         this.editColorController.setup(color);
+        secondaryStage.setResizable(false);
+
         secondaryStage.show();
     }
 
