@@ -25,8 +25,8 @@ public class ColorService {
     }
 
     public IdResponseModel addColor(Color backgroundColor, Color fontColor) {
-        commons.Color color = new commons.Color(colorToHex(backgroundColor),
-                colorToHex(fontColor));
+        commons.Color color = new commons.Color(colorToHex(fontColor),
+                colorToHex(backgroundColor));
         color.setBoardId(userData.getCurrentBoard().getId());
         color.setBoard(null);
         if(this.userData.getCurrentBoard().getColors().size() == 2) color.setIsDefault(true);
