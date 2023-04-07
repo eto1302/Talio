@@ -125,6 +125,7 @@ public class ShowCtrl implements IShowCtrl {
 
     public void showConnection(){
         this.primaryStage.setScene(connection);
+        connectionCtrl.setup();
         this.primaryStage.setTitle("Connect to a server!");
     }
 

@@ -40,7 +40,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         var userData = INJECTOR.getInstance(UserData.class);
-        userData.initialize(new File(System.getProperty("user.dir") + "/talioData.txt"));
+        userData.initialize(new File(System.getProperty("user.dir") + "/talioData.txt"),
+                new File(System.getProperty("user.dir") + "/serverData.txt"));
 
         var showCtrl = INJECTOR.getInstance(ShowCtrl.class);
         List<Pair> loader = new ArrayList<>();

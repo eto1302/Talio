@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.Services.BoardService;
+import client.Services.ConnectionService;
 import client.Services.TaskService;
 import client.user.UserData;
 import client.utils.ServerUtils;
@@ -51,6 +52,7 @@ public class BoardController {
     private boolean editable = false, locked;
     private BoardService boardService;
     private TaskService taskService;
+    private ConnectionService connectionService;
 
     private final Image lockedImage = new Image(
             "file:client/build/resources/main/icons/lock.png");
@@ -63,6 +65,7 @@ public class BoardController {
         this.showCtrl = showCtrl;
         this.boardService = new BoardService(userData, server);
         this.taskService = new TaskService(userData, server);
+        this.connectionService = new ConnectionService(userData, server);
     }
 
 
@@ -165,6 +168,7 @@ public class BoardController {
     }
 
     public void setServer() {
+        connectionService.disconnect();
         showCtrl.showConnection();
     }
 

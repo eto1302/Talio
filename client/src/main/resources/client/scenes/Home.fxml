@@ -42,7 +42,7 @@
                         <MenuItem fx:id="addBoard" mnemonicParsing="false" onAction="#showAddBoard" text="Add board" />
                         <MenuItem fx:id="yourBoards" mnemonicParsing="false" onAction="#showYourBoards" text="Your boards" />
                         <MenuItem mnemonicParsing="false" onAction="#showAdmin" text="Admin" />
-                        <MenuItem mnemonicParsing="false" onAction="#showConnection" text="Choose Server" />
+                        <MenuItem mnemonicParsing="false" onAction="#setServer" text="Choose Server" />
                     </items>
                 </MenuButton>
             </children>

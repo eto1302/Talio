@@ -72,6 +72,7 @@ public class UserData implements IUserData {
      */
     @Inject
     private ShowCtrl showCtrl;
+    private File serverSavePath;
 
     /**
      * Initializes the UserData class with a given filepath for the datafile. If this file
@@ -82,12 +83,15 @@ public class UserData implements IUserData {
      * @param savePath the file to use for data saving (may or may not exist)
      * @throws IOException if any IO error occurred, including a poorly formatted datafile
      */
-    public void initialize(File savePath) throws IOException {
+    public void initialize(File savePath, File serverSavePath) throws IOException {
         assert savePath != null;
         this.savePath = savePath;
+        this.serverSavePath = serverSavePath;
         this.boards = new HashMap<>();
         this.savePath.createNewFile();
+        this.serverSavePath.createNewFile();
         assert !savePath.isDirectory();
+        assert !serverSavePath.isDirectory();
         loadFromDisk();
         BoardUpdate.setUserData(this);
     }
@@ -312,5 +316,23 @@ public class UserData implements IUserData {
             System.out.println("Local file not created!");
         }
 
+    }
+
+    public void disconnect() {
+        messageAdmin.disconnect();
+        saveToServerFile();
+    }
+
+    private void saveToServerFile() {
+        try {
+            FileWriter fw = new FileWriter(serverSavePath, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(this.serverUtils.getUrl() + "\n");
+            bw.close();
+            fw.close();
+        }
+        catch (IOException e){
+            System.out.println("Local file not created!");
+        }
     }
 }

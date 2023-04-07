@@ -5,14 +5,18 @@ import client.Services.ConnectionService;
 import client.WSClientModule;
 import client.user.UserData;
 import client.utils.ServerUtils;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 
 import javax.inject.Inject;
+
 import javafx.scene.control.*;
 import org.springframework.messaging.simp.stomp.StompSession;
 
-public class ConnectionCtrl {
 
+public class ConnectionCtrl {
+    @FXML
+    private ComboBox<String> urlSelector;
     @FXML
     private TextField serverURL;
     private final ShowCtrl showCtrl;
@@ -26,11 +30,20 @@ public class ConnectionCtrl {
         this.connectionService = new ConnectionService(userData, serverUtils);
     }
 
+    public void setup(){
+        urlSelector.getItems().clear();
+        urlSelector.setItems(FXCollections.observableArrayList(
+                this.connectionService.getServerUrls()));
+    }
+
     /**
      * sets the server with the URL input
      */
-    public void join(){
+    public void join() {
         String url = serverURL.getText();
+        if(!urlSelector.getSelectionModel().isEmpty()){
+            url = urlSelector.getValue().toString();
+        }
 
         connectionService.setUrl(url);
 
@@ -38,19 +51,13 @@ public class ConnectionCtrl {
         StompSession session = null;
 
         try {
-            session = WSClientModule.connect(url+"ws");
+            session = WSClientModule.connect(url + "ws");
         } catch (Exception e) {
             showCtrl.showError("Could not connect to server");
             return;
         }
 
         connectionService.setWsConfig(session);
-
-        /*if (boardService.getBoard(1)==null){
-            boardService.addBoard("Default");
-        }
-        if(boardService.getCurrentBoard() == null)
-            boardService.enterBoard(1);*/
         showCtrl.showHome();
     }
 

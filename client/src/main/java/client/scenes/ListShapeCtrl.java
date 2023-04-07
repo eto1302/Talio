@@ -195,7 +195,7 @@ public class ListShapeCtrl {
     public void addTask(Parent root, TaskShape controller, Task task) {
         tasksBox.getChildren().add(root);
         taskControllers.addLast(controller);
-        list.getTasks().add(task);
+//        list.getTasks().add(task);
     }
 
     /**

@@ -49,6 +49,10 @@ public class MessageAdmin {
     }
 
     public void disconnect(){
+        for(Map.Entry e : subs.entrySet()){
+            StompSession.Subscription sub = (StompSession.Subscription) e.getValue();
+            sub.unsubscribe();
+        }
         session.disconnect();
     }
 
