@@ -146,6 +146,7 @@ public class BoardService {
         this.userData.joinBoard(board.getId(), board.getPassword());
         this.userData.saveToDisk();
         this.userData.openBoard(board.getId());
+        this.userData.subscribeToBoard();
         return new IdResponseModel(1, null);
     }
 

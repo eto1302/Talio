@@ -646,4 +646,8 @@ public class ServerUtils implements IServerUtils {
             return new IdResponseModel(-1, "Oops, failed to connect to server...");
         }
     }
+
+    public String getUrl() {
+        return this.url;
+    }
 }
