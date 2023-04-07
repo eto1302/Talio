@@ -3,14 +3,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 
 <GridPane fx:id="listGrid" prefHeight="334.0" prefWidth="202.0" style="-fx-border-color: gray; -fx-padding: 5px;" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ListShapeCtrl">
     <columnConstraints>
@@ -41,11 +41,11 @@
                         <Image url="@/icons/binIcon.png" />
                     </image>
                 </ImageView>
-            <Label fx:id="addTask" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#showAddTask" prefHeight="29.0" prefWidth="30.0" styleClass="buttons" text="+">
-               <font>
-                  <Font size="21.0" />
-               </font>
-            </Label>
+                <Label fx:id="addTask" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#showAddTask" prefHeight="29.0" prefWidth="30.0" styleClass="buttons" text="+">
+                    <font>
+                        <Font size="21.0" />
+                    </font>
+                </Label>
             </children>
         </HBox>
         <ImageView fx:id="editIcon" fitHeight="19.0" fitWidth="19.0" onMouseClicked="#editList" pickOnBounds="true" preserveRatio="true" styleClass="icon" GridPane.halignment="RIGHT" GridPane.valignment="TOP">

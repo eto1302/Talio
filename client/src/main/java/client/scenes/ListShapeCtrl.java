@@ -44,6 +44,7 @@ public class ListShapeCtrl {
     private Label addTask;
     private final ShowCtrl showCtrl;
     private List list;
+    private boolean editList, editTask;
     private LinkedList<TaskShape> taskControllers;
     private BoardController boardController;
     private ListService listService;
@@ -89,17 +90,6 @@ public class ListShapeCtrl {
         }
     }
 
-    /**
-     * shows the window with options for editing the list
-     */
-    public void editList(){
-
-        if(list == null) {
-            showCtrl.showError("Failed to get the list...");
-            return;
-        }
-        showCtrl.showEditList(list);
-    }
 
     /**
      * sets list and updates the list's visual (sets the title
@@ -132,7 +122,7 @@ public class ListShapeCtrl {
         text.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (event.getCode()==KeyCode.ENTER){
+                if (event.getCode()==KeyCode.ENTER && editTask){
                     if(!text.getText().equals("")) {
                         IdResponseModel response = taskService.addTask(
                                 text.getText(), list);
@@ -143,6 +133,19 @@ public class ListShapeCtrl {
                     hbox.getChildren().remove(text);
                     hbox.getChildren().add(deleteList);
                     hbox.getChildren().add(addTask);
+                    editTask=false;
+                }
+                else if(event.getCode()==KeyCode.ENTER && editList){
+                    if(!text.getText().equals("")) {
+                        IdResponseModel response = listService.editList(list, text.getText());
+
+                        if (response.getId() == -1) {
+                            showCtrl.showError(response.getErrorMessage());
+                        }
+                    }
+                    listTitle.setGraphic(null);
+                    listTitle.setText(list.getName());
+                    editList=false;
                 }
             }
         });
@@ -157,7 +160,7 @@ public class ListShapeCtrl {
     }
 
     /**
-     * shows the add task window
+     * Puts a text field in place at the bottom of the list to add tags easier
      */
     public void showAddTask(){
         if(userData.isCurrentBoardLocked()){
@@ -169,6 +172,20 @@ public class ListShapeCtrl {
         hbox.getChildren().remove(addTask);
         hbox.getChildren().add(text);
         text.requestFocus();
+        editTask=true;
+    }
+
+    /**
+     * Puts a text field in place instead of the list title to edit it without a pop up
+     */
+    public void editList(){
+        text.setPrefWidth(200);
+        text.setText(listTitle.getText());
+        listTitle.setGraphic(text);
+        listTitle.setText("");
+        text.end();
+        text.requestFocus();
+        editList = true;
     }
 
     /**
@@ -235,8 +252,6 @@ public class ListShapeCtrl {
 
         if (previousListId!=list.getId()) {
             Task task = taskService.getTask(taskId);
-            List previousList = listService.getList(previousListId);
-            previousList.getTasks().remove(task);
 
             tasksBox.getChildren().add(((GridPane) source));
             int newIndex= tasksBox.getChildren().indexOf((GridPane) source);
