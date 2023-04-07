@@ -13,9 +13,9 @@ public class ColorTest {
 
     @BeforeEach
     void setUp() {
-        boardColor = Color.create("#000000", "#FFFFFF");
+        boardColor = new Color("#000000", "#FFFFFF");
 
-        board = Board.create("Board1", "password123", new ArrayList<>(),
+        board = new Board("Board1", "password123", new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>());
     }
     @Test

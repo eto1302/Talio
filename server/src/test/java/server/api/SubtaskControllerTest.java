@@ -39,8 +39,8 @@ class SubtaskControllerTest {
     @MockBean
     private SubtaskService mockService;
 
-    private transient Subtask subtask1 = Subtask.create("Doing homework", false, 1);
-    private transient Subtask subtask2 = Subtask.create("Random Subtask", true, 1);
+    private transient Subtask subtask1 = new Subtask("Doing homework", false, 1);
+    private transient Subtask subtask2 = new Subtask("Random Subtask", true, 1);
     private IdResponseModel model;
     @BeforeEach
     void setupModel(){

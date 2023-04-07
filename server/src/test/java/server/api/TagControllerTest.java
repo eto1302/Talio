@@ -246,12 +246,12 @@ public class TagControllerTest {
     }
 
     @Test
-    public void removeTagReturnsOkResponse() throws Exception {
+    public void deleteTagReturnsOkResponse() throws Exception {
         int tagId = 1;
         IdResponseModel responseModel = new IdResponseModel(tagId, null);
-        when(tagServiceMock.removeFromBoard(tagId)).thenReturn(responseModel);
+        when(tagServiceMock.delete(tagId)).thenReturn(responseModel);
 
-        mockMvc.perform(delete("/tag/remove/" + tagId))
+        mockMvc.perform(delete("/tag/delete/" + tagId))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(responseModel)));
     }

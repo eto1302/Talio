@@ -28,10 +28,8 @@ public class BoardService {
     }
 
     public IdResponseModel addBoard(String name) {
-        commons.Color boardColor = commons.
-                Color.create("#000000", "#FFFFFF");
-        commons.Color listColor = commons.
-                Color.create("#000000", "#FFFFFF");
+        commons.Color boardColor = new commons.Color("#000000", "#FFFFFF");
+        commons.Color listColor = new commons.Color("#000000", "#FFFFFF");
         boardColor.setIsDefault(true);
         listColor.setIsDefault(true);
 
@@ -51,7 +49,7 @@ public class BoardService {
         colors.add(boardColor);
         colors.add(listColor);
 
-        Board board = Board.create(name, null,
+        Board board = new Board(name, null,
                 new ArrayList<>(), colors, new ArrayList<>());
         String inviteKey = generateInviteKey();
         board.setInviteKey(inviteKey);
@@ -161,4 +159,6 @@ public class BoardService {
     public Map<Integer, String> getJoinedBoards() {
         return this.userData.getBoards();
     }
+
+    public boolean isCurrentBoardLocked() { return this.userData.isCurrentBoardLocked();}
 }

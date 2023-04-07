@@ -42,9 +42,9 @@ class TaskControllerTest {
     @MockBean
     private TaskService mockService;
 
-    private transient Task task1 = Task.create("No description yet",
+    private transient Task task1 = new Task("No description yet",
             "Task 1", 1, new ArrayList<>());
-    private transient  Task task2 = Task.create("Getting food",
+    private transient  Task task2 = new Task("Getting food",
             "Task 2", 1, new ArrayList<>());
     private IdResponseModel model;
 
@@ -120,10 +120,10 @@ class TaskControllerTest {
         assertNull(mapper.readValue(content, IdResponseModel.class).getErrorMessage());
     }
     @Test
-    void testRemoveTask() throws Exception{
-        when(mockService.removeTask(anyInt(), anyInt())).thenReturn(model);
+    void testDeleteTask() throws Exception{
+        when(mockService.deleteTask(anyInt(), anyInt())).thenReturn(model);
 
-        ResultActions response = mock.perform(delete("/task/remove/1/1")
+        ResultActions response = mock.perform(delete("/task/delete/1/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
@@ -131,9 +131,9 @@ class TaskControllerTest {
     }
     @Test
     void testGetTasksSorted() throws Exception{
-        when(mockService.getTasksSortedByIndex(anyInt())).thenReturn(Arrays.asList(task2,task1));
+        when(mockService.getTasksOrderedByIndex(anyInt())).thenReturn(Arrays.asList(task2,task1));
 
-        ResultActions response = mock.perform(get("/task/getSorted/4")
+        ResultActions response = mock.perform(get("/task/getOrdered/4")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())

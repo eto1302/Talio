@@ -1,7 +1,8 @@
 package client.scenes.tags;
 
-import client.scenes.ShowCtrl;
+import client.Services.TagService;
 import client.scenes.EditTaskController;
+import client.scenes.ShowCtrl;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Tag;
@@ -22,11 +23,7 @@ import javax.inject.Inject;
 
 public class TagShapeController {
 
-    @Inject
     private ShowCtrl showCtrl;
-    @Inject
-    private ServerUtils serverUtils;
-    @Inject
     private UserData userData;
 
     @FXML
@@ -37,8 +34,13 @@ public class TagShapeController {
     private Tag tag;
 
     private EditTaskController taskController;
+    private TagService tagService;
 
-    public TagShapeController() {
+    @Inject
+    public TagShapeController(UserData userData, ServerUtils serverUtils, ShowCtrl showCtrl) {
+        this.tagService = new TagService(userData, serverUtils);
+        this.showCtrl = showCtrl;
+        this.userData = userData;
     }
 
     /**
@@ -127,6 +129,10 @@ public class TagShapeController {
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
                     if (event.getClickCount() == 2) {
+                        if(userData.isCurrentBoardLocked()){
+                            userData.showError();
+                            return;
+                        }
                         showCtrl.showEditTag(tag);
                     } else if (event.getClickCount()==1 && inEditTaskOrAddTagToTask()) {
 
@@ -151,7 +157,7 @@ public class TagShapeController {
      * @return boolean representing whether the tag is valid
      */
     private boolean validateTagBeforeAdd(Tag tag, Task task){
-        java.util.List<Tag> tags = serverUtils.getTagByTask(task.getId());
+        java.util.List<Tag> tags = this.tagService.getTagByTask(task.getId());
         return !tags.contains(tag);
     }
 

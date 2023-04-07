@@ -1,6 +1,7 @@
 package client.scenes;
 
-import client.scenes.ShowCtrl;
+import client.Services.SubtaskService;
+import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Subtask;
 import commons.models.IdResponseModel;
@@ -13,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
@@ -28,23 +30,27 @@ public class SubTaskShapeCtrl {
     @FXML
     private GridPane grid;
     @FXML
-    private CheckBox description;
+    private CheckBox checkbox;
+    @FXML
+    private Label description;
     private ShowCtrl showCtrl;
     private ServerUtils serverUtils;
     private Subtask subtask;
     private TextField text;
     private ObjectProperty<GridPane> drag = new SimpleObjectProperty<>();
+    private SubtaskService subtaskService;
 
     @Inject
-    public SubTaskShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils){
+    public SubTaskShapeCtrl(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData){
         this.showCtrl = showCtrl;
         this.serverUtils = serverUtils;
+        this.subtaskService = new SubtaskService(userData, serverUtils);
     }
 
     public void setup(Subtask subtask){
         this.subtask = subtask;
         description.setText(subtask.getDescription());
-        description.setSelected(subtask.isChecked());
+        checkbox.setSelected(subtask.isChecked());
 
         grid.setOnDragDetected(this::dragDetected);
         grid.setOnDragOver(this::dragOver);
@@ -75,7 +81,7 @@ public class SubTaskShapeCtrl {
 
     private void editSubtask(MouseEvent event){
         if (event.getButton().equals(MouseButton.PRIMARY))
-            if (event.getClickCount()==1) {
+            if (event.getClickCount()==2) {
                 text = new TextField();
                 text.setPrefWidth(320);
 
@@ -91,21 +97,25 @@ public class SubTaskShapeCtrl {
     public Scene getScene(Subtask subtask){
         if(subtask.getDescription() == null) subtask.setDescription("");
         description.setText(subtask.getDescription());
-        description.setSelected(subtask.isChecked());
+        checkbox.setSelected(subtask.isChecked());
         return grid.getScene();
     }
 
     public void changeSelected(){
         int index = ((VBox) grid.getParent()).getChildren().indexOf(grid);
+        IdResponseModel id = null;
         if(subtask.isChecked()){
             subtask.setChecked(false);
-            serverUtils.editSubtask(subtask.getId(),
+            id = serverUtils.editSubtask(subtask.getId(),
                     new SubtaskEditModel(subtask.getDescription(), false, index));
         }
         else{
             subtask.setChecked(true);
-            serverUtils.editSubtask(subtask.getId(),
+            id = serverUtils.editSubtask(subtask.getId(),
                     new SubtaskEditModel(subtask.getDescription(), true, index));
+        }
+        if(id.getId() < 0){
+            showCtrl.showError(id.getErrorMessage());
         }
     }
 
@@ -177,8 +187,10 @@ public class SubTaskShapeCtrl {
             int targetIndex = parent.getChildren().indexOf(grid);
 
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
-            ArrayList<Subtask> orderedSubtasks=
-                    (ArrayList<Subtask>) serverUtils.getSubtasksOrdered(subtask.getTaskID());
+            ArrayList<Subtask> orderedSubtasks= new ArrayList<>(
+                    this.subtaskService.getSubtasksOrdered(
+                    subtask.getTaskID()));
+
 
             if (sourceIndex<targetIndex) {
                 Collections.rotate(children.subList(sourceIndex, targetIndex + 1), -1);

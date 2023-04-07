@@ -24,7 +24,7 @@ public class BoardServiceTest {
     @Autowired
     private transient BoardService boardService = new BoardService(mockBoardRepository);
 
-    private transient Board board = Board.create("name", "pwd",
+    private transient Board board = new Board("name", "pwd",
             null, new ArrayList<>(), new ArrayList<>());
 
     @Test

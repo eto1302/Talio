@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
@@ -43,11 +41,11 @@
                         <Image url="@/icons/binIcon.png" />
                     </image>
                 </ImageView>
-            <Label fx:id="addTask" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#showAddTask" prefHeight="29.0" prefWidth="30.0" styleClass="buttons" text="+">
-               <font>
-                  <Font size="21.0" />
-               </font>
-            </Label>
+                <Label fx:id="addTask" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#showAddTask" prefHeight="29.0" prefWidth="30.0" styleClass="buttons" text="+">
+                    <font>
+                        <Font size="21.0" />
+                    </font>
+                </Label>
             </children>
         </HBox>
         <ImageView fx:id="editIcon" fitHeight="19.0" fitWidth="19.0" onMouseClicked="#editList" pickOnBounds="true" preserveRatio="true" styleClass="icon" GridPane.halignment="RIGHT" GridPane.valignment="TOP">

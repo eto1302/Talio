@@ -10,8 +10,11 @@ import commons.models.TaskEditModel;
 import commons.sync.TaskAdded;
 import commons.sync.TaskDeleted;
 import commons.sync.TaskEdited;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class TaskService {
@@ -26,7 +29,11 @@ public class TaskService {
     }
 
     public List<Task> getTasksOrdered(int id) {
-        return serverUtils.getTasksOrdered(id);
+        ResponseEntity<Task[]> response = serverUtils.getTasksOrdered(id);
+        if(!response.getStatusCode().is2xxSuccessful()){
+            return new ArrayList<>();
+        }
+        return new LinkedList<Task>(Arrays.asList(response.getBody()));
     }
 
     public Task getTask(int id) {
@@ -41,13 +48,20 @@ public class TaskService {
     }
 
     public IdResponseModel addTask(String title, commons.List list) {
-        Task task = Task.create(null, title, list.getId(), new ArrayList<Subtask>());
+        Task task = new Task(null, title, list.getId(), new ArrayList<Subtask>());
+        if(this.boardService.getCurrentBoard().getColors().size() == 2){
+            return new IdResponseModel(-1, "Create a task color first!");
+        }
         int colorId = this.boardService.getCurrentBoard().getColors()
                 .stream().filter(Color::getIsDefault).findFirst().get().getId();
         task.setTitle(title);
         task.setColorId(colorId);
-        java.util.List<Task> tasks = serverUtils.getTaskByList(list.getId());
-        task.setIndex(tasks.size());
+        ResponseEntity<Task[]> response = serverUtils.getTaskByList(list.getId());
+        if(!response.getStatusCode().is2xxSuccessful()){
+            return new IdResponseModel(-1, "Couldn't get tasks by list");
+        }
+        Task[] tasks = response.getBody();
+        task.setIndex(tasks.length);
 
         return userData.updateBoard(new
                 TaskAdded(list.getBoardId(), list.getId(), task));

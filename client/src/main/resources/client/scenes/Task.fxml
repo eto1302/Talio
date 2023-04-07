@@ -10,32 +10,32 @@
 
 <GridPane fx:id="grid" alignment="TOP_CENTER" onMouseEntered="#doubleClick" prefHeight="120.0" prefWidth="168.0" style="-fx-padding: 2px; -fx-border-color: gray;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskShape">
     <columnConstraints>
-      <ColumnConstraints maxWidth="26.399963855743408" minWidth="4.799988269805907" prefWidth="24.000000476837158" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="136.0" minWidth="10.0" prefWidth="111.99999952316283" />
-      <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="10.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints maxHeight="78.6" minHeight="10.0" prefHeight="77.80001220703124" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="40.39999999999999" minHeight="13.799999999999997" prefHeight="27.199987792968756" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="40.39999999999999" minHeight="18.000012207031247" prefHeight="18.000012207031247" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="13.799993896484366" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <Label fx:id="plusSign" text="+" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-      <Label fx:id="deleteX" onMouseEntered="#deleteEvent" text="X" GridPane.columnIndex="2" GridPane.valignment="TOP" />
-      <Label fx:id="title" style="-fx-wrap-text: true;" text="Label" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
-         <GridPane.margin>
-            <Insets right="53.0" top="10.0" />
-         </GridPane.margin></Label>
-      <Label fx:id="subtaskProgress" opacity="0.39" prefHeight="18.0" prefWidth="29.0" text="0/1" GridPane.rowIndex="2" />
-      <ScrollPane fx:id="markerScroll" minHeight="20.0" prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="1">
-         <content>
-            <HBox fx:id="tagMarkerContainer" minHeight="17.0" prefHeight="17.0" prefWidth="154.0" spacing="5.0">
-               <padding>
-                  <Insets top="5.0" />
-               </padding>
-            </HBox>
-         </content>
-      </ScrollPane>
-   </children>
+        <ColumnConstraints maxWidth="26.399963855743408" minWidth="4.799988269805907" prefWidth="24.000000476837158" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="136.0" minWidth="10.0" prefWidth="111.99999952316283" />
+        <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="10.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="78.6" minHeight="10.0" prefHeight="77.80001220703124" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="40.39999999999999" minHeight="13.799999999999997" prefHeight="27.199987792968756" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="40.39999999999999" minHeight="18.000012207031247" prefHeight="18.000012207031247" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="13.799993896484366" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <Label fx:id="plusSign" text="+" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+        <Label fx:id="deleteX" onMouseEntered="#deleteEvent" text="X" GridPane.columnIndex="2" GridPane.valignment="TOP" />
+        <Label fx:id="title" style="-fx-wrap-text: true;" text="Label" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+            <GridPane.margin>
+                <Insets right="53.0" top="10.0" />
+            </GridPane.margin></Label>
+        <Label fx:id="subtaskProgress" opacity="0.39" prefHeight="18.0" prefWidth="29.0" text="0/1" GridPane.rowIndex="2" />
+        <ScrollPane fx:id="markerScroll" minHeight="20.0" prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="1">
+            <content>
+                <HBox fx:id="tagMarkerContainer" minHeight="17.0" prefHeight="17.0" prefWidth="154.0" spacing="5.0">
+                    <padding>
+                        <Insets top="5.0" />
+                    </padding>
+                </HBox>
+            </content>
+        </ScrollPane>
+    </children>
 </GridPane>

@@ -1,5 +1,6 @@
 package client.scenes.tags;
 
+import client.Services.TagService;
 import client.scenes.ShowCtrl;
 import client.user.UserData;
 import client.utils.ServerUtils;
@@ -17,8 +18,8 @@ import java.util.List;
 
 public class TagOverviewController {
     private ShowCtrl showCtrl;
-    private ServerUtils serverUtils;
-    private UserData userData;
+    private final ServerUtils serverUtils;
+    private final UserData userData;
 
     @FXML
     private Button addTagButton;
@@ -31,12 +32,14 @@ public class TagOverviewController {
     private Board board;
 
     private int ind = 0;
+    private TagService tagService;
 
     @Inject
     public TagOverviewController(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl = showCtrl;
         this.serverUtils = serverUtils;
         this.userData = userData;
+        this.tagService = new TagService(userData, serverUtils);
     }
 
     /**
@@ -45,8 +48,7 @@ public class TagOverviewController {
      */
     public void refresh(){
         clear();
-        this.board = userData.getCurrentBoard();
-        this.tags = serverUtils.getTagByBoard(board.getId());
+        this.tags = this.tagService.getTagByBoard();
         if(tags == null || tags.isEmpty()){
             return;
         }
@@ -54,6 +56,10 @@ public class TagOverviewController {
     }
 
     public void showAddTag(){
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         showCtrl.showAddTag();
     }
 

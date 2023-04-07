@@ -1,35 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.tags.EditTagController">
-    <children>
-        <Text layoutX="156.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Tag" wrappingWidth="126.943359375">
-            <font>
-                <Font size="26.0" />
-            </font>
-        </Text>
-        <Line endX="195.19998168945312" endY="-1.1444091796875E-5" layoutX="192.0" layoutY="68.0" startX="-179.99996948242188" startY="-1.1444091796875E-5" />
-        <Label layoutX="100.0" layoutY="97.0" text="Tag name:">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
-        <ColorPicker fx:id="colorPicker" layoutX="157.0" layoutY="179.0" />
-        <Label layoutX="100.0" layoutY="179.0" text="Color:">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
-        <Button fx:id="cancelButton" layoutX="130.0" layoutY="230.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
-        <Button fx:id="editButton" layoutX="236.0" layoutY="229.0" mnemonicParsing="false" onAction="#editTag" prefHeight="26.0" prefWidth="51.0" text="Edit" />
-        <TextField fx:id="textField" layoutX="100.0" layoutY="131.0" />
-    </children>
-</AnchorPane>
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.tags.EditTagController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edit tag" GridPane.halignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Line endX="299.2928466796875" endY="-0.41419729590415955" startX="-100.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
+      <Label text="Tag name:" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="50.0" />
+         </GridPane.margin>
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="name" alignment="CENTER" maxWidth="-Infinity" prefHeight="26.0" prefWidth="150.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets right="50.0" />
+         </GridPane.margin>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Label text="Background Color:" GridPane.rowIndex="2">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="50.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="Font Color:" GridPane.rowIndex="3">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="50.0" />
+         </GridPane.margin>
+      </Label>
+      <ColorPicker fx:id="background" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets right="50.0" />
+         </GridPane.margin>
+      </ColorPicker>
+      <ColorPicker fx:id="font" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets right="50.0" />
+         </GridPane.margin>
+      </ColorPicker>
+      <Button mnemonicParsing="false" onAction="#cancel" text="Cancel" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets left="100.0" />
+         </GridPane.margin>
+      </Button>
+      <Button mnemonicParsing="false" onAction="#editTag" text="Add" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets right="100.0" />
+         </GridPane.margin>
+      </Button>
+   </children>
+</GridPane>

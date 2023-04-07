@@ -22,7 +22,7 @@ public interface IServerUtils {
 
     IdResponseModel addTask(Task task, int listID);
 
-    IdResponseModel removeTask(int taskID, int listID);
+    IdResponseModel deleteTask(int taskID, int listID);
 
     IdResponseModel editTask(int taskID, commons.models.TaskEditModel model);
 
@@ -50,7 +50,7 @@ public interface IServerUtils {
 
     IdResponseModel removeTagFromTask(int tagID, int taskID);
 
-    IdResponseModel removeTag(int tagID);
+    IdResponseModel deleteTag(int tagID);
 
     IdResponseModel editTag(int tagID, TagEditModel model);
 }

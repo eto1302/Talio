@@ -1,5 +1,6 @@
 package client.scenes.tags;
 
+import client.Services.TagService;
 import client.scenes.EditTaskController;
 import client.scenes.ShowCtrl;
 import client.user.UserData;
@@ -24,7 +25,6 @@ public class AddTagToTaskController {
     private ServerUtils serverUtils;
 
     private UserData userData;
-
     @FXML
     private GridPane tag2taskContainer;
     @FXML
@@ -39,12 +39,14 @@ public class AddTagToTaskController {
     private EditTaskController controller;
 
     private String prevSearch = "";
+    private TagService tagService;
 
     @Inject
     public AddTagToTaskController(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl = showCtrl;
         this.serverUtils = serverUtils;
         this.userData = userData;
+        this.tagService = new TagService(userData, serverUtils);
     }
 
     public void setController(EditTaskController controller){
@@ -56,8 +58,7 @@ public class AddTagToTaskController {
      * and updates the scene with the fresh information
      */
     public void refresh(){
-        this.board = userData.getCurrentBoard();
-        this.tags = serverUtils.getTagByBoard(board.getId());
+        this.tags = this.tagService.getTagByBoard();
         updateScene();
     }
 
@@ -105,7 +106,7 @@ public class AddTagToTaskController {
             tagBox.getChildren().add(new Label("No tags!"));
             return;
         }
-        int max = (tags.size() < 5) ? tags.size():5;
+        int max = Math.min(tags.size(), 5);
         for(int i = 0; i < max; i++){
             showCtrl.putTagSceneAddToTask(tags.get(i), this);
         }
@@ -119,10 +120,10 @@ public class AddTagToTaskController {
     }
 
     /**
-     * filters out tags already associated to a task from this.tags
+     * filters out tags already associated to a task from this tags
      */
     public void filterUsedTags(){
-        List<Tag> used = serverUtils.getTagByTask(controller.getTask().getId());
+        List<Tag> used = this.tagService.getTagByTask(controller.getTask().getId());
         tags.removeAll(used);
     }
 

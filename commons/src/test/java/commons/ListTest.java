@@ -12,7 +12,7 @@ class ListTest {
 
     @BeforeEach
     void setUp() {
-        list = List.create("Test List",  1, Arrays.asList(new Task(), new Task()));
+        list = new List("Test List",  1, Arrays.asList(new Task(), new Task()));
     }
 
     @Test
@@ -24,7 +24,7 @@ class ListTest {
 
     @Test
     void create() {
-        List newList = List.create("Test List",1,  Arrays.asList(new Task()));
+        List newList = new List("Test List",1,  Arrays.asList(new Task()));
         assertNotNull(newList);
         assertEquals("Test List", newList.getName());
         assertEquals(0, newList.getId());
@@ -61,14 +61,14 @@ class ListTest {
 
     @Test
     void testEquals() {
-        List newList = List.create("Test List", 1,  Arrays.asList(new Task(), new Task()));
+        List newList = new List("Test List", 1,  Arrays.asList(new Task(), new Task()));
         assertEquals(list, newList);
         assertEquals(list.hashCode(), newList.hashCode());
     }
 
     @Test
     void testHashCode() {
-        List newList = List.create("Test List",1, Arrays.asList(new Task(), new Task()));
+        List newList = new List("Test List",1, Arrays.asList(new Task(), new Task()));
         assertEquals(list.hashCode(), newList.hashCode());
     }
 

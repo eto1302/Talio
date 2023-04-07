@@ -38,4 +38,9 @@ public interface IShowCtrl {
     void editTag(Tag tag);
 
     void removeTagFromTask(Tag tag, Task task);
+
+    boolean isColorPickerOpen();
+
+    void cancel();
+
 }

@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.Services.ListService;
 import client.Services.SubtaskService;
+import client.Services.TagService;
 import client.Services.TaskService;
 import client.user.UserData;
 import client.utils.ServerUtils;
@@ -13,6 +14,7 @@ import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -28,13 +30,15 @@ public class EditTaskController {
     private TextArea descriptionField;
     @FXML
     private VBox subtaskBox, tagBox;
+    @FXML
+    private Label mode;
     private commons.Task task;
     private TaskService taskService;
     private SubtaskService subtaskService;
     private ListService listService;
-    @Inject
-    private ServerUtils server;
+    private TagService tagService;
     private ListShapeCtrl listShapeCtrl;
+    private TaskShape taskShapeCtrl;
 
     @Inject
     public EditTaskController (ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
@@ -42,22 +46,27 @@ public class EditTaskController {
         this.taskService = new TaskService(userData, serverUtils);
         this.subtaskService = new SubtaskService(userData, serverUtils);
         this.listService = new ListService(userData, serverUtils);
+        this.tagService = new TagService(userData, serverUtils);
     }
 
-    public Scene setup(Task task, ListShapeCtrl listShapeCtrl){
+    public Scene setup(Task task, ListShapeCtrl listShapeCtrl, TaskShape taskShapeCtrl){
         this.task = task;
         this.title.setText(task.getTitle());
         if(task.getDescription() == null){
             task.setDescription("");
         }
+        if (listShapeCtrl.getBoardController().isLocked())
+            mode.setText("Read-Only Mode");
+
         this.descriptionField.setText(task.getDescription());
         this.listShapeCtrl = listShapeCtrl;
+        this.taskShapeCtrl=taskShapeCtrl;
         return refresh();
     }
 
     public Scene refresh(){
         subtaskBox.getChildren().clear();
-        java.util.List<Subtask> subtasks = server.getSubtasksOrdered(task.getId());
+        java.util.List<Subtask> subtasks = subtaskService.getSubtasksOrdered(task.getId());
         if(subtasks != null) {
             for(Subtask subtask: subtasks){
                 showCtrl.addSubTask(subtask, this);
@@ -65,7 +74,7 @@ public class EditTaskController {
         }
 //        java.util.List<Tag> tags = task.getTags();
         cleanTagBox();
-        java.util.List<Tag> tags = server.getTagByTask(task.getId());
+        java.util.List<Tag> tags = tagService.getTagByTask(task.getId());
         if(tags != null) {
             for(Tag tag: tags){
                 showCtrl.putTagSceneEditTask(tag);
@@ -106,7 +115,6 @@ public class EditTaskController {
         IdResponseModel response = taskService.editTask(task, list, task.getIndex());
 
         if (response.getId() == -1) {
-            showCtrl.cancel();
             showCtrl.showError(response.getErrorMessage());
             return;
         }
@@ -133,5 +141,10 @@ public class EditTaskController {
 
     private void cleanTagBox() {
         tagBox.getChildren().remove(0, tagBox.getChildren().size());
+    }
+
+    public void deleteTask(){
+        taskShapeCtrl.delete();
+        showCtrl.cancel();
     }
 }

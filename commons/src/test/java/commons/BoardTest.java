@@ -18,13 +18,13 @@ class BoardTest {
         java.util.List<List> lists = new LinkedList<>();
         List list1 = new List();
         lists.add(list1);
-        boardColor = Color.create("#000000", "#FFFFFF");
-        listColor = Color.create("#000000", "#111111");
+        boardColor = new Color("#000000", "#FFFFFF");
+        listColor = new Color("#000000", "#111111");
         java.util.List<Color> colors = new ArrayList<>();
         colors.add(boardColor);
         colors.add(listColor);
 
-        board = Board.create("Board1", "password123", lists,
+        board = new Board("Board1", "password123", lists,
                 colors, new ArrayList<>());
         board.setBoardColor(boardColor);
         board.setListColor(listColor);
@@ -58,7 +58,7 @@ class BoardTest {
         colors.add(boardColor);
         colors.add(listColor);
 
-        Board actualBoard = Board.create("Board1", "password123", expectedLists,
+        Board actualBoard = new Board("Board1", "password123", expectedLists,
                 colors, new ArrayList<>());
 
         assertEquals(expectedBoard, actualBoard);
@@ -125,7 +125,7 @@ class BoardTest {
 
     @Test
     void testNotEquals() {
-        Board board2 = Board.create("board2", "password2",
+        Board board2 = new Board("board2", "password2",
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         assertNotEquals(board, board2);
     }

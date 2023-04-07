@@ -29,7 +29,6 @@ public class EditBoardController {
         IdResponseModel response = this.boardService.editBoard(newTitle.getText());
         if(response.getId() == -1){
             this.showCtrl.showError(response.getErrorMessage());
-            this.showCtrl.cancel();
             return;
         }
         cancel();

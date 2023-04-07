@@ -75,12 +75,12 @@ public class TagController {
         return tagService.editTag(id, model);
     }
 
-    @DeleteMapping("/remove/{id}")
-    public IdResponseModel removeTag(@PathVariable int id) {
-        return tagService.removeFromBoard(id);
+    @DeleteMapping("/delete/{id}")
+    public IdResponseModel delete(@PathVariable int id) {
+        return tagService.delete(id);
     }
 
-    private static boolean isNullOrEmpty(String s) {
+    private boolean isNullOrEmpty(String s) {
         return s == null || s.isEmpty();
     }
 
@@ -104,7 +104,6 @@ public class TagController {
 
     @DeleteMapping("/removeFromTask/{tagId}/{taskId}")
     public IdResponseModel removeFromTask(@PathVariable int tagId, @PathVariable int taskId){
-        IdResponseModel resp = tagService.removeFromTask(tagId, taskId);
-        return resp;
+        return tagService.removeFromTask(tagId, taskId);
     }
 }

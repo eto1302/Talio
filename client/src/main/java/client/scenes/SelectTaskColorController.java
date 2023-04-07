@@ -63,7 +63,6 @@ public class SelectTaskColorController {
         IdResponseModel response = this.taskService.editTask(task, list, task.getIndex());
 
         if (response.getId() == -1) {
-            showCtrl.cancel();
             showCtrl.showError(response.getErrorMessage());
             return;
         }

@@ -40,7 +40,6 @@ public class AddBoardController {
 
         if (response.getId() == -1) {
             showCtrl.showError(response.getErrorMessage());
-            showCtrl.cancel();
             return;
         }
         Board boardUpdated = boardService.getBoard(response.getId());
