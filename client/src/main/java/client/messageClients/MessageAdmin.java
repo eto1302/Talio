@@ -36,4 +36,8 @@ public class MessageAdmin {
     public void subscribe(String queue){
         session.subscribe(queue, handler);
     }
+
+    public void disconnect(){
+        session.disconnect();
+    }
 }
