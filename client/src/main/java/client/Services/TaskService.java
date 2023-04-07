@@ -49,6 +49,9 @@ public class TaskService {
 
     public IdResponseModel addTask(String title, commons.List list) {
         Task task = new Task(null, title, list.getId(), new ArrayList<Subtask>());
+        if(this.boardService.getCurrentBoard().getColors().size() == 2){
+            return new IdResponseModel(-1, "Create a task color first!");
+        }
         int colorId = this.boardService.getCurrentBoard().getColors()
                 .stream().filter(Color::getIsDefault).findFirst().get().getId();
         task.setTitle(title);
