@@ -111,6 +111,7 @@ public class BoardService {
 
     public void enterBoard(int id) {
         this.userData.openBoard(id);
+        this.userData.subscribeToBoard();
         this.userData.saveToDisk();
     }
 

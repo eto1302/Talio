@@ -159,8 +159,12 @@ public class UserData implements IUserData {
         this.currentBoard = serverUtils.getBoard(identifier);
         setCurrentBoardLocked(currentBoard.getPassword() != null
                 && currentBoard.getPassword().length() > 0);
-        this.messageAdmin.subscribe("/topic/" + BoardUpdate.QUEUE + currentBoard.getId());
         return currentBoard;
+    }
+
+    public void subscribeToBoard(){
+        if(!this.messageAdmin.isSubscribed("/topic/" + BoardUpdate.QUEUE + currentBoard.getId()))
+            this.messageAdmin.subscribe("/topic/" + BoardUpdate.QUEUE + currentBoard.getId());
     }
 
     /**
