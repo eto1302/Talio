@@ -2,6 +2,9 @@ package client.messageClients;
 
 import org.springframework.messaging.simp.stomp.StompSession;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Custom MessageAdmin class
  * Currently only used to subscribe to new queues
@@ -22,6 +25,8 @@ public class MessageAdmin {
      */
     private StompSession session;
 
+    private Map<String, StompSession.Subscription> subs = new HashMap<>();
+
     public MessageAdmin(StompSession session) {
         this.session = session;
         this.handler = new MessageSessionHandler();
@@ -34,6 +39,20 @@ public class MessageAdmin {
      * @param queue
      */
     public void subscribe(String queue){
-        session.subscribe(queue, handler);
+        StompSession.Subscription sub = session.subscribe(queue, handler);
+        subs.put(queue, sub);
+    }
+
+    public void unsubscribe(String queue){
+        if(!subs.containsKey(queue)) return;
+        subs.get(queue).unsubscribe();
+    }
+
+    public void disconnect(){
+        session.disconnect();
+    }
+
+    public boolean isSubscribed(String q){
+        return subs.containsKey(q);
     }
 }

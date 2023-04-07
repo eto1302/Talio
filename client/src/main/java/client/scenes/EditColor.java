@@ -34,14 +34,9 @@ public class EditColor {
     }
 
     public void edit() {
-        if(userData.isCurrentBoardLocked()){
-            userData.showError();
-            return;
-        }
         IdResponseModel model = colorService.editColor(color.getId(),
-                backgroundColor.getValue(), fontColor.getValue(), color.getIsDefault());
+                fontColor.getValue(), backgroundColor.getValue(), color.getIsDefault());
         if(model.getId() < 0){
-            this.showCtrl.cancel();
             this.showCtrl.showError(model.getErrorMessage());
             return;
         }

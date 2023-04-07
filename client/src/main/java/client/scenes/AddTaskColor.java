@@ -27,19 +27,14 @@ public class AddTaskColor {
     }
 
     public void add() {
-        if(userData.isCurrentBoardLocked()){
-            userData.showError();
-            return;
-        }
         IdResponseModel model =  this.colorService.addColor(
                 backgroundColor.getValue(), fontColor.getValue());
 
-        if (model.getId() < 0) {
-            showCtrl.cancel();
+        if (model.getId() == -1) {
             showCtrl.showError(model.getErrorMessage());
             return;
         }
-        showCtrl.cancel();
+        cancel();
         if(!showCtrl.isColorPickerOpen())
             showCtrl.showColorPicker();
     }
