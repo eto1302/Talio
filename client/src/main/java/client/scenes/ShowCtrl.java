@@ -28,7 +28,7 @@ import static client.utils.Constants.FXML;
 public class ShowCtrl implements IShowCtrl {
 
     private Stage primaryStage, secondaryStage, popUpStage;
-    double height, width;
+    private double height, width;
 
     private HomeController homeCtrl;
     private Scene home, addList, yourBoards, search, board, connection,
@@ -669,4 +669,11 @@ public class ShowCtrl implements IShowCtrl {
         return secondaryStage;
     }
 
+    public double getHeight() {
+        return height;
+    }
+
+    public double getWidth() {
+        return width;
+    }
 }

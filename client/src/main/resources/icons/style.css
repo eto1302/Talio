@@ -23,3 +23,11 @@
 .banners{
     -fx-background-color: black;
 }
+
+.lines{
+    -fx-stroke: rgba(58, 58, 136, 0.82);
+}
+
+.labels{
+    -fx-text-fill: #93dae7;
+}
