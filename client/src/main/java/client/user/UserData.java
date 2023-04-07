@@ -319,6 +319,7 @@ public class UserData implements IUserData {
     }
 
     public void disconnect() {
+        messageAdmin.disconnect();
         saveToServerFile();
     }
 

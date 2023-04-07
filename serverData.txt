@@ -1,5 +1,5 @@
 http://localhost:8080/
-http://localhost:8080/
+http://localhost:8080/http://192.168.10.224:8080/
 http://192.168.10.224:8080/
 http://localhost:8080/
 http://localhost:8080/
