@@ -4,7 +4,6 @@ import client.Services.TagService;
 import client.scenes.*;
 import client.user.UserData;
 import client.utils.ServerUtils;
-import commons.Task;
 import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
@@ -27,17 +26,12 @@ public class AddTagController {
     private ColorPicker background;
     @FXML
     private ColorPicker font;
-    private commons.Task task;
-    private TagService tagService;
+    private final TagService tagService;
 
     @Inject
     public AddTagController(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl=showCtrl;
         this.tagService = new TagService(userData, serverUtils);
-    }
-
-    public void setup(Task task) {
-        this.task = task;
     }
 
     /**
