@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.Services.SubtaskService;
-import client.scenes.ShowCtrl;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Subtask;
@@ -15,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
@@ -30,7 +30,9 @@ public class SubTaskShapeCtrl {
     @FXML
     private GridPane grid;
     @FXML
-    private CheckBox description;
+    private CheckBox checkbox;
+    @FXML
+    private Label description;
     private ShowCtrl showCtrl;
     private ServerUtils serverUtils;
     private Subtask subtask;
@@ -48,7 +50,7 @@ public class SubTaskShapeCtrl {
     public void setup(Subtask subtask){
         this.subtask = subtask;
         description.setText(subtask.getDescription());
-        description.setSelected(subtask.isChecked());
+        checkbox.setSelected(subtask.isChecked());
 
         grid.setOnDragDetected(this::dragDetected);
         grid.setOnDragOver(this::dragOver);
@@ -79,7 +81,7 @@ public class SubTaskShapeCtrl {
 
     private void editSubtask(MouseEvent event){
         if (event.getButton().equals(MouseButton.PRIMARY))
-            if (event.getClickCount()==1) {
+            if (event.getClickCount()==2) {
                 text = new TextField();
                 text.setPrefWidth(320);
 
@@ -95,7 +97,7 @@ public class SubTaskShapeCtrl {
     public Scene getScene(Subtask subtask){
         if(subtask.getDescription() == null) subtask.setDescription("");
         description.setText(subtask.getDescription());
-        description.setSelected(subtask.isChecked());
+        checkbox.setSelected(subtask.isChecked());
         return grid.getScene();
     }
 
@@ -185,9 +187,10 @@ public class SubTaskShapeCtrl {
             int targetIndex = parent.getChildren().indexOf(grid);
 
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
-            ArrayList<Subtask> orderedSubtasks= (ArrayList<Subtask>)
+            ArrayList<Subtask> orderedSubtasks= new ArrayList<>(
                     this.subtaskService.getSubtasksOrdered(
-                    subtask.getTaskID());
+                    subtask.getTaskID()));
+
 
             if (sourceIndex<targetIndex) {
                 Collections.rotate(children.subList(sourceIndex, targetIndex + 1), -1);

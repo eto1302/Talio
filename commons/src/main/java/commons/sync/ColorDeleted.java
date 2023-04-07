@@ -34,5 +34,9 @@ public class ColorDeleted extends BoardUpdate{
         commons.Color color = data.getCurrentBoard().getColors().stream()
                 .filter(e -> e.getId() == colorId).findFirst().orElse(null);
         data.getCurrentBoard().getColors().remove(color);
+        if(data.getShowCtrl().isColorPickerOpen()) {
+            data.getShowCtrl().cancel();
+            data.getShowCtrl().showColorPicker();
+        }
     }
 }

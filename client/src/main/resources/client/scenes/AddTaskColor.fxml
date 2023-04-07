@@ -57,6 +57,6 @@
             </value>
         </ColorPicker>
         <Button alignment="CENTER" mnemonicParsing="false" onAction="#add" styleClass="buttons" text="Add Task Color" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-      <Line endX="100.0" startX="-113.02130889892578" startY="0.17871396243572235" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
+        <Line endX="100.0" startX="-113.02130889892578" startY="0.17871396243572235" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
     </children>
 </GridPane>

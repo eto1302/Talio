@@ -2,11 +2,13 @@ package client.scenes;
 
 import client.Services.BoardService;
 import client.user.UserData;
+import client.utils.Constants;
 import client.utils.ServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
@@ -30,8 +32,11 @@ public class BoardShape {
     private Label nameLabel;
     @FXML
     private HBox tagBox;
+    @FXML
+    private ImageView lockStateIcon;
     private ShowCtrl showCtrl;
     private BoardService boardService;
+
     @Inject
     public BoardShape (ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData){
         this.showCtrl=showCtrl;
@@ -54,6 +59,8 @@ public class BoardShape {
 
         boardBox.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
         nameLabel.setTextFill(fontColor);
+        lockStateIcon.setImage(board.getPassword() != null && board.getPassword().length() > 0 ?
+                Constants.LOCKED_IMG : Constants.UNLOCKED_IMG);
         setId(board.getId());
         return boardBox.getScene();
     }

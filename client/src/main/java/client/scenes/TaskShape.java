@@ -87,7 +87,7 @@ public class TaskShape {
                 if (event.getButton().equals(MouseButton.PRIMARY))
                     if (event.getClickCount()==2) {
                         setTaskUpdated();
-                        showCtrl.showEditTask(task, controller);
+                        showCtrl.showEditTask(task, controller, TaskShape.this);
                     }
             }
         });
@@ -272,7 +272,7 @@ public class TaskShape {
             VBox parent = (VBox) grid.getParent();
             ArrayList<Node> children = new ArrayList<>(parent.getChildren());
             ArrayList<Task> orderedTasks=
-                (ArrayList<Task>) taskService.getTasksOrdered(task.getListID());
+                    new ArrayList<>(taskService.getTasksOrdered(task.getListID()));
 
             rearrange(source, parent, children, orderedTasks);
             reorderTasks(orderedTasks, currentlist);
@@ -283,7 +283,6 @@ public class TaskShape {
         }
         else if (dragboard.hasString() && previousListId!=task.getListID()){
             List previousList = server.getList(previousListId);
-            previousList.getTasks().remove(previousTask);
             VBox parent = (VBox) grid.getParent();
 
             parent.getChildren().add(((GridPane) source));
@@ -291,8 +290,8 @@ public class TaskShape {
 
             taskService.editTask(previousTask, currentlist, newIndex);
 
-            currentlist.getTasks().add(previousTask);
             java.util.List<Task> previousListTasks = taskService.getTasksOrdered(previousListId);
+            previousListTasks.remove(previousTask);
             reorderTasks(previousListTasks, previousList);
             done=true;
         }
@@ -354,7 +353,7 @@ public class TaskShape {
         VBox parent = (VBox) grid.getParent();
         ArrayList<Node> children = new ArrayList<>(parent.getChildren());
         ArrayList<Task> orderedTasks =
-            (ArrayList<Task>) taskService.getTasksOrdered(task.getListID());
+                new ArrayList<>(taskService.getTasksOrdered(task.getListID()));
         var controllers = controller.getTaskControllers();
         List list = server.getList(task.getListID());
 
