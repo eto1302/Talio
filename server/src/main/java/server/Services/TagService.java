@@ -10,6 +10,7 @@ import server.database.BoardRepository;
 import server.database.TagRepository;
 import server.database.TaskRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -33,14 +34,14 @@ public class TagService {
 
     public java.util.List<Tag> getAllTagsByTask(int taskID) throws NoSuchElementException {
         if(!taskRepository.existsById(taskID)){
-            throw new NoSuchElementException();
+            return new ArrayList<>();
         }
         return taskRepository.getTaskById(taskID).getTags();
     }
 
     public java.util.List<Tag> getAllTagsByBoard(int boardID) throws NoSuchElementException {
         if(!boardRepository.existsById(boardID)){
-            throw new NoSuchElementException();
+            return new ArrayList<>();
         }
         return boardRepository.getBoardByID(boardID).getTags();
     }
@@ -51,7 +52,6 @@ public class TagService {
             Task task = taskRepository.getTaskById(taskID);
             Board board = boardRepository.getBoardByID(tag.getBoardId());
             tag.setBoard(board);
-            task.getTags().add(tag);
             tag.getTasks().add(task);
             tag.getTaskIDs().add(taskID);
             tagRepository.save(tag);

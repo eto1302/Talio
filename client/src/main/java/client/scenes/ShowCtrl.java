@@ -133,7 +133,6 @@ public class ShowCtrl implements IShowCtrl {
         secondaryStage.setScene(addList);
         secondaryStage.setTitle("Add a list");
         secondaryStage.show();
-
     }
 
     public void showHome() {
