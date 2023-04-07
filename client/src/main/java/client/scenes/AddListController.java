@@ -17,13 +17,10 @@ public class AddListController {
     private final ShowCtrl showCtrl;
     private ListService listService;
 
-    private final UserData userData;
-
     @Inject
     public AddListController(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl = showCtrl;
         this.listService = new ListService(userData,serverUtils);
-        this.userData = userData;
     }
 
     public void cancel(){
@@ -35,13 +32,8 @@ public class AddListController {
      * Creates a list based on user input
      */
     public void addList() {
-        if(userData.isCurrentBoardLocked()){
-            userData.showError();
-            return;
-        }
         IdResponseModel response = this.listService.addList(nameField.getText());
-        if (response.getId() < 0) {
-            showCtrl.cancel();
+        if (response.getId() == -1) {
             showCtrl.showError(response.getErrorMessage());
             return;
         }

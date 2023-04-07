@@ -1,18 +1,13 @@
 package client.scenes.tags;
 
+import client.Services.TagService;
 import client.scenes.*;
 import client.user.UserData;
 import client.utils.ServerUtils;
-import commons.Board;
-import commons.Task;
 import commons.models.IdResponseModel;
-import commons.sync.TagCreated;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
-import commons.Tag;
 
 import javax.inject.Inject;
 
@@ -25,28 +20,18 @@ import javax.inject.Inject;
 public class AddTagController {
 
     private final ShowCtrl showCtrl;
-    private final UserData userData;
-    private final ServerUtils serverUtils;
-
     @FXML
-    private Button cancelButton;
+    private TextField name;
     @FXML
-    private Button addButton;
+    private ColorPicker background;
     @FXML
-    private TextField textField;
-    @FXML
-    private ColorPicker colorPicker;
-    private commons.Task task;
+    private ColorPicker font;
+    private final TagService tagService;
 
     @Inject
     public AddTagController(ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData) {
         this.showCtrl=showCtrl;
-        this.serverUtils = serverUtils;
-        this.userData = userData;
-    }
-
-    public void setup(Task task) {
-        this.task = task;
+        this.tagService = new TagService(userData, serverUtils);
     }
 
     /**
@@ -55,49 +40,17 @@ public class AddTagController {
      * See commons.sync.TagCreated.apply() for update method
      */
     public void addTag() {
-        String textColor = (getBrightness(colorPicker.getValue()) < 130) ? "#FFFFFF" : "#000000";
-        String backgroundColor = colorToHex(colorPicker.getValue());
-        commons.Color color = commons.Color.create(textColor, backgroundColor);
+        IdResponseModel response = tagService.addTag(name.getText(), background.getValue(),
+                font.getValue());
 
-        String tagName = this.textField.getText();
-        Tag tag = Tag.create(tagName, color);
 
-        Board current = userData.getCurrentBoard();
-        IdResponseModel resp = userData.updateBoard(new TagCreated(current.getId(), tag, current));
-
-        if (resp.getId() == -1) {
-            showCtrl.showError(resp.getErrorMessage());
-            showCtrl.cancel();
+        if (response.getId() == -1) {
+            showCtrl.showError(response.getErrorMessage());
         }
         cancel();
     }
 
     public void cancel(){
         showCtrl.closePopUp();
-    }
-
-    /**
-     * Returns a hexadecimal string representation of javafx.scene.paint.Color.
-     * @param color the color to be transformed
-     * @return string representation of the color.
-     */
-    private String colorToHex(Color color){
-        String hexString = String.format("#%02X%02X%02X",
-                (int)(color.getRed() * 255),
-                (int)(color.getGreen() * 255),
-                (int)(color.getBlue() * 255));
-        return hexString;
-    }
-
-    /**
-     * Returns a double representing the perceived brightness of the color
-     * @param color javaFx color instance to be converted
-     * @return double [0,255] representation of the brightness
-     */
-    private double getBrightness(Color color){
-        return Math.sqrt(Math.pow(0.299*color.getRed()*255,2)
-                            + Math.pow(0.587*color.getGreen()*255, 2)
-                            + Math.pow(0.114* color.getBlue()*255, 2)
-        );
     }
 }

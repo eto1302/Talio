@@ -214,7 +214,7 @@ class TagServiceTest {
     void testRemoveFromBoard() {
         when(tagRepository.getById(1)).thenReturn(tag1);
 
-        IdResponseModel result = tagService.removeFromBoard(1);
+        IdResponseModel result = tagService.delete(1);
         assertEquals(1, result.getId());
         assertNull(result.getErrorMessage());
 
@@ -226,7 +226,7 @@ class TagServiceTest {
         when(tagRepository.getById(1))
                 .thenThrow(new EntityNotFoundException("msg"));
 
-        IdResponseModel result = tagService.removeFromBoard(1);
+        IdResponseModel result = tagService.delete(1);
         assertEquals(-1, result.getId());
         assertNotNull(result.getErrorMessage());
 

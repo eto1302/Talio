@@ -25,7 +25,6 @@ public class SearchCtrl {
         IdResponseModel response = this.boardService.search(inviteKeyField.getText());
         if(response.getId() == -1){
             this.showCtrl.showError(response.getErrorMessage());
-            this.showCtrl.cancel();
             return;
         }
         showCtrl.showBoard();
