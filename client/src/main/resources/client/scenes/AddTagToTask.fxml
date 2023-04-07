@@ -12,32 +12,32 @@
 <?import javafx.scene.text.Font?>
 
 <GridPane fx:id="tag2taskContainer" prefHeight="288.0" prefWidth="251.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.tags.AddTagToTaskController">
-  <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="242.79999542236328" minWidth="10.0" prefWidth="10.599977493286133" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="242.79999542236328" minWidth="10.0" prefWidth="231.40002250671387" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="119.39995574951172" minWidth="8.200004577636719" prefWidth="11.399955749511719" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints maxHeight="93.6000093460083" minHeight="10.0" prefHeight="46.80000610351563" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="97.19999389648437" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="284.0000061035156" minHeight="10.0" prefHeight="145.0000061035156" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <TextField fx:id="searchBox" onKeyReleased="#handleKey" prefHeight="21.0" prefWidth="120.0" style="-fx-padding: 5px;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <Label text="Add tag to task" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <ScrollPane prefHeight="213.0" prefWidth="191.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
-         <content>
-            <VBox fx:id="tagBox" alignment="TOP_CENTER" maxHeight="250.0" maxWidth="242.0" minWidth="140.0" prefHeight="134.0" prefWidth="242.0" spacing="10.0">
-               <padding>
-                  <Insets top="5.0" />
-               </padding>
-            </VBox>
-         </content>
-      </ScrollPane>
-      <Line endX="132.09288024902344" endY="0.5929061770439148" startX="-100.0" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" />
-   </children>
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="242.79999542236328" minWidth="10.0" prefWidth="10.599977493286133" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="242.79999542236328" minWidth="10.0" prefWidth="231.40002250671387" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="119.39995574951172" minWidth="8.200004577636719" prefWidth="11.399955749511719" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="93.6000093460083" minHeight="10.0" prefHeight="46.80000610351563" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="97.19999389648437" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="284.0000061035156" minHeight="10.0" prefHeight="145.0000061035156" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <TextField fx:id="searchBox" onKeyReleased="#handleKey" prefHeight="21.0" prefWidth="120.0" style="-fx-padding: 5px;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label text="Add tag to task" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+        <ScrollPane prefHeight="213.0" prefWidth="191.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
+            <content>
+                <VBox fx:id="tagBox" alignment="TOP_CENTER" maxHeight="250.0" maxWidth="242.0" minWidth="140.0" prefHeight="134.0" prefWidth="242.0" spacing="10.0">
+                    <padding>
+                        <Insets top="5.0" />
+                    </padding>
+                </VBox>
+            </content>
+        </ScrollPane>
+        <Line endX="132.09288024902344" endY="0.5929061770439148" startX="-100.0" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" />
+    </children>
 </GridPane>

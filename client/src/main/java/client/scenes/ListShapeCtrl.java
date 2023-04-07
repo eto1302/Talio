@@ -90,17 +90,6 @@ public class ListShapeCtrl {
         }
     }
 
-    /**
-     * shows the window with options for editing the list
-     */
-    public void editList(){
-
-        if(list == null) {
-            showCtrl.showError("Failed to get the list...");
-            return;
-        }
-        showCtrl.showEditList(list);
-    }
 
     /**
      * sets list and updates the list's visual (sets the title

@@ -26,11 +26,11 @@
         <RowConstraints maxHeight="253.5999816894531" minHeight="10.0" prefHeight="253.5999816894531" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-      <Label fx:id="mode" opacity="0.57" text="Edit mode" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
+        <Label fx:id="mode" opacity="0.57" text="Edit mode" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+            <font>
+                <Font size="17.0" />
+            </font>
+        </Label>
         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="292.0" text="Task Details" GridPane.halignment="CENTER" GridPane.valignment="TOP">
             <font>
                 <Font size="30.0" />
@@ -103,19 +103,19 @@
                         <Insets right="50.0" top="10.0" />
                     </GridPane.margin>
                 </Button>
-              <Button fx:id="save" mnemonicParsing="false" onAction="#save" styleClass="buttons" text="Save" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BASELINE">
-                  <GridPane.margin>
-                      <Insets right="10.0" />
-                  </GridPane.margin>
-              </Button>
+                <Button fx:id="save" mnemonicParsing="false" onAction="#save" styleClass="buttons" text="Save" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BASELINE">
+                    <GridPane.margin>
+                        <Insets right="10.0" />
+                    </GridPane.margin>
+                </Button>
             </children>
         </GridPane>
         <Line endX="160.0928955078125" endY="0.5928825736045837" startX="-100.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
-      <ImageView fx:id="deleteTask" fitHeight="26.0" fitWidth="26.0" onMouseClicked="#deleteTask" pickOnBounds="true" preserveRatio="true" styleClass="icon">
-         <image>
-            <Image url="@/icons/binIcon.png" />
-         </image>
-      </ImageView>
-      <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel" text="Cancel" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
+        <ImageView fx:id="deleteTask" fitHeight="26.0" fitWidth="26.0" onMouseClicked="#deleteTask" pickOnBounds="true" preserveRatio="true" styleClass="icon">
+            <image>
+                <Image url="@/icons/binIcon.png" />
+            </image>
+        </ImageView>
+        <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel" text="Cancel" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
     </children>
 </GridPane>

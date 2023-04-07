@@ -8,17 +8,17 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <GridPane fx:id="grid" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SubTaskShapeCtrl">
-  <columnConstraints>
-    <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="30.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="341.0000366210937" />
-    <ColumnConstraints hgrow="NEVER" minWidth="0.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <CheckBox fx:id="checkbox" mnemonicParsing="false" onAction="#changeSelected" prefHeight="18.0" wrapText="true" GridPane.halignment="CENTER" />
-      <Hyperlink contentDisplay="CENTER" onAction="#remove" text="X" textFill="#130404" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
-      <Label fx:id="description" prefHeight="18.0" prefWidth="324.0" text="Label" wrapText="true" GridPane.columnIndex="1" />
-   </children>
+    <columnConstraints>
+        <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="30.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="341.0000366210937" />
+        <ColumnConstraints hgrow="NEVER" minWidth="0.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <CheckBox fx:id="checkbox" mnemonicParsing="false" onAction="#changeSelected" prefHeight="18.0" wrapText="true" GridPane.halignment="CENTER" />
+        <Hyperlink contentDisplay="CENTER" onAction="#remove" text="X" textFill="#130404" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+        <Label fx:id="description" prefHeight="18.0" prefWidth="324.0" text="Label" wrapText="true" GridPane.columnIndex="1" />
+    </children>
 </GridPane>
