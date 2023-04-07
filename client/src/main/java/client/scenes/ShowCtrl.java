@@ -402,7 +402,7 @@ public class ShowCtrl implements IShowCtrl {
                 .forEach(t -> t.refreshTagMarkers(t.getTask()));
     }
 
-    public void showAddTagToTask(EditTaskController c){
+    public void showAddTagToTask(Task task){
         if(popUpStage != null){
             closePopUp();
         }
@@ -410,7 +410,7 @@ public class ShowCtrl implements IShowCtrl {
         var tagToTaskPair = FXML.load(AddTagToTaskController.class,
             "client", "scenes", "AddTagToTask.fxml");
         AddTagToTaskController controller = tagToTaskPair.getKey();
-        controller.setController(c);
+        controller.setTask(task);
         Scene addTagToTask = new Scene((Parent) tagToTaskPair.getValue());
         controller.refresh();
 
@@ -424,7 +424,7 @@ public class ShowCtrl implements IShowCtrl {
         //TODO: change to use new impl
         TaskShape taskController = boardController.findTaskController(task);
         taskController.refreshTagMarkers(task);
-        editTaskController.refresh();
+        if(editTaskController != null) {editTaskController.refresh();}
     }
 
     public void putTagSceneOverview(Tag tag, TagOverviewController cntr){
@@ -442,7 +442,7 @@ public class ShowCtrl implements IShowCtrl {
 //        Scene initializeTagShape = new Scene(tagPair.getValue());
         TagShapeController tagShapeController = tagPair.getKey();
         tagShapeController.updateScene(tag);
-        tagShapeController.setTaskController(editTaskController);
+        tagShapeController.setTask(editTaskController.getTask());
 
         editTaskController.putTag(tagPair.getValue());
     }
@@ -452,7 +452,7 @@ public class ShowCtrl implements IShowCtrl {
 //        Scene initializeTagShape = new Scene(tagPair.getValue());
         TagShapeController tagShapeController = tagPair.getKey();
         tagShapeController.updateScene(tag);
-        tagShapeController.setTaskController(editTaskController);
+        tagShapeController.setTask(cntrl.getTask());
         cntrl.putTag(tagPair.getValue());
     }
 

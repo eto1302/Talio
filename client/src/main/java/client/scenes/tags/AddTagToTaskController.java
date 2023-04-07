@@ -1,12 +1,12 @@
 package client.scenes.tags;
 
 import client.Services.TagService;
-import client.scenes.EditTaskController;
 import client.scenes.ShowCtrl;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
 import commons.Tag;
+import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -36,7 +36,7 @@ public class AddTagToTaskController {
     private Board board;
     private List<Tag> tags;
 
-    private EditTaskController controller;
+    private Task task;
 
     private String prevSearch = "";
     private TagService tagService;
@@ -49,8 +49,12 @@ public class AddTagToTaskController {
         this.tagService = new TagService(userData, serverUtils);
     }
 
-    public void setController(EditTaskController controller){
-        this.controller = controller;
+    public void setTask(Task task){
+        this.task = task;
+    }
+
+    public Task getTask() {
+        return task;
     }
 
     /**
@@ -123,7 +127,7 @@ public class AddTagToTaskController {
      * filters out tags already associated to a task from this tags
      */
     public void filterUsedTags(){
-        List<Tag> used = this.tagService.getTagByTask(controller.getTask().getId());
+        List<Tag> used = this.tagService.getTagByTask(task.getId());
         tags.removeAll(used);
     }
 

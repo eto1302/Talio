@@ -1,8 +1,7 @@
 package client;
 
 import client.messageClients.MessageSessionHandler;
-import com.google.inject.Binder;
-import com.google.inject.Module;
+import com.google.inject.AbstractModule;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -14,7 +13,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Guice module for all Messaging related dependancies
  */
-public class WSClientModule implements Module {
+public class WSClientModule extends AbstractModule {
 
     /**
      * Url currently being used to connect to websockets
@@ -22,10 +21,9 @@ public class WSClientModule implements Module {
      */
     private String wsUrl = "ws://localhost:8080/ws";
     private static WebSocketStompClient wsStompClient;
-    private static MessageSessionHandler handler;
 
     @Override
-    public void configure(Binder binder) {
+    public void configure() {
 
         /**
          * Here we create a WebSocketStompClient
@@ -39,7 +37,8 @@ public class WSClientModule implements Module {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
         scheduler.afterPropertiesSet();
         wsStompClient.setTaskScheduler(scheduler);
-        binder.bind(WebSocketStompClient.class).toInstance(wsStompClient);
+
+        bind(WebSocketStompClient.class).toInstance(wsStompClient);
     }
 
 

@@ -98,7 +98,7 @@ public class EditTaskController {
     }
 
     public void showAddTagToTask() {
-        showCtrl.showAddTagToTask(this);
+        showCtrl.showAddTagToTask(task);
     }
 
     public void showAddSubTask(){

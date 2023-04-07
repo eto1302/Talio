@@ -298,7 +298,7 @@ public class BoardController {
                 showCtrl.showColorPicker();
                 break;
             case T:
-                showCtrl.showAddTag();
+                showCtrl.showAddTagToTask(selectedTask.getTask());
                 break;
         }
     }
