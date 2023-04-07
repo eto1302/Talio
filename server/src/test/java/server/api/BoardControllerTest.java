@@ -23,7 +23,6 @@ import server.Services.BoardsUpdatedListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -97,7 +96,7 @@ public class BoardControllerTest {
     }
     @Test
     void testGetBoardsUpdated() throws Exception{
-        DeferredResult<List<Board>> deferredResult = new DeferredResult<>();
+        DeferredResult<Board[]> deferredResult = new DeferredResult<>();
         doNothing().when(mockListener).addDeferredResult(deferredResult);
 
         ResultActions response = mockMvc.perform(get("/board/findAllUpdated")

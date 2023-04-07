@@ -91,7 +91,6 @@ public class TagShapeController {
         }
         if (resp.getId() == -1) {
             showCtrl.showError(resp.getErrorMessage());
-            showCtrl.cancel();
         }
     }
 
@@ -129,10 +128,6 @@ public class TagShapeController {
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
                     if (event.getClickCount() == 2) {
-                        if(userData.isCurrentBoardLocked()){
-                            userData.showError();
-                            return;
-                        }
                         showCtrl.showEditTag(tag);
                     } else if (event.getClickCount()==1 && inEditTaskOrAddTagToTask()) {
 
@@ -142,7 +137,6 @@ public class TagShapeController {
                             tag.getBoardId(), taskController.getTask(), tag));
                         if (model.getId() == -1) {
                             showCtrl.showError(model.getErrorMessage());
-                            showCtrl.cancel();
                         }
                     }
             }

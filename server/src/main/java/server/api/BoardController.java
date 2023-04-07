@@ -67,8 +67,8 @@ public class BoardController {
      */
     @GetMapping("/findAllUpdated")
     @JsonView(BoardSummary.class)
-    public DeferredResult<List<Board>> getBoardsUpdated() {
-        DeferredResult<List<Board>> deferredResult = new DeferredResult<>();
+    public DeferredResult<Board[]> getBoardsUpdated() {
+        DeferredResult<Board[]> deferredResult = new DeferredResult<>();
         boardsUpdatedListener.addDeferredResult(deferredResult);
         return deferredResult;
     }

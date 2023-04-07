@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class BoardsUpdatedListener {
 
-    private final List<DeferredResult<List<Board>>>  deferredResults = new ArrayList<>();
+    private final List<DeferredResult<Board[]>>  deferredResults = new ArrayList<>();
     private final BoardRepository boardRepository;
 
     public BoardsUpdatedListener(BoardRepository boardRepository) {
@@ -23,7 +23,7 @@ public class BoardsUpdatedListener {
      * add the responses to be sent to a list
      * @param deferredResult the response to be sent
      */
-    public void addDeferredResult(DeferredResult<List<Board>> deferredResult){
+    public void addDeferredResult(DeferredResult<Board[]> deferredResult){
         deferredResults.add(deferredResult);
     }
 
@@ -33,8 +33,8 @@ public class BoardsUpdatedListener {
      */
     @EventListener
     public void onBoardsUpdated(BoardsUpdatedEvent event){
-        List<Board> boards = boardRepository.findAll();
-        for(DeferredResult<List<Board>> deferredResult : deferredResults){
+        Board[] boards = boardRepository.findAll().toArray(new Board[0]);
+        for(DeferredResult<Board[]> deferredResult : deferredResults){
             deferredResult.setResult(boards);
         }
         deferredResults.clear();
