@@ -102,6 +102,10 @@ public class TaskShape {
         return task;
     }
 
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
     public ListShapeCtrl getController() {
         return controller;
     }

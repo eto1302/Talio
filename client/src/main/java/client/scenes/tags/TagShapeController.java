@@ -34,6 +34,7 @@ public class TagShapeController {
     private Tag tag;
 
     private EditTaskController taskController;
+    private Task task;
     private TagService tagService;
 
     @Inject
@@ -43,15 +44,14 @@ public class TagShapeController {
         this.userData = userData;
     }
 
-    /**
-     * Method used to set the EditTaskController when creating shapes for
-     * EditTask and AddTagToTask
-     * @param s
-     */
-    public void setTaskController(EditTaskController s){
-        taskController = s;
+
+    public Task getTask() {
+        return task;
     }
 
+    public void setTask(Task task) {
+        this.task = task;
+    }
 
     /**
      * Sets fields and updates the tagShape
@@ -78,13 +78,12 @@ public class TagShapeController {
      * and commons.sync.TagDeleted.apply()
      * for update methods
      *
-     * TODO: stop allowing tags to be deleted from addTagToTask search
      */
     public void handleDelete(){
         IdResponseModel resp;
         if(inEditTaskOrAddTagToTask()){
             resp = userData.updateBoard(
-                new TagRemovedFromTask(tag.getBoardId(),tag, taskController.getTask())
+                new TagRemovedFromTask(tag.getBoardId(),tag, task)
             );
         }else{
             resp = userData.updateBoard(new TagDeleted(tag.getBoardId(), tag));
@@ -136,10 +135,10 @@ public class TagShapeController {
                         showCtrl.showEditTag(tag);
                     } else if (event.getClickCount()==1 && inEditTaskOrAddTagToTask()) {
 
-                        if(!validateTagBeforeAdd(tag, taskController.getTask())) return;
+                        if(!validateTagBeforeAdd(tag, task)) return;
                         showCtrl.closePopUp();
                         IdResponseModel model = userData.updateBoard(new TagAddedToTask(
-                            tag.getBoardId(), taskController.getTask(), tag));
+                            tag.getBoardId(), task, tag));
                         if (model.getId() == -1) {
                             showCtrl.showError(model.getErrorMessage());
                             showCtrl.cancel();
@@ -173,6 +172,6 @@ public class TagShapeController {
      * @return boolean representing whether the tag is in the classes.
      */
     private boolean inEditTaskOrAddTagToTask(){
-        return taskController != null;
+        return task != null;
     }
 }
