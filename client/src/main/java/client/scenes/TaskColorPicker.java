@@ -23,9 +23,11 @@ public class TaskColorPicker {
     private ShowCtrl showCtrl;
     private Task task;
     private BoardService boardService;
+    private final UserData userData;
     @Inject
     public TaskColorPicker(UserData userData, ServerUtils serverUtils){
         this.boardService = new BoardService(userData, serverUtils);
+        this.userData = userData;
     }
 
     public void close(){
@@ -33,6 +35,10 @@ public class TaskColorPicker {
     }
 
     public void fillTaskColors(){
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         this.taskColorList.getChildren().removeAll(this.taskColorList.getChildren());
         List<commons.Color> colors = this.boardService.getCurrentBoard().getColors();
         if(colors == null) return;

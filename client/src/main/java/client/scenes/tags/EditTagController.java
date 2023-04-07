@@ -17,7 +17,7 @@ import javax.inject.Inject;
 public class EditTagController {
 
     private final ShowCtrl showCtrl;
-    private UserData userData;
+    private final UserData userData;
 
     @FXML
     private Button cancelButton;
@@ -42,6 +42,7 @@ public class EditTagController {
 
     public void setTag(Tag tag) {
         this.tag = tag;
+        this.textField.setText(tag.getName());
     }
 
     public void cancel(){
@@ -55,6 +56,10 @@ public class EditTagController {
      * see commons.sync.TagEdited.apply() for update method
      */
     public void editTag(){
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         TagEditModel model = new TagEditModel(textField.getText(), colorPickerToColor());
         IdResponseModel resp = userData.updateBoard(new TagEdited(tag.getBoardId(), tag, model));
         if (resp.getId() == -1) {

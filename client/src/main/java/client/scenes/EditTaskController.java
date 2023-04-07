@@ -115,7 +115,6 @@ public class EditTaskController {
         IdResponseModel response = taskService.editTask(task, list, task.getIndex());
 
         if (response.getId() == -1) {
-            showCtrl.cancel();
             showCtrl.showError(response.getErrorMessage());
             return;
         }

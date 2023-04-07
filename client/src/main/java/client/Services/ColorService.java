@@ -40,7 +40,7 @@ public class ColorService {
      * @param color the color to be transformed
      * @return string representation of the color.
      */
-    private String colorToHex(javafx.scene.paint.Color color){
+    public String colorToHex(javafx.scene.paint.Color color){
         String hexString = String.format("#%02X%02X%02X",
                 (int)(color.getRed() * 255),
                 (int)(color.getGreen() * 255),

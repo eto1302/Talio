@@ -284,11 +284,15 @@ public class ShowCtrl implements IShowCtrl {
         primaryStage.setScene(scene);
     }
     public void showError(String errorMessage) {
+        if(popUpStage != null){
+            closePopUp();
+        }
         popUpStage = new Stage();
         popUpStage.setScene(errorScene);
         popUpStage.setTitle("error");
         errorController.setErrorMessage(errorMessage);
         popUpStage.show();
+        this.cancel();
     }
 
     public void closePopUp() {
@@ -399,6 +403,9 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     public void showAddTagToTask(EditTaskController c){
+        if(popUpStage != null){
+            closePopUp();
+        }
         popUpStage = new Stage();
         var tagToTaskPair = FXML.load(AddTagToTaskController.class,
             "client", "scenes", "AddTagToTask.fxml");
@@ -421,7 +428,8 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     public void putTagSceneOverview(Tag tag, TagOverviewController cntr){
-        var tagPair = FXML.load(TagShapeController.class, "client", "scenes", "TagShape.fxml");
+        var tagPair = FXML.load(TagShapeController.class,
+                "client", "scenes", "TagShape.fxml");
 //        Scene initializeTagShape = new Scene(tagPair.getValue());
         TagShapeController tagShapeController = tagPair.getKey();
         tagShapeController.updateScene(tag);
@@ -526,7 +534,7 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     public void showUnlockBoard() {
-        String password = userData.getBoards().get(userData.getCurrentBoard().getId());
+        String password = userData.getCurrentBoard().getPassword();
         unlockBoardController.setCurrentPassword(password == null ? "" : password);
         secondaryStage = new Stage();
         secondaryStage.setTitle("Unlock Board");

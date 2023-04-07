@@ -36,7 +36,6 @@ public class TaskColorShape {
         IdResponseModel response = colorService.deleteColor(color);
         if(response.getId() == -1){
             showCtrl.showError(response.getErrorMessage());
-            showCtrl.cancel();
             return;
         }
         this.showCtrl.cancel();

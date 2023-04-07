@@ -35,7 +35,6 @@ public class AddListController {
         IdResponseModel response = this.listService.addList(nameField.getText());
         if (response.getId() == -1) {
             showCtrl.showError(response.getErrorMessage());
-            showCtrl.cancel();
             return;
         }
         cancel();

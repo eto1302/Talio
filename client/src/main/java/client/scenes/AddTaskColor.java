@@ -18,19 +18,25 @@ public class AddTaskColor {
     private ShowCtrl showCtrl;
 
     private ColorService colorService;
+    private final UserData userData;
 
     @Inject
     public AddTaskColor(UserData userData, ServerUtils serverUtils) {
         this.colorService = new ColorService(userData, serverUtils);
+        this.userData = userData;
     }
 
     public void add() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         IdResponseModel model =  this.colorService.addColor(
                 backgroundColor.getValue(), fontColor.getValue());
 
-        if (model.getId() == -1) {
-            showCtrl.showError(model.getErrorMessage());
+        if (model.getId() < 0) {
             showCtrl.cancel();
+            showCtrl.showError(model.getErrorMessage());
             return;
         }
         showCtrl.cancel();

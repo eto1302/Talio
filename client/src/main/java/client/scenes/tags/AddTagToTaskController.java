@@ -25,7 +25,6 @@ public class AddTagToTaskController {
     private ServerUtils serverUtils;
 
     private UserData userData;
-
     @FXML
     private GridPane tag2taskContainer;
     @FXML
@@ -107,7 +106,7 @@ public class AddTagToTaskController {
             tagBox.getChildren().add(new Label("No tags!"));
             return;
         }
-        int max = (tags.size() < 5) ? tags.size():5;
+        int max = Math.min(tags.size(), 5);
         for(int i = 0; i < max; i++){
             showCtrl.putTagSceneAddToTask(tags.get(i), this);
         }
@@ -121,7 +120,7 @@ public class AddTagToTaskController {
     }
 
     /**
-     * filters out tags already associated to a task from this.tags
+     * filters out tags already associated to a task from this tags
      */
     public void filterUsedTags(){
         List<Tag> used = this.tagService.getTagByTask(controller.getTask().getId());

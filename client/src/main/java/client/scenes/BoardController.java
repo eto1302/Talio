@@ -3,7 +3,6 @@ package client.scenes;
 import client.Services.BoardService;
 import client.Services.TaskService;
 import client.user.UserData;
-import client.utils.Constants;
 import client.utils.ServerUtils;
 import commons.Board;
 import commons.Task;
@@ -15,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.Lighting;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -48,11 +48,15 @@ public class BoardController {
     private LinkedList<ListShapeCtrl> listControllers;
     private ListShapeCtrl selectedList=null;
     private TaskShape selectedTask=null;
-    private boolean editable = false, locked;
-    private UserData userData;
+    private boolean editable = false;
+    private final UserData userData;
     private BoardService boardService;
     private TaskService taskService;
-    private String identify = null;
+
+    private static final Image LOCKED_IMG = new Image(
+            "file:client/build/resources/main/icons/lock.png");
+    private static final Image UNLOCKED_IMG = new Image(
+            "file:client/build/resources/main/icons/unlock.png");
 
     @Inject
     public BoardController(ShowCtrl showCtrl, ServerUtils server, UserData userData) {
@@ -107,14 +111,6 @@ public class BoardController {
             }
         }
 
-        if (identify!=null){
-            int listSelect = Integer.parseInt(identify.split("\\+")[0].trim());
-            int taskSelect = Integer.parseInt(identify.split("\\+")[1].trim());
-            selectedList=listControllers.get(listSelect);
-            selectedTask=selectedList.getTaskControllers().get(taskSelect);
-            selectedTask.setStatus(true);
-            selectedList.updateScrollPane(taskSelect);
-        }
     }
 
     public void showYourBoards(){
@@ -165,13 +161,23 @@ public class BoardController {
         showCtrl.showConnection();
     }
 
-    public void showEditBoard() { showCtrl.showColorPicker();}
+    public void showEditBoard() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
+        showCtrl.showEditBoard();
+    }
 
     public void delete() {
+        if(userData.isCurrentBoardLocked()){
+            userData.showError();
+            return;
+        }
         IdResponseModel response = this.boardService.delete(
                 this.boardService.getCurrentBoard().getId());
 
-        if (response.getId() == -1) {
+        if (response.getId() < 0) {
             showCtrl.showError(response.getErrorMessage());
         }
         else{
@@ -194,14 +200,9 @@ public class BoardController {
     }
 
     public void updateLockIcon(boolean locked) {
-        lockIcon.setImage(locked ? Constants.LOCKED_IMG : Constants.UNLOCKED_IMG);
+        lockIcon.setImage(locked ? LOCKED_IMG : UNLOCKED_IMG);
         editIcon.setVisible(!locked);
         deleteIcon.setVisible(!locked);
-        this.locked=locked;
-    }
-
-    public boolean isLocked() {
-        return locked;
     }
 
     public void movement(KeyEvent event){
@@ -217,14 +218,11 @@ public class BoardController {
         else if (selectedTask!=null && !editable){
             int index = selectedList.getTaskControllers().indexOf(selectedTask);
             TaskShape copy = selectedTask;
-            int listSelect = listControllers.indexOf(selectedList);
 
             switch (key){
                 case DOWN:
                 case KP_DOWN:
                 case S:
-                    int select = index!=selectedList.getTaskControllers().size()-1 ? index+1:index;
-                    identify = listSelect+"+"+select;
                     selectedTask.orderWithKeyEvent(index, "down");
                     if (index!=selectedList.getTaskControllers().size()-1) {
                         selectedTask = selectedList.getTaskControllers().get(index + 1);
@@ -232,11 +230,10 @@ public class BoardController {
                     } else selectedTask=copy;
                     selectedTask.setStatus(true);
                     break;
+
                 case UP:
                 case KP_UP:
                 case W:
-                    int select1 = index!=0 ? index-1:index;
-                    identify = listSelect+"+"+select1;
                     selectedTask.orderWithKeyEvent(index, "up");
                     if (index!=0) {
                         selectedTask = selectedList.getTaskControllers().get(index - 1);
@@ -245,8 +242,10 @@ public class BoardController {
                     else selectedTask=copy;
                     selectedTask.setStatus(true);
                     break;
+
             }
         }
+
         else if (editable)
             if (key==KeyCode.ENTER) {
                 editable=false;
@@ -283,7 +282,7 @@ public class BoardController {
                 selectedTask.deleteOnKey();
                 break;
             case ENTER:
-                showCtrl.showEditTask(selectedTask.getTask(), selectedList, selectedTask);
+                showCtrl.showEditTask(selectedTask.getTask(), selectedList);
                 break;
             case E:
                 editable=true;
