@@ -21,7 +21,6 @@ public class WSClientModule extends AbstractModule {
      */
     private String wsUrl = "ws://localhost:8080/ws";
     private static WebSocketStompClient wsStompClient;
-    private static MessageSessionHandler handler;
 
     @Override
     public void configure() {
