@@ -10,7 +10,6 @@ import com.google.inject.Inject;
 import commons.Board;
 import commons.mocks.IUserData;
 import commons.models.IdResponseModel;
-import org.springframework.beans.propertyeditors.FileEditor;
 
 import java.io.*;
 import java.util.HashMap;

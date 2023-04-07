@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import javafx.scene.control.*;
 import org.springframework.messaging.simp.stomp.StompSession;
 
-import java.io.File;
 
 public class ConnectionCtrl {
     @FXML

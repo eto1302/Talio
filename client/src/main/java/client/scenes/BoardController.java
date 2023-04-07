@@ -65,6 +65,7 @@ public class BoardController {
         this.showCtrl = showCtrl;
         this.boardService = new BoardService(userData, server);
         this.taskService = new TaskService(userData, server);
+        this.connectionService = new ConnectionService(userData, server);
     }
 
 
