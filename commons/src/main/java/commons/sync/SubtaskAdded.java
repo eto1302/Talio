@@ -15,7 +15,7 @@ public class SubtaskAdded extends BoardUpdate{
         this.taskID = taskID;
     }
 
-    public SubtaskAdded(){super();};
+    public SubtaskAdded(){super();}
 
     public Subtask getSubtask() {
         return subtask;
@@ -41,7 +41,7 @@ public class SubtaskAdded extends BoardUpdate{
     }
 
     @Override
-    public void apply(IUserData data) {
+    public void apply(IUserData data, IServerUtils serverUtils) {
         //TODO
     }
 }

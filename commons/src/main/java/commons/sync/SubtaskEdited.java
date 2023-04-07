@@ -24,7 +24,7 @@ public class SubtaskEdited extends BoardUpdate{
     }
 
     @Override
-    public void apply(IUserData data) {
+    public void apply(IUserData data, IServerUtils serverUtils) {
         //TODO
     }
 }

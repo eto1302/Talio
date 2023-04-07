@@ -20,7 +20,7 @@ public class SubtaskDeleted extends BoardUpdate{
     }
 
     @Override
-    public void apply(IUserData data) {
+    public void apply(IUserData data, IServerUtils serverUtils) {
         //TODO
     }
 }

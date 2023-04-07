@@ -32,7 +32,7 @@ public class BoardEdited extends BoardUpdate {
     }
 
     @Override
-    public void apply(IUserData data) {
+    public void apply(IUserData data, IServerUtils serverUtils) {
         data.getCurrentBoard().setName(edit.getName());
         data.getCurrentBoard().setPassword(edit.getPassword());
         data.getShowCtrl().showBoard();
