@@ -33,9 +33,9 @@
         <GridPane fx:id="boardBox" maxHeight="45.0" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: D5D3D3; -fx-padding: 5px;">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="465.6" minWidth="10.0" prefWidth="461.6" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="4.79998779296875" prefWidth="10.399999999999977" />
-            <ColumnConstraints hgrow="NEVER" maxWidth="5.600012207031227" minWidth="0.0" prefWidth="0.0" />
-            <ColumnConstraints hgrow="NEVER" maxWidth="5.600012207031227" minWidth="0.0" prefWidth="0.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="4.79998779296875" prefWidth="10.399999999999977" />
+                <ColumnConstraints hgrow="NEVER" maxWidth="5.600012207031227" minWidth="0.0" prefWidth="0.0" />
+                <ColumnConstraints hgrow="NEVER" maxWidth="5.600012207031227" minWidth="0.0" prefWidth="0.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -80,21 +80,21 @@
                         </ImageView>
                     </children>
                 </HBox>
-            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
-               <children>
-                      <Label opacity="0.5" prefHeight="34.0" prefWidth="129.0" text="Press &quot;?&quot; for help menu" />
-                      <MenuButton fx:id="menu" mnemonicParsing="false" popupSide="RIGHT" prefHeight="37.0" prefWidth="46.0" styleClass="buttons" text="---">
-                          <items>
-                              <MenuItem fx:id="joinBoard" mnemonicParsing="false" onAction="#showSearch" text="Join board" />
-                              <MenuItem fx:id="addBoard" mnemonicParsing="false" onAction="#addBoard" text="Add board" />
-                              <MenuItem fx:id="yourBoards" mnemonicParsing="false" onAction="#showYourBoards" text="Your boards" />
-                              <MenuItem fx:id="personalize" mnemonicParsing="false" onAction="#showEditBoard" text="Personalize" />
-                              <MenuItem mnemonicParsing="false" onAction="#showAdmin" text="Admin" />
-                              <MenuItem mnemonicParsing="false" onAction="#setServer" text="Choose server" />
-                          </items>
-                      </MenuButton>
-               </children>
-            </HBox>
+                <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                    <children>
+                        <Label opacity="0.5" prefHeight="34.0" prefWidth="129.0" text="Press &quot;?&quot; for help menu" />
+                        <MenuButton fx:id="menu" mnemonicParsing="false" popupSide="RIGHT" prefHeight="37.0" prefWidth="46.0" styleClass="buttons" text="---">
+                            <items>
+                                <MenuItem fx:id="joinBoard" mnemonicParsing="false" onAction="#showSearch" text="Join board" />
+                                <MenuItem fx:id="addBoard" mnemonicParsing="false" onAction="#addBoard" text="Add board" />
+                                <MenuItem fx:id="yourBoards" mnemonicParsing="false" onAction="#showYourBoards" text="Your boards" />
+                                <MenuItem fx:id="personalize" mnemonicParsing="false" onAction="#showEditBoard" text="Personalize" />
+                                <MenuItem mnemonicParsing="false" onAction="#showAdmin" text="Admin" />
+                                <MenuItem mnemonicParsing="false" onAction="#setServer" text="Choose server" />
+                            </items>
+                        </MenuButton>
+                    </children>
+                </HBox>
             </children>
         </GridPane>
         <ScrollPane fx:id="scrollPane" fitToHeight="true" minHeight="200.0" GridPane.rowIndex="1">
@@ -222,20 +222,20 @@
                 </HBox>
             </content>
         </ScrollPane>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 25px;" GridPane.rowIndex="2">
-         <children>
-            <Button fx:id="addListButton" mnemonicParsing="false" onAction="#showAddList" prefHeight="26.0" prefWidth="72.0" styleClass="buttons" text="Add List" />
-            <Button fx:id="editBoardButton" mnemonicParsing="false" onAction="#showEditBoard" prefHeight="26.0" prefWidth="72.0" styleClass="buttons" text="Edit Board">
-               <HBox.margin>
-                  <Insets left="30.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="tagsButton" mnemonicParsing="false" onAction="#showTagOverview" prefHeight="26.0" prefWidth="72.0" styleClass="buttons" text="Tags">
-               <HBox.margin>
-                  <Insets left="30.0" />
-               </HBox.margin>
-            </Button>
-         </children>
-      </HBox>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 25px;" GridPane.rowIndex="2">
+            <children>
+                <Button fx:id="addListButton" mnemonicParsing="false" onAction="#showAddList" prefHeight="26.0" prefWidth="72.0" styleClass="buttons" text="Add List" />
+                <Button fx:id="editBoardButton" mnemonicParsing="false" onAction="#showEditBoard" prefHeight="26.0" prefWidth="72.0" styleClass="buttons" text="Edit Board">
+                    <HBox.margin>
+                        <Insets left="30.0" />
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="tagsButton" mnemonicParsing="false" onAction="#showTagOverview" prefHeight="26.0" prefWidth="72.0" styleClass="buttons" text="Tags">
+                    <HBox.margin>
+                        <Insets left="30.0" />
+                    </HBox.margin>
+                </Button>
+            </children>
+        </HBox>
     </children>
 </GridPane>

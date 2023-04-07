@@ -11,15 +11,15 @@ class SubtaskTest {
 
     @BeforeEach
     public void setup(){
-        subtask1 = Subtask.create("Subtask1", true, 1);
+        subtask1 = new Subtask("Subtask1", true, 1);
         subtask1.setIndex(0);
-        subtask2 = Subtask.create("Subtask2", false, 2);
+        subtask2 = new Subtask("Subtask2", false, 2);
         subtask2.setIndex(0);
     }
 
     @Test
     void create() {
-        Subtask subtask = Subtask.create("New Subtask", false, 1);
+        Subtask subtask = new Subtask("New Subtask", false, 1);
         assertNotNull(subtask);
         assertEquals("New Subtask", subtask.getDescription());
         assertFalse(subtask.isChecked());

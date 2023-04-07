@@ -28,9 +28,9 @@ class ColorServiceTest {
     @Autowired
     private ColorService mockService = new ColorService(mockColorRepo, mockBoardRepo);
 
-    private transient Color color = Color.create("#101010", "#FF10FF");
-    private transient Color color2 = Color.create("#102012", "#FF10DD");
-    private transient Board board = Board.create("name", "pwd",
+    private transient Color color = new Color("#101010", "#FF10FF");
+    private transient Color color2 = new Color("#102012", "#FF10DD");
+    private transient Board board = new Board("name", "pwd",
             null, new ArrayList<>(), new ArrayList<>());
     private ColorEditModel model;
 

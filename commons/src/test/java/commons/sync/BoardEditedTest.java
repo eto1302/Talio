@@ -30,7 +30,7 @@ public class BoardEditedTest {
         MockitoAnnotations.openMocks(this);
         this.boardEdited = new BoardEdited(1,
                 new BoardEditModel("test", "password"));
-        this.board = Board.create("test123", "pass", new ArrayList<>(),
+        this.board = new Board("test123", "pass", new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>());
     }
 
@@ -64,6 +64,8 @@ public class BoardEditedTest {
             @Override
             public Object addList(List list) {return null;}
             @Override
+            public void cancel(){}
+            @Override
             public void editList(List list) {}
             @Override
             public void deleteList(List list) {}
@@ -95,10 +97,12 @@ public class BoardEditedTest {
             public void editTag(Tag tag) {}
             @Override
             public void removeTagFromTask(Tag tag, Task task) {}
+            @Override
+            public boolean isColorPickerOpen(){
+                return false;
+            }
         });
-
         this.boardEdited.apply(mockUserData);
-
         verify(mockUserData, times(2)).getCurrentBoard();
         verify(mockUserData, times(1)).getShowCtrl();
         assertEquals("test", board.getName());

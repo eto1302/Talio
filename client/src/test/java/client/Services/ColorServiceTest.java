@@ -38,7 +38,7 @@ public class ColorServiceTest {
 
     @Test
     public void addTaskColorTest(){
-        this.board = Board.create("test", "psswrd", new ArrayList<>(),
+        this.board = new Board("test", "psswrd", new ArrayList<>(),
                 Arrays.asList(), new ArrayList<>());
         when(mockUserData.getCurrentBoard()).thenReturn(board);
         when(mockUserData.updateBoard(Mockito.any(ColorAdded.class))).thenReturn(
@@ -55,9 +55,9 @@ public class ColorServiceTest {
     }
     @Test
     public void testEditColorDefault() {
-        this.defaultColor = Color.create("#FFFFFF", "#000000");
+        this.defaultColor = new Color("#FFFFFF", "#000000");
         this.defaultColor.setIsDefault(true);
-        this.board = Board.create("test", "psswrd", new ArrayList<>(),
+        this.board = new Board("test", "psswrd", new ArrayList<>(),
                 Arrays.asList(defaultColor), new ArrayList<>());
         when(mockUserData.getCurrentBoard()).thenReturn(board);
         when(mockUserData.updateBoard(any(ColorEdited.class))).thenReturn(
@@ -74,9 +74,9 @@ public class ColorServiceTest {
 
     @Test
     public void testEditColorError() {
-        this.defaultColor = Color.create("#FFFFFF", "#000000");
+        this.defaultColor = new Color("#FFFFFF", "#000000");
         this.defaultColor.setIsDefault(true);
-        this.board = Board.create("test", "psswrd", new ArrayList<>(),
+        this.board = new Board("test", "psswrd", new ArrayList<>(),
                 Arrays.asList(defaultColor), new ArrayList<>());
         when(mockUserData.getCurrentBoard()).thenReturn(board);
         when(mockUserData.updateBoard(any(ColorEdited.class))).thenReturn(
@@ -92,7 +92,7 @@ public class ColorServiceTest {
 
     @Test
     public void testEditColorNotDefault() {
-        this.board = Board.create("test", "psswrd", new ArrayList<>(),
+        this.board = new Board("test", "psswrd", new ArrayList<>(),
                 Arrays.asList(), new ArrayList<>());
         when(mockUserData.getCurrentBoard()).thenReturn(board);
         when(mockUserData.updateBoard(any(ColorEdited.class))).thenReturn(
@@ -109,9 +109,9 @@ public class ColorServiceTest {
 
     @Test
     public void testEditColorDefaultWithoutPreviousDefault() {
-        Color color = Color.create("#FFFFFF", "#000000");
-        Color color1 = Color.create("#FFFFFF", "#000000");
-        this.board = Board.create("test", "psswrd", new ArrayList<>(),
+        Color color = new Color("#FFFFFF", "#000000");
+        Color color1 = new Color("#FFFFFF", "#000000");
+        this.board = new Board("test", "psswrd", new ArrayList<>(),
                 Arrays.asList(color, color1, color1), new ArrayList<>());
         when(mockUserData.getCurrentBoard()).thenReturn(board);
 
@@ -129,8 +129,8 @@ public class ColorServiceTest {
 
     @Test
     public void testDeleteColor() {
-        Color color = Color.create( "#000000", "#FFFFFF");
-        this.board = Board.create("test", "psswrd", new ArrayList<>(),
+        Color color = new Color( "#000000", "#FFFFFF");
+        this.board = new Board("test", "psswrd", new ArrayList<>(),
                 Arrays.asList(), new ArrayList<>());
         when(mockUserData.getCurrentBoard()).thenReturn(board);
 
@@ -148,9 +148,9 @@ public class ColorServiceTest {
 
     @Test
     public void testDeleteColorError() {
-        this.defaultColor = Color.create("#FFFFFF", "#000000");
+        this.defaultColor = new Color("#FFFFFF", "#000000");
         this.defaultColor.setIsDefault(true);
-        this.board = Board.create("test", "psswrd", new ArrayList<>(),
+        this.board = new Board("test", "psswrd", new ArrayList<>(),
                 Arrays.asList(), new ArrayList<>());
         when(mockUserData.getCurrentBoard()).thenReturn(board);
 
@@ -168,7 +168,7 @@ public class ColorServiceTest {
 
     @Test
     public void getColorTest(){
-        this.defaultColor = Color.create("#FFFFFF", "#000000");
+        this.defaultColor = new Color("#FFFFFF", "#000000");
         when(mockServerUtils.getColor(any(Integer.class))).thenReturn(defaultColor);
 
         Color actual = colorService.getColor(1);

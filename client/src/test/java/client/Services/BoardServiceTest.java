@@ -31,7 +31,7 @@ public class BoardServiceTest {
     public void setup(){
         MockitoAnnotations.openMocks(this);
         boardService = new BoardService(mockUserData, mockServerUtils);
-        this.board = Board.create("test", "pass", new ArrayList<>(),
+        this.board = new Board("test", "pass", new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>());
     }
     @Test

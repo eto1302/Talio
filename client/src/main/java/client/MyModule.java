@@ -16,8 +16,8 @@
 package client;
 
 import client.scenes.AdminController;
-import client.user.UserData;
 import client.scenes.ShowCtrl;
+import client.user.UserData;
 import client.utils.ServerUtils;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;

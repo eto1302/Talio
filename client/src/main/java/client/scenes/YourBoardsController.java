@@ -28,7 +28,9 @@ public class YourBoardsController {
         Map<Integer, String> boardMap = this.boardService.getJoinedBoards();
         for(int id : boardMap.keySet()){
             Board currentBoard = this.boardService.getBoard(id);
-            showCtrl.addBoard(currentBoard);
+            if(currentBoard != null) {
+                showCtrl.addBoard(currentBoard);
+            }
         }
     }
 

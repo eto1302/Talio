@@ -25,8 +25,10 @@ public class ColorService {
     }
 
     public IdResponseModel addColor(Color backgroundColor, Color fontColor) {
-        commons.Color color = commons.Color.create(colorToHex(backgroundColor),
+        commons.Color color = new commons.Color(colorToHex(backgroundColor),
                 colorToHex(fontColor));
+        color.setBoardId(userData.getCurrentBoard().getId());
+        color.setBoard(null);
         if(this.userData.getCurrentBoard().getColors().size() == 2) color.setIsDefault(true);
         IdResponseModel model = userData.updateBoard(new ColorAdded(
                 this.userData.getCurrentBoard().getId(), color));
@@ -38,7 +40,7 @@ public class ColorService {
      * @param color the color to be transformed
      * @return string representation of the color.
      */
-    private String colorToHex(javafx.scene.paint.Color color){
+    public String colorToHex(javafx.scene.paint.Color color){
         String hexString = String.format("#%02X%02X%02X",
                 (int)(color.getRed() * 255),
                 (int)(color.getGreen() * 255),
@@ -54,14 +56,13 @@ public class ColorService {
         Board board = this.userData.getCurrentBoard();
         if(id == -1) id = board.getBoardColor().getId();
         if(id == -2) id = board.getListColor().getId();
-        commons.Color color = commons.Color.create(
+        commons.Color color = new commons.Color(
                 colorToHex(colorFont), colorToHex(colorBackground));
         ColorEditModel model = new ColorEditModel(
                 color.getBackgroundColor(), color.getFontColor(), isDefault);
 
         IdResponseModel idResponseModel = userData.updateBoard(new ColorEdited(
                 board.getId(), id, model));
-        this.userData.openBoard(board.getId());
         return idResponseModel;
     }
 
@@ -92,7 +93,6 @@ public class ColorService {
                 colorToHex(colorBackground),colorToHex(colorFont), true);
         IdResponseModel model = userData.updateBoard(new ColorEdited(
                 this.userData.getCurrentBoard().getId(), id, edit));
-        userData.openBoard(this.userData.getCurrentBoard().getId());
         return model;
     }
 
@@ -102,7 +102,6 @@ public class ColorService {
         }
         IdResponseModel model = this.userData.updateBoard(
                 new ColorDeleted(this.userData.getCurrentBoard().getId(), color.getId()));
-        this.userData.openBoard(this.userData.getCurrentBoard().getId());
         return model;
     }
 

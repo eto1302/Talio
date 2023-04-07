@@ -9,6 +9,7 @@ import commons.sync.SubtaskAdded;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SubtaskService {
@@ -27,7 +28,7 @@ public class SubtaskService {
         if(!response.getStatusCode().is2xxSuccessful()){
             return new ArrayList<>();
         }
-        return Arrays.asList(response.getBody());
+        return new LinkedList<Subtask>(Arrays.asList(response.getBody()));
     }
 
     public List<Subtask> getSubtasksByTask(int id) {
@@ -35,11 +36,11 @@ public class SubtaskService {
         if(!response.getStatusCode().is2xxSuccessful()){
             return new ArrayList<>();
         }
-        return Arrays.asList(response.getBody());
+        return new LinkedList<Subtask>(Arrays.asList(response.getBody()));
     }
 
     public IdResponseModel add(String name, Task task) {
-        Subtask subtask = Subtask.create(name, false, task.getId());
+        Subtask subtask = new Subtask(name, false, task.getId());
         java.util.List<Subtask> subtasks = this.getSubtasksByTask(task.getId());
         subtask.setIndex(subtasks.size());
 

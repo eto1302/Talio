@@ -45,15 +45,15 @@ public class BoardControllerTest {
     @MockBean
     private transient BoardService mockService;
 
-    private transient Board board = Board.create("name", "pwd",
+    private transient Board board = new Board("name", "pwd",
             null, new ArrayList<>(
-                    Arrays.asList(Color.create("#000000", "#FFFFFF"),
-                            Color.create("#000000", "#FFFFFF"))),
+                    Arrays.asList(new Color("#000000", "#FFFFFF"),
+                            new Color("#000000", "#FFFFFF"))),
             new ArrayList<>());
 
-    private transient Board board2 = Board.create("default", "1234",
+    private transient Board board2 = new Board("default", "1234",
             null, new ArrayList<>(
-                    Arrays.asList(Color.create("#000000", "#FFFFFF"))),
+                    Arrays.asList(new Color("#000000", "#FFFFFF"))),
             new ArrayList<>());
 
     private IdResponseModel model;

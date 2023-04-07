@@ -1,8 +1,8 @@
 package client.scenes.tags;
 
 import client.Services.TagService;
-import client.scenes.ShowCtrl;
 import client.scenes.EditTaskController;
+import client.scenes.ShowCtrl;
 import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Tag;
@@ -129,6 +129,10 @@ public class TagShapeController {
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY))
                     if (event.getClickCount() == 2) {
+                        if(userData.isCurrentBoardLocked()){
+                            userData.showError();
+                            return;
+                        }
                         showCtrl.showEditTag(tag);
                     } else if (event.getClickCount()==1 && inEditTaskOrAddTagToTask()) {
 
