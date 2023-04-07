@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class TaskService {
@@ -32,7 +33,7 @@ public class TaskService {
         if(!response.getStatusCode().is2xxSuccessful()){
             return new ArrayList<>();
         }
-        return Arrays.asList(response.getBody());
+        return new LinkedList<Task>(Arrays.asList(response.getBody()));
     }
 
     public Task getTask(int id) {

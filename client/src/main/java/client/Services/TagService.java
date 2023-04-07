@@ -5,11 +5,14 @@ import client.utils.ServerUtils;
 import commons.Board;
 import commons.Tag;
 import commons.models.IdResponseModel;
+import commons.models.TagEditModel;
 import commons.sync.TagCreated;
+import commons.sync.TagEdited;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class TagService {
@@ -28,7 +31,7 @@ public class TagService {
         if(!response.getStatusCode().is2xxSuccessful()){
             return new ArrayList<>();
         }
-        return Arrays.asList(response.getBody());
+        return new LinkedList<Tag>(Arrays.asList(response.getBody()));
     }
 
     public List<Tag> getTagByBoard() {
@@ -37,7 +40,7 @@ public class TagService {
         if(!response.getStatusCode().is2xxSuccessful()){
             return new ArrayList<>();
         }
-        return Arrays.asList(response.getBody());
+        return new LinkedList<Tag>(Arrays.asList(response.getBody()));
     }
 
     public IdResponseModel addTag(String text, Color background, Color font) {
@@ -49,5 +52,11 @@ public class TagService {
 
         Board current = userData.getCurrentBoard();
         return userData.updateBoard(new TagCreated(current.getId(), tag, current));
+    }
+
+    public IdResponseModel editTag(String text, Color background, Color font, Tag tag) {
+        TagEditModel model = new TagEditModel(text, new commons.Color(colorService.colorToHex(font),
+                colorService.colorToHex(background)));
+        return userData.updateBoard(new TagEdited(tag.getBoardId(), tag, model));
     }
 }

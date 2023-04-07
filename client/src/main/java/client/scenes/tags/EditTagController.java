@@ -1,14 +1,12 @@
 package client.scenes.tags;
 
+import client.Services.TagService;
 import client.scenes.ShowCtrl;
 import client.user.UserData;
-import commons.Color;
+import client.utils.ServerUtils;
 import commons.Tag;
 import commons.models.IdResponseModel;
-import commons.models.TagEditModel;
-import commons.sync.TagEdited;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 
@@ -17,23 +15,19 @@ import javax.inject.Inject;
 public class EditTagController {
 
     private final ShowCtrl showCtrl;
-    private final UserData userData;
-
     @FXML
-    private Button cancelButton;
+    private TextField name;
     @FXML
-    private Button editButton;
+    private ColorPicker background;
     @FXML
-    private TextField textField;
-    @FXML
-    private ColorPicker colorPicker;
-
+    private ColorPicker font;
     private Tag tag;
+    private TagService tagService;
 
     @Inject
-    public EditTagController (ShowCtrl showCtrl, UserData userData){
+    public EditTagController (ShowCtrl showCtrl, UserData userData, ServerUtils serverUtils){
         this.showCtrl=showCtrl;
-        this.userData = userData;
+        this.tagService = new TagService(userData, serverUtils);
     }
 
     public Tag getTag() {
@@ -42,7 +36,11 @@ public class EditTagController {
 
     public void setTag(Tag tag) {
         this.tag = tag;
-        this.textField.setText(tag.getName());
+        this.name.setText(tag.getName());
+        this.background.setValue(
+                javafx.scene.paint.Color.web(tag.getColor().getBackgroundColor()));
+        this.font.setValue(
+                javafx.scene.paint.Color.web(tag.getColor().getFontColor()));
     }
 
     public void cancel(){
@@ -56,54 +54,11 @@ public class EditTagController {
      * see commons.sync.TagEdited.apply() for update method
      */
     public void editTag(){
-        if(userData.isCurrentBoardLocked()){
-            userData.showError();
-            return;
-        }
-        TagEditModel model = new TagEditModel(textField.getText(), colorPickerToColor());
-        IdResponseModel resp = userData.updateBoard(new TagEdited(tag.getBoardId(), tag, model));
-        if (resp.getId() == -1) {
-            showCtrl.showError(resp.getErrorMessage());
-            showCtrl.cancel();
+        IdResponseModel response = this.tagService.editTag(
+                name.getText(), background.getValue(), font.getValue(), tag);
+        if (response.getId() == -1) {
+            showCtrl.showError(response.getErrorMessage());
         }
         showCtrl.closePopUp();
-    }
-
-    /**
-     * Converts javafx Color to a Color
-     * @return
-     */
-    private Color colorPickerToColor(){
-        String bgColor = colorToHex(colorPicker.getValue());
-        String textColor = (getBrightness(colorPicker.getValue()) < 130) ? "#FFFFFF" : "#000000";
-        Color res = new Color();
-        res.setBackgroundColor(bgColor);
-        res.setFontColor(textColor);
-        return res;
-    }
-
-    /**
-     * converts javaFX color to a hex representation
-     * @param color Color to be converted
-     * @return string with hex representation
-     */
-    private String colorToHex(javafx.scene.paint.Color color){
-        String hexString = String.format("#%02X%02X%02X",
-                (int)(color.getRed() * 255),
-                (int)(color.getGreen() * 255),
-                (int)(color.getBlue() * 255));
-        return hexString;
-    }
-
-    /**
-     * Gets the perceived brightness of a javaFx Color
-     * @param color Color to be converted
-     * @return double [0,255] representing the perceived brightness of the color
-     */
-    private double getBrightness(javafx.scene.paint.Color color) {
-        return Math.sqrt(Math.pow(0.299*color.getRed()*255,2)
-                + Math.pow(0.587*color.getGreen()*255, 2)
-                + Math.pow(0.114* color.getBlue()*255, 2)
-        );
     }
 }

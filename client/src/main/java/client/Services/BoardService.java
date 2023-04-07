@@ -159,4 +159,6 @@ public class BoardService {
     public Map<Integer, String> getJoinedBoards() {
         return this.userData.getBoards();
     }
+
+    public boolean isCurrentBoardLocked() { return this.userData.isCurrentBoardLocked();}
 }
