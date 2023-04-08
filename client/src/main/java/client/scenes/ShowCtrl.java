@@ -169,7 +169,7 @@ public class ShowCtrl implements IShowCtrl {
 
 
     public void cancel() {
-        secondaryStage.close();
+        if(this.secondaryStage != null) secondaryStage.close();
     }
 
     public void showSearch() {
@@ -290,10 +290,10 @@ public class ShowCtrl implements IShowCtrl {
         listShapeCtrl.addTask(taskShape.getValue(), taskShapeCtrl, task);
     }
 
-    public void deleteTask(Task task) {
-        ListShapeCtrl listShapeCtrl = getListController(task.getListID());
+    public void deleteTask(int listId, int taskId) {
+        ListShapeCtrl listShapeCtrl = getListController(listId);
         if(listShapeCtrl != null)
-            listShapeCtrl.removeTask(task.getId());
+            listShapeCtrl.removeTask(taskId);
     }
 
     /**
@@ -600,6 +600,8 @@ public class ShowCtrl implements IShowCtrl {
 
     @Override
     public void editColor(Color color) {
+        this.cancel();
+        this.showColorPicker();
         this.boardController.refresh();
     }
 

@@ -42,7 +42,7 @@ public class TagEdited extends BoardUpdate{
     }
 
     @Override
-    public void apply(IUserData data) {
+    public void apply(IUserData data, IServerUtils serverUtils) {
         tag.setName(model.getName());
         tag.setColor(model.getColor());
         data.getShowCtrl().editTag(tag);

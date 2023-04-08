@@ -53,6 +53,7 @@ public class BoardController {
     private BoardService boardService;
     private TaskService taskService;
     private ConnectionService connectionService;
+    private EventHandler<KeyEvent> handler;
 
     private final Image lockedImage = new Image(
             "file:client/build/resources/main/icons/lock.png");
@@ -73,6 +74,7 @@ public class BoardController {
         listControllers=new LinkedList<>();
         grid.requestFocus();
         filtering();
+        scrollPane.addEventFilter(KeyEvent.KEY_PRESSED, handler);
         grid.getScene().setOnKeyPressed(this::movement);
         refresh();
     }
@@ -124,6 +126,8 @@ public class BoardController {
     }
 
     public void showYourBoards(){
+        scrollPane.removeEventHandler(KeyEvent.ANY, handler);
+        grid.removeEventHandler(KeyEvent.ANY, this::movement);
         showCtrl.showYourBoards();
     }
 
@@ -216,22 +220,20 @@ public class BoardController {
     public void movement(KeyEvent event){
         if (selectedTask==null)
             find();
-
         KeyCode key = event.getCode();
         if (selectedTask!=null && !event.isShiftDown() && !editable) {
             int index = selectedList.getTaskControllers().indexOf(selectedTask);
             switchCase(key, index);
         }
-
         else if (selectedTask!=null && !editable){
             int index = selectedList.getTaskControllers().indexOf(selectedTask);
             TaskShape copy = selectedTask;
             int listSelect = listControllers.indexOf(selectedList);
-
             switch (key){
                 case DOWN:
                 case KP_DOWN:
                 case S:
+                    if (checkLocked()) return;
                     int select = index!=selectedList.getTaskControllers().size()-1 ? index+1:index;
                     identify = listSelect+"+"+select;
                     selectedTask.orderWithKeyEvent(index, "down");
@@ -244,6 +246,7 @@ public class BoardController {
                 case UP:
                 case KP_UP:
                 case W:
+                    if (checkLocked()) return;
                     int select1 = index!=0 ? index-1:index;
                     identify = listSelect+"+"+select1;
                     selectedTask.orderWithKeyEvent(index, "up");
@@ -262,6 +265,7 @@ public class BoardController {
                 selectedTask.editOnKey();
                 grid.requestFocus();
             }
+        grid.requestFocus();
     }
 
 
@@ -289,25 +293,36 @@ public class BoardController {
                 break;
             case DELETE:
             case BACK_SPACE:
+                if (checkLocked()) return;
                 selectedTask.deleteOnKey();
                 break;
             case ENTER:
+                if (checkLocked()) return;
                 showCtrl.showEditTask(selectedTask.getTask(), selectedList, selectedTask);
                 break;
             case E:
+                if (checkLocked()) return;
                 editable=true;
                 selectedTask.makeEditable();
                 break;
             case C:
+                if (checkLocked()) return;
                 showCtrl.showColorPicker();
                 break;
             case T:
+                if (checkLocked()) return;
                 showCtrl.showAddTagToTask(selectedTask.getTask());
                 break;
         }
     }
 
-
+    private boolean checkLocked() {
+        if(boardService.isCurrentBoardLocked()){
+            showCtrl.showError("Board is locked");
+            return true;
+        }
+        return false;
+    }
 
 
     private void down(int index){
@@ -397,8 +412,8 @@ public class BoardController {
                 (1/(listBox.getWidth()-bounds.getWidth())));
     }
 
-    private void filtering(){
-        scrollPane.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+    private void filtering() {
+        handler = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 List<KeyCode> arrows = Arrays.asList(KeyCode.DOWN, KeyCode.KP_DOWN, KeyCode.UP,
@@ -406,8 +421,9 @@ public class BoardController {
                         KeyCode.RIGHT, KeyCode.KP_RIGHT);
                 if (arrows.contains(event.getCode()) && !event.isShiftDown())
                     movement(event);
-            }
-        });
+                }
+
+        };
     }
 
     public TaskShape findTaskController(Task task){

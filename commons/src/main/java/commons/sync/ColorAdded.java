@@ -34,10 +34,11 @@ public class ColorAdded extends BoardUpdate {
     }
 
     @Override
-    public void apply(IUserData data) {
+    public void apply(IUserData data, IServerUtils serverUtils) {
         if(color.getBoardId() == data.getCurrentBoard().getId()) {
             color.setBoard(data.getCurrentBoard());
-            data.getCurrentBoard().getColors().add(color);
+            if(data.getCurrentBoard().getColors() != null)
+                data.getCurrentBoard().getColors().add(color);
             if(data.getShowCtrl().isColorPickerOpen()) {
                 data.getShowCtrl().cancel();
                 data.getShowCtrl().showColorPicker();

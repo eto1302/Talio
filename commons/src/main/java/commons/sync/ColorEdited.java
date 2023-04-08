@@ -43,10 +43,8 @@ public class ColorEdited extends BoardUpdate {
     }
 
     @Override
-    public void apply(IUserData data) {
+    public void apply(IUserData data, IServerUtils serverUtils) {
         Color color;
-        Color boardColor = data.getCurrentBoard().getColors().get(0);
-        Color listColor = data.getCurrentBoard().getColors().get(1);
         if(data.getCurrentBoard().getBoardColor().getId() == colorId){
             color = data.getCurrentBoard().getBoardColor();
         }
@@ -60,7 +58,7 @@ public class ColorEdited extends BoardUpdate {
         color.setFontColor(edit.getFontColor());
         color.setBackgroundColor(edit.getBackgroundColor());
         color.setIsDefault(edit.isDefault());
-        data.getShowCtrl().editColor(color);
+        if(edit.isDefault()) data.getShowCtrl().editColor(color);
     }
 
 }

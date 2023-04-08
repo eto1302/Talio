@@ -30,7 +30,7 @@ public class ColorDeleted extends BoardUpdate{
     }
 
     @Override
-    public void apply(IUserData data) {
+    public void apply(IUserData data, IServerUtils serverUtils) {
         commons.Color color = data.getCurrentBoard().getColors().stream()
                 .filter(e -> e.getId() == colorId).findFirst().orElse(null);
         data.getCurrentBoard().getColors().remove(color);

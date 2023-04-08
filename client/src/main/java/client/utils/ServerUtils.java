@@ -22,6 +22,7 @@ import commons.*;
 import commons.List;
 import commons.mocks.IServerUtils;
 import commons.models.*;
+import commons.sync.BoardUpdate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -39,6 +40,7 @@ public class ServerUtils implements IServerUtils {
     @Inject
     public ServerUtils(RestTemplate mockClient) {
         this.client = mockClient;
+        BoardUpdate.setServerUtils(this);
     }
 
     public void setUrl(String url) {

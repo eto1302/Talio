@@ -46,7 +46,7 @@ public class TagCreated extends BoardUpdate{
     }
 
     @Override
-    public void apply(IUserData data) {
+    public void apply(IUserData data, IServerUtils serverUtils) {
         data.getShowCtrl().addTag(tag);
     }
 }
