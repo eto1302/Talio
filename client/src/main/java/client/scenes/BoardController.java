@@ -220,7 +220,6 @@ public class BoardController {
     public void movement(KeyEvent event){
         if (selectedTask==null)
             find();
-
         KeyCode key = event.getCode();
         if (selectedTask!=null && !event.isShiftDown() && !editable) {
             int index = selectedList.getTaskControllers().indexOf(selectedTask);
@@ -235,6 +234,7 @@ public class BoardController {
                 case DOWN:
                 case KP_DOWN:
                 case S:
+                    if (checkLocked()) return;
                     int select = index!=selectedList.getTaskControllers().size()-1 ? index+1:index;
                     identify = listSelect+"+"+select;
                     selectedTask.orderWithKeyEvent(index, "down");
@@ -247,6 +247,7 @@ public class BoardController {
                 case UP:
                 case KP_UP:
                 case W:
+                    if (checkLocked()) return;
                     int select1 = index!=0 ? index-1:index;
                     identify = listSelect+"+"+select1;
                     selectedTask.orderWithKeyEvent(index, "up");
@@ -293,25 +294,36 @@ public class BoardController {
                 break;
             case DELETE:
             case BACK_SPACE:
+                if (checkLocked()) return;
                 selectedTask.deleteOnKey();
                 break;
             case ENTER:
+                if (checkLocked()) return;
                 showCtrl.showEditTask(selectedTask.getTask(), selectedList, selectedTask);
                 break;
             case E:
+                if (checkLocked()) return;
                 editable=true;
                 selectedTask.makeEditable();
                 break;
             case C:
+                if (checkLocked()) return;
                 showCtrl.showColorPicker();
                 break;
             case T:
+                if (checkLocked()) return;
                 showCtrl.showAddTagToTask(selectedTask.getTask());
                 break;
         }
     }
 
-
+    private boolean checkLocked() {
+        if(boardService.isCurrentBoardLocked()){
+            showCtrl.showError("Board is locked");
+            return true;
+        }
+        return false;
+    }
 
 
     private void down(int index){

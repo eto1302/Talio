@@ -54,8 +54,8 @@ public interface IServerUtils {
     IdResponseModel deleteTag(int tagID);
 
     IdResponseModel editTag(int tagID, TagEditModel model);
-
     ResponseEntity<Tag[]> getTagsByTask(int taskID);
     ResponseEntity<Task[]> getTasksOrdered(int listID);
+    ResponseEntity<Subtask[]> getSubtasksOrdered(int taskID);
 }
 
