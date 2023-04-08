@@ -50,7 +50,7 @@ public class TaskAdded extends BoardUpdate {
     public void apply(IUserData data, IServerUtils serverUtils) {
         commons.List list = data.getCurrentBoard().getLists().stream()
                 .filter(e -> e.getId() == listID).findFirst().orElse(null);
-        if(list.getTasks() == null) {
+        if(list.getTasks() == null || list.getTasks().isEmpty()) {
             list.setTasks(new ArrayList<>(Arrays.asList(
                     serverUtils.getTasksOrdered(list.getId()).getBody())));}
         list.getTasks().add(task);
