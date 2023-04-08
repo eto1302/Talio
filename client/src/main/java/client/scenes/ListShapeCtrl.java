@@ -80,12 +80,12 @@ public class ListShapeCtrl {
      * sends a message for board deletion, invoked from FXML
      */
     public void initiateDeleteList() {
-        if(userData.isCurrentBoardLocked()){
-            userData.showError();
+        if(boardService.isCurrentBoardLocked()){
+            showCtrl.showError("Board is locked");
             return;
         }
         IdResponseModel response = this.listService.deleteList(list);
-        if (response.getId() < 0) {
+        if (response.getId() == -1) {
             showCtrl.showError(response.getErrorMessage());
         }
     }
@@ -180,6 +180,10 @@ public class ListShapeCtrl {
      * Puts a text field in place instead of the list title to edit it without a pop up
      */
     public void editList(){
+        if(boardService.isCurrentBoardLocked()){
+            showCtrl.showError("Board is locked");
+            return;
+        }
         text.setPrefWidth(200);
         text.setText(listTitle.getText());
         listTitle.setGraphic(text);
@@ -204,8 +208,8 @@ public class ListShapeCtrl {
      * @param taskId the ID of the task to remove
      */
     public void removeTask(int taskId) {
-        if(userData.isCurrentBoardLocked()){
-            userData.showError();
+        if(boardService.isCurrentBoardLocked()){
+            showCtrl.showError("Board is locked");
             return;
         }
         TaskShape controller = taskControllers.stream().filter(e ->
@@ -239,8 +243,8 @@ public class ListShapeCtrl {
      * @param event the drag event
      */
     public void dragDrop(DragEvent event) {
-        if(userData.isCurrentBoardLocked()){
-            userData.showError();
+        if(boardService.isCurrentBoardLocked()){
+            showCtrl.showError("Board is locked");
             return;
         }
         Dragboard dragboard = event.getDragboard();

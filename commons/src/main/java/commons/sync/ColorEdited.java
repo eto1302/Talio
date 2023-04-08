@@ -58,7 +58,7 @@ public class ColorEdited extends BoardUpdate {
         color.setFontColor(edit.getFontColor());
         color.setBackgroundColor(edit.getBackgroundColor());
         color.setIsDefault(edit.isDefault());
-        data.getShowCtrl().editColor(color);
+        if(edit.isDefault()) data.getShowCtrl().editColor(color);
     }
 
 }

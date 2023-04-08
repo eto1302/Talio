@@ -169,7 +169,7 @@ public class ShowCtrl implements IShowCtrl {
 
 
     public void cancel() {
-        secondaryStage.close();
+        if(this.secondaryStage != null) secondaryStage.close();
     }
 
     public void showSearch() {
@@ -600,6 +600,8 @@ public class ShowCtrl implements IShowCtrl {
 
     @Override
     public void editColor(Color color) {
+        this.cancel();
+        this.showColorPicker();
         this.boardController.refresh();
     }
 
