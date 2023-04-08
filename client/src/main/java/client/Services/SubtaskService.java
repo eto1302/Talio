@@ -5,7 +5,10 @@ import client.utils.ServerUtils;
 import commons.Subtask;
 import commons.Task;
 import commons.models.IdResponseModel;
+import commons.models.SubtaskEditModel;
 import commons.sync.SubtaskAdded;
+import commons.sync.SubtaskDeleted;
+import commons.sync.SubtaskEdited;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,11 +19,13 @@ public class SubtaskService {
     private final UserData userData;
     private final ServerUtils serverUtils;
     private ListService listService;
+    private TaskService taskService;
 
     public SubtaskService(UserData userData, ServerUtils serverUtils) {
         this.userData = userData;
         this.serverUtils = serverUtils;
         this.listService = new ListService(userData, serverUtils);
+        this.taskService = new TaskService(userData, serverUtils);
     }
 
     public List<Subtask> getSubtasksOrdered(int id) {
@@ -46,6 +51,52 @@ public class SubtaskService {
 
         commons.List list = listService.getList(task.getListID());
         return userData.updateBoard(new
-                SubtaskAdded(list.getBoardId(), task.getId(), subtask));
+                SubtaskAdded(list.getBoardId(), list.getId(), task.getId(), subtask));
     }
+
+    public IdResponseModel delete(Subtask subtask) {
+        commons.Task task = taskService.getTask(subtask.getTaskID());
+        commons.List list = listService.getList(task.getListID());
+        return userData.updateBoard(new
+                SubtaskDeleted(list.getBoardId(), subtask.getId(), task.getId(), list.getId()));
+    }
+
+    public IdResponseModel setChecked(Subtask subtask, boolean checked, int index) {
+        commons.Task task = taskService.getTask(subtask.getTaskID());
+        commons.List list = listService.getList(task.getListID());
+        SubtaskEditModel model = new SubtaskEditModel(subtask.getDescription(),
+                checked, index);
+        return userData.updateBoard(new SubtaskEdited(list.getBoardId(),
+                list.getId(), task.getId(), subtask.getId(), model));
+    }
+
+    public IdResponseModel setDescription(Subtask subtask, String desc, int index) {
+        commons.Task task = taskService.getTask(subtask.getTaskID());
+        commons.List list = listService.getList(task.getListID());
+        SubtaskEditModel model = new SubtaskEditModel(desc,
+                subtask.isChecked(), index);
+        return userData.updateBoard(new SubtaskEdited(list.getBoardId(),
+                list.getId(), task.getId(), subtask.getId(), model));
+    }
+
+    /**
+     * Rearranges the subtasks' indexes after a drag event
+     * @param orderedSubtasks the list of subtasks in a desired order
+     */
+    public void writeSubtaskOrder(java.util.List<Subtask> orderedSubtasks){
+        int i = 0;
+        if(orderedSubtasks.size() == 0)
+            return;
+
+        commons.Task task = taskService.getTask(orderedSubtasks.get(0).getTaskID());
+        commons.List list = listService.getList(task.getListID());
+
+        for(Subtask subtask : orderedSubtasks) {
+            SubtaskEditModel model = new SubtaskEditModel(subtask.getDescription(),
+                    subtask.isChecked(), i++);
+            userData.updateBoard(new SubtaskEdited(list.getBoardId(), list.getId(),
+                    task.getId(), subtask.getId(), model));
+        }
+    }
+
 }
