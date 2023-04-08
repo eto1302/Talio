@@ -73,7 +73,6 @@ public class EditTaskController {
                 showCtrl.addSubTask(subtask, this);
             }
         }
-//        java.util.List<Tag> tags = task.getTags();
         cleanTagBox();
         java.util.List<Tag> tags = tagService.getTagByTask(task.getId());
         if(tags != null) {

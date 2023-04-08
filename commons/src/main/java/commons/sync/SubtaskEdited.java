@@ -1,7 +1,5 @@
 package commons.sync;
 
-import commons.List;
-import commons.Task;
 import commons.mocks.IServerUtils;
 import commons.mocks.IUserData;
 import commons.models.IdResponseModel;
