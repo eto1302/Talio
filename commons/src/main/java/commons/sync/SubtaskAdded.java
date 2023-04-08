@@ -7,11 +7,13 @@ import commons.models.IdResponseModel;
 
 public class SubtaskAdded extends BoardUpdate{
     private Subtask subtask;
+    private int listID;
     private int taskID;
 
-    public SubtaskAdded(int boardID, int taskID, Subtask subtask){
+    public SubtaskAdded(int boardID, int listID, int taskID, Subtask subtask){
         super(boardID);
         this.subtask = subtask;
+        this.listID = listID;
         this.taskID = taskID;
     }
 
@@ -23,6 +25,14 @@ public class SubtaskAdded extends BoardUpdate{
 
     public void setSubtask(Subtask subtask) {
         this.subtask = subtask;
+    }
+
+    public int getListID() {
+        return listID;
+    }
+
+    public void setListID(int listID) {
+        this.listID = listID;
     }
 
     public int getTaskID() {
@@ -42,6 +52,11 @@ public class SubtaskAdded extends BoardUpdate{
 
     @Override
     public void apply(IUserData data) {
-        //TODO
+        commons.List list = data.getCurrentBoard().getLists().stream()
+                .filter(e -> e.getId() == listID).findFirst().orElse(null);
+        commons.Task task = list.getTasks().stream().filter(e ->
+                e.getId() == taskID).findFirst().orElse(null);
+        task.getSubtasks().add(subtask);
+        data.getShowCtrl().refreshSubtasks();
     }
 }

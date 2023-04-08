@@ -29,6 +29,9 @@ import commons.models.IdResponseModel;
     @JsonSubTypes.Type(value = TagCreated.class, name= "tagCreated"),
     @JsonSubTypes.Type(value = TagDeleted.class, name = "tagDeleted"),
     @JsonSubTypes.Type(value = TagEdited.class, name = "tagEdited"),
+    @JsonSubTypes.Type(value = SubtaskAdded.class, name = "subtaskAdded"),
+    @JsonSubTypes.Type(value = SubtaskEdited.class, name = "subtaskEdited"),
+    @JsonSubTypes.Type(value = SubtaskDeleted.class, name = "subtaskDeleted"),
     @JsonSubTypes.Type(value = TagRemovedFromTask.class, name = "tagRemovedFromTask")
 })
 public abstract class BoardUpdate implements Message {

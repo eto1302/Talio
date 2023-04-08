@@ -259,7 +259,7 @@ public class UserData implements IUserData {
 
             String[] items = line.split("\\\\");
             if (items[0].trim().equals("b")) {
-                if (items.length != 3)
+                if (items.length < 2)
                     throw new InvalidFormatException("On line: " + line);
 
                 int identifier;
@@ -269,7 +269,7 @@ public class UserData implements IUserData {
                     throw new InvalidFormatException(ex);
                 }
 
-                boards.put(identifier, items[2]);
+                boards.put(identifier, items.length >= 3 ? items[2] : null);
             }
             // Future directives can be inserted here
             else throw new
