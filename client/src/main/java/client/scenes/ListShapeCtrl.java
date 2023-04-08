@@ -208,10 +208,6 @@ public class ListShapeCtrl {
      * @param taskId the ID of the task to remove
      */
     public void removeTask(int taskId) {
-        if(boardService.isCurrentBoardLocked()){
-            showCtrl.showError("Board is locked");
-            return;
-        }
         TaskShape controller = taskControllers.stream().filter(e ->
                 e.getTask().getId() == taskId).findFirst().orElse(null);
         if(controller != null) {
@@ -306,4 +302,6 @@ public class ListShapeCtrl {
         return null;
     }
 
+    public void refresh(int listID) {
+    }
 }

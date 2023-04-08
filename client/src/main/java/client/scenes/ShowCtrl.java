@@ -290,10 +290,10 @@ public class ShowCtrl implements IShowCtrl {
         listShapeCtrl.addTask(taskShape.getValue(), taskShapeCtrl, task);
     }
 
-    public void deleteTask(Task task) {
-        ListShapeCtrl listShapeCtrl = getListController(task.getListID());
+    public void deleteTask(int listId, int taskId) {
+        ListShapeCtrl listShapeCtrl = getListController(listId);
         if(listShapeCtrl != null)
-            listShapeCtrl.removeTask(task.getId());
+            listShapeCtrl.removeTask(taskId);
     }
 
     /**

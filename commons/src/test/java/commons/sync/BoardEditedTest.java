@@ -72,7 +72,7 @@ public class BoardEditedTest {
             @Override
             public void addTask(Task task, List list) {}
             @Override
-            public void deleteTask(Task task) {}
+            public void deleteTask(int listId, int taskId) {}
             @Override
             public void refreshAdminBoards() {}
             @Override

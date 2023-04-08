@@ -49,10 +49,7 @@ public class TaskDeleted extends BoardUpdate{
         if(list.getTasks() == null || list.getTasks().isEmpty()) {
             list.setTasks(new ArrayList<>(Arrays.asList(
                 serverUtils.getTasksOrdered(list.getId()).getBody())));}
-        commons.Task task = list.getTasks().stream().filter(e ->
-                e.getId() == taskID).findFirst().orElse(null);
-        list.getTasks().remove(task);
-        data.getShowCtrl().deleteTask(task);
+        data.getShowCtrl().deleteTask(listID, taskID);
     }
 
 }
