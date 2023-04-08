@@ -229,7 +229,6 @@ public class BoardController {
             int index = selectedList.getTaskControllers().indexOf(selectedTask);
             TaskShape copy = selectedTask;
             int listSelect = listControllers.indexOf(selectedList);
-
             switch (key){
                 case DOWN:
                 case KP_DOWN:
