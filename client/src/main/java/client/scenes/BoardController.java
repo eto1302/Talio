@@ -53,6 +53,7 @@ public class BoardController {
     private BoardService boardService;
     private TaskService taskService;
     private ConnectionService connectionService;
+    private EventHandler<KeyEvent> handler;
 
     private final Image lockedImage = new Image(
             "file:client/build/resources/main/icons/lock.png");
@@ -73,6 +74,7 @@ public class BoardController {
         listControllers=new LinkedList<>();
         grid.requestFocus();
         filtering();
+        scrollPane.addEventFilter(KeyEvent.KEY_PRESSED, handler);
         grid.getScene().setOnKeyPressed(this::movement);
         refresh();
     }
@@ -124,6 +126,8 @@ public class BoardController {
     }
 
     public void showYourBoards(){
+        scrollPane.removeEventHandler(KeyEvent.ANY, handler);
+        grid.removeEventHandler(KeyEvent.ANY, this::movement);
         showCtrl.showYourBoards();
     }
 
@@ -222,7 +226,6 @@ public class BoardController {
             int index = selectedList.getTaskControllers().indexOf(selectedTask);
             switchCase(key, index);
         }
-
         else if (selectedTask!=null && !editable){
             int index = selectedList.getTaskControllers().indexOf(selectedTask);
             TaskShape copy = selectedTask;
@@ -262,6 +265,7 @@ public class BoardController {
                 selectedTask.editOnKey();
                 grid.requestFocus();
             }
+        grid.requestFocus();
     }
 
 
@@ -397,8 +401,8 @@ public class BoardController {
                 (1/(listBox.getWidth()-bounds.getWidth())));
     }
 
-    private void filtering(){
-        scrollPane.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+    private void filtering() {
+        handler = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 List<KeyCode> arrows = Arrays.asList(KeyCode.DOWN, KeyCode.KP_DOWN, KeyCode.UP,
@@ -406,8 +410,9 @@ public class BoardController {
                         KeyCode.RIGHT, KeyCode.KP_RIGHT);
                 if (arrows.contains(event.getCode()) && !event.isShiftDown())
                     movement(event);
-            }
-        });
+                }
+
+        };
     }
 
     public TaskShape findTaskController(Task task){
