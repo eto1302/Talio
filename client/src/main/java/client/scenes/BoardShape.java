@@ -2,12 +2,12 @@ package client.scenes;
 
 import client.Services.BoardService;
 import client.user.UserData;
-import client.utils.Constants;
 import client.utils.ServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -37,6 +37,11 @@ public class BoardShape {
     private ShowCtrl showCtrl;
     private BoardService boardService;
 
+    private final Image lockedImage = new Image(
+            "file:client/build/resources/main/icons/lock.png");
+    private final Image unlockedImage = new Image(
+            "file:client/build/resources/main/icons/unlock.png");
+
     @Inject
     public BoardShape (ShowCtrl showCtrl, ServerUtils serverUtils, UserData userData){
         this.showCtrl=showCtrl;
@@ -60,7 +65,7 @@ public class BoardShape {
         boardBox.setBackground(new Background(new BackgroundFill(backgroundColor, null, null)));
         nameLabel.setTextFill(fontColor);
         lockStateIcon.setImage(board.getPassword() != null && board.getPassword().length() > 0 ?
-                Constants.LOCKED_IMG : Constants.UNLOCKED_IMG);
+                lockedImage : unlockedImage);
         setId(board.getId());
         return boardBox.getScene();
     }

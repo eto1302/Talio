@@ -5,13 +5,11 @@ import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Subtask;
 import commons.models.IdResponseModel;
-import commons.models.SubtaskEditModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -22,7 +20,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -49,6 +46,7 @@ public class SubTaskShapeCtrl {
 
     public void setup(Subtask subtask){
         this.subtask = subtask;
+        if(subtask.getDescription() == null) subtask.setDescription("");
         description.setText(subtask.getDescription());
         checkbox.setSelected(subtask.isChecked());
 
@@ -68,14 +66,10 @@ public class SubTaskShapeCtrl {
     }
 
     private void edit(){
-        int index = ((VBox) grid.getParent()).getChildren().indexOf(grid);
-        SubtaskEditModel model = new SubtaskEditModel(text.getText(), subtask.isChecked(), index);
-        subtask.setDescription(model.getDescription());
-        subtask.setChecked(model.isChecked());
-        serverUtils.editSubtask(subtask.getId(), model);
+        subtaskService.setDescription(subtask, text.getText(),
+                ((VBox) grid.getParent()).getChildren().indexOf(grid));
 
         description.setGraphic(null);
-        description.setText(model.getDescription());
         description.requestFocus();
     }
 
@@ -94,39 +88,18 @@ public class SubTaskShapeCtrl {
             }
     }
 
-    public Scene getScene(Subtask subtask){
-        if(subtask.getDescription() == null) subtask.setDescription("");
-        description.setText(subtask.getDescription());
-        checkbox.setSelected(subtask.isChecked());
-        return grid.getScene();
-    }
-
     public void changeSelected(){
-        int index = ((VBox) grid.getParent()).getChildren().indexOf(grid);
-        IdResponseModel id = null;
-        if(subtask.isChecked()){
-            subtask.setChecked(false);
-            id = serverUtils.editSubtask(subtask.getId(),
-                    new SubtaskEditModel(subtask.getDescription(), false, index));
-        }
-        else{
-            subtask.setChecked(true);
-            id = serverUtils.editSubtask(subtask.getId(),
-                    new SubtaskEditModel(subtask.getDescription(), true, index));
-        }
+        IdResponseModel id = subtaskService.setChecked(subtask, !subtask.isChecked(),
+                ((VBox) grid.getParent()).getChildren().indexOf(grid));
         if(id.getId() < 0){
             showCtrl.showError(id.getErrorMessage());
         }
     }
 
     public void remove(){
-        IdResponseModel model = serverUtils.deleteSubtask(subtask.getTaskID(), subtask.getId());
+        IdResponseModel model = subtaskService.delete(subtask);
         if(model.getId() == -1){
             showCtrl.showError(model.getErrorMessage());
-        }
-        else{
-            VBox parent = (VBox) grid.getParent();
-            parent.getChildren().remove(grid);
         }
     }
 
@@ -201,10 +174,7 @@ public class SubTaskShapeCtrl {
                 Collections.rotate(orderedSubtasks.subList(targetIndex, sourceIndex+1), 1);
             }
 
-            reorderSubtasks(orderedSubtasks);
-
-            parent.getChildren().clear();
-            parent.getChildren().addAll(children);
+            subtaskService.writeSubtaskOrder(orderedSubtasks);
             done=true;
         }
         ((GridPane) source).setOpacity(1);
@@ -213,16 +183,4 @@ public class SubTaskShapeCtrl {
         event.consume();
     }
 
-    /**
-     * Rearranges the subtasks' indexes after this drag event
-     * @param subtasksToReorder the subtasks to reorder
-     */
-    private void reorderSubtasks(java.util.List<Subtask> subtasksToReorder){
-        for (int i=0; i<subtasksToReorder.size(); i++){
-            Subtask subtaskIndex = subtasksToReorder.get(i);
-            SubtaskEditModel model = new SubtaskEditModel(subtaskIndex.getDescription(),
-                    subtaskIndex.isChecked(), i);
-            serverUtils.editSubtask(subtaskIndex.getId(), model);
-        }
-    }
 }
