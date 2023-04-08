@@ -61,11 +61,8 @@ public class TaskColorShape {
                 javafx.scene.paint.Color.web(color.getBackgroundColor()), true);
         if(model.getId() == -1){
             showCtrl.showError(model.getErrorMessage());
-            showCtrl.cancel();
             return;
         }
-        showCtrl.cancel();
-        showCtrl.showColorPicker();
     }
 
     public void showEdit(){

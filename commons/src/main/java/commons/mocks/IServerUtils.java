@@ -11,6 +11,7 @@ import commons.models.ColorEditModel;
 import commons.models.IdResponseModel;
 import commons.models.ListEditModel;
 import commons.models.SubtaskEditModel;
+import org.springframework.http.ResponseEntity;
 
 public interface IServerUtils {
 
@@ -53,5 +54,8 @@ public interface IServerUtils {
     IdResponseModel deleteTag(int tagID);
 
     IdResponseModel editTag(int tagID, TagEditModel model);
+    ResponseEntity<Tag[]> getTagsByTask(int taskID);
+    ResponseEntity<Task[]> getTasksOrdered(int listID);
+    ResponseEntity<Subtask[]> getSubtasksOrdered(int taskID);
 }
 

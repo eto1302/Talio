@@ -39,6 +39,7 @@ public abstract class BoardUpdate implements Message {
     public static final String QUEUE = "board";
 
     private static IUserData userData;
+    private static IServerUtils serverUtils;
 
     public static void setUserData(IUserData userData) {
         BoardUpdate.userData = userData;
@@ -53,6 +54,14 @@ public abstract class BoardUpdate implements Message {
     }
 
     public BoardUpdate() {
+    }
+
+    public static IServerUtils getServerUtils() {
+        return serverUtils;
+    }
+
+    public static void setServerUtils(IServerUtils serverUtils) {
+        BoardUpdate.serverUtils = serverUtils;
     }
 
     public int getBoardID() {
@@ -83,14 +92,15 @@ public abstract class BoardUpdate implements Message {
     public void consume() {
         if(!consumed){
             if(userData != null && userData.getCurrentBoard() != null
-                    && userData.getCurrentBoard().getId() == boardID)
-                apply(userData);
+                    && userData.getCurrentBoard().getId() == boardID
+                    && serverUtils != null)
+                apply(userData, serverUtils);
             consumed = true;
         }
     }
 
     public abstract IdResponseModel sendToServer(IServerUtils server);
 
-    public abstract void apply(IUserData data);
+    public abstract void apply(IUserData data, IServerUtils serverUtils);
 
 }

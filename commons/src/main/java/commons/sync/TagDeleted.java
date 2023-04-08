@@ -37,7 +37,7 @@ public class TagDeleted extends BoardUpdate{
     }
 
     @Override
-    public void apply(IUserData data) {
+    public void apply(IUserData data, IServerUtils serverUtils) {
         //TODO: find a way to refresh the tasks
         data.refresh();
         data.getShowCtrl().deleteTag(tag);

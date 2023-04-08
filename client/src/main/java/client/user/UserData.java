@@ -219,7 +219,7 @@ public class UserData implements IUserData {
      */
     public IdResponseModel updateBoard(BoardUpdate boardUpdate) {
         if(currentBoardLocked) {
-            return new IdResponseModel(-2, "Board is locked");
+            return new IdResponseModel(-1, "Board is locked");
         }
 
         IdResponseModel response = boardUpdate.sendToServer(serverUtils);

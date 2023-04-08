@@ -5,6 +5,9 @@ import commons.mocks.IUserData;
 import commons.models.IdResponseModel;
 import commons.models.TaskEditModel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class TaskEdited extends BoardUpdate {
 
     private int listID;
@@ -53,9 +56,12 @@ public class TaskEdited extends BoardUpdate {
     }
 
     @Override
-    public void apply(IUserData data) {
+    public void apply(IUserData data, IServerUtils serverUtils) {
         commons.List list = data.getCurrentBoard().getLists().stream()
                 .filter(e -> e.getId() == listID).findFirst().orElse(null);
+        if(list.getTasks() == null || list.getTasks().isEmpty()) {
+            list.setTasks(new ArrayList<>(Arrays.asList(
+                serverUtils.getTasksOrdered(list.getId()).getBody())));}
         commons.Task task = list.getTasks().stream().filter(e ->
                 e.getId() == taskID).findFirst().orElse(null);
         task.setTitle(taskEditModel.getTitle());

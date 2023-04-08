@@ -22,11 +22,12 @@ public class BoardDeleted extends BoardUpdate {
     @Override
     public void consume() {
         IUserData userData = super.getUserData();
-        if(userData != null) apply(userData);
+        IServerUtils serverUtils = super.getServerUtils();
+        if(userData != null && serverUtils != null) apply(userData, serverUtils);
     }
 
     @Override
-    public void apply(IUserData data) {
+    public void apply(IUserData data, IServerUtils serverUtils) {
     }
 
 

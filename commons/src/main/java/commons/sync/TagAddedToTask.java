@@ -7,6 +7,7 @@ import commons.mocks.IUserData;
 import commons.models.IdResponseModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TagAddedToTask extends BoardUpdate{
@@ -46,8 +47,10 @@ public class TagAddedToTask extends BoardUpdate{
     }
 
     @Override
-    public void apply(IUserData data) {
-        if(task.getTags() == null) {task.setTags(new ArrayList<>());}
+    public void apply(IUserData data, IServerUtils serverUtils) {
+        if(task.getTags() == null) {
+            task.setTags(new ArrayList<>(Arrays.asList(
+                    serverUtils.getTagsByTask(task.getId()).getBody())));}
         List<Tag> fresh = task.getTags();
         fresh.add(tag);
         task.setTags(fresh);

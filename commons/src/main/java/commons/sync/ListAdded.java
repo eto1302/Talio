@@ -36,7 +36,7 @@ public class ListAdded extends BoardUpdate {
     }
 
     @Override
-    public void apply(IUserData data) {
+    public void apply(IUserData data, IServerUtils serverUtils) {
         list.setTasks(new ArrayList<>());
         data.getCurrentBoard().getLists().add(list);
         data.getShowCtrl().addList(list);

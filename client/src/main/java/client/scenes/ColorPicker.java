@@ -56,7 +56,6 @@ public class ColorPicker {
 
         if(responseModel.getId() == -1){
             showCtrl.showError(responseModel.getErrorMessage());
-            showCtrl.cancel();
             return;
         }
 
