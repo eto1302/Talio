@@ -6,9 +6,9 @@ import client.utils.ServerUtils;
 import commons.Task;
 import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 
 import javax.inject.Inject;
-import javafx.scene.control.TextArea;
 
 public class AddSubTaskController {
     private final ShowCtrl showCtrl;
@@ -34,12 +34,8 @@ public class AddSubTaskController {
 
     public void addSubTask() {
         IdResponseModel response = this.subtaskService.add(description.getText(), task);
-        if(response.getId() == -1){
+        if(response.getId() == -1)
             showCtrl.showError(response.getErrorMessage());
-            showCtrl.closePopUp();
-            return;
-        }
-        controller.refresh();
         showCtrl.closePopUp();
     }
 }

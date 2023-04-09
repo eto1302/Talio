@@ -13,6 +13,7 @@ import commons.Task;
 import commons.models.IdResponseModel;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -64,7 +65,7 @@ public class EditTaskController {
         return refresh();
     }
 
-    public Scene refresh(){
+    public Scene refresh() {
         subtaskBox.getChildren().clear();
         java.util.List<Subtask> subtasks = subtaskService.getSubtasksOrdered(task.getId());
         if(subtasks != null) {
@@ -72,7 +73,6 @@ public class EditTaskController {
                 showCtrl.addSubTask(subtask, this);
             }
         }
-//        java.util.List<Tag> tags = task.getTags();
         cleanTagBox();
         java.util.List<Tag> tags = tagService.getTagByTask(task.getId());
         if(tags != null) {
@@ -83,8 +83,8 @@ public class EditTaskController {
         return title.getScene();
     }
 
-    public void putSubtask(Scene scene, Subtask subtask){
-        subtaskBox.getChildren().add(scene.getRoot());
+    public void putSubtask(Parent root, Subtask subtask){
+        subtaskBox.getChildren().add(root);
         task.getSubtasks().add(subtask);
     }
 
