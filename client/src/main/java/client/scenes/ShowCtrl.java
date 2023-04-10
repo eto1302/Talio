@@ -291,6 +291,9 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     public void deleteTask(int listId, int taskId) {
+        if(this.secondaryStage.getTitle().equals("Edit a task")){
+            this.secondaryStage.close();
+        }
         ListShapeCtrl listShapeCtrl = getListController(listId);
         if(listShapeCtrl != null)
             listShapeCtrl.removeTask(taskId);
