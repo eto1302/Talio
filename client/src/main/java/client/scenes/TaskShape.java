@@ -74,7 +74,7 @@ public class TaskShape {
         TaskShape selectedTask = controller.getBoardController().find();
         if (selectedTask==null) {
             selected = true;
-            grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
+            grid.setStyle("-fx-border-color: rgba(255, 255, 255, 1);" +
                 "-fx-border-width: 3px;" +
                 "-fx-background-color: " + taskColor.getBackgroundColor());
         }
@@ -117,7 +117,7 @@ public class TaskShape {
     public void setStatus(boolean selected){
         this.selected=selected;
         if (selected)
-            grid.setStyle("-fx-border-color: rgba(14,27,111,1);" +
+            grid.setStyle("-fx-border-color: rgba(255, 255, 255, 1);" +
                 "-fx-border-width: 3px;"+
                 "-fx-background-color: " + taskColor.getBackgroundColor());
         else grid.setStyle(style);

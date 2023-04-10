@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="listGrid" prefHeight="334.0" prefWidth="202.0" style="-fx-border-color: gray; -fx-padding: 5px;" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ListShapeCtrl">
+<GridPane fx:id="listGrid" prefHeight="334.0" prefWidth="202.0" style="-fx-border-color: #4e98c0; -fx-padding: 5px;" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ListShapeCtrl">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         <ColumnConstraints />
@@ -28,8 +28,8 @@
                 <Font size="16.0" />
             </font>
         </Label>
-        <Separator prefWidth="200.0" GridPane.columnSpan="2" GridPane.valignment="BOTTOM" />
-        <ScrollPane fx:id="scrollPane" pannable="true" style="-fx-vbar-policy: always;" GridPane.rowIndex="1">
+        <Separator opacity="0.17" prefWidth="200.0" styleClass="lines" GridPane.columnSpan="2" GridPane.valignment="BOTTOM" />
+        <ScrollPane fx:id="scrollPane" pannable="true" style="-fx-vbar-policy: always;" styleClass="scroll" GridPane.rowIndex="1">
             <content>
                 <VBox fx:id="tasksBox" alignment="TOP_CENTER" style="-fx-spacing: 3px; -fx-padding: 2px;" />
             </content>
@@ -55,4 +55,3 @@
         </ImageView>
     </children>
 </GridPane>
-

@@ -19,6 +19,6 @@
     <children>
         <CheckBox fx:id="checkbox" mnemonicParsing="false" onAction="#changeSelected" prefHeight="18.0" wrapText="true" GridPane.halignment="CENTER" />
         <Hyperlink contentDisplay="CENTER" onAction="#remove" text="X" textFill="#130404" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
-        <Label fx:id="description" prefHeight="18.0" prefWidth="324.0" text="Label" wrapText="true" GridPane.columnIndex="1" />
+        <Label fx:id="description" prefHeight="18.0" prefWidth="324.0" text="Label" textFill="#328bbf" wrapText="true" GridPane.columnIndex="1" />
     </children>
 </GridPane>

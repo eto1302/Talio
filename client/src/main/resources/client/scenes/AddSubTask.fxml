@@ -8,15 +8,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="300.0" prefWidth="400.0" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddSubTaskController">
+<AnchorPane prefHeight="300.0" prefWidth="400.0" styleClass="parent" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddSubTaskController">
     <children>
-        <Text layoutX="110.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a Sub-task" wrappingWidth="179.74334716796875">
+        <Text layoutX="110.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="Add a Sub-task" wrappingWidth="179.74334716796875">
             <font>
                 <Font size="26.0" />
             </font>
         </Text>
-        <Line endX="195.19998168945312" endY="-1.1444091796875E-5" layoutX="192.0" layoutY="68.0" startX="-179.99996948242188" startY="-1.1444091796875E-5" />
-        <Label layoutX="100.0" layoutY="87.0" text="Sub-task description:">
+        <Line endX="195.19998168945312" endY="-1.1444091796875E-5" layoutX="192.0" layoutY="68.0" startX="-179.99996948242188" startY="-1.1444091796875E-5" styleClass="lines" />
+        <Label layoutX="100.0" layoutY="87.0" styleClass="labellings" text="Sub-task description:">
             <font>
                 <Font size="16.0" />
             </font>

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="gridPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="430.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SelectTaskColorController">
+<GridPane fx:id="gridPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="445.0" styleClass="banner" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SelectTaskColorController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
@@ -23,7 +23,7 @@
         <Label fx:id="fontTaskColor" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #000000;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
             <children>
-                <Button fx:id="selectButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#select" prefHeight="25.0" prefWidth="107.0" text="Select" visible="true">
+                <Button fx:id="selectButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#select" prefHeight="25.0" prefWidth="107.0" styleClass="buttons" text="Select" visible="true">
                     <HBox.margin>
                         <Insets />
                     </HBox.margin>

@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="640.0" style="-fx-padding: 5px; -fx-vgap: 2px;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EditTaskController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="640.0" style="-fx-padding: 5px; -fx-vgap: 2px;" styleClass="parent" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EditTaskController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
@@ -26,12 +26,12 @@
         <RowConstraints maxHeight="253.5999816894531" minHeight="10.0" prefHeight="253.5999816894531" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label fx:id="mode" opacity="0.57" text="Edit mode" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+        <Label fx:id="mode" opacity="0.57" styleClass="labellings" text="Edit mode" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
             <font>
                 <Font size="17.0" />
             </font>
         </Label>
-        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="292.0" text="Task Details" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="292.0" styleClass="labellings" text="Task Details" GridPane.halignment="CENTER" GridPane.valignment="TOP">
             <font>
                 <Font size="30.0" />
             </font>
@@ -53,12 +53,12 @@
             </rowConstraints>
             <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" GridPane.rowIndex="3" />
-                <Label text="Description:" GridPane.rowIndex="3">
+                <Label styleClass="labellings" text="Description:" GridPane.rowIndex="3">
                     <font>
                         <Font size="20.0" />
                     </font>
                 </Label>
-                <Label prefHeight="30.0" text="Title:" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+                <Label prefHeight="30.0" styleClass="labellings" text="Title:" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                     <font>
                         <Font size="20.0" />
                     </font>
@@ -94,7 +94,7 @@
                         <VBox fx:id="tagBox" prefHeight="101.0" prefWidth="159.0" style="-fx-padding: 5px; -fx-spacing: 3px;" />
                     </content>
                 </ScrollPane>
-                <Button mnemonicParsing="false" onAction="#showAddTagToTask" text="Add tags" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BASELINE">
+                <Button mnemonicParsing="false" onAction="#showAddTagToTask" styleClass="buttons" text="Add tags" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BASELINE">
                     <GridPane.margin>
                         <Insets />
                     </GridPane.margin></Button>
@@ -110,12 +110,12 @@
                 </Button>
             </children>
         </GridPane>
-        <Line endX="160.0928955078125" endY="0.5928825736045837" startX="-100.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
+        <Line endX="160.0928955078125" endY="0.5928825736045837" startX="-100.0" styleClass="lines" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
         <ImageView fx:id="deleteTask" fitHeight="26.0" fitWidth="26.0" onMouseClicked="#deleteTask" pickOnBounds="true" preserveRatio="true" styleClass="icon">
             <image>
                 <Image url="@/icons/binIcon.png" />
             </image>
         </ImageView>
-        <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel" text="Cancel" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
+        <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel" styleClass="buttons" text="Cancel" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
     </children>
 </GridPane>
