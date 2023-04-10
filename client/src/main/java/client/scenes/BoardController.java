@@ -47,8 +47,8 @@ public class BoardController {
     private ScrollPane scrollPane;
     private final ShowCtrl showCtrl;
     private LinkedList<ListShapeCtrl> listControllers;
-    private ListShapeCtrl selectedList=null;
-    private TaskShape selectedTask=null;
+    private ListShapeCtrl selectedList = null;
+    private TaskShape selectedTask = null;
     private boolean editable = false, locked;
     private BoardService boardService;
     private TaskService taskService;
@@ -71,7 +71,7 @@ public class BoardController {
 
 
     public void setup() {
-        listControllers=new LinkedList<>();
+        listControllers = new LinkedList<>();
         grid.requestFocus();
         filtering();
         scrollPane.addEventFilter(KeyEvent.KEY_PRESSED, handler);
@@ -80,16 +80,24 @@ public class BoardController {
     }
 
     /**
-     *  Send a request to the server and fetch all lists stored in the default board with id 1 (for
-     *  single board mode).
+     * Send a request to the server and fetch all lists stored in the default board with id 1 (for
+     * single board mode).
      *  TODO: For now, I added a button to call this function, but we can use webSocket to refresh
      *  TODO: the board and get rid of the button in the future.
      */
     public void refresh() {
+        try {
+            boardService.refresh();
+        } catch (Exception e) {
+            showCtrl.showError(e.getMessage());
+            return;
+        }
+
         Board board = this.boardService.getCurrentBoard();
         this.boardLabel.setText(board.getName());
         this.boardLabel.setTextFill(Color.web(
                 board.getBoardColor().getFontColor()));
+        this.updateLockIcon(this.boardService.isCurrentBoardLocked());
         this.boardBox.setStyle("-fx-background-color: " +
                 board.getBoardColor().getBackgroundColor() + "; -fx-padding: 5px;");
         listBox.getChildren().clear();
@@ -97,51 +105,46 @@ public class BoardController {
         listControllers.clear();
 
         List<commons.List> lists;
-
-        try {
-            boardService.refresh();
-        } catch (Exception e) {
-            showCtrl.showError(e.getMessage());
-            return;
-        }
-        lists = boardService.getCurrentBoard().getLists();
+        lists = board.getLists();
 
         for (commons.List list : lists) {
             showCtrl.addList(list);
 
             List<Task> orderedTasks = taskService.getTasksOrdered(list.getId());
-            for(Task task: orderedTasks){
+            for (Task task : orderedTasks) {
                 showCtrl.addTask(task, list);
             }
         }
 
-        if (identify!=null){
+        if (identify != null) {
             int listSelect = Integer.parseInt(identify.split("\\+")[0].trim());
             int taskSelect = Integer.parseInt(identify.split("\\+")[1].trim());
-            selectedList=listControllers.get(listSelect);
-            selectedTask=selectedList.getTaskControllers().get(taskSelect);
+            selectedList = listControllers.get(listSelect);
+            selectedTask = selectedList.getTaskControllers().get(taskSelect);
             selectedTask.setStatus(true);
             selectedList.updateScrollPane(taskSelect);
         }
     }
 
-    public void showYourBoards(){
+    public void showYourBoards() {
         scrollPane.removeEventHandler(KeyEvent.ANY, handler);
         grid.removeEventHandler(KeyEvent.ANY, this::movement);
         showCtrl.showYourBoards();
     }
 
-    public void showSearch() {showCtrl.showSearch();}
+    public void showSearch() {
+        showCtrl.showSearch();
+    }
 
-    public void addBoard(){
+    public void addBoard() {
         showCtrl.showAddBoard();
     }
 
-    public void showAddList(){
+    public void showAddList() {
         showCtrl.showAddList();
     }
 
-    public void showAdmin(){
+    public void showAdmin() {
         showCtrl.showAdmin();
     }
 
@@ -156,6 +159,7 @@ public class BoardController {
 
     /**
      * Puts the root of the scene (the grid representing the list) inside the board
+     *
      * @param root the root we are looking to add to our board
      */
     public void putList(Parent root, ListShapeCtrl ctrl) {
@@ -165,6 +169,7 @@ public class BoardController {
 
     /**
      * Deletes a list shape controller from the controller list
+     *
      * @param ctrl the controller to delete
      */
     public void deleteList(ListShapeCtrl ctrl) {
@@ -186,8 +191,7 @@ public class BoardController {
 
         if (response.getId() == -1) {
             showCtrl.showError(response.getErrorMessage());
-        }
-        else{
+        } else {
             showCtrl.showYourBoards();
         }
     }
@@ -201,7 +205,7 @@ public class BoardController {
     }
 
     public void manageLock() {
-        if(boardService.isCurrentBoardLocked())
+        if (boardService.isCurrentBoardLocked())
             showCtrl.showUnlockBoard();
         else showCtrl.showLockBoard(null);
     }
@@ -210,58 +214,56 @@ public class BoardController {
         lockIcon.setImage(locked ? lockedImage : unlockedImage);
         editIcon.setVisible(!locked);
         deleteIcon.setVisible(!locked);
-        this.locked=locked;
+        this.locked = locked;
     }
 
     public boolean isLocked() {
         return locked;
     }
 
-    public void movement(KeyEvent event){
-        if (selectedTask==null)
+    public void movement(KeyEvent event) {
+        if (selectedTask == null)
             find();
         KeyCode key = event.getCode();
-        if (selectedTask!=null && !event.isShiftDown() && !editable) {
+        if (selectedTask != null && !event.isShiftDown() && !editable) {
             int index = selectedList.getTaskControllers().indexOf(selectedTask);
             switchCase(key, index);
-        }
-        else if (selectedTask!=null && !editable){
+        } else if (selectedTask != null && !editable) {
             int index = selectedList.getTaskControllers().indexOf(selectedTask);
             TaskShape copy = selectedTask;
             int listSelect = listControllers.indexOf(selectedList);
-            switch (key){
+            switch (key) {
                 case DOWN:
                 case KP_DOWN:
                 case S:
                     if (checkLocked()) return;
-                    int select = index!=selectedList.getTaskControllers().size()-1 ? index+1:index;
-                    identify = listSelect+"+"+select;
+                    int select = index !=
+                            selectedList.getTaskControllers().size() - 1 ? index + 1 : index;
+                    identify = listSelect + "+" + select;
                     selectedTask.orderWithKeyEvent(index, "down");
-                    if (index!=selectedList.getTaskControllers().size()-1) {
+                    if (index != selectedList.getTaskControllers().size() - 1) {
                         selectedTask = selectedList.getTaskControllers().get(index + 1);
-                        selectedList.updateScrollPane(index+1);
-                    } else selectedTask=copy;
+                        selectedList.updateScrollPane(index + 1);
+                    } else selectedTask = copy;
                     selectedTask.setStatus(true);
                     break;
                 case UP:
                 case KP_UP:
                 case W:
                     if (checkLocked()) return;
-                    int select1 = index!=0 ? index-1:index;
-                    identify = listSelect+"+"+select1;
+                    int select1 = index != 0 ? index - 1 : index;
+                    identify = listSelect + "+" + select1;
                     selectedTask.orderWithKeyEvent(index, "up");
-                    if (index!=0) {
+                    if (index != 0) {
                         selectedTask = selectedList.getTaskControllers().get(index - 1);
                         selectedList.updateScrollPane(index);
-                    }
-                    else selectedTask=copy;
+                    } else selectedTask = copy;
                     selectedTask.setStatus(true);
                     break;
             }
-        }
-        else if (editable)
-            if (key==KeyCode.ENTER) {
-                editable=false;
+        } else if (editable)
+            if (key == KeyCode.ENTER) {
+                editable = false;
                 selectedTask.editOnKey();
                 grid.requestFocus();
             }
@@ -269,8 +271,8 @@ public class BoardController {
     }
 
 
-    private void switchCase(KeyCode key, int index){
-        switch (key){
+    private void switchCase(KeyCode key, int index) {
+        switch (key) {
             case DOWN:
             case KP_DOWN:
             case S:
@@ -302,7 +304,7 @@ public class BoardController {
                 break;
             case E:
                 if (checkLocked()) return;
-                editable=true;
+                editable = true;
                 selectedTask.makeEditable();
                 break;
             case C:
@@ -317,7 +319,7 @@ public class BoardController {
     }
 
     private boolean checkLocked() {
-        if(boardService.isCurrentBoardLocked()){
+        if (boardService.isCurrentBoardLocked()) {
             showCtrl.showError("Board is locked");
             return true;
         }
@@ -325,45 +327,43 @@ public class BoardController {
     }
 
 
-    private void down(int index){
+    private void down(int index) {
         selectedTask.setStatus(false);
 
         if (index + 1 == selectedList.getTaskControllers().size()) {
-            selectedTask=selectedList.getTaskControllers().get(0);
+            selectedTask = selectedList.getTaskControllers().get(0);
             selectedList.updateScrollPane(0);
         } else {
-            selectedTask=selectedList.getTaskControllers().get(index+1);
-            selectedList.updateScrollPane(index+1);
+            selectedTask = selectedList.getTaskControllers().get(index + 1);
+            selectedList.updateScrollPane(index + 1);
         }
         selectedTask.setStatus(true);
     }
 
-    private void up(int index){
+    private void up(int index) {
         selectedTask.setStatus(false);
 
-        if (index==0){
-            int size =selectedList.getTaskControllers().size();
-            selectedTask=selectedList.getTaskControllers().get(size-1);
-            selectedList.updateScrollPane(size-1);
-        }
-        else{
-            selectedTask = selectedList.getTaskControllers().get(index-1);
-            selectedList.updateScrollPane(index-1);
+        if (index == 0) {
+            int size = selectedList.getTaskControllers().size();
+            selectedTask = selectedList.getTaskControllers().get(size - 1);
+            selectedList.updateScrollPane(size - 1);
+        } else {
+            selectedTask = selectedList.getTaskControllers().get(index - 1);
+            selectedList.updateScrollPane(index - 1);
         }
         selectedTask.setStatus(true);
     }
 
-    private void left(){
+    private void left() {
         int index = listControllers.indexOf(selectedList);
 
-        if (index==0){
+        if (index == 0) {
             int size = listControllers.size();
             selectedList = listControllers.get(size - 1);
-            updateScrollPane(size-1);
-        }
-        else{
-            selectedList = listControllers.get(index-1);
-            updateScrollPane(index-1);
+            updateScrollPane(size - 1);
+        } else {
+            selectedList = listControllers.get(index - 1);
+            updateScrollPane(index - 1);
         }
         selectedList.updateScrollPane(0);
 
@@ -372,15 +372,14 @@ public class BoardController {
         selectedTask.setStatus(true);
     }
 
-    private void right(){
+    private void right() {
         int index = listControllers.indexOf(selectedList);
 
-        if (index+1==listControllers.size()){
+        if (index + 1 == listControllers.size()) {
             selectedList = listControllers.get(0);
             updateScrollPane(0);
-        }
-        else{
-            selectedList = listControllers.get(index+1);
+        } else {
+            selectedList = listControllers.get(index + 1);
             updateScrollPane(index);
         }
         selectedList.updateScrollPane(0);
@@ -390,8 +389,8 @@ public class BoardController {
         selectedTask.setStatus(true);
     }
 
-    public TaskShape find(){
-        for (ListShapeCtrl ctrl :listControllers) {
+    public TaskShape find() {
+        for (ListShapeCtrl ctrl : listControllers) {
             TaskShape selected = ctrl.findSelectedTask();
             if (selected != null) {
                 selectedList = ctrl;
@@ -402,14 +401,14 @@ public class BoardController {
         return null;
     }
 
-    public void reset(){
-        selectedTask=null;
+    public void reset() {
+        selectedTask = null;
     }
 
-    private void updateScrollPane(int index){
+    private void updateScrollPane(int index) {
         Bounds bounds = scrollPane.getViewportBounds();
         scrollPane.setHvalue(listBox.getChildren().get(index).getLayoutX() *
-                (1/(listBox.getWidth()-bounds.getWidth())));
+                (1 / (listBox.getWidth() - bounds.getWidth())));
     }
 
     private void filtering() {
@@ -421,15 +420,17 @@ public class BoardController {
                         KeyCode.RIGHT, KeyCode.KP_RIGHT);
                 if (arrows.contains(event.getCode()) && !event.isShiftDown())
                     movement(event);
-                }
+            }
 
         };
     }
 
-    public TaskShape findTaskController(Task task){
-        for(ListShapeCtrl c: listControllers){
+    public TaskShape findTaskController(Task task) {
+        for (ListShapeCtrl c : listControllers) {
             TaskShape ts = c.findTask(task);
-            if(ts != null) {return ts;}
+            if (ts != null) {
+                return ts;
+            }
         }
         return null;
     }
