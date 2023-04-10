@@ -4,16 +4,16 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="185.0" prefWidth="447.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.UnlockBoardController">
+<AnchorPane prefHeight="185.0" prefWidth="447.0" styleClass="parent" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.UnlockBoardController">
     <children>
-        <Text layoutX="168.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unlock Board" wrappingWidth="155.943359375">
+        <Text layoutX="146.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="Unlock Board" wrappingWidth="155.943359375">
             <font>
                 <Font size="26.0" />
             </font>
@@ -23,12 +23,12 @@
                 <Image url="@../main/icons/lock.png" />
             </image>
         </ImageView>
-        <Separator blendMode="MULTIPLY" layoutX="17.0" layoutY="52.0" prefHeight="6.0" prefWidth="414.0" />
-        <Label layoutX="17.0" layoutY="76.0" prefHeight="17.0" prefWidth="391.0" text="This board is locked, and requires a password to make edits." />
-        <Label layoutX="17.0" layoutY="110.0" text="Password:" />
-        <Button layoutX="326.0" layoutY="146.0" mnemonicParsing="false" onAction="#confirm" prefHeight="25.0" prefWidth="105.0" text="OK" />
-        <Button layoutX="213.0" layoutY="146.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="105.0" text="Cancel" />
+        <Label layoutX="17.0" layoutY="76.0" prefHeight="17.0" prefWidth="391.0" styleClass="labellings" text="This board is locked, and requires a password to make edits." />
+        <Label layoutX="17.0" layoutY="110.0" styleClass="labellings" text="Password:" />
+        <Button layoutX="326.0" layoutY="146.0" mnemonicParsing="false" onAction="#confirm" prefHeight="25.0" prefWidth="105.0" styleClass="buttons" text="OK" />
+        <Button layoutX="213.0" layoutY="146.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="105.0" styleClass="buttons" text="Cancel" />
         <PasswordField fx:id="passwordField" layoutX="87.0" layoutY="106.0" prefHeight="25.0" prefWidth="344.0" />
-        <CheckBox fx:id="remember" layoutX="87.0" layoutY="150.0" mnemonicParsing="false" text="Remember" />
+        <CheckBox fx:id="remember" layoutX="87.0" layoutY="150.0" mnemonicParsing="false" styleClass="labellings" text="Remember" />
+      <Line endX="118.60003662109375" layoutX="223.0" layoutY="52.0" startX="-114.00001525878906" styleClass="lines" />
     </children>
 </AnchorPane>

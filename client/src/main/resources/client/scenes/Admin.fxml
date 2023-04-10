@@ -6,19 +6,23 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="693.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AdminController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="693.0" styleClass="parent" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AdminController">
     <children>
-        <TableView fx:id="table" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <TableView fx:id="table" styleClass="parent" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columns>
-                <TableColumn fx:id="id" prefWidth="142.3999908566475" text="id" />
-                <TableColumn fx:id="name" prefWidth="316.8000030517578" text="name" />
-                <TableColumn fx:id="pwd" prefWidth="234.4000244140625" text="password" />
+                <TableColumn fx:id="id" prefWidth="142.3999908566475" style="-fx-column-header-background: #2C4377; -fx-text-fill: #2C4377;" text="id" />
+                <TableColumn fx:id="name" prefWidth="316.8000030517578" style="-fx-column-header-background: #2C4377; -fx-text-fill: #2C4377;" text="name" />
+                <TableColumn fx:id="pwd" prefWidth="234.4000244140625" style="-fx-column-header-background: #2C4377; -fx-text-fill: #2C4377;" text="password" />
             </columns>
         </TableView>
-        <Button layoutX="568.0" layoutY="421.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
-        <TextField fx:id="search" layoutX="12.0" layoutY="421.0" text="search..." />
-        <Button layoutX="375.0" layoutY="421.0" mnemonicParsing="false" onAction="#selectAll" text="Select All" />
-        <Button layoutX="627.0" layoutY="421.0" mnemonicParsing="false" onAction="#cancel" text="Return" />
-        <Button layoutX="447.0" layoutY="421.0" mnemonicParsing="false" onAction="#managePassword" text="Manage Password" />
+      <AnchorPane layoutX="3.0" layoutY="414.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="-3.6000000000000227">
+         <children>
+              <Button layoutX="608.0" layoutY="7.0" mnemonicParsing="false" onAction="#cancel" styleClass="buttons" text="Return" AnchorPane.rightAnchor="33.60000000000002" />
+              <Button layoutX="529.0" layoutY="7.0" mnemonicParsing="false" onAction="#selectAll" styleClass="buttons" text="Select All" AnchorPane.rightAnchor="93.0" />
+              <Button layoutX="343.0" layoutY="7.0" mnemonicParsing="false" onAction="#delete" styleClass="buttons" text="Delete" AnchorPane.rightAnchor="290.0" />
+              <TextField fx:id="search" layoutX="16.0" layoutY="7.0" text="search..." AnchorPane.leftAnchor="16.0" />
+              <Button layoutX="403.0" layoutY="7.0" mnemonicParsing="false" onAction="#managePassword" styleClass="buttons" text="Manage Password" AnchorPane.rightAnchor="170.0" />
+         </children>
+      </AnchorPane>
     </children>
 </AnchorPane>

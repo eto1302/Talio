@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="gridPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="430.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskColorShape">
+<GridPane fx:id="gridPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="445.0" styleClass="banner" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskColorShape">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
@@ -23,12 +23,12 @@
         <Label fx:id="fontTaskColor" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #000000;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
             <children>
-                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#delete" text="X" />
-                <Button fx:id="setDefaultButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setDefault" text="Set Default" visible="true">
+                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#delete" styleClass="buttons" text="X" />
+                <Button fx:id="setDefaultButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setDefault" styleClass="buttons" text="Set Default" visible="true">
                     <HBox.margin>
                         <Insets left="10.0" right="10.0" />
                     </HBox.margin></Button>
-                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showEdit" text="Edit" visible="true">
+                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showEdit" styleClass="buttons" text="Edit" visible="true">
                     <HBox.margin>
                         <Insets right="10.0" />
                     </HBox.margin>
