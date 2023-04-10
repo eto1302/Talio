@@ -6,13 +6,22 @@ import client.user.UserData;
 import client.utils.ServerUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.messaging.simp.stomp.*;
 
 
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class ConnectionServiceTest {
@@ -67,5 +76,45 @@ public class ConnectionServiceTest {
                 }, new StompHeaders()));
         verify(mockUserData, times(1))
                 .setWsConfig(any(MessageAdmin.class), any(MessageSender.class));
+    }
+
+    @Test
+    void disconnectTest(){
+
+        connectionService.disconnect();
+
+        verify(mockUserData, times(1))
+            .disconnect();
+    }
+
+    @Test
+    void getServerUrlsTest(){
+        try (MockedStatic<Files> filesMock = Mockito.mockStatic(Files.class)) {
+            List<String> expectedUrls = Arrays.asList("http://example.com", "https://example2.com");
+
+            filesMock.when(() -> Files.readAllLines(any(Path.class)))
+                .thenReturn(expectedUrls);
+
+            List<String> actualUrls = connectionService.getServerUrls();
+            assertEquals(expectedUrls, actualUrls);
+
+            filesMock.verify(() -> Files.readAllLines(any(Path.class)), times(1));
+        }
+    }
+
+    @Test
+    void getServerUrlsTestException(){
+        try (MockedStatic<Files> filesMock = Mockito.mockStatic(Files.class)) {
+            List<String> expectedUrls = Arrays.asList("http://example.com", "https://example2.com");
+
+            filesMock.when(() -> Files.readAllLines(any(Path.class)))
+                .thenThrow(new IOException());
+
+            List<String> resp = connectionService.getServerUrls();
+
+            assertTrue(resp.isEmpty());
+
+            filesMock.verify(() -> Files.readAllLines(any(Path.class)), times(1));
+        }
     }
 }
