@@ -66,6 +66,7 @@ public class TaskColorShape {
     }
 
     public void showEdit(){
+        this.showCtrl.cancel();
         this.showCtrl.showEditColor(color);
     }
 }

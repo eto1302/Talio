@@ -155,7 +155,8 @@ public class TaskShape {
             "-fx-background-color: " + taskColor.getBackgroundColor() +";");
         style = grid.getStyle();
         refreshTagMarkers(task);
-        if (task.getDescription()==null || task.getDescription().equals("No description yet"))
+        if (task.getDescription()==null || task.getDescription().equals("No description yet")
+                || task.getDescription().isEmpty())
             plusSign.setVisible(false);
     }
 
