@@ -28,7 +28,7 @@ public class AddBoardController {
      */
     public void cancel(){
         clearFields();
-        showCtrl.showAddBoard();
+//        showCtrl.showAddBoard();
         showCtrl.cancel();
     }
 

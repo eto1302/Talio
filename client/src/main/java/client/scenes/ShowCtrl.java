@@ -7,10 +7,12 @@ import commons.*;
 import commons.mocks.IShowCtrl;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -108,6 +110,13 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     private void keyRelease(KeyEvent event) {
+        Scene source = (Scene) event.getSource();
+        Node focused = source.getFocusOwner();
+
+        if (focused instanceof TextField || focused instanceof TextArea) {
+            return;
+        }
+
         if(event.isShiftDown()){
             if (event.getCode()==KeyCode.SLASH)
                 showHelpMenu();
