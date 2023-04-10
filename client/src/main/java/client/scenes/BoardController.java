@@ -237,7 +237,8 @@ public class BoardController {
                 case KP_DOWN:
                 case S:
                     if (checkLocked()) return;
-                    int select = index != selectedList.getTaskControllers().size() - 1 ? index + 1 : index;
+                    int select = index !=
+                            selectedList.getTaskControllers().size() - 1 ? index + 1 : index;
                     identify = listSelect + "+" + select;
                     selectedTask.orderWithKeyEvent(index, "down");
                     if (index != selectedList.getTaskControllers().size() - 1) {
