@@ -66,6 +66,8 @@ public class BoardEditedTest {
             @Override
             public void cancel(){}
             @Override
+            public void refreshSubtasks() {}
+            @Override
             public void editList(List list) {}
             @Override
             public void deleteList(List list) {}
@@ -87,18 +89,12 @@ public class BoardEditedTest {
             public void showBoard() {}
             @Override
             public void showColorPicker() {}
-            @Override
-            public void addTagToTask(Tag tag, Task task) {}
-            @Override
-            public void addTag(Tag tag) {}
-            @Override
-            public void deleteTag(Tag tag) {}
-            @Override
-            public void editTag(Tag tag) {}
-            @Override
-            public void removeTagFromTask(Tag tag, Task task) {}
-            @Override
-            public boolean isColorPickerOpen(){
+            @Override public void addTagToTask(Tag tag, Task task) {}
+            @Override public void addTag(Tag tag) {}
+            @Override public void deleteTag(Tag tag) {}
+            @Override public void editTag(Tag tag) {}
+            @Override public void removeTagFromTask(Tag tag, Task task) {}
+            @Override public boolean isColorPickerOpen(){
                 return false;
             }
         });

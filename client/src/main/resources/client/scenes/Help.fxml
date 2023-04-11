@@ -7,15 +7,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="pane" prefHeight="327.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.HelpCtrl">
+<AnchorPane fx:id="pane" prefHeight="350.0" prefWidth="590.0" styleClass="parent" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.HelpCtrl">
     <children>
-        <Label layoutX="45.0" layoutY="33.0" text="Shortcuts">
+        <Label layoutX="45.0" layoutY="33.0" styleClass="labellings" text="Shortcuts">
             <font>
                 <Font size="22.0" />
             </font>
         </Label>
-        <Line endX="434.39996337890625" endY="-1.52587890625E-5" layoutX="128.0" layoutY="65.0" startX="-100.0" />
-        <Text layoutX="34.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Use the">
+        <Line endX="434.39996337890625" endY="-1.52587890625E-5" layoutX="128.0" layoutY="65.0" startX="-100.0" styleClass="lines" />
+        <Text layoutX="34.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="Use the">
             <font>
                 <Font size="15.0" />
             </font>
@@ -25,7 +25,7 @@
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="300.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to move between tasks ">
+        <Text layoutX="300.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="to move between tasks ">
             <font>
                 <Font size="15.0" />
             </font>
@@ -35,7 +35,7 @@
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="34.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press">
+        <Text layoutX="34.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="Press">
             <font>
                 <Font size="15.0" />
             </font>
@@ -45,12 +45,12 @@
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="111.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to edit the selected task's title">
+        <Text layoutX="111.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="to edit the selected task's title">
             <font>
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="34.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press">
+        <Text layoutX="34.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="Press">
             <font>
                 <Font size="15.0" />
             </font>
@@ -60,12 +60,12 @@
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="233.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to delete a selected task">
+        <Text layoutX="233.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="to delete a selected task">
             <font>
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="34.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press">
+        <Text layoutX="34.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="Press">
             <font>
                 <Font size="15.0" />
             </font>
@@ -75,12 +75,12 @@
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="145.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to enter a selected task's details">
+        <Text layoutX="145.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="to enter a selected task's details">
             <font>
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="34.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press">
+        <Text layoutX="34.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="Press">
             <font>
                 <Font size="15.0" />
             </font>
@@ -90,12 +90,12 @@
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="128.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to close the task's details">
+        <Text layoutX="128.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="to close the task's details">
             <font>
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="34.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press">
+        <Text layoutX="34.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="Press">
             <font>
                 <Font size="15.0" />
             </font>
@@ -105,12 +105,12 @@
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="112.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to add tags directly to a selected task">
+        <Text layoutX="112.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="to add tags directly to a selected task">
             <font>
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="34.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press">
+        <Text layoutX="34.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="Press">
             <font>
                 <Font size="15.0" />
             </font>
@@ -120,12 +120,12 @@
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="108.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to change the color of a selected task with color selection ">
+        <Text layoutX="108.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="to change the color of a selected task with color selection ">
             <font>
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="34.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press">
+        <Text layoutX="34.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="Press">
             <font>
                 <Font size="15.0" />
             </font>
@@ -135,7 +135,7 @@
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="264.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to change the order of tasks in the list">
+        <Text layoutX="264.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="to change the order of tasks in the list">
             <font>
                 <Font size="15.0" />
             </font>
@@ -148,5 +148,32 @@
         <Circle fill="#ff0400" layoutX="28.0" layoutY="227.0" radius="4.0" stroke="RED" strokeType="INSIDE" />
         <Circle fill="#ff0400" layoutX="28.0" layoutY="201.0" radius="4.0" stroke="RED" strokeType="INSIDE" />
         <Circle fill="#ff0400" layoutX="28.0" layoutY="277.0" radius="4.0" stroke="RED" strokeType="INSIDE" />
+      <Circle fill="#ff0400" layoutX="28.0" layoutY="322.0" radius="4.0" stroke="RED" strokeType="INSIDE" />
+      <Circle fill="#ff0400" layoutX="28.0" layoutY="301.0" radius="4.0" stroke="RED" strokeType="INSIDE" />
+      <Text fill="#fa1202" layoutX="34.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DOUBLE CLICK">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <Text fill="#fa1202" layoutX="35.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DOUBLE CLICK">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="145.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="on a task to enter the detailed view">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="145.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="on a subtask in the nested list to edit it, then press">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <Text fill="RED" layoutX="487.0" layoutY="328.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;ENTER&quot;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
     </children>
 </AnchorPane>

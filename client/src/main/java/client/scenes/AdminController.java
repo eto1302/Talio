@@ -12,10 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.util.List;
 
@@ -48,7 +45,16 @@ public class AdminController {
         name.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getName()));
         pwd.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getPassword()));
+                cellData -> new SimpleStringProperty(
+                        cellData.getValue().getPassword() == null?
+                                "null": cellData.getValue().getPassword()));
+
+        table.widthProperty().
+                addListener((observable, oldValue, newValue) -> {
+                    id.setPrefWidth(table.getWidth() * 0.2);
+                    name.setPrefWidth(table.getWidth() * 0.4);
+                    pwd.setPrefWidth(table.getWidth() * 0.4);
+                });
 
         // allow multiple selection
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);

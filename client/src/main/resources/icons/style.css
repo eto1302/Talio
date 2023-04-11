@@ -16,18 +16,28 @@
     -fx-text-fill: #091525;
 }
 
-.backgroundThemes{
-    -fx-background-color: #161f5b;
+.scroll .viewport{
+    -fx-background-color:  transparent;
+}
+.scroll {
+    -fx-background-color: transparent;
+}
+.scroll-bar{
+    -fx-background-color: transparent;
 }
 
-.banners{
-    -fx-background-color: black;
+.parent{
+    -fx-background-color:  #0C162E;
+}
+.banner{
+    -fx-background-color:  #2C4377;
+}
+
+.labellings{
+    -fx-text-fill: #41a5b7;
+    -fx-fill: #41a5b7;
 }
 
 .lines{
-    -fx-stroke: rgba(58, 58, 136, 0.82);
-}
-
-.labels{
-    -fx-text-fill: #93dae7;
+    -fx-stroke: #2C4377;
 }

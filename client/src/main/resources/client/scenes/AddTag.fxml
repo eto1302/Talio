@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.tags.AddTagController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" styleClass="parent" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.tags.AddTagController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -24,13 +24,13 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Add a tag" GridPane.halignment="CENTER">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="labellings" text="Add a tag" GridPane.halignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <Line endX="299.2928466796875" endY="-0.41419729590415955" startX="-100.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
-      <Label text="Tag name:" GridPane.rowIndex="1">
+      <Line endX="299.2928466796875" endY="-0.41419729590415955" startX="58.00029754638672" startY="-1.2146562337875366" styleClass="lines" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
+      <Label styleClass="labellings" text="Tag name:" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="50.0" />
          </GridPane.margin>
@@ -46,7 +46,7 @@
             <Font size="14.0" />
          </font>
       </TextField>
-      <Label text="Background Color:" GridPane.rowIndex="2">
+      <Label styleClass="labellings" text="Background Color:" GridPane.rowIndex="2">
          <font>
             <Font size="20.0" />
          </font>
@@ -54,7 +54,7 @@
             <Insets left="50.0" />
          </GridPane.margin>
       </Label>
-      <Label text="Font Color:" GridPane.rowIndex="3">
+      <Label styleClass="labellings" text="Font Color:" GridPane.rowIndex="3">
          <font>
             <Font size="20.0" />
          </font>
@@ -62,22 +62,22 @@
             <Insets left="50.0" />
          </GridPane.margin>
       </Label>
-      <ColorPicker fx:id="background" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+      <ColorPicker fx:id="background" styleClass="buttons" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets right="50.0" />
          </GridPane.margin>
       </ColorPicker>
-      <ColorPicker fx:id="font" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+      <ColorPicker fx:id="font" styleClass="buttons" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets right="50.0" />
          </GridPane.margin>
       </ColorPicker>
-      <Button mnemonicParsing="false" onAction="#cancel" text="Cancel" GridPane.rowIndex="4">
+      <Button mnemonicParsing="false" onAction="#cancel" styleClass="buttons" text="Cancel" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets left="100.0" />
          </GridPane.margin>
       </Button>
-      <Button mnemonicParsing="false" onAction="#addTag" text="Add" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+      <Button mnemonicParsing="false" onAction="#addTag" styleClass="buttons" text="Add" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets right="100.0" />
          </GridPane.margin>

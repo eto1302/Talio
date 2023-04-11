@@ -291,6 +291,9 @@ public class ShowCtrl implements IShowCtrl {
     }
 
     public void deleteTask(int listId, int taskId) {
+        if(this.secondaryStage.getTitle().equals("Edit a task")){
+            this.secondaryStage.close();
+        }
         ListShapeCtrl listShapeCtrl = getListController(listId);
         if(listShapeCtrl != null)
             listShapeCtrl.removeTask(taskId);
@@ -349,11 +352,9 @@ public class ShowCtrl implements IShowCtrl {
         var subTaskShapePair = FXML.load(SubTaskShapeCtrl.class,
                 "client", "scenes", "SubTaskShape.fxml");
         SubTaskShapeCtrl subTaskShapeCtrl = subTaskShapePair.getKey();
-        Scene subTaskScene = new Scene((Parent) subTaskShapePair.getValue());
 
         subTaskShapeCtrl.setup(subtask);
-        Scene updated = subTaskShapeCtrl.getScene(subtask);
-        editTaskController.putSubtask(subTaskScene, subtask);
+        editTaskController.putSubtask(subTaskShapePair.getValue(), subtask);
     }
 
     public void showAddTag(){
@@ -456,6 +457,10 @@ public class ShowCtrl implements IShowCtrl {
         TaskShape taskController = boardController.findTaskController(task);
         taskController.refreshTagMarkers(task);
         if(editTaskController != null) {editTaskController.refresh();}
+    }
+
+    public void refreshSubtasks() {
+        editTaskController.refresh();
     }
 
     public void putTagSceneOverview(Tag tag, TagOverviewController cntr){

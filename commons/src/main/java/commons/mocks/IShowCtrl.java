@@ -43,4 +43,6 @@ public interface IShowCtrl {
 
     void cancel();
 
+    void refreshSubtasks();
+
 }

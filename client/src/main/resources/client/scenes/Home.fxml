@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="gridHome" prefHeight="400.0" prefWidth="600.0" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.HomeController">
+<GridPane fx:id="gridHome" prefHeight="400.0" prefWidth="600.0" styleClass="parent" stylesheets="@/icons/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.HomeController">
     <columnConstraints>
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
@@ -22,7 +22,7 @@
         <RowConstraints minHeight="10.0" prefHeight="70.0" valignment="TOP" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <GridPane maxHeight="45.0" prefHeight="42.0" prefWidth="600.0" style="-fx-background-color: D5D3D3;">
+        <GridPane maxHeight="45.0" prefHeight="42.0" prefWidth="600.0" styleClass="banner">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -31,7 +31,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label fx:id="homeLabel" text="Home" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                <Label fx:id="homeLabel" styleClass="labellings" text="Home" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                     <font>
                         <Font size="23.0" />
                     </font>
@@ -49,7 +49,7 @@
         </GridPane>
         <VBox fx:id="vbox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
             <children>
-                <Label fx:id="addListLabel" contentDisplay="CENTER" opacity="0.39" text="Add a board">
+                <Label fx:id="addListLabel" contentDisplay="CENTER" opacity="0.39" styleClass="labellings" text="Add a board">
                     <font>
                         <Font size="16.0" />
                     </font>
