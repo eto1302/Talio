@@ -5,7 +5,6 @@ import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -52,9 +51,8 @@ public class BoardShape {
      * Updates the board's visual (sets the title and the colors of it)
      * based on the board object that is passed on
      * @param board the board with the necessary attributes
-     * @return the updated scene after modifications
      */
-    public Scene getSceneUpdated(Board board){
+    public void updateScene(Board board){
         nameLabel.setText(board.getName());
         commons.Color background = board.getBoardColor();
         String rgbBackground = background.getBackgroundColor();
@@ -67,7 +65,6 @@ public class BoardShape {
         lockStateIcon.setImage(board.getPassword() != null && board.getPassword().length() > 0 ?
                 lockedImage : unlockedImage);
         setId(board.getId());
-        return boardBox.getScene();
     }
 
     public void enter(){

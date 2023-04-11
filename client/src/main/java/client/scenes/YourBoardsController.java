@@ -5,7 +5,7 @@ import client.user.UserData;
 import client.utils.ServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
+import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
@@ -42,9 +42,8 @@ public class YourBoardsController {
         showCtrl.showAddBoard();
     }
 
-    public Scene putBoard(Scene scene){
-        boardList.getChildren().add(scene.getRoot());
-        return boardList.getScene();
+    public void putBoard(Parent root) {
+        boardList.getChildren().add(root);
     }
 
 }

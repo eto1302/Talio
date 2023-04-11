@@ -314,12 +314,11 @@ public class ShowCtrl implements IShowCtrl {
      */
     public void addBoard(Board board){
         var boardShape = FXML.load(BoardShape.class, "client", "scenes", "BoardShape.fxml");
-        Scene initializeBoard = new Scene(boardShape.getValue());
-
-        Scene boardScene = boardShape.getKey().getSceneUpdated(board);
-        Scene scene = yourBoardsCtrl.putBoard(boardScene);
-        primaryStage.setScene(scene);
+        BoardShape boardShapeCtrl = boardShape.getKey();
+        boardShapeCtrl.updateScene(board);
+        yourBoardsCtrl.putBoard(boardShape.getValue());
     }
+
     public void showError(String errorMessage) {
         if(popUpStage != null){
             closePopUp();
