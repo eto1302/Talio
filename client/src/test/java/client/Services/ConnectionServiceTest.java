@@ -10,7 +10,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.messaging.simp.stomp.*;
 
-
 import java.lang.reflect.Type;
 
 import static org.mockito.Mockito.*;
@@ -68,4 +67,46 @@ public class ConnectionServiceTest {
         verify(mockUserData, times(1))
                 .setWsConfig(any(MessageAdmin.class), any(MessageSender.class));
     }
+
+    @Test
+    void disconnectTest(){
+
+        connectionService.disconnect();
+
+        verify(mockUserData, times(1))
+            .disconnect();
+    }
+
+    //TODO : if time, fix inline mocks running on test pipeline to be able to test this.
+    // Currently importing mockitoInline makes every test fail on gitlab pipeline
+//    @Test
+//    void getServerUrlsTest(){
+//        try (MockedStatic<Files> filesMock = Mockito.mockStatic(Files.class)) {
+//            List<String> expectedUrls = Arrays.asList("http://example.com", "https://example2.com");
+//
+//            filesMock.when(() -> Files.readAllLines(any(Path.class)))
+//                .thenReturn(expectedUrls);
+//
+//            List<String> actualUrls = connectionService.getServerUrls();
+//            assertEquals(expectedUrls, actualUrls);
+//
+//            filesMock.verify(() -> Files.readAllLines(any(Path.class)), times(1));
+//        }
+//    }
+//
+//    @Test
+//    void getServerUrlsTestException(){
+//        try (MockedStatic<Files> filesMock = Mockito.mockStatic(Files.class)) {
+//            List<String> expectedUrls = Arrays.asList("http://example.com", "https://example2.com");
+//
+//            filesMock.when(() -> Files.readAllLines(any(Path.class)))
+//                .thenThrow(new IOException());
+//
+//            List<String> resp = connectionService.getServerUrls();
+//
+//            assertTrue(resp.isEmpty());
+//
+//            filesMock.verify(() -> Files.readAllLines(any(Path.class)), times(1));
+//        }
+//    }
 }

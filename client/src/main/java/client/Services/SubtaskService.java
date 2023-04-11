@@ -28,6 +28,16 @@ public class SubtaskService {
         this.taskService = new TaskService(userData, serverUtils);
     }
 
+    public SubtaskService(
+        UserData userData, ServerUtils serverUtils,
+        ListService listService, TaskService taskService
+    ){
+        this.userData = userData;
+        this.serverUtils = serverUtils;
+        this.listService = listService;
+        this.taskService = taskService;
+    }
+
     public List<Subtask> getSubtasksOrdered(int id) {
         var response = this.serverUtils.getSubtasksOrdered(id);
         if(!response.getStatusCode().is2xxSuccessful()){
