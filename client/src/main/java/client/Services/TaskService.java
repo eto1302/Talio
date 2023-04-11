@@ -28,6 +28,12 @@ public class TaskService {
         this.boardService = new BoardService(userData, serverUtils);
     }
 
+    public TaskService(UserData userData, ServerUtils serverUtils, BoardService boardService) {
+        this.userData = userData;
+        this.serverUtils = serverUtils;
+        this.boardService = boardService;
+    }
+
     public List<Task> getTasksOrdered(int id) {
         ResponseEntity<Task[]> response = serverUtils.getTasksOrdered(id);
         if(!response.getStatusCode().is2xxSuccessful()){
